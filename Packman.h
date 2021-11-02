@@ -5,7 +5,7 @@ using namespace std;
 
 class Packman {
 	
-	
+	 
 private:
 	int souls;
 public:

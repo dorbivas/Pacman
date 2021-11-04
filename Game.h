@@ -1,5 +1,6 @@
 #include <random>
 #include <Windows.h> //Sleep
+#include "Packman.h"
 
 #define INITIAL_X 40
 #define INITIAL_Y 12
@@ -22,8 +23,8 @@ class Game {
 
 
 public:
-	void gotoxy(int y, int x);
+	//void gotoxy(int y, int x);
 	void board_init();
-	Game();
+	//Game();
 
 };

@@ -4,29 +4,30 @@
 #define MAX_BORDER_X_SIDE 79
 #define MAX_BORDER_Y_SIDE 24
 
-void Game::gotoxy(int y, int x) {
+/*void Game::gotoxy(int y, int x) {
 	cout << "\x1b[%d;%df" << x + 1 << y + 1;
-}
+}*/
 
 void Game::board_init()
 {
+	Position p1(0,0);
 	for (int i = 0; i < MAX_BORDER_X_SIDE; i++)
 	{
-		gotoxy(i, 0);
-		printf("#");
-		gotoxy(i, MAX_BORDER_Y_SIDE - 1);
-		printf("#");
+		p1.gotoxy(i, 0);
+		cout<<"#";
+		p1.gotoxy(i, MAX_BORDER_Y_SIDE - 1);
+		cout << "#";
 	}
 	for (int i = 0; i < MAX_BORDER_X_SIDE; i++)
 	{
-		gotoxy(0, i);
-		printf("#");
-		gotoxy(MAX_BORDER_X_SIDE - 1, i);
-		printf("#");
+		p1.gotoxy(0, i);
+		cout << "#";
+		p1.gotoxy(MAX_BORDER_X_SIDE - 1, i);
+		cout << "#";
 	}
 }
 
-void Game::game()
+/*void Game::game()
 {
 while (currentKey != ESC //&& win condition)
 	{
@@ -58,13 +59,12 @@ while (currentKey != ESC //&& win condition)
 			dirY = 1;
 			break;
 		}
-		}
 		Move(snake, dirX, dirY, food);
-		PrintMove(snake);
-		gotoxy(150, 150);
+		//PrintMove(snake);
+		//gotoxy(150, 150);
 	}
 	gotoxy(food->x, food->y);
-	printf(" ");
+	cout<<" ";
 	if (currentKey == ESC)
 	{
 		printf("\x1b[0m");
@@ -76,8 +76,7 @@ while (currentKey != ESC //&& win condition)
 		FreeAll(snake, food);
 		WinPrinter();
 	}
-}
+}*/
 
-}
 
 

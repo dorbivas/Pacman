@@ -1,5 +1,5 @@
-#include <iostream>
 using namespace std;
+#include <iostream>
 //TODO valid check
 class Position {
 

@@ -1,6 +1,6 @@
-#include "Game.h"
+#include "Menu.h"
 
-void main() {
+int main() {
 	
 	Game board;
 

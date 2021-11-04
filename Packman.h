@@ -8,17 +8,18 @@ class Packman {
 	 
 private:
 	int souls;
-public:
-	Position pos;
 	int direction;
-	int get_souls()
-	{
-		return this->souls;
-	}
+	Position pos;
+public:
+	Packman(int s,int drection,Position pos);
+	int get_souls();
+	int get_direction();
+	void set_direction(int direction);
+	Position get_position();
+	void set_position(Position pos);
 
-	Packman() {
-		gotoxy(33, 33); //TODO recalebrait
-	}
+
+	//Packman();//gotoxy(33, 33); //TODO recalebrait/
 	
 
 

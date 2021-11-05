@@ -18,7 +18,7 @@ enum keyCode {
 	stay_lower_case = 115,
 	ESC = 27
 }keyCode;
-
+*/
 class Game {
 
 

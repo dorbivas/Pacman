@@ -19,10 +19,10 @@ void Menu()
         else
         {
             //this->player.get_position().set_xy(33, 33);
-            pos.set_xy(33, 33);
+            //pos.set_xy(33, 33);
         }
 
 	} while (userChoice != 1);
 	system("cls");
-	Game();
+	//Game();
 }

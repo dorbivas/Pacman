@@ -5,14 +5,10 @@ using namespace std;
 class Menu {
 
 
-
-
-class Menu {
-
 public:
 	
 	Menu() {
-		gotoxy(33, 33); //TODO recalebrait
+		//gotoxy(33, 33); //TODO recalebrait
 	}
 
 

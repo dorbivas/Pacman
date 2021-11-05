@@ -4,7 +4,7 @@
 #define MAX_BORDER_Y_SIDE 24
 
 
-void Gam    e::board_init()
+void Game::board_init()
 {
     Position p1(0, 0);
     for (int i = 0; i < MAX_BORDER_X_SIDE; i++)

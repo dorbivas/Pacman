@@ -27,6 +27,6 @@ void Packman::set_position(Position pos)
 {
     this->pos = pos;
 }
-/* void Packman::gotoxy(int y, int x) {
+/* void Packman::set_xy(int y, int x) {
     cout << "\x1b[%d;%df" << x + 1 << y + 1;
 } */

@@ -21,8 +21,8 @@ void Menu::init()
             exit(0);
         else
         {
-            //this->player.get_position().gotoxy(33, 33);
-            pos.gotoxy(33, 33);
+            //this->player.get_position().set_xy(33, 33);
+            pos.set_xy(33, 33);
         }
 
     } while (userChoice != 0);

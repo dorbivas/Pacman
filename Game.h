@@ -23,7 +23,7 @@ class Game {
 
 
 public:
-    //void gotoxy(int y, int x);
+    //void set_xy(int y, int x);
     void board_init();
     //Game();
 

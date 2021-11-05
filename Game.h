@@ -4,7 +4,7 @@
 
 #define INITIAL_X 40
 #define INITIAL_Y 12
-
+/*
 enum keyCode {
 	up_uper_case = 87,
 	up_lower_case = 119,
@@ -17,7 +17,7 @@ enum keyCode {
 	stay_uper_case = 83,
 	stay_lower_case = 115,
 	ESC = 27
-}keyCode;
+}keyCode;*/
 
 class Game {
 

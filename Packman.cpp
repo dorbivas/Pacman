@@ -1,11 +1,11 @@
 #include "Packman.h"
 
-Packman::Packman(int s, int drection, Position pos)
+/*Packman::Packman(int s, int drection)
 {
 	this->souls = s;
 	this->direction = direction;
-	this->pos = pos;
-}
+	//this->pos = pos;
+}*/
 int Packman::get_souls()
 {
 	return this->souls;

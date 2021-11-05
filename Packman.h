@@ -11,7 +11,7 @@ private:
 	int direction;
 	Position pos;
 public:
-	Packman(int s,int drection,Position pos);
+	//Packman(int s,int drection);
 	int get_souls();
 	int get_direction();
 	void set_direction(int direction);

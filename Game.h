@@ -17,14 +17,14 @@ enum keyCode {
 	stay_uper_case = 83,
 	stay_lower_case = 115,
 	ESC = 27
-}keyCode;*/
+}keyCode;
 
 class Game {
 
 
 public:
-	//void gotoxy(int y, int x);
+	void gotoxy(int y, int x);
 	void board_init();
-	//Game();
+	Game();
 
 };

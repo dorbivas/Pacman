@@ -4,13 +4,17 @@ using namespace std;
 //#include "Game.h"
 class Menu {
 
-private:
-	Packman player;
+
+
+
+class Menu {
 
 public:
-	//Menu(); //TODO recalebrait
-	//	Packman get_packman();
-	void init();
 	
+	Menu() {
+		gotoxy(33, 33); //TODO recalebrait
+	}
+
+
 
 };

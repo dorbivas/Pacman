@@ -1,6 +1,10 @@
 #include <random>
-#include <Windows.h> //Sleep
+#include <Windows.h> 
 #include "Packman.h"
+
+#include <iostream>
+using namespace std;
+
 
 #define INITIAL_X 40
 #define INITIAL_Y 12
@@ -25,6 +29,8 @@ class Game {
 public:
     //void set_xy(int y, int x);
     void board_init();
+    void board_inside();
+    void Menu();
     //Game();
 
 };

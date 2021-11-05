@@ -1,27 +1,83 @@
-#include "Game.h"
+﻿#include "Game.h"
+
 
 #define MAX_BORDER_X_SIDE 79
 #define MAX_BORDER_Y_SIDE 24
-
+#define BRICK 219
+#define INSIDE_BRICK 178
 
 void Game::board_init()
 {
+    char brick = BRICK;
     Position p1(0, 0);
     for (int i = 0; i < MAX_BORDER_X_SIDE; i++)
     {
         p1.set_xy(i, 0);
-        cout << "#";
+        cout << brick;
         p1.set_xy(i, MAX_BORDER_Y_SIDE - 1);
-        cout << "#";
+        cout << brick;
     }
-    for (int i = 0; i < MAX_BORDER_X_SIDE; i++)
+    for (int i = 0; i < MAX_BORDER_Y_SIDE; i++)
     {
         p1.set_xy(0, i);
-        cout << "#";
+        cout << brick;
         p1.set_xy(MAX_BORDER_X_SIDE - 1, i);
-        cout << "#";
+        cout << brick;
+    }
+    board_inside();
+}
+
+void Game::board_inside()
+{
+    char brick = INSIDE_BRICK;
+    Position p1(0, 0);
+    for (int i = 10; i < 60; i++)
+    {
+        p1.set_xy(i, 10);
+        cout << brick;
+        p1.set_xy(i, 10 - 1);
+        cout << brick;
+    }
+    for (int i = 10; i < 10; i++)
+    {
+        p1.set_xy(10, i);
+        cout << brick;
+        p1.set_xy(60 - 1, i);
+        cout << brick;
     }
 }
+
+void Game::Menu()
+{
+    int userChoice = 0;
+    Position pos(1, 2);
+    //this->player.set_position(pos);
+    cout << "\n\tWelcome to Snake. (press any key to continue)\n";
+    do
+    {
+        cout << "Please choose LVL or 0 to escape \n\n";
+        cout << "0 ==> Exit \n\n";
+        cout << "1 ==> Basic    \n\n";
+        cout << "2 ==> Advenced \n\n";
+        cout << "3 ==> Master \n\n";
+
+        cin >> userChoice;
+        if (userChoice == 0)
+            exit(0);
+        else
+        {
+            //this->player.get_position().set_xy(33, 33);
+            pos.set_xy(33, 33);
+        }
+
+    } while (userChoice != 0);
+    system("cls");
+    //Game g;
+    //g.board_init(); 
+}
+
+
+
 
 /* void Game::game()
 {

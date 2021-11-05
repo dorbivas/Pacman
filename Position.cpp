@@ -6,9 +6,9 @@ void Position::set_xy(int x, int y)
 {
     this->x = x;
     this->y = y;
-    COORD pos = { x + 1 , y + 1 };
+    COORD pos = { x , y };
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
-    cout << "#";
+    
 }
 
 

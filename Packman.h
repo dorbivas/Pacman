@@ -33,5 +33,5 @@ public:
 	
 
 
-    //Packman();//gotoxy(33, 33); //TODO recalebrait/
+    //Packman();//set_xy(33, 33); //TODO recalebrait/
 };

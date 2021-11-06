@@ -5,7 +5,6 @@ using namespace std;
 
 class Packman {
 
-
 private:
     int souls;
     int direction;

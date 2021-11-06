@@ -6,7 +6,9 @@ class Position {
 private:
 	int x, y;
 public:
-	void set_xy(int y, int x);
+	void set_xy(int x, int y);
+	void set_x(int x);
+	void set_y(int y);
 	int get_x() { return this->x; }
 	int get_y() { return this->y; }
 

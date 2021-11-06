@@ -1,5 +1,9 @@
 #include "Packman.h"
-
+{
+    this->souls = s;
+    this->direction = direction;
+    //this->pos = pos;
+}*/
 
 int Packman::get_souls()
 {
@@ -25,3 +29,6 @@ void Packman::set_position(Position pos)
 {
     this->pos = pos;
 }
+/* void Packman::set_xy(int y, int x) {
+    cout << "\x1b[%d;%df" << x + 1 << y + 1;
+} */

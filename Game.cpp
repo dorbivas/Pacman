@@ -1,14 +1,5 @@
 ﻿#include "Game.h"
-//#include "Packman.h"
 
-
-#define MAX_BORDER_X_SIDE 79
-#define MAX_BORDER_Y_SIDE 24
-#define BRICK 219
-#define INSIDE_BRICK 178
-/// <summary>
-//blabla
-/// </summary>
 void Game::board_init()
 {
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -96,8 +87,9 @@ void Game::Menu()
 			exit(0);
 		else
 		{
-			//this->player.get_position().set_xy(33, 33);
-			pos.set_xy(33, 33);
+			system("cls");
+			this->board_init();
+			this->game();
 		}
 
 	} while (userChoice != 0);
@@ -130,6 +122,10 @@ void Game::game()
 	srand(time(NULL)); //start generating numbers
 
 	Packman packman;
+	Position inital(INITIAL_X, INITIAL_Y);
+	packman.set_direction(0);
+	packman.set_souls(3);
+	packman.set_position(inital);
 	char currentKey;
 	//Pos* food = (Pos*)malloc(sizeof(Pos));
 
@@ -138,14 +134,14 @@ void Game::game()
 		currentKey = _getch();
 	//Initiate(snake);
 	//FoodSpread(snake, food);
-	packman.get_position().set_xy(INITIAL_X, INITIAL_Y);
+	//packman.get_position().set_xy(INITIAL_X, INITIAL_Y);
 	//gotoxy(food->x, food->y);
 	//printf("\x1b[31m$"); //first food
 
 	while (currentKey != ESC) //&& win condition)
 	{
 		int dir_x = 0, dir_y = 0;   //holding the directions
-		Sleep(500);			//1 second between moves
+		Sleep(100);			//1 second between moves
 		if (_kbhit())		// if any key was hit , only if a key was hit we read what key code it was
 			currentKey = _getch();
 
@@ -181,13 +177,34 @@ void Game::game()
 			dir_y = 0;
 			break;
 		}
-
 		Move(packman, dir_x, dir_y);//food TODO
 		PrintMove(packman.get_position());
-		//set_xy(150, 150);
+		if (is_collided(packman))
+		{
+			packman.decrease_soul();
+			packman.set_position(inital);
+			currentKey = stay_upper_case;
+		}
+		if (packman.get_souls() == 0)
+		{
+			system("cls");
+			cout << "GAME OVER!!!!!" << endl;
+			system("pause");
+			break;
+		}
 	}
+	system("cls");
 }
-
+bool Game::is_collided(Packman& packman)
+{
+	int packman_x = packman.get_position().get_x();
+	int packman_y = packman.get_position().get_y();
+	if (packman_x == MAX_BORDER_X_SIDE || packman_x == 0 || packman_y == MAX_BORDER_Y_SIDE || packman_y == 0)
+	{
+		return true;
+	}
+	return false;
+}
 void Game::PrintMove(Position pos) //displaying snake
 {
 	char c = 230;

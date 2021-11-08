@@ -18,6 +18,7 @@ public:
     int get_souls();
     int get_direction();
     void set_souls(int souls);
+    void decrease_soul();
     void set_direction(int direction);
     Position get_position();
     void set_position(Position pos);

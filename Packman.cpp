@@ -33,3 +33,7 @@ void Packman::set_position(Position pos)
 {
     this->pos = pos;
 }
+void Packman::decrease_soul()
+{
+    this->souls--;
+}

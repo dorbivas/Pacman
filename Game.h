@@ -14,6 +14,8 @@ using namespace std;
 #define BRICK 219
 #define INSIDE_BRICK 178
 
+
+
 enum Keys {
     up_upper_case = 87,
     up_lower_case = 119,
@@ -41,6 +43,7 @@ public:
     void Move(Packman& packman, int dir_x, int dir_y);
     bool is_valid_key(char c);
     void PrintMove(Position pos);
+    bool is_collided(Packman& packman);
     //Game();
 
 };

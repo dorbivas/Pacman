@@ -4,7 +4,7 @@
 void main() {
 	
 	Game board;
-
-    board.board_init();
-    board.game();
+	board.Menu();
+    //board.board_init();
+    //board.game();
 }

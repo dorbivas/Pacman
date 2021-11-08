@@ -34,7 +34,8 @@ class Game {
 public:
     //void set_xy(int y, int x);
     void board_init();
-    void board_inside();
+    void boarders();
+    void board_inside(Position b1, char brick);
     void Menu();
     void game();
     void Move(Packman& packman, int dir_x, int dir_y);

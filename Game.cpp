@@ -3,47 +3,61 @@
 
 void Game::board_init()
 {
-	char brick = BRICK;
-	Position p1(0, 0);
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	char board[MAX_BORDER_X_SIDE][MAX_BORDER_Y_SIDE];
 
+	for (int i = 0; i < 25; i++)
+	{
+		for (int j = 0; j < 80; j++)
+		{
+			board[i][j] = BRICK;
+		}
+	}
+
+	boarders();
+
+}
+
+void Game::boarders() 
+{
+	char brick = BRICK;
+	Position b1(0, 0);
 	for (int i = 0; i < MAX_BORDER_X_SIDE; i++)
 	{
-		p1.set_xy(i, 0);
+		b1.set_xy(i, 0);
 		//SetConsoleTextAttribute(hConsole, 120); TODO coloring
 		cout << brick;
-		p1.set_xy(i, MAX_BORDER_Y_SIDE - 1);
+		b1.set_xy(i, MAX_BORDER_Y_SIDE - 1);
 		cout << brick;
 	}
 	for (int i = 0; i < MAX_BORDER_Y_SIDE; i++)
 	{
 		//SetConsoleTextAttribute(hConsole, 250);TODO coloring
-		p1.set_xy(0, i);
+		b1.set_xy(0, i);
 		cout << brick;
-		p1.set_xy(MAX_BORDER_X_SIDE - 1, i);
+		b1.set_xy(MAX_BORDER_X_SIDE - 1, i);
 		cout << brick;
 	}
-	board_inside();
+
+	board_inside(b1, brick); 
 }
 
-void Game::board_inside()
+void Game::board_inside(Position b1, char brick)
 {
-	char brick = INSIDE_BRICK;
-	Position p1(0, 0);
-	for (int i = 10; i < 60; i++)
+	for (int i = 2; i < 77; i++)
 	{
-		p1.set_xy(i, 10);
+		b1.set_xy(i, 2);
 		cout << brick;
-		p1.set_xy(i, 10 - 1);
+		b1.set_xy(i, 21);
 		cout << brick;
 	}
-	for (int i = 10; i < 10; i++)
+	/*for (int i = 0; i < 22; i++)
 	{
-		p1.set_xy(10, i);
+		b1.set_xy(i, 3);
 		cout << brick;
-		p1.set_xy(60 - 1, i);
+		b1.set_xy(i, 22);
 		cout << brick;
-	}
+	}*/
 }
 
 bool Game::is_valid_key(char c)
@@ -121,49 +135,49 @@ void Game::game()
 	//printf("\x1b[31m$"); //first food
 
 	while (currentKey != ESC) //&& win condition)
+	{
+		int dir_x = 0, dir_y = 0;   //holding the directions
+		Sleep(500);			//1 second between moves
+		if (_kbhit())		// if any key was hit , only if a key was hit we read what key code it was
+			currentKey = _getch();
+
+		switch (currentKey)
 		{
-			int dir_x=0, dir_y=0;   //holding the directions
-			Sleep(500);			//1 second between moves
-			if (_kbhit())		// if any key was hit , only if a key was hit we read what key code it was
-				currentKey = _getch();
+		case right_lower_case:
+		case right_upper_case:
+			dir_x = 1;
+			dir_y = 0;
+			break;
 
-			switch (currentKey)
-			{
-			case right_lower_case:
-			case right_upper_case:
-					dir_x = 1;
-					dir_y = 0;
-					break;
-		
-			case left_lower_case:
-			case left_upper_case:
-				dir_x = -1;
-				dir_y = 0;
-				break;
+		case left_lower_case:
+		case left_upper_case:
+			dir_x = -1;
+			dir_y = 0;
+			break;
 
-			case up_lower_case:
-			case up_upper_case:
-				dir_x = 0;
-				dir_y = -1;
-				break;
-				
-			case down_lower_case:
-			case down_upper_case:
-				dir_x = 0;
-				dir_y = 1;
-				break;
-	
-			case stay_lower_case:
-			case stay_upper_case:
-				dir_x = 0;
-				dir_y = 0;
-				break;
-			}
+		case up_lower_case:
+		case up_upper_case:
+			dir_x = 0;
+			dir_y = -1;
+			break;
 
-			Move(packman, dir_x, dir_y);//food TODO
-			PrintMove(packman.get_position());
-			//set_xy(150, 150);
+		case down_lower_case:
+		case down_upper_case:
+			dir_x = 0;
+			dir_y = 1;
+			break;
+
+		case stay_lower_case:
+		case stay_upper_case:
+			dir_x = 0;
+			dir_y = 0;
+			break;
 		}
+
+		Move(packman, dir_x, dir_y);//food TODO
+		PrintMove(packman.get_position());
+		//set_xy(150, 150);
+	}
 }
 
 void Game::PrintMove(Position pos) //displaying snake
@@ -171,7 +185,7 @@ void Game::PrintMove(Position pos) //displaying snake
 	char c = 230;
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	pos.set_xy(pos.get_x(), pos.get_y());
-	SetConsoleTextAttribute(hConsole, 120); 
+	SetConsoleTextAttribute(hConsole, 120);
 	cout << c;
 
 }

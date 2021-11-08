@@ -1,6 +1,14 @@
 ﻿#include "Game.h"
 //#include "Packman.h"
 
+
+#define MAX_BORDER_X_SIDE 79
+#define MAX_BORDER_Y_SIDE 24
+#define BRICK 219
+#define INSIDE_BRICK 178
+/// <summary>
+//blabla
+/// </summary>
 void Game::board_init()
 {
 	char brick = BRICK;

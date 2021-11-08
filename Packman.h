@@ -3,14 +3,18 @@
 #include "Position.h"
 using namespace std;
 
-class Packman {
+class Packman
+{
 
 private:
     int souls;
     int direction;
     Position pos;
+
 public:
+    Packman();
     //Packman(int s,int drection);
+    //Packman() { this->souls = 3; this->direction = 0; };
     int get_souls();
     int get_direction();
     void set_souls(int souls);

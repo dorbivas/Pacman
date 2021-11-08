@@ -3,50 +3,28 @@
 
 void Game::board_init()
 {
+	char brick = BRICK;
+	Position p1(0, 0);
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-	char board[MAX_BORDER_X_SIDE][MAX_BORDER_Y_SIDE];
 
-		for (int i = 0; i < MAX_BORDER_X_SIDE; i++)
-		{
-			for (int j = 0; j < MAX_BORDER_Y_SIDE; j++)
-			{
-				board[i][j] = BRICK;
-			}
-		}
-		for (int i = 0; i < MAX_BORDER_X_SIDE; i++)
-		{
-			for (int j = 0; j < MAX_BORDER_Y_SIDE; j++)
-			{
-				cout << board[i][j] ;
-			}
-		}
-
-	
+	for (int i = 0; i < MAX_BORDER_X_SIDE; i++)
+	{
+		p1.set_xy(i, 0);
+		//SetConsoleTextAttribute(hConsole, 120); TODO coloring
+		cout << brick;
+		p1.set_xy(i, MAX_BORDER_Y_SIDE - 1);
+		cout << brick;
+	}
+	for (int i = 0; i < MAX_BORDER_Y_SIDE; i++)
+	{
+		//SetConsoleTextAttribute(hConsole, 250);TODO coloring
+		p1.set_xy(0, i);
+		cout << brick;
+		p1.set_xy(MAX_BORDER_X_SIDE - 1, i);
+		cout << brick;
+	}
+	board_inside();
 }
-
-//void Game::boarders() 
-//{
-//	char brick = BRICK;
-//	Position p1(0, 0);
-//	for (int i = 0; i < MAX_BORDER_X_SIDE; i++)
-//	{
-//		p1.set_xy(i, 0);
-//		//SetConsoleTextAttribute(hConsole, 120); TODO coloring
-//		cout << brick;
-//		p1.set_xy(i, MAX_BORDER_Y_SIDE - 1);
-//		cout << brick;
-//	}
-//	for (int i = 0; i < MAX_BORDER_Y_SIDE; i++)
-//	{
-//		//SetConsoleTextAttribute(hConsole, 250);TODO coloring
-//		p1.set_xy(0, i);
-//		cout << brick;
-//		p1.set_xy(MAX_BORDER_X_SIDE - 1, i);
-//		cout << brick;
-//	}
-//
-//	//board_inside(); /TODO
-//}
 
 void Game::board_inside()
 {

@@ -9,12 +9,10 @@ using namespace std;
 
 #define INITIAL_X 40
 #define INITIAL_Y 12
-#define MAX_BORDER_X_SIDE 79
-#define MAX_BORDER_Y_SIDE 24
+#define WIDTH 79
+#define HIGHT 24
 #define BRICK 219
 #define INSIDE_BRICK 178
-
-
 
 enum Keys {
     up_upper_case = 87,

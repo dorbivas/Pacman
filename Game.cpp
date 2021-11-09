@@ -3,7 +3,7 @@
 void Game::board_init()
 {
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-	char board[MAX_BORDER_X_SIDE][MAX_BORDER_Y_SIDE];
+	char board[WIDTH][HIGHT];
 
 	for (int i = 0; i < 25; i++)
 	{
@@ -21,20 +21,20 @@ void Game::boarders()
 {
 	char brick = BRICK;
 	Position b1(0, 0);
-	for (int i = 0; i < MAX_BORDER_X_SIDE; i++)
+	for (int i = 0; i < WIDTH; i++)
 	{
 		b1.set_xy(i, 0);
 		//SetConsoleTextAttribute(hConsole, 120); TODO coloring
 		cout << brick;
-		b1.set_xy(i, MAX_BORDER_Y_SIDE - 1);
+		b1.set_xy(i, HIGHT - 1);
 		cout << brick;
 	}
-	for (int i = 0; i < MAX_BORDER_Y_SIDE; i++)
+	for (int i = 0; i < HIGHT; i++)
 	{
 		//SetConsoleTextAttribute(hConsole, 250);TODO coloring
 		b1.set_xy(0, i);
 		cout << brick;
-		b1.set_xy(MAX_BORDER_X_SIDE - 1, i);
+		b1.set_xy(WIDTH - 1, i);
 		cout << brick;
 	}
 
@@ -144,40 +144,43 @@ void Game::game()
 		Sleep(100);			//1 second between moves
 		if (_kbhit())		// if any key was hit , only if a key was hit we read what key code it was
 			currentKey = _getch();
-
-		switch (currentKey)
+		if (is_valid_key(currentKey)) //TODO FIX other keys dont need to stop packman
 		{
-		case right_lower_case:
-		case right_upper_case:
-			dir_x = 1;
-			dir_y = 0;
-			break;
+			switch (currentKey)
+			{
+			case right_lower_case:
+			case right_upper_case:
+				dir_x = 1;
+				dir_y = 0;
+				break;
 
-		case left_lower_case:
-		case left_upper_case:
-			dir_x = -1;
-			dir_y = 0;
-			break;
+			case left_lower_case:
+			case left_upper_case:
+				dir_x = -1;
+				dir_y = 0;
+				break;
 
-		case up_lower_case:
-		case up_upper_case:
-			dir_x = 0;
-			dir_y = -1;
-			break;
+			case up_lower_case:
+			case up_upper_case:
+				dir_x = 0;
+				dir_y = -1;
+				break;
 
-		case down_lower_case:
-		case down_upper_case:
-			dir_x = 0;
-			dir_y = 1;
-			break;
+			case down_lower_case:
+			case down_upper_case:
+				dir_x = 0;
+				dir_y = 1;
+				break;
 
-		case stay_lower_case:
-		case stay_upper_case:
-			dir_x = 0;
-			dir_y = 0;
-			break;
+			case stay_lower_case:
+			case stay_upper_case:
+				dir_x = 0;
+				dir_y = 0;
+				break;
+			}
 		}
 		Move(packman, dir_x, dir_y);//food TODO
+
 		PrintMove(packman.get_position());
 		if (is_collided(packman))
 		{
@@ -199,7 +202,7 @@ bool Game::is_collided(Packman& packman)
 {
 	int packman_x = packman.get_position().get_x();
 	int packman_y = packman.get_position().get_y();
-	if (packman_x == MAX_BORDER_X_SIDE || packman_x == 0 || packman_y == MAX_BORDER_Y_SIDE || packman_y == 0)
+	if (packman_x == WIDTH || packman_x == 0 || packman_y == HIGHT || packman_y == 0)
 	{
 		return true;
 	}

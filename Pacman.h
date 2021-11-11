@@ -3,25 +3,30 @@
 #include "Position.h"
 using namespace std;
 
-class Packman
+class Pacman
 {
 
 private:
     int souls;
     int direction;
     Position pos;
+    int score;
 
 public:
-    Packman();
-    //Packman(int s,int drection);
-    //Packman() { this->souls = 3; this->direction = 0; };
+    //constructors
+    Pacman();
+    ~Pacman();
+    //Pacman(int s,int drection);
+    //Pacman() { this->souls = 3; this->direction = 0; };
+
     int get_souls();
-    int get_direction();
     void set_souls(int souls);
-    void decrease_soul();
+    int get_direction();
     void set_direction(int direction);
     Position get_position();
     void set_position(Position pos);
 
-    //Packman();//set_xy(33, 33); //TODO recalebrait/
+    void decrease_soul();
+
+    //Pacman();//set_xy(33, 33); //TODO recalebrait/
 };

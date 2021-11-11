@@ -3,14 +3,15 @@
 #include "Packman.h"
 #include <iostream>
 using namespace std;
-
+#include <fstream>
+#include <string>
 #include <conio.h>
-
 
 #define INITIAL_X 40
 #define INITIAL_Y 12
 #define WIDTH 79
 #define HIGHT 24
+#define OFFSET 14
 #define BRICK 219
 #define INSIDE_BRICK 178
 
@@ -35,15 +36,16 @@ private:
 
 public:
     //void set_xy(int y, int x);
-    void board_init();
     void boarders();
-    void board_inside(Position b1, char brick);
+    void board_init();
     void Menu();
     void game();
     void Move(Packman& packman, int dir_x, int dir_y);
     bool is_valid_key(char c);
-    void PrintMove(Position pos);
+    void print_move(Position pos);
     bool is_collided(Packman& packman);
+    bool is_telepoting(Packman& packman);
+    void LosePring();
     //Game();
 
 };

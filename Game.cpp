@@ -3,17 +3,17 @@
 void Game::board_init()
 {
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-	char board[WIDTH][HIGHT];
-
-	for (int i = 0; i < 25; i++)
-	{
-		for (int j = 0; j < 80; j++)
-		{
-			board[i][j] = BRICK;
-		}
+	SetConsoleTextAttribute(hConsole, 7); /*COLOR TABLE TODO*/
+	ifstream board("Board.txt");
+	if (!board) { // file couldn't be opened
+		cerr << "Error: file could not be opened" << endl;
+		exit(1);
 	}
+	string line;
+	getline(board, line);
+	while (getline(board , line))
+		cout << line << endl;
 
-	boarders();
 
 }
 
@@ -37,27 +37,8 @@ void Game::boarders()
 		b1.set_xy(WIDTH - 1, i);
 		cout << brick;
 	}
-
-	board_inside(b1, brick); 
 }
 
-void Game::board_inside(Position b1, char brick)
-{
-	for (int i = 2; i < 77; i++)
-	{
-		b1.set_xy(i, 2);
-		cout << brick;
-		b1.set_xy(i, 21);
-		cout << brick;
-	}
-	/*for (int i = 0; i < 22; i++)
-	{
-		b1.set_xy(i, 3);
-		cout << brick;
-		b1.set_xy(i, 22);
-		cout << brick;
-	}*/
-}
 
 bool Game::is_valid_key(char c)
 {
@@ -73,9 +54,19 @@ void Game::Menu()
 	int userChoice = 0;
 	Position pos(1, 2);
 	//this->player.set_position(pos);
-	cout << "\n\tWelcome to Snake. (press any key to continue)\n";
+	
+	cout << "Welcome to Ppackman. (press any key to continue)\n";
 	do
 	{
+		//HANDLE hConsole; //COLOR DEBUG
+		//int k;
+		//hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+		//for (k = 1; k < 255; k++)
+		//{
+		//	SetConsoleTextAttribute(hConsole, k);
+		//	cout << k << " I want to be nice today!  " << k << endl;
+		//}
+
 		cout << "Please choose LVL or 0 to escape \n\n";
 		cout << "1 ==> Start a new game    \n\n";
 		cout << "8 ==> Present instructions and keys \n\n";
@@ -206,7 +197,7 @@ void Game::game()
 			temp = currentKey;
 		}
 		Move(packman, dir_x, dir_y);//food TODO
-		PrintMove(packman.get_position());
+		print_move(packman.get_position());
 		/*if (packman.get_position().get_y() == HIGHT)
 			this->top_hit = true;
 		if (packman.get_position().get_x() == WIDTH)
@@ -231,21 +222,48 @@ bool Game::is_collided(Packman& packman)//with ghost
 {
 	int packman_x = packman.get_position().get_x();
 	int packman_y = packman.get_position().get_y();
-	if (packman_x == WIDTH || packman_x == 0 || packman_y == HIGHT || packman_y == 0)
+	if (packman_x == WIDTH + 14 || packman_x == 17 || packman_y == HIGHT || packman_y == 3)
 	{
-		return true;
+		//if (!is_telepoting(packman))
+			return true;
 	}
 	return false;
 }
-void Game::PrintMove(Position pos) //displaying snake
+
+bool Game::is_telepoting(Packman& packman)//with ghost
 {
-	char c = 230;
+	int packman_x = packman.get_position().get_x();
+	int packman_y = packman.get_position().get_y();
+	
+	for (int i = 0; i < 3; i++) //bot and top teleports size is 3 blocks
+	{
+		if (packman_x == 53 + i && packman_y == HIGHT || packman_x == 53 + i && packman_y == 3)
+			return true;
+	}
+	
+	if (packman_y == 15 && packman_x == 17 || packman_x == WIDTH + 14)
+		return true;
+
+	return false;
+
+}
+
+void Game::print_move(Position pos) //displaying snake
+{
+	char c = 233; //TODO defines
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	pos.set_xy(pos.get_x(), pos.get_y());
-	SetConsoleTextAttribute(hConsole, 120);
+	SetConsoleTextAttribute(hConsole, 6);  //TODO defines COLORS
 	cout << c;
 
 }
+
+
+void Game::LosePring() //displaying snake
+{
+
+}
+
 
 //set_xy(food->x, food->y);
 //cout << " ";

@@ -61,7 +61,7 @@ void Game::board_inside(Position b1, char brick)
 
 bool Game::is_valid_key(char c)
 {
-	if (c == 'a' || c == 'd' || c == 'w' || c == 's' || c == 'x' || c == 'A' || c == 'D' || c == 'W' || c == 'X' || c == 'S')
+	if (c == 'a' || c == 'd' || c == 'w' || c == 's' || c == 'x' || c == 'A' || c == 'D' || c == 'W' || c == 'X' || c == 'S'|| c == ESC||c == 9)
 		return true;
 
 	return false;
@@ -77,13 +77,12 @@ void Game::Menu()
 	do
 	{
 		cout << "Please choose LVL or 0 to escape \n\n";
-		cout << "0 ==> Exit \n\n";
-		cout << "1 ==> Basic    \n\n";
-		cout << "2 ==> Advenced \n\n";
-		cout << "3 ==> Master \n\n";
+		cout << "1 ==> Start a new game    \n\n";
+		cout << "8 ==> Present instructions and keys \n\n";
+		cout << "9 ==> EXIT \n\n";
 
 		cin >> userChoice;
-		if (userChoice == 0)
+		if (userChoice == 9)
 			exit(0);
 		else
 		{
@@ -120,7 +119,6 @@ void Game::Move(Packman& packman, int dir_x, int dir_y)// Pos* food) intreract w
 void Game::game()
 {
 	srand(time(NULL)); //start generating numbers
-
 	Packman packman;
 	Position inital(INITIAL_X, INITIAL_Y);
 	packman.set_direction(0);
@@ -132,13 +130,14 @@ void Game::game()
 	currentKey = _kbhit();
 	while (!is_valid_key(currentKey))
 		currentKey = _getch();
+	char temp = currentKey;
 	//Initiate(snake);
 	//FoodSpread(snake, food);
 	//packman.get_position().set_xy(INITIAL_X, INITIAL_Y);
 	//gotoxy(food->x, food->y);
 	//printf("\x1b[31m$"); //first food
 
-	while (currentKey != ESC) //&& win condition)
+	while (currentKey != '9') //&& win condition)
 	{
 		int dir_x = 0, dir_y = 0;   //holding the directions
 		Sleep(100);			//1 second between moves
@@ -148,41 +147,71 @@ void Game::game()
 		{
 			switch (currentKey)
 			{
-			case right_lower_case:
-			case right_upper_case:
-				dir_x = 1;
-				dir_y = 0;
-				break;
+				case right_lower_case:
+				case right_upper_case:
+					if (!this->right_hit)
+					{
+						dir_x = 1;
+						dir_y = 0;
+					}
+					else
+						currentKey = stay_lower_case;
+					break;
 
-			case left_lower_case:
-			case left_upper_case:
-				dir_x = -1;
-				dir_y = 0;
-				break;
-
-			case up_lower_case:
-			case up_upper_case:
-				dir_x = 0;
-				dir_y = -1;
-				break;
-
-			case down_lower_case:
-			case down_upper_case:
-				dir_x = 0;
-				dir_y = 1;
-				break;
-
-			case stay_lower_case:
-			case stay_upper_case:
-				dir_x = 0;
-				dir_y = 0;
-				break;
+				case left_lower_case:
+				case left_upper_case:
+					if (!this->left_hit)
+					{
+						dir_x = -1;
+						dir_y = 0;
+					}
+					else
+						currentKey = stay_lower_case;
+					break;
+				case up_lower_case:
+				case up_upper_case:
+					if (!this->top_hit)
+					{
+						dir_x = 0;
+						dir_y = -1;
+					}
+					else
+						currentKey = stay_lower_case;
+					break;
+				case down_lower_case:
+				case down_upper_case:
+					if (!this->bottom_hit)
+					{
+						dir_x = 0;
+						dir_y = 1;
+					}
+					else
+						currentKey = stay_lower_case;
+					break;
+				case stay_lower_case:
+				case stay_upper_case:
+					dir_x = 0;
+					dir_y = 0;
+					break;
+				case ESC://PAUSE
+					cout << "pause" << endl;//fflush
+					char c = _getch();
+					while (c != ESC)
+					{
+						c = NULL;
+						c = _getch();
+					}
+					currentKey = temp;	
 			}
+			temp = currentKey;
 		}
 		Move(packman, dir_x, dir_y);//food TODO
-
 		PrintMove(packman.get_position());
-		if (is_collided(packman))
+		/*if (packman.get_position().get_y() == HIGHT)
+			this->top_hit = true;
+		if (packman.get_position().get_x() == WIDTH)
+			this->right_hit = true;*/
+		if (is_collided(packman))//with ghost
 		{
 			packman.decrease_soul();
 			packman.set_position(inital);
@@ -198,7 +227,7 @@ void Game::game()
 	}
 	system("cls");
 }
-bool Game::is_collided(Packman& packman)
+bool Game::is_collided(Packman& packman)//with ghost
 {
 	int packman_x = packman.get_position().get_x();
 	int packman_y = packman.get_position().get_y();

@@ -30,6 +30,8 @@ enum Keys {
 
 class Game {
 
+private:
+    bool bottom_hit = false, top_hit = false, right_hit = false, left_hit = false;
 
 public:
     //void set_xy(int y, int x);

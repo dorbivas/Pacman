@@ -28,6 +28,13 @@ enum Keys {
     stay_lower_case = 115,
     ESC = 27
 };
+enum Keys {
+    UP = 1,
+    DOWN = 2,
+    LEFT = 3,
+    RIGHT = 4,
+    STAY = 5
+};
 
 class Game {
 
@@ -46,6 +53,7 @@ public:
     bool is_collided(Pacman& Pacman);
     bool is_telepoting(Pacman& Pacman);
     void LosePring();
+    void pause();
     //Game();
 
 };

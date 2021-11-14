@@ -44,8 +44,10 @@ public:
     bool is_valid_key(char c);
     void print_move(Position pos);
     bool is_collided(Pacman& Pacman);
-    bool is_telepoting(Pacman& Pacman);
+    bool is_teleporting(Position curr_pos);
+    void teleport(Pacman& pacman);
     void LosePring();
+    void pause();
     //Game();
 
 };

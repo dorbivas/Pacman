@@ -25,6 +25,7 @@ public:
     void set_direction(int direction);
     Position get_position();
     void set_position(Position pos);
+    void set_position(int x, int y) { this->pos.set_xy(x, y); }
 
     void decrease_soul();
 

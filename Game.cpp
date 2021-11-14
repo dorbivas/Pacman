@@ -55,7 +55,7 @@ void Game::Menu()
 	Position pos(1, 2);
 	//this->player.set_position(pos);
 	
-	cout << "Welcome to Ppackman. (press any key to continue)\n";
+	cout << "Welcome to Pacman. (press any key to continue)\n";
 	do
 	{
 		//HANDLE hConsole; //COLOR DEBUG
@@ -88,10 +88,10 @@ void Game::Menu()
 	//g.board_init(); 
 }
 
-void Game::Move(Packman& packman, int dir_x, int dir_y)// Pos* food) intreract with food TODO
+void Game::move(Pacman& Pacman, int dir_x, int dir_y)// Pos* food) intreract with food TODO
 {
-	int x = packman.get_position().get_x() + dir_x;
-	int y = packman.get_position().get_y() + dir_y;
+	int x = Pacman.get_position().get_x() + dir_x;
+	int y = Pacman.get_position().get_y() + dir_y;
 	Position nextPos(x, y); //holding cordinate the snake heading to
 
 	//if (if_move_towards_ghost(ghost.pos, const nextPos) || if_move_towards_wall(const nextPos)) //losing conditaions
@@ -103,18 +103,18 @@ void Game::Move(Packman& packman, int dir_x, int dir_y)// Pos* food) intreract w
 		//if (ifAteFood)
 			//FoodInteract(snake, food);
 
-	packman.set_position(nextPos);
+	Pacman.set_position(nextPos);
 }
 
 
 void Game::game()
 {
 	srand(time(NULL)); //start generating numbers
-	Packman packman;
+	Pacman Pacman;
 	Position inital(INITIAL_X, INITIAL_Y);
-	packman.set_direction(0);
-	packman.set_souls(3);
-	packman.set_position(inital);
+	Pacman.set_direction(0);
+	Pacman.set_souls(3);
+	Pacman.set_position(inital);
 	char currentKey;
 	//Pos* food = (Pos*)malloc(sizeof(Pos));
 
@@ -124,7 +124,7 @@ void Game::game()
 	char temp = currentKey;
 	//Initiate(snake);
 	//FoodSpread(snake, food);
-	//packman.get_position().set_xy(INITIAL_X, INITIAL_Y);
+	//Pacman.get_position().set_xy(INITIAL_X, INITIAL_Y);
 	//gotoxy(food->x, food->y);
 	//printf("\x1b[31m$"); //first food
 
@@ -134,7 +134,7 @@ void Game::game()
 		Sleep(400);			//1 second between moves
 		if (_kbhit())		// if any key was hit , only if a key was hit we read what key code it was
 			currentKey = _getch();
-		if (is_valid_key(currentKey)) //TODO FIX other keys dont need to stop packman
+		if (is_valid_key(currentKey)) //TODO FIX other keys dont need to stop Pacman
 		{
 			switch (currentKey)
 			{
@@ -196,19 +196,19 @@ void Game::game()
 			}
 			temp = currentKey;
 		}
-		Move(packman, dir_x, dir_y);//food TODO
-		print_move(packman.get_position());
-		/*if (packman.get_position().get_y() == HIGHT)
+		move(Pacman, dir_x, dir_y);//food TODO
+		print_move(Pacman.get_position());
+		/*if (Pacman.get_position().get_y() == HIGHT)
 			this->top_hit = true;
-		if (packman.get_position().get_x() == WIDTH)
+		if (Pacman.get_position().get_x() == WIDTH)
 			this->right_hit = true;*/
-		if (is_collided(packman))//with ghost
+		if (is_collided(Pacman))//with ghost
 		{
-			packman.decrease_soul();
-			packman.set_position(inital);
+			Pacman.decrease_soul();
+			Pacman.set_position(inital);
 			currentKey = stay_upper_case;
 		}
-		if (packman.get_souls() == 0)
+		if (Pacman.get_souls() == 0)
 		{
 			system("cls");
 			cout << "GAME OVER!!!!!" << endl;
@@ -218,30 +218,30 @@ void Game::game()
 	}
 	system("cls");
 }
-bool Game::is_collided(Packman& packman)//with ghost
+bool Game::is_collided(Pacman& Pacman)//with ghost
 {
-	int packman_x = packman.get_position().get_x();
-	int packman_y = packman.get_position().get_y();
-	if (packman_x == WIDTH + 14 || packman_x == 17 || packman_y == HIGHT || packman_y == 3)
+	int Pacman_x = Pacman.get_position().get_x();
+	int Pacman_y = Pacman.get_position().get_y();
+	if (Pacman_x == WIDTH + 14 || Pacman_x == 17 || Pacman_y == HIGHT || Pacman_y == 3)
 	{
-		//if (!is_telepoting(packman))
+		//if (!is_telepoting(Pacman))
 			return true;
 	}
 	return false;
 }
 
-bool Game::is_telepoting(Packman& packman)//with ghost
+bool Game::is_telepoting(Pacman& Pacman)//with ghost
 {
-	int packman_x = packman.get_position().get_x();
-	int packman_y = packman.get_position().get_y();
+	int Pacman_x = Pacman.get_position().get_x();
+	int Pacman_y = Pacman.get_position().get_y();
 	
 	for (int i = 0; i < 3; i++) //bot and top teleports size is 3 blocks
 	{
-		if (packman_x == 53 + i && packman_y == HIGHT || packman_x == 53 + i && packman_y == 3)
+		if (Pacman_x == 53 + i && Pacman_y == HIGHT || Pacman_x == 53 + i && Pacman_y == 3)
 			return true;
 	}
 	
-	if (packman_y == 15 && packman_x == 17 || packman_x == WIDTH + 14)
+	if (Pacman_y == 15 && Pacman_x == 17 || Pacman_x == WIDTH + 14)
 		return true;
 
 	return false;

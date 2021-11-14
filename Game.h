@@ -1,6 +1,6 @@
 #include <random>
 #include <Windows.h> 
-#include "Packman.h"
+#include "Pacman.h"
 #include <iostream>
 using namespace std;
 #include <fstream>
@@ -40,11 +40,11 @@ public:
     void board_init();
     void Menu();
     void game();
-    void Move(Packman& packman, int dir_x, int dir_y);
+    void move(Pacman& Pacman, int dir_x, int dir_y);
     bool is_valid_key(char c);
     void print_move(Position pos);
-    bool is_collided(Packman& packman);
-    bool is_telepoting(Packman& packman);
+    bool is_collided(Pacman& Pacman);
+    bool is_telepoting(Pacman& Pacman);
     void LosePring();
     //Game();
 

@@ -131,7 +131,7 @@ void Game::game()
 	while (currentKey != '9') //&& win condition)
 	{
 		int dir_x = 0, dir_y = 0;   //holding the directions
-		Sleep(100);			//1 second between moves
+		Sleep(400);			//1 second between moves
 		if (_kbhit())		// if any key was hit , only if a key was hit we read what key code it was
 			currentKey = _getch();
 		if (is_valid_key(currentKey)) //TODO FIX other keys dont need to stop packman

@@ -29,6 +29,14 @@ enum Keys {
     ESC = 27
 };
 
+enum direction {
+    UP = 1,
+    DOWN = 2,
+    LEFT = 3,
+    RIGHT = 4,
+    STAY = 5
+};
+
 class Game {
 
 private:

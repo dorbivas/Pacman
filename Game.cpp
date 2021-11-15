@@ -112,6 +112,7 @@ void Game::move(Pacman& pacman, int dir_x, int dir_y)// Pos* food) intreract wit
 		pacman.set_position(nextPos);
 }
 
+
 void Game::game()
 {
 	srand(time(NULL)); //start generating numbers
@@ -130,8 +131,8 @@ void Game::game()
 	while (currentKey != '9') //&& win condition)
 	{
 		int dir_x = 0, dir_y = 0;   //holding the directions
-		Sleep(400);            //1 second between moves
-		if (_kbhit())        // if any key was hit , only if a key was hit we read what key code it was
+		Sleep(400);			//1 second between moves
+		if (_kbhit())		// if any key was hit , only if a key was hit we read what key code it was
 			currentKey = _getch();
 		if (is_valid_key(currentKey)) //TODO FIX other keys dont need to stop Pacman
 		{
@@ -139,97 +140,48 @@ void Game::game()
 			{
 			case right_lower_case:
 			case right_upper_case:
-				if (!this->right_hit)
-				{
-					dir_x = 1;
-					dir_y = 0;
-				}
-				else
-					currentKey = stay_lower_case;
+				dir_x = 1;
+				dir_y = 0;
+				Pacman.set_direction(RIGHT);
 				break;
-				case right_lower_case:
-				case right_upper_case:
-					dir_x = 1;
-					dir_y = 0;
-					Pacman.set_direction(RIGHT);
-					break;
 
 			case left_lower_case:
 			case left_upper_case:
-				if (!this->left_hit)
-				{
-					dir_x = -1;
-					dir_y = 0;
-				}
-				else
-					currentKey = stay_lower_case;
+				dir_x = -1;
+				dir_y = 0;
+				Pacman.set_direction(LEFT);
 				break;
+
 			case up_lower_case:
 			case up_upper_case:
-				if (!this->top_hit)
-				{
-					dir_x = 0;
-					dir_y = -1;
-				}
-				else
-					currentKey = stay_lower_case;
+				dir_x = 0;
+				dir_y = -1;
+				Pacman.set_direction(UP);
 				break;
+
 			case down_lower_case:
 			case down_upper_case:
-				if (!this->bottom_hit)
-				{
-					dir_x = 0;
-					dir_y = 1;
-				}
-				else
-					currentKey = stay_lower_case;
+				dir_x = 0;
+				dir_y = 1;
+				Pacman.set_direction(DOWN);
 				break;
+
 			case stay_lower_case:
 			case stay_upper_case:
 				dir_x = 0;
 				dir_y = 0;
+				Pacman.set_direction(STAY);
 				break;
+
 			case ESC://PAUSE
 				pause();
 				currentKey = temp;
-				case left_lower_case:
-				case left_upper_case:
-					dir_x = -1;
-					dir_y = 0;
-					Pacman.set_direction(LEFT);
-					break;
-
-				case up_lower_case:
-				case up_upper_case:
-					dir_x = 0;
-					dir_y = -1;
-					Pacman.set_direction(UP);
-					break;
-
-				case down_lower_case:
-				case down_upper_case:
-					dir_x = 0;
-					dir_y = 1;
-					Pacman.set_direction(DOWN);
-					break;
-
-				case stay_lower_case:
-				case stay_upper_case:
-					dir_x = 0;
-					dir_y = 0;
-					Pacman.set_direction(STAY);
-					break;
-
-				case ESC://PAUSE
-					pause();
-					currentKey = temp;	
 			}
 			temp = currentKey;
 		}
 		move(Pacman, dir_x, dir_y);//food TODO
 		print_move(Pacman.get_position());
-	
-	
+
 		if (Pacman.get_souls() == 0)
 		{
 			system("cls");
@@ -244,41 +196,75 @@ bool Game::is_collided(Pacman& Pacman)//with ghost TODO
 {
 	int Pacman_x = Pacman.get_position().get_x();
 	int Pacman_y = Pacman.get_position().get_y();
-	if (Pacman_x == WIDTH + 14  || Pacman_x == 17 || Pacman_y == HIGHT || Pacman_y == 3)
-		return true;
-	
 	if (Pacman_x == WIDTH + 14 || Pacman_x == 17 || Pacman_y == HIGHT || Pacman_y == 3)
-	{
-		if (!is_telepoting(Pacman))
-			return true;
-	}
+		return true;
+
 	return false;
 }
 
 bool Game::is_teleporting(Position curr_pos)//teleporting the pacman and return if teleported
-bool Game::is_telepoting(Pacman& Pacman)//with ghost TODO
 {
 	int Pacman_x = curr_pos.get_x();
 	int Pacman_y = curr_pos.get_y();
-	
-	int Pacman_x = Pacman.get_position().get_x();
-	int Pacman_y = Pacman.get_position().get_y();
 
 	for (int i = 0; i < 3; i++) //bot and top teleports size is 3 blocks
 	{
 		if (Pacman_x == 53 + i && Pacman_y == HIGHT || Pacman_x == 53 + i && Pacman_y == 3)
-			return true;	
-		if (Pacman_x == 53 + i && Pacman_y == HIGHT ||  Pacman_x == 53 + i && Pacman_y == 3)
 			return true;
 	}
 	if (Pacman_y == 14 && Pacman_x == 17 || Pacman_x == WIDTH + 14)
-
-	if (Pacman_y == 14 && Pacman_x == 17  || Pacman_x == WIDTH + 14)
 		return true;
 
 	return false;
 }
 
+
+void Game::teleport(Pacman& pacman)//teleporting the pacman and return if teleported
+{
+	int Pacman_x = pacman.get_position().get_x();
+	int Pacman_y = pacman.get_position().get_y();
+
+	for (int i = 0; i < 3; i++) //bot and top teleports size is 3 blocks
+	{
+		if (Pacman_x == 53 + i && Pacman_y == HIGHT)
+		{
+			pacman.set_position(Pacman_x, 3);
+			//pacman.set_direction(DOWN) TODO 
+		}
+
+		if (Pacman_x == 53 + i && Pacman_y == 3)
+		{
+			pacman.set_position(Pacman_x, HIGHT);
+			//pacman.set_direction(UP) TODO 
+		}
+	}
+
+	if (Pacman_y == 14 && Pacman_x == 17)
+	{
+		pacman.set_position(WIDTH + 14, Pacman_y);
+		//pacman.set_direction(left) TODO 
+	}
+	if (Pacman_y == 14 && Pacman_x == WIDTH + 14)
+	{
+		pacman.set_position(17, Pacman_y);
+		//pacman.set_direction(right) TODO 
+	}
+}
+
+void Game::pause()
+{
+	Position pos;
+	pos.set_xy(0, 0);
+	print_move(pos);
+	cout << "\rPAUSE";
+	char c = _getch();
+	while (c != ESC)
+	{
+		c = NULL;
+		c = _getch();
+	}
+	cout << "\r     ";
+}
 void Game::print_move(Position pos) //displaying snake
 {
 	char c = 233; //TODO defines
@@ -293,20 +279,6 @@ void Game::print_move(Position pos) //displaying snake
 void Game::LosePring() //displaying snake
 {
 
-}
-void Game::pause()
-{
-	Position pos;
-	pos.set_xy(0, 0);
-	print_move(pos);
-	cout << "\rPAUSE";
-	char c = _getch();
-	while (c != ESC)
-	{
-		c = NULL;
-		c = _getch();
-	}
-	cout <<"\r     ";
 }
 
 

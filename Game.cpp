@@ -51,7 +51,6 @@ void Game::Menu()
 {
 	int userChoice = 0;
 	Position pos(1, 2);
-	//this->player.set_position(pos);
 	
 	cout << "Welcome to Pacman. (press any key to continue)\n";
 	do
@@ -148,6 +147,12 @@ void Game::game()
 				else
 					currentKey = stay_lower_case;
 				break;
+				case right_lower_case:
+				case right_upper_case:
+					dir_x = 1;
+					dir_y = 0;
+					Pacman.set_direction(RIGHT);
+					break;
 
 			case left_lower_case:
 			case left_upper_case:
@@ -187,6 +192,37 @@ void Game::game()
 			case ESC://PAUSE
 				pause();
 				currentKey = temp;
+				case left_lower_case:
+				case left_upper_case:
+					dir_x = -1;
+					dir_y = 0;
+					Pacman.set_direction(LEFT);
+					break;
+
+				case up_lower_case:
+				case up_upper_case:
+					dir_x = 0;
+					dir_y = -1;
+					Pacman.set_direction(UP);
+					break;
+
+				case down_lower_case:
+				case down_upper_case:
+					dir_x = 0;
+					dir_y = 1;
+					Pacman.set_direction(DOWN);
+					break;
+
+				case stay_lower_case:
+				case stay_upper_case:
+					dir_x = 0;
+					dir_y = 0;
+					Pacman.set_direction(STAY);
+					break;
+
+				case ESC://PAUSE
+					pause();
+					currentKey = temp;	
 			}
 			temp = currentKey;
 		}
@@ -211,71 +247,36 @@ bool Game::is_collided(Pacman& Pacman)//with ghost TODO
 	if (Pacman_x == WIDTH + 14  || Pacman_x == 17 || Pacman_y == HIGHT || Pacman_y == 3)
 		return true;
 	
+	if (Pacman_x == WIDTH + 14 || Pacman_x == 17 || Pacman_y == HIGHT || Pacman_y == 3)
+	{
+		if (!is_telepoting(Pacman))
+			return true;
+	}
 	return false;
 }
 
 bool Game::is_teleporting(Position curr_pos)//teleporting the pacman and return if teleported
+bool Game::is_telepoting(Pacman& Pacman)//with ghost TODO
 {
 	int Pacman_x = curr_pos.get_x();
 	int Pacman_y = curr_pos.get_y();
 	
+	int Pacman_x = Pacman.get_position().get_x();
+	int Pacman_y = Pacman.get_position().get_y();
+
 	for (int i = 0; i < 3; i++) //bot and top teleports size is 3 blocks
 	{
 		if (Pacman_x == 53 + i && Pacman_y == HIGHT || Pacman_x == 53 + i && Pacman_y == 3)
 			return true;	
+		if (Pacman_x == 53 + i && Pacman_y == HIGHT ||  Pacman_x == 53 + i && Pacman_y == 3)
+			return true;
 	}
 	if (Pacman_y == 14 && Pacman_x == 17 || Pacman_x == WIDTH + 14)
+
+	if (Pacman_y == 14 && Pacman_x == 17  || Pacman_x == WIDTH + 14)
 		return true;
 
 	return false;
-}
-
-
-void Game::teleport(Pacman& pacman)//teleporting the pacman and return if teleported
-{
-	int Pacman_x = pacman.get_position().get_x();
-	int Pacman_y = pacman.get_position().get_y();
-
-	for (int i = 0; i < 3; i++) //bot and top teleports size is 3 blocks
-	{
-		if (Pacman_x == 53 + i && Pacman_y == HIGHT)
-		{
-			pacman.set_position(Pacman_x, 3);
-			//pacman.set_direction(DOWN) TODO 
-		}
-			
-		if (Pacman_x == 53 + i && Pacman_y == 3)
-		{
-			pacman.set_position(Pacman_x, HIGHT);
-			//pacman.set_direction(UP) TODO 
-		}
-	}
-
-	if (Pacman_y == 14 && Pacman_x == 17)
-	{
-		pacman.set_position(WIDTH + 14, Pacman_y);
-		//pacman.set_direction(left) TODO 
-	}
-	if (Pacman_y == 14 && Pacman_x == WIDTH + 14)
-	{
-		pacman.set_position(17, Pacman_y);
-		//pacman.set_direction(right) TODO 
-	}
-}
-
-void Game::pause()
-{
-	Position pos;
-	pos.set_xy(0, 0);
-	print_move(pos);
-	cout << "\rPAUSE";
-	char c = _getch();
-	while (c != ESC)
-	{
-		c = NULL;
-		c = _getch();
-	}
-	cout << "\r     ";
 }
 
 void Game::print_move(Position pos) //displaying snake
@@ -292,6 +293,20 @@ void Game::print_move(Position pos) //displaying snake
 void Game::LosePring() //displaying snake
 {
 
+}
+void Game::pause()
+{
+	Position pos;
+	pos.set_xy(0, 0);
+	print_move(pos);
+	cout << "\rPAUSE";
+	char c = _getch();
+	while (c != ESC)
+	{
+		c = NULL;
+		c = _getch();
+	}
+	cout <<"\r     ";
 }
 
 

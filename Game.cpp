@@ -96,13 +96,16 @@ void Game::game()
 			currentKey = _getch();
 		
 		}
-		//temp = currentKey;
-		dir_pos=handle_movement(currentKey);
-		//currentKey = temp;
-		move(dir_pos);//food TODO
 		
+		dir_pos=handle_movement(currentKey);
+		if (this->pause_flag)
+		{
+			currentKey = temp;
+			this->pause_flag = false;
+		}
+		move(dir_pos);//food TODO
 		print_move(this->pacman.get_position(),(unsigned char) PACMAN_SYMBOL);
-
+		temp = currentKey;
 		if (this->pacman.get_souls() == 0)
 		{
 			system("cls");
@@ -188,6 +191,7 @@ void Game::print_move(Position pos,unsigned char c) //displaying
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	pos.set_xy(pos.get_x(), pos.get_y());
 	SetConsoleTextAttribute(hConsole, 6);  //TODO defines COLORS
+	goto_xy(pos.get_x(), pos.get_y());
 	if(c!=0)
 		cout << c;
 }
@@ -241,6 +245,7 @@ Position Game::handle_movement(unsigned char currentKey)
 
 		case ESC://PAUSE
 			pause();
+			this->pause_flag = true;
 			break;
 		}
 		pos.set_xy(dir_x, dir_y);

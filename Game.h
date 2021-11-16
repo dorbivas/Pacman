@@ -21,6 +21,7 @@ class Game {
 private:
     Pacman pacman;
     Ghosts ghosts[NUM_OF_GHOSTS];
+    bool pause_flag = false;
 
 public:
     Pacman get_pacman() { return this->pacman; }

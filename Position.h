@@ -1,5 +1,5 @@
-#pragma once
-#include "Utility.h"
+//#pragma once
+//#include "Utility.h"
 //TODO valid check
 class Position {
 

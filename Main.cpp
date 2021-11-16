@@ -1,4 +1,3 @@
-//#include "Menu.h"
 #include "Game.h"
 
 void main() {

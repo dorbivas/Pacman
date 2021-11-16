@@ -1,4 +1,7 @@
+#pragma once
 #include "Pacman.h"
+#include "Board.h"
+#include "Ghosts.h"
 
 #define INITIAL_X 40
 #define INITIAL_Y 12
@@ -7,47 +10,35 @@
 #define OFFSET 14
 #define BRICK 219
 #define INSIDE_BRICK 178
+#define PACMAN_SYMBOL 233
+#define GHOST_SYMBOL 36
+#define NUM_OF_GHOSTS 2
 
-enum Keys {
-    up_upper_case = 87,
-    up_lower_case = 119,
-    down_upper_case = 88,
-    down_lower_case = 120,
-    right_upper_case = 68,
-    right_lower_case = 100,
-    left_upper_case = 65,
-    left_lower_case = 97,
-    stay_upper_case = 83,
-    stay_lower_case = 115,
-    ESC = 27
-};
 
-enum direction {
-    UP = 1,
-    DOWN = 2,
-    LEFT = 3,
-    RIGHT = 4,
-    STAY = 5
-};
 
 class Game {
 
+private:
+    Pacman pacman;
+    Ghosts ghosts[NUM_OF_GHOSTS];
 
 public:
-    //void set_xy(int y, int x);
-    int board[HIGHT][WIDTH];
-    void boarders();
-    void board_init();
+    Pacman get_pacman() { return this->pacman; }
+    void set_pacman(Pacman pacman) { this->pacman = pacman; }
+    Position get_pacman_position() { return this->pacman.get_position(); }
     void Menu();
+    void print_ruls();
     void game();
-    void move(Pacman& Pacman, int dir_x, int dir_y);
-    bool is_valid_key(char c);
-    void print_move(Position pos);
-    bool is_collided(Pacman& Pacman);
+    void move(Position dir_pos);
+
+    void print_move(Position pos,unsigned char c);
+    bool is_collided();
     bool is_teleporting(Position curr_pos);
     void teleport(Pacman& pacman);
     void LosePring();
     void pause();
-    //Game();
+    Position handle_movement(unsigned char currentKey);
 
+    //void boarders();
+    //void board_init();
 };

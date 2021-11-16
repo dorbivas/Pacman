@@ -14,8 +14,6 @@
 #define GHOST_SYMBOL 36
 #define NUM_OF_GHOSTS 2
 
-
-
 class Game {
 
 private:

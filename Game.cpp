@@ -16,7 +16,7 @@ void Game::Menu()
 		cout << "Please select option : "<< endl << endl;
 		cout << "1 ==> Start a new game" << endl << endl;
 		cout << "8 ==> Present instructions and keys" << endl << endl;
-		cout << "9 ==> Exit" << endl << endl;
+		cout << "9 ==> Exit" << endl;
 
 		cin >> userChoice;
 		if (userChoice == 9)

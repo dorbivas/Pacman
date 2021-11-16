@@ -8,7 +8,7 @@ void Board::printBoard()
 		{
 			if (board[i][j] == (unsigned char) WALL)
 			{
-				set_color(LIGHTCYAN);
+				set_color(LIGHTMAGENTA);
 				cout << board[i][j];
 			}
 			else if (board[i][j] == (unsigned char) POINT) 

@@ -15,6 +15,11 @@ void Game::board_init()
 		cout << line << endl;
 }
 
+void Game::board_init()
+{
+	AclRevisionInformatio
+}
+
 void Game::boarders() 
 {
 	char brick = BRICK;
@@ -36,8 +41,6 @@ void Game::boarders()
 		cout << brick;
 	}
 }
-
-
 
 bool Game::is_valid_key(char c)
 {
@@ -108,6 +111,7 @@ void Game::move(Pacman& pacman, int dir_x, int dir_y)// Pos* food) intreract wit
 		//currentKey = stay_upper_case;
 	}
 
+	
 	pacman.set_position(nextPos);
 }
 
@@ -115,11 +119,11 @@ void Game::move(Pacman& pacman, int dir_x, int dir_y)// Pos* food) intreract wit
 void Game::game()
 {
 	srand(time(NULL)); //start generating numbers
-	Pacman pacman;
+	Pacman Pacman;
 	Position inital(INITIAL_X, INITIAL_Y);
-	pacman.set_direction(0);
-	pacman.set_souls(3);
-	pacman.set_position(inital);
+	Pacman.set_direction(0);
+	Pacman.set_souls(3);
+	Pacman.set_position(inital);
 	char currentKey;
 
 	currentKey = _kbhit();
@@ -137,39 +141,39 @@ void Game::game()
 		{
 			switch (currentKey)
 			{
-			case right_lower_case:
 			case right_upper_case:
+			case right_lower_case:
 				dir_x = 1;
 				dir_y = 0;
-				pacman.set_direction(RIGHT);
+				Pacman.set_direction(RIGHT);
 				break;
 
-			case left_lower_case:
 			case left_upper_case:
+			case left_lower_case:
 				dir_x = -1;
 				dir_y = 0;
-				pacman.set_direction(LEFT);
+				Pacman.set_direction(LEFT);
 				break;
 
-			case up_lower_case:
 			case up_upper_case:
+			case up_lower_case:
 				dir_x = 0;
 				dir_y = -1;
-				pacman.set_direction(UP);
+				Pacman.set_direction(UP);
 				break;
 
-			case down_lower_case:
 			case down_upper_case:
+			case down_lower_case:
 				dir_x = 0;
 				dir_y = 1;
-				pacman.set_direction(DOWN);
+				Pacman.set_direction(DOWN);
 				break;
 
-			case stay_lower_case:
 			case stay_upper_case:
+			case stay_lower_case:
 				dir_x = 0;
 				dir_y = 0;
-				pacman.set_direction(STAY);
+				Pacman.set_direction(STAY);
 				break;
 
 			case ESC://PAUSE
@@ -178,11 +182,10 @@ void Game::game()
 			}
 			temp = currentKey;
 		}
-		cout << " ";
-		move(pacman, dir_x, dir_y);//food TODO
-		print_move(pacman.get_position());
+		move(Pacman, dir_x, dir_y);//food TODO
+		print_move(Pacman.get_position());
 
-		if (pacman.get_souls() == 0)
+		if (Pacman.get_souls() == 0)
 		{
 			system("cls");
 			cout << "GAME OVER!!!!!" << endl;
@@ -276,7 +279,7 @@ void Game::print_move(Position pos) //displaying snake
 }
 
 
-void Game::LosePring() //displaying snake
+void Game::LosePring() 
 {
 
 }

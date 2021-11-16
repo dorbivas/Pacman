@@ -1,8 +1,4 @@
-#include <iostream>
-#include <random>
 #include "Position.h"
-using namespace std;
-
 class Pacman
 {
 

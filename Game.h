@@ -1,11 +1,4 @@
-#include <random>
-#include <Windows.h> 
 #include "Pacman.h"
-#include <iostream>
-using namespace std;
-#include <fstream>
-#include <string>
-#include <conio.h>
 
 #define INITIAL_X 40
 #define INITIAL_Y 12

@@ -1,5 +1,5 @@
-using namespace std;
-#include <iostream>
+#pragma once
+#include "Utility.h"
 //TODO valid check
 class Position {
 

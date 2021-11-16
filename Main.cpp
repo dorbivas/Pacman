@@ -3,8 +3,8 @@
 
 void main() {
 	
-	Game board;
-	board.Menu();
+	Game game;
+	game.Menu();
     //board.board_init();
     //board.game();
 }

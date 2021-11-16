@@ -65,7 +65,7 @@ void Game::Menu()
 		//}
 
 		cout << "Please choose LVL or 0 to escape \n\n";
-		cout << "1 ==> Start a new game    \n\n";
+		cout << "1 ==> Start a new game\n\n";
 		cout << "8 ==> Present instructions and keys \n\n";
 		cout << "9 ==> EXIT \n\n";
 
@@ -108,8 +108,8 @@ void Game::move(Pacman& pacman, int dir_x, int dir_y)// Pos* food) intreract wit
 		//currentKey = stay_upper_case;
 	}
 
-	else
-		pacman.set_position(nextPos);
+	
+	pacman.set_position(nextPos);
 }
 
 
@@ -131,7 +131,7 @@ void Game::game()
 	while (currentKey != '9') //&& win condition)
 	{
 		int dir_x = 0, dir_y = 0;   //holding the directions
-		Sleep(400);			//1 second between moves
+		Sleep(100);			//1 second between moves
 		if (_kbhit())		// if any key was hit , only if a key was hit we read what key code it was
 			currentKey = _getch();
 		if (is_valid_key(currentKey)) //TODO FIX other keys dont need to stop Pacman
@@ -267,12 +267,12 @@ void Game::pause()
 }
 void Game::print_move(Position pos) //displaying snake
 {
+	
 	char c = 233; //TODO defines
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	pos.set_xy(pos.get_x(), pos.get_y());
 	SetConsoleTextAttribute(hConsole, 6);  //TODO defines COLORS
 	cout << c;
-
 }
 
 

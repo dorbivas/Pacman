@@ -18,5 +18,5 @@ void goto_xy(int x, int y)
     
 }*/
 bool is_valid_key(unsigned char c) {
-	return (c == 'a' || c == 'd' || c == 'w' || c == 's' || c == 'x' || c == 'A' || c == 'D' || c == 'W' || c == 'X' || c == 'S' || c == ESC || c == 9);
+	return (c == 'a' || c == 'd' || c == 'w' || c == 's' || c == 'x' || c == 'A' || c == 'D' || c == 'W' || c == 'X' || c == 'S' || c == ESC);
 }

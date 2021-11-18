@@ -5,32 +5,27 @@ void Game::Menu()
 	cout << "Welcome to \"the\" Pacman !" << endl;
 	do
 	{
-		//HANDLE hConsole; //COLOR DEBUG
-		//int k;
-		//hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-		//for (k = 1; k < 255; k++)
-		//{
-		//	SetConsoleTextAttribute(hConsole, k);
-		//	cout << k << " I want to be nice today!  " << k << endl;
-		//}
 		cout << "Please select option : "<< endl << endl;
 		cout << "1 ==> Start a new game" << endl << endl;
 		cout << "8 ==> Present instructions and keys" << endl << endl;
 		cout << "9 ==> Exit" << endl;
 
 		cin >> userChoice;
-		if (userChoice == 9)
-			exit(0);
-		else if (userChoice == 8)
+		if (userChoice == 8)
+		{
 			print_ruls();
-		else
+			system("PAUSE");
+			system("cls");
+		}
+		else if(userChoice == 1)
 		{
 			system("cls");
 			this->game();
 		}
 
-	} while (userChoice != 0);
+	} while (userChoice != 9);
 	system("cls");
+	exit(0);
 }
 
 void Game::print_ruls() {
@@ -48,8 +43,10 @@ void Game::print_ruls() {
 
 void Game::move(Position dir_pos)// Pos* food) intreract with food TODO
 {
+	print_move(this->pacman.get_position(), ' ');
 	int dir_x = dir_pos.get_x();
 	int dir_y = dir_pos.get_y();
+
 	int x = this->pacman.get_position().get_x() + dir_x;
 	int y = this->pacman.get_position().get_y() + dir_y;
 	Position nextPos(x, y); //holding cordinate the snake heading to
@@ -60,10 +57,10 @@ void Game::move(Position dir_pos)// Pos* food) intreract with food TODO
 	if (is_teleporting(this->pacman.get_position()))
 		teleport(this->pacman);
 
-	else if (is_collided())//with ghost
+	if (is_collided())//with ghost
 	{
 		this->pacman.decrease_soul();
-		//pacman.set_position(inital);
+		this->pacman.set_position(INITIAL_X, INITIAL_Y);
 		//currentKey = stay_upper_case;
 	}
 	this->pacman.set_position(nextPos);
@@ -72,6 +69,7 @@ void Game::move(Position dir_pos)// Pos* food) intreract with food TODO
 
 void Game::game()
 {
+	bool loop_flag = false;
 	srand(time(NULL)); //start generating numbers
 	Board board;
 	Position inital(INITIAL_X, INITIAL_Y);
@@ -88,15 +86,13 @@ void Game::game()
 	while (!is_valid_key(currentKey))
 		currentKey = _getch();
 	 temp= currentKey;
-
-	while (currentKey != '9') //&& win condition)
+	//if (is_valid_key(currentKey)) //TODO FIX other keys dont need to stop Pacman
+	while (!loop_flag) //&& win condition)
 	{
 		Sleep(200);			//1 second between moves
-		if (_kbhit()){		// if any key was hit , only if a key was hit we read what key code it was
+		if (_kbhit())	// if any key was hit , only if a key was hit we read what key code it was
 			currentKey = _getch();
-		
-		}
-		if (currentKey != '9')
+		if (is_valid_key(currentKey))
 		{
 			dir_pos = handle_movement(currentKey);
 			if (this->pause_flag)
@@ -114,6 +110,13 @@ void Game::game()
 				system("pause");
 				break;
 			}
+		}
+		else
+		{
+			if (currentKey != '9')
+				currentKey = temp;
+			else
+				loop_flag = true;
 		}
 	}
 	system("cls");
@@ -204,56 +207,51 @@ Position Game::handle_movement(unsigned char currentKey)
 	Position pos(dir_x, dir_y);
 	int pacman_x = this->pacman.get_position().get_x();
 	int pacman_y = this->pacman.get_position().get_y();
-
-
-	if (is_valid_key(currentKey)) //TODO FIX other keys dont need to stop Pacman
+	switch (currentKey)
 	{
-		switch (currentKey)
-		{
-		case right_upper_case:
-		case right_lower_case:
-			dir_x = 1;
-			dir_y = 0;
-			this->pacman.set_direction(RIGHT);
-			break;
+	case right_upper_case:
+	case right_lower_case:
+		dir_x = 1;
+		dir_y = 0;
+		this->pacman.set_direction(RIGHT);
+		break;
 
-		case left_upper_case:
-		case left_lower_case:
-			dir_x = -1;
-			dir_y = 0;
-			this->pacman.set_direction(LEFT);
-			break;
+	case left_upper_case:
+	case left_lower_case:
+		dir_x = -1;
+		dir_y = 0;
+		this->pacman.set_direction(LEFT);
+		break;
 
-		case up_upper_case:
-		case up_lower_case:
-			dir_x = 0;
-			dir_y = -1;
-			this->pacman.set_direction(UP);
-			break;
+	case up_upper_case:
+	case up_lower_case:
+		dir_x = 0;
+		dir_y = -1;
+		this->pacman.set_direction(UP);
+		break;
 
-		case down_upper_case:
-		case down_lower_case:
-			dir_x = 0;
-			dir_y = 1;
-			this->pacman.set_direction(DOWN);
-			break;
+	case down_upper_case:
+	case down_lower_case:
+		dir_x = 0;
+		dir_y = 1;
+		this->pacman.set_direction(DOWN);
+		break;
 
-		case stay_upper_case:
-		case stay_lower_case:
-			dir_x = 0;
-			dir_y = 0;
-			this->pacman.set_direction(STAY);
-			break;
+	case stay_upper_case:
+	case stay_lower_case:
+		dir_x = 0;
+		dir_y = 0;
+		this->pacman.set_direction(STAY);
+		break;
 
-		case ESC://PAUSE
-			pause();
-			this->pause_flag = true;
-			break;
-		}
-		pos.set_xy(dir_x, dir_y);
-		return pos;
-
+	case ESC://PAUSE
+		pause();
+		this->pause_flag = true;
+		break;
 	}
+	pos.set_xy(dir_x, dir_y);
+	return pos;
+
 }
 
 

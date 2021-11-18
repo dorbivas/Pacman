@@ -60,7 +60,7 @@ void Game::move(Position dir_pos)// Pos* food) intreract with food TODO
 	if (is_collided())//with ghost
 	{
 		this->pacman.decrease_soul();
-		this->pacman.set_position(INITIAL_X, INITIAL_Y);
+		nextPos.set_xy(INITIAL_X, INITIAL_Y);
 		//currentKey = stay_upper_case;
 	}
 	this->pacman.set_position(nextPos);
@@ -69,16 +69,20 @@ void Game::move(Position dir_pos)// Pos* food) intreract with food TODO
 
 void Game::game()
 {
+	int i;
+	for (i = 0; i < NUM_OF_GHOSTS; i++)
+		this->ghosts[i].set_position(INITIAL_X +5, INITIAL_Y +5);
 	bool loop_flag = false;
 	srand(time(NULL)); //start generating numbers
 	Board board;
 	Position inital(INITIAL_X, INITIAL_Y);
 	Pacman pacman(3, 0, inital, 0);
 	Position dir_pos(0, 0);
-
 	this->set_pacman(pacman);
 	unsigned char currentKey;
 	unsigned char temp;
+
+	print_move(this->ghosts[0].get_position(), GHOST_SYMBOL);
 
 	board.printBoard();
 

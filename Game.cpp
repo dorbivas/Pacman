@@ -96,22 +96,24 @@ void Game::game()
 			currentKey = _getch();
 		
 		}
-		
-		dir_pos=handle_movement(currentKey);
-		if (this->pause_flag)
+		if (currentKey != '9')
 		{
-			currentKey = temp;
-			this->pause_flag = false;
-		}
-		move(dir_pos);//food TODO
-		print_move(this->pacman.get_position(),(unsigned char) PACMAN_SYMBOL);
-		temp = currentKey;
-		if (this->pacman.get_souls() == 0)
-		{
-			system("cls");
-			cout << "GAME OVER!!!!!" << endl;
-			system("pause");
-			break;
+			dir_pos = handle_movement(currentKey);
+			if (this->pause_flag)
+			{
+				currentKey = temp;
+				this->pause_flag = false;
+			}
+			move(dir_pos);//food TODO
+			print_move(this->pacman.get_position(), (unsigned char)PACMAN_SYMBOL);
+			temp = currentKey;
+			if (this->pacman.get_souls() == 0)
+			{
+				system("cls");
+				cout << "GAME OVER!!!!!" << endl;
+				system("pause");
+				break;
+			}
 		}
 	}
 	system("cls");

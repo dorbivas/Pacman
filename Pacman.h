@@ -1,6 +1,7 @@
 #pragma once
 #include "Utility.h"
-
+#define NUM_OF_SOULS 3
+#define INIT_SCORE 0
 class Pacman
 {
 
@@ -19,7 +20,7 @@ public:
     int get_souls();
     void set_souls(int souls);
     void set_score(int score);
-    void add_score(int score);
+    void add_score();
     int get_score();
     int get_direction();
     void set_direction(int direction);

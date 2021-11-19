@@ -1,6 +1,6 @@
 #include "Board.h"
 
-void Board::printBoard() 
+void Board::print_board() 
 {
 	for (int i = 0; i < HEIGHT; i++)
 	{
@@ -15,6 +15,11 @@ void Board::printBoard()
 			{
 				set_color(LIGHTGREY);
 				cout << board[i][j];
+			}
+			else if(board[i][j] == (unsigned char) TELEPORT)
+			{	set_color(LIGHTBLUE);
+				cout << board[i][j];
+				//cout << endl << i << " : " << j << endl; "TODO remove"
 			}
 			else {
 				set_color(WHITE);

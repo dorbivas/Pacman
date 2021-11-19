@@ -7,6 +7,7 @@ void Game::Menu()
 	{
 		cout << "Please select option : " << endl << endl;
 		cout << "1 ==> Start a new game" << endl << endl;
+		cout << "2 ==> Color mode" << endl << endl;
 		cout << "8 ==> Present instructions and keys" << endl << endl;
 		cout << "9 ==> Exit" << endl;
 
@@ -20,7 +21,23 @@ void Game::Menu()
 		else if (userChoice == 1)
 		{
 			system("cls");
-			this->game();
+			game();
+		}
+		else if (userChoice == 2)
+		{
+			if (color_mode == true)
+			{
+				cout << "color off!" << endl << endl;
+				set_color_mode(false);
+				system("cls");
+			}
+			else {
+				cout << "color on!" << endl << endl;
+				set_color_mode(true);
+				system("cls");
+			}
+
+			game();
 		}
 
 	} while (userChoice != 9);
@@ -44,19 +61,17 @@ void Game::print_ruls() {
 void Game::handle_score(Position pacman_pos) {
 	if (board.get_cell(pacman_pos) == POINT)
 	{
-		this->pacman.add_score();
-		if (this->pacman.get_score() == MAX_POINTS)
+		pacman.add_score();
+
+		if (pacman.get_score() == MAX_POINTS)
 			win();
 	}
 }
 bool Game::lose() {
-	if (this->pacman.get_souls() == 0)
-	{
-		cout << "you lost.";
-		system("cls");
-		system("pause");
-		return true;
-	}
+	system("cls");
+	cout << "you lost.";
+	system("pause");
+	return true;
 	//reset_game()	
 }
 void Game::win() {
@@ -68,16 +83,20 @@ void Game::reset_game() {
 }
 
 void Game::move(Position dir_pos) {
-	if (is_teleporting(this->pacman.get_position()))
-		print_move(this->pacman.get_position(), TELEPORT);
-	else
-		print_move(this->pacman.get_position(), ' ');
+
+	if (board.get_cell(pacman.get_position()) == (unsigned char)POINT)
+		board.set_cell(pacman.get_position(), ' ');
+	//if (board.get_cell(pacman.get_position()) != (unsigned char)GHOST)) TODO 
+	print_move(pacman.get_position(), ' ');	
+
+	if (is_teleporting(pacman.get_position()))
+		print_move(pacman.get_position(), TELEPORT);
 
 	int dir_x = dir_pos.get_x();
 	int dir_y = dir_pos.get_y();
 
-	int x = this->pacman.get_position().get_x() + dir_x;
-	int y = this->pacman.get_position().get_y() + dir_y;
+	int x = pacman.get_position().get_x() + dir_x;
+	int y = pacman.get_position().get_y() + dir_y;
 	Position next_pos(x, y);
 
 	handle_move(next_pos);
@@ -89,22 +108,22 @@ void Game::handle_move(Position next_pos) {
 		return;
 	else
 	{
-		//if (is_teleporting(next_pos))
-		teleport(next_pos);
-	
-		/*else*/ if (is_collided_ghost())//with ghost
-		{
-			this->pacman.decrease_soul();
-			next_pos.set_xy(INITIAL_X, INITIAL_Y);
-		}
-		else if (this->pacman.get_souls() == 0)
-		{
-			lose();
-		}
-		else
-			handle_score(next_pos);
+		if (is_teleporting(next_pos))
+			next_pos = teleport(next_pos);
 
-		this->pacman.set_position(next_pos);
+		if (is_collided_ghost())//with ghost
+		{
+			if (pacman.get_souls() == 0)
+				lose();
+			else
+			{
+				pacman.decrease_soul();
+				next_pos.set_xy(INITIAL_X, INITIAL_Y);
+			}
+		}
+		handle_score(next_pos);
+
+		pacman.set_position(next_pos);
 	}
 }
 
@@ -112,24 +131,23 @@ void Game::handle_move(Position next_pos) {
 void Game::game()
 {
 	bool loop_flag = false;
-	Position inital(INITIAL_X, INITIAL_Y);
-	Pacman pacman(NUM_OF_SOULS, STAY, inital, INIT_SCORE);
+	Position starting_point(INITIAL_X, INITIAL_Y);
+	Pacman pacman_temp(NUM_OF_SOULS, STAY, starting_point, ZERO_POINTS);
 	Position dir_pos(0, 0);
 
-	this->set_pacman(pacman);
 	unsigned char currentKey;
 	unsigned char temp;
 
+	this->set_pacman(pacman_temp);
 	srand(time(NULL)); //start generating numbers
 
-	//print_move(this->ghosts[0].get_position(), GHOST_SYMBOL);
-	this->board.print_board(); //check if true
+	//print_move(ghosts[0].get_position(), GHOST_SYMBOL);
+	board.print_board(); //check if true
 
 	currentKey = _kbhit();
 	while (!is_valid_key(currentKey))
 		currentKey = _getch();
 	temp = currentKey;
-	//if (is_valid_key(currentKey)) //TODO FIX other keys dont need to stop Pacman
 	while (!loop_flag) //&& win condition)
 	{
 		Sleep(100);			//1 second between moves
@@ -138,13 +156,13 @@ void Game::game()
 		if (is_valid_key(currentKey))
 		{
 			dir_pos = handle_key_input(currentKey);
-			if (this->pause_flag)
+			if (pause_flag)
 			{
 				currentKey = temp;
-				this->pause_flag = false;
+				pause_flag = false;
 			}
 			move(dir_pos);
-			print_move(this->pacman.get_position(), (unsigned char)PACMAN_SYMBOL);
+			print_move(pacman.get_position(), (unsigned char)PACMAN_SYMBOL);
 			temp = currentKey;
 		}
 		else
@@ -159,127 +177,57 @@ void Game::game()
 	return;
 }
 
-bool Game::is_collided_ghost()
-{
-	int pacman_x = this->pacman.get_position().get_x();
-	int pacman_y = this->pacman.get_position().get_y();
-
+bool Game::is_collided_ghost() {
 	for (int i = 0; i < NUM_OF_GHOSTS; i++)
-		return (pacman_x == this->ghosts[i].get_position().get_x() && pacman_y == this->ghosts[i].get_position().get_y());
+		return (compare_pos(ghosts[i].get_position(), pacman.get_position()));
 }
 bool Game::is_invalid_place(Position next_pos) {
-	return (this->board.get_cell(next_pos) == (unsigned char)WALL);
+	return (board.get_cell(next_pos) == (unsigned char)WALL);
 }
-bool Game::is_teleporting(Position next_pos)//teleporting the pacman and return if teleported
-{
-	int Pacman_x = next_pos.get_x();
-	int Pacman_y = next_pos.get_y();
-	for (int i = 0; i < 2; i++)
-	{
-		if (Pacman_x == 1 && Pacman_y == 21 + i)
-		{
-			return true;
-		}
-	}
-	for (int i = 0; i < 2; i++)
-	{
-		if (Pacman_x == 24 && Pacman_y == 21 + i)
-		{
-			return true;
-		}
-	}
-	for (int i = 0; i < 2; i++)
-	{
-		if (Pacman_x == 1 && Pacman_y == 53 + i)
-		{
-			return true;
-		}
-	}
-	for (int i = 0; i < 2; i++)
-	{
-		if (Pacman_x == 24 && Pacman_y == 53 + i)
-		{
-			return true;
-		}
-	}
-
-	if (Pacman_x == 1 && Pacman_y == 6)
-	{
-		return true;
-	}
-	if (Pacman_x == 23 && Pacman_y == 79)
-	{
-		return true;
-	}
-
-	return false;
+bool Game::is_teleporting(Position next_pos) {
+	return (board.get_cell(next_pos) == (unsigned char)TELEPORT);
 }
+
 
 Position Game::teleport(Position next_pos)//teleporting the pacman and return if teleported
 {
 	int Pacman_x = next_pos.get_x();
 	int Pacman_y = next_pos.get_y();
 
-	for (int i = 0; i < 2; i++)
+	if (Pacman_x == TP_NORTH1_TOP_X && Pacman_y == TP_NORTH1_TOP_Y)
 	{
-		if (Pacman_x == 1 && Pacman_y == 21 + i)
-		{
-			next_pos.set_xy(24, 21 + i); //TODO magik numbers
-			this->pacman.set_direction(UP);
-			//return;
-		}
+		next_pos.set_xy(TP_NORTH1_BOT_X, TP_NORTH1_BOT_Y);
+		pacman.set_direction(UP);
 	}
-	for (int i = 0; i < 2; i++)
+	else if (Pacman_x == TP_NORTH2_TOP_X && Pacman_y == TP_NORTH2_TOP_Y)
 	{
-		if (Pacman_x == 24 && Pacman_y == 21 + i)
-		{
-			next_pos.set_xy(1, 21 + i); //TODO magik numbers
-			this->pacman.set_direction(DOWN);
-			//return;
-		}
-	}
-	for (int i = 0; i < 2; i++)
-	{
-		if (Pacman_x == 1 && Pacman_y == 53 + i)
-		{
-			next_pos.set_xy(24, 53 + i); //TODO magik numbers
-			this->pacman.set_direction(UP);
-			//return;
-		}
-	}
-	for (int i = 0; i < 2; i++)
-	{
-		//if (Pacman_x == 24 && Pacman_y == 53 + i)
-		if (Pacman_y == 24 && Pacman_x == 53 + i)
-		{
-			next_pos.set_xy(1, 53 + i); //TODO magik numbers
-			this->pacman.set_direction(DOWN);
-			//return;
-		}
+		next_pos.set_xy(TP_NORTH2_BOT_X, TP_NORTH2_BOT_Y);
+		pacman.set_direction(UP);
 	}
 
-	if (Pacman_x == 1 && Pacman_y == 6)
+	else if (Pacman_x == TP_NORTH1_BOT_X && Pacman_y == TP_NORTH1_BOT_Y)
 	{
-		next_pos.set_xy(23, 79); //TODO magik numbers
-		this->pacman.set_direction(RIGHT);
-		//return;
+		next_pos.set_xy(TP_NORTH1_TOP_X, TP_NORTH1_TOP_Y);
+		pacman.set_direction(DOWN);
 	}
-	if (Pacman_x == 23 && Pacman_y == 79)
+	else if (Pacman_x == TP_NORTH2_BOT_X && Pacman_y == TP_NORTH2_BOT_Y)
 	{
-		next_pos.set_xy(1, 6); //TODO magik numbers
-		this->pacman.set_direction(LEFT);
-		//return;
+		next_pos.set_xy(TP_NORTH2_TOP_X, TP_NORTH2_TOP_Y);
+		pacman.set_direction(DOWN);
 	}
-	for (int i = 0; i < 2; i++)
+
+	else if (Pacman_x == TP_EAST_BOT_X && Pacman_y == TP_EAST_BOT_Y)
 	{
-		if (Pacman_x == 53 + i && Pacman_y == 3)
-		{
-			next_pos.set_xy(1, 6); //TODO magik numbers
-			this->pacman.set_direction(RIGHT);
-			//return;
-		}
+		next_pos.set_xy(TP_WEST_TOP_X, TP_WEST_TOP_Y);
+		pacman.set_direction(RIGHT);
+	}
+	else if (Pacman_x == TP_WEST_TOP_X && Pacman_y == TP_WEST_TOP_Y)
+	{
+		next_pos.set_xy(TP_EAST_BOT_X, TP_EAST_BOT_Y);
+		pacman.set_direction(LEFT);
 	}
 	return next_pos;
+
 }
 
 void Game::pause() {
@@ -295,11 +243,11 @@ void Game::pause() {
 	}
 	cout << "\r     ";
 }
-void Game::print_move(Position pos, unsigned char c) //displaying
-{
+void Game::print_move(Position pos, unsigned char c) {
+	
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	pos.set_xy(pos.get_x(), pos.get_y());
-	SetConsoleTextAttribute(hConsole, 6);  //TODO defines COLORS
+	SetConsoleTextAttribute(hConsole, 6);
 	goto_xy(pos.get_x(), pos.get_y());
 	if (c != 0)
 		cout << c;
@@ -309,48 +257,48 @@ Position Game::handle_key_input(unsigned char currentKey)
 {
 	int dir_x = 0, dir_y = 0;
 	Position pos(dir_x, dir_y);
-	int pacman_x = this->pacman.get_position().get_x();
-	int pacman_y = this->pacman.get_position().get_y();
+	int pacman_x = pacman.get_position().get_x();
+	int pacman_y = pacman.get_position().get_y();
 	switch (currentKey)
 	{
 	case right_upper_case:
 	case right_lower_case:
 		dir_x = 1;
 		dir_y = 0;
-		this->pacman.set_direction(RIGHT);
+		pacman.set_direction(RIGHT);
 		break;
 
 	case left_upper_case:
 	case left_lower_case:
 		dir_x = -1;
 		dir_y = 0;
-		this->pacman.set_direction(LEFT);
+		pacman.set_direction(LEFT);
 		break;
 
 	case up_upper_case:
 	case up_lower_case:
 		dir_x = 0;
 		dir_y = -1;
-		this->pacman.set_direction(UP);
+		pacman.set_direction(UP);
 		break;
 
 	case down_upper_case:
 	case down_lower_case:
 		dir_x = 0;
 		dir_y = 1;
-		this->pacman.set_direction(DOWN);
+		pacman.set_direction(DOWN);
 		break;
 
 	case stay_upper_case:
 	case stay_lower_case:
 		dir_x = 0;
 		dir_y = 0;
-		this->pacman.set_direction(STAY);
+		pacman.set_direction(STAY);
 		break;
 
 	case ESC://PAUSE
 		pause();
-		this->pause_flag = true;
+		pause_flag = true;
 		break;
 	}
 	pos.set_xy(dir_x, dir_y);
@@ -382,20 +330,20 @@ Position Game::handle_key_input(unsigned char currentKey)
 //{
 //	unsigned char brick = BRICK;
 //	Position b1(0, 0);
-//	for (int i = 0; i < WIDTH; i++)
+//	for (int  = 0;  < WIDTH; ++)
 //	{
-//		b1.set_xy(i, 0);
+//		b1.set_xy(, 0);
 //		//SetConsoleTextAttribute(hConsole, 120); TODO coloring
 //		cout << brick;
-//		b1.set_xy(i, HIGHT - 1);
+//		b1.set_xy(, HIGHT - 1);
 //		cout << brick;
 //	}
-//	for (int i = 0; i < HIGHT; i++)
+//	for (int  = 0;  < HIGHT; ++)
 //	{
 //		//SetConsoleTextAttribute(hConsole, 250);TODO coloring
-//		b1.set_xy(0, i);
+//		b1.set_xy(0, );
 //		cout << brick;
-//		b1.set_xy(WIDTH - 1, i);
+//		b1.set_xy(WIDTH - 1, );
 //		cout << brick;
 //	}
 //}

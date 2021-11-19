@@ -1,7 +1,7 @@
 #pragma once
 #include "Utility.h"
 #define NUM_OF_SOULS 3
-#define INIT_SCORE 0
+#define ZERO_POINTS 0
 class Pacman
 {
 

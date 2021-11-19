@@ -12,6 +12,7 @@ public:
     void set_y(int y);
     int get_x() { return this->x; }
     int get_y() { return this->y; }
+   
 
     Position(int x, int y) {
         this->x = x;

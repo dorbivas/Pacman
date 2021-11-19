@@ -19,7 +19,7 @@ void Board::print_board()
 			else if(board[i][j] == (unsigned char) TELEPORT)
 			{	set_color(LIGHTBLUE);
 				cout << board[i][j];
-				//cout << endl << i << " : " << j << endl; "TODO remove"
+				//cout << endl << i << " : " << j << endl; "TODO remove";
 			}
 			else {
 				set_color(WHITE);

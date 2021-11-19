@@ -39,8 +39,8 @@ enum direction {
 };
 
 void goto_xy(int x, int y);
-void Lose_situation();
 bool is_valid_key(unsigned char c);
+bool compare_pos(Position A, Position B);
 
 
 

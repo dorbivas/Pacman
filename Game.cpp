@@ -244,13 +244,19 @@ void Game::pause() {
 	cout << "\r     ";
 }
 void Game::print_move(Position pos, unsigned char c) {
-	
+	display_score_souls();
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	pos.set_xy(pos.get_x(), pos.get_y());
 	SetConsoleTextAttribute(hConsole, 6);
 	goto_xy(pos.get_x(), pos.get_y());
 	if (c != 0)
 		cout << c;
+}
+void Game::display_score_souls() {
+	goto_xy(7, 23);
+	cout << pacman.get_score();
+	goto_xy(7, 24);
+	cout << pacman.get_souls();
 }
 
 Position Game::handle_key_input(unsigned char currentKey)

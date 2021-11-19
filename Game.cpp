@@ -25,7 +25,7 @@ void Game::Menu()
 
 	} while (userChoice != 9);
 	system("cls");
-	exit(0);
+	return;
 }
 
 void Game::print_ruls() {
@@ -89,10 +89,10 @@ void Game::handle_move(Position next_pos) {
 		return;
 	else
 	{
-		//if (is_teleporting(next_pos))
-		teleport(next_pos);
+		if (is_teleporting(next_pos))
+			next_pos=teleport(next_pos);
 	
-		/*else*/ if (is_collided_ghost())//with ghost
+		if (is_collided_ghost())//with ghost
 		{
 			this->pacman.decrease_soul();
 			next_pos.set_xy(INITIAL_X, INITIAL_Y);
@@ -187,7 +187,7 @@ bool Game::is_teleporting(Position next_pos)//teleporting the pacman and return 
 	return false;
 }
 
-void Game::teleport(Position& next_pos)//teleporting the pacman and return if teleported
+Position Game::teleport(Position next_pos)//teleporting the pacman and return if teleported
 {
 	int Pacman_x = next_pos.get_x();
 	int Pacman_y = next_pos.get_y();
@@ -198,6 +198,7 @@ void Game::teleport(Position& next_pos)//teleporting the pacman and return if te
 		{
 			next_pos.set_xy(24, 21 + i); //TODO magik numbers
 			this->pacman.set_direction(UP);
+			//return;
 		}
 	}
 	for (int i = 0; i < 2; i++)
@@ -206,6 +207,7 @@ void Game::teleport(Position& next_pos)//teleporting the pacman and return if te
 		{
 			next_pos.set_xy(1 , 21 + i); //TODO magik numbers
 			this->pacman.set_direction(DOWN);
+			//return;
 		}
 	}
 	for (int i = 0; i < 2; i++)
@@ -214,14 +216,17 @@ void Game::teleport(Position& next_pos)//teleporting the pacman and return if te
 		{
 			next_pos.set_xy(24, 53 + i); //TODO magik numbers
 			this->pacman.set_direction(UP);
+			//return;
 		}
 	}
 	for (int i = 0; i < 2; i++)
 	{
-		if (Pacman_x == 24 && Pacman_y == 53 + i)
+		//if (Pacman_x == 24 && Pacman_y == 53 + i)
+		if (Pacman_y == 24 && Pacman_x == 53 + i)
 		{
 			next_pos.set_xy(1, 53 + i); //TODO magik numbers
 			this->pacman.set_direction(DOWN);
+			//return;
 		}
 	}
 
@@ -229,12 +234,24 @@ void Game::teleport(Position& next_pos)//teleporting the pacman and return if te
 	{
 		next_pos.set_xy(23, 79); //TODO magik numbers
 		this->pacman.set_direction(RIGHT);
+		//return;
 	}
 	if (Pacman_x == 23 && Pacman_y == 79)
 	{
 		next_pos.set_xy(1, 6); //TODO magik numbers
 		this->pacman.set_direction(LEFT);
+		//return;
 	}
+	for (int i = 0; i < 2; i++)
+	{
+		if (Pacman_x == 53 + i && Pacman_y == 3)
+		{
+			next_pos.set_xy(1, 6); //TODO magik numbers
+			this->pacman.set_direction(RIGHT);
+			//return;
+		}
+	}
+	return next_pos;
 }
 
 void Game::pause(){

@@ -2,6 +2,8 @@
 #include "Utility.h"
 #define NUM_OF_SOULS 3
 #define ZERO_POINTS 0
+#define INITIAL_X 39
+#define INITIAL_Y 12
 class Pacman
 {
 

@@ -153,10 +153,14 @@
     <ClInclude Include="Pacman.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Position.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Utility.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Board.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Pacman.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,10 +1,6 @@
 #include "Ghosts.h"
 
 //--------Constructors------//
-Ghosts::Ghosts() {
-
-    
-}
 Ghosts::~Ghosts() {
 }
 
@@ -19,10 +15,6 @@ void Ghosts::set_position(int x, int y)
 {
     this->pos.set_xy(x, y);
 }
-/*Position Ghosts::get_pacman_position(Pacman pacman)
-{
-    return pacman.get_position();
-}*/
 void Ghosts::set_direction(int direction){
     this->direction = direction;
 }

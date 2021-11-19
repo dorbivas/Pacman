@@ -1,5 +1,8 @@
 #pragma once
 #include "Pacman.h"
+
+#define INITAL_GHOST_X 15
+#define INITAL_GHOST_Y 2
 class Ghosts
 {
 
@@ -9,7 +12,10 @@ private:
 
 public:
     //constructors
-    Ghosts();
+    Ghosts() {
+        direction = STAY;
+        pos.set_xy(INITAL_GHOST_X, INITAL_GHOST_Y);
+    }
     ~Ghosts();
 
     Position get_position();

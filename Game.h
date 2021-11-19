@@ -3,8 +3,6 @@
 #include "Board.h"
 #include "Ghosts.h"
 
-#define INITIAL_X 39
-#define INITIAL_Y 12
 #define WIDTH 79
 #define HIGHT 24
 #define OFFSET 14
@@ -41,6 +39,7 @@ private:
     bool pause_flag = false;
     bool color_mode = true;
     Board board;
+    bool loop_flag = false;
 
 public:
     Pacman get_pacman() { return this->pacman; } // TODO need?
@@ -54,7 +53,8 @@ public:
     void print_move(Position pos, unsigned char c);
     void display_score_souls();
 
-    void move(Position dir_pos);
+    void pacman_move(Position dir_pos);
+    void ghost_move();
     void handle_move(Position next_pos);
     bool is_collided_ghost();
     bool is_invalid_place(Position next_pos);
@@ -63,7 +63,7 @@ public:
     Position teleport(Position next_pos);
 
     void win();
-    bool lose();
+    void lose();
     void reset_game();
 
     void pause();

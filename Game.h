@@ -39,7 +39,7 @@ public:
     bool is_invalid_place(Position next_pos);
     void handle_score(Position pacman_pos);
     bool is_teleporting(Position next_pos);
-    void teleport(Position& next_pos);
+    Position teleport(Position next_pos);
 
     void win();
     bool lose();

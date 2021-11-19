@@ -25,7 +25,7 @@ void Game::Menu()
 
 	} while (userChoice != 9);
 	system("cls");
-	exit(0);
+	return;
 }
 
 void Game::print_ruls() {
@@ -68,8 +68,8 @@ void Game::reset_game() {
 }
 
 void Game::move(Position dir_pos) {
-	if(is_teleporting(this->pacman.get_position()))
-		print_move(this->pacman.get_position(),TELEPORT);
+	if (is_teleporting(this->pacman.get_position()))
+		print_move(this->pacman.get_position(), TELEPORT);
 	else
 		print_move(this->pacman.get_position(), ' ');
 
@@ -89,17 +89,18 @@ void Game::handle_move(Position next_pos) {
 		return;
 	else
 	{
-		//if (is_teleporting(next_pos))
-		teleport(next_pos);
-	
-		/*else*/ if (is_collided_ghost())//with ghost
+		if(is_teleporting(next_pos))
+			next_pos = teleport(next_pos);
+
+
+		if (is_collided_ghost())//with ghost
 		{
 			this->pacman.decrease_soul();
 			next_pos.set_xy(INITIAL_X, INITIAL_Y);
 		}
-		else if(this->pacman.get_souls() == 0)
+		else if (this->pacman.get_souls() == 0)
 		{
-			
+			lose();
 		}
 		else
 			handle_score(next_pos);
@@ -156,6 +157,7 @@ void Game::game()
 		}
 	}
 	system("cls");
+	return;
 }
 
 bool Game::is_collided_ghost()
@@ -166,28 +168,55 @@ bool Game::is_collided_ghost()
 	for (int i = 0; i < NUM_OF_GHOSTS; i++)
 		return (pacman_x == this->ghosts[i].get_position().get_x() && pacman_y == this->ghosts[i].get_position().get_y());
 }
-bool Game::is_invalid_place(Position next_pos){
+bool Game::is_invalid_place(Position next_pos) {
 	return (this->board.get_cell(next_pos) == (unsigned char)WALL);
 }
 bool Game::is_teleporting(Position next_pos)//teleporting the pacman and return if teleported
 {
 	int Pacman_x = next_pos.get_x();
 	int Pacman_y = next_pos.get_y();
-
-	if (Pacman_x == 53 && Pacman_y == HIGHT || Pacman_x == 53  && Pacman_y == 3)
-
-	for (int i = 0; i < 3; i++) //bot and top teleports size is 3 blocks
+	for (int i = 0; i < 2; i++)
 	{
-		if (Pacman_x == 53 + i && Pacman_y == HIGHT || Pacman_x == 53 + i && Pacman_y == 3)
+		if (Pacman_x == 1 && Pacman_y == 21 + i)
+		{
 			return true;
+		}
 	}
-	if (Pacman_y == 14 && Pacman_x == 17 || Pacman_x == WIDTH + 14)
+	for (int i = 0; i < 2; i++)
+	{
+		if (Pacman_x == 24 && Pacman_y == 21 + i)
+		{
+			return true;
+		}
+	}
+	for (int i = 0; i < 2; i++)
+	{
+		if (Pacman_x == 1 && Pacman_y == 53 + i)
+		{
+			return true;
+		}
+	}
+	for (int i = 0; i < 2; i++)
+	{
+		if (Pacman_x == 24 && Pacman_y == 53 + i)
+		{
+			return true;
+		}
+	}
+
+	if (Pacman_x == 1 && Pacman_y == 6)
+	{
 		return true;
+	}
+	if (Pacman_x == 23 && Pacman_y == 79)
+	{
+		return true;
+	}
 
 	return false;
 }
 
-void Game::teleport(Position& next_pos)//teleporting the pacman and return if teleported
+Position Game::teleport(Position next_pos)//teleporting the pacman and return if teleported
 {
 	int Pacman_x = next_pos.get_x();
 	int Pacman_y = next_pos.get_y();
@@ -204,7 +233,7 @@ void Game::teleport(Position& next_pos)//teleporting the pacman and return if te
 	{
 		if (Pacman_x == 24 && Pacman_y == 21 + i)
 		{
-			next_pos.set_xy(1 , 21 + i); //TODO magik numbers
+			next_pos.set_xy(1, 21 + i); //TODO magik numbers
 			this->pacman.set_direction(DOWN);
 		}
 	}
@@ -235,9 +264,10 @@ void Game::teleport(Position& next_pos)//teleporting the pacman and return if te
 		next_pos.set_xy(1, 6); //TODO magik numbers
 		this->pacman.set_direction(LEFT);
 	}
+	return next_pos;
 }
 
-void Game::pause(){
+void Game::pause() {
 	Position pos;
 	pos.set_xy(0, 0);
 	print_move(pos, 0);

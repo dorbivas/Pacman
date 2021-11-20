@@ -25,13 +25,11 @@ void Game::game(){
 	while (!loop_flag)
 	{
 		//GHOSTS
-		Position curr_pos_ghost0 = ghosts[0].get_position();
-		Position dir_pos_ghost0 = ghosts[0].move_ghost();
-		ghosts[0].set_position(handle_ghost_move(curr_pos_ghost0, dir_pos_ghost0));
+		ghosts[0].set_position(handle_ghost_move(ghosts[0].get_position(), ghosts[0].move_ghost()));
 		print_move(ghosts[0].get_position(), GHOST_ICON);
 		
-		//ghosts[1].set_position(handle_ghost_move(ghosts[1].get_position(), ghosts[1].move_ghost()));
-		//print_move(ghosts[1].get_position(), GHOST_ICON);
+		ghosts[1].set_position(handle_ghost_move(ghosts[1].get_position(), ghosts[1].move_ghost()));
+		print_move(ghosts[1].get_position(), GHOST_ICON);
 
 		Sleep(150);			//1 ms between moves
 		if (_kbhit())	// if any key was hit , only if a key was hit we read what key code it was
@@ -123,10 +121,7 @@ Position Game::handle_ghost_move(Position curr_pos,Position dir_pos)//TODO
 		print_move(curr_pos, ' ');
 		//board.set_cell(curr_pos, ' ');
 	}
-	int x = curr_pos.get_x() + dir_pos.get_x();
-	int y = curr_pos.get_y() + dir_pos.get_y();
-
-	Position next_pos(x, y);
+	Position next_pos(dir_pos.get_x(), dir_pos.get_y());
 
 	if (is_invalid_place(next_pos)||board.get_cell(next_pos) == (unsigned char)TELEPORT)
 		return curr_pos;

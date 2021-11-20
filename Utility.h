@@ -32,8 +32,8 @@ enum Keys {
 
 enum direction {
 	UP,
-	DOWN,
 	LEFT,
+	DOWN,
 	RIGHT,
 	STAY
 };

@@ -9,7 +9,7 @@ Game::Game()
 	set_pacman(pacman_temp);
 
 	ghosts[0].set_position(INITAL_GHOST_X, INITAL_GHOST_Y);
-	ghosts[1].set_position(INITAL_GHOST_X+3, INITAL_GHOST_Y);
+	ghosts[1].set_position(INITAL_GHOST_X + 3, INITAL_GHOST_Y);
 }
 void Game::game()
 {
@@ -27,7 +27,7 @@ void Game::game()
 	while (!loop_flag)
 	{
 		handle_ghost_move();
-		Sleep(150);			//1 ms between moves
+		Sleep(100);			//1 ms between moves
 		if (_kbhit())	// if any key was hit , only if a key was hit we read what key code it was
 			currentKey = _getch();
 		if (is_valid_key(currentKey))
@@ -55,12 +55,11 @@ void Game::game()
 }
 //--Game Logic Fucns: --//
 void Game::pacman_move(Position dir_pos) {
-	if(is_collided_ghost())
+	if (is_collided_ghost())
 		print_move(pacman.get_position(), GHOST_ICON);
 
 	else if (is_teleporting(pacman.get_position()))
 	{
-	
 		board.set_cell(pacman.get_position(), (unsigned char)TELEPORT);
 		print_move(pacman.get_position(), (unsigned char)TELEPORT);
 	}
@@ -80,7 +79,6 @@ void Game::pacman_move(Position dir_pos) {
 }
 
 void Game::handle_move(Position next_pos) {//TODO COUNTER
-
 	if (is_invalid_place(next_pos))
 		return;
 	else
@@ -97,7 +95,7 @@ void Game::handle_move(Position next_pos) {//TODO COUNTER
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), WHITE);
 				lose();
 			}
-				
+
 		}
 		handle_score(next_pos);
 
@@ -105,31 +103,31 @@ void Game::handle_move(Position next_pos) {//TODO COUNTER
 	}
 }
 
-void Game::handle_ghost_move()
-{
+void Game::handle_ghost_move() {
 	Position curr_pos, next_pos;
 	for (int i = 0; i < NUM_OF_GHOSTS; i++)
 	{
 		curr_pos = ghosts[i].get_position();
-		next_pos=ghosts[i].move_ghost();
-		if (is_invalid_place(next_pos) || board.get_cell(next_pos) == (unsigned char)TELEPORT)
+		next_pos = ghosts[i].move_ghost();
+		while (is_invalid_place(next_pos) || board.get_cell(next_pos) == (unsigned char)TELEPORT)
 		{
-			return;
+			ghosts[i].rotate_direction();
+			next_pos = ghosts[i].move_ghost();
+			//return;
+		}
+
+		ghosts[i].set_position(next_pos);
+		if (board.get_cell(curr_pos) == (unsigned char)POINT)
+		{
+			board.set_cell(curr_pos, (unsigned char)POINT);
+			print_move(curr_pos, (unsigned char)POINT);
 		}
 		else
 		{
-			ghosts[i].set_position(next_pos);
-			if (board.get_cell(curr_pos) == (unsigned char)POINT)
-			{
-				board.set_cell(curr_pos, (unsigned char)POINT);
-				print_move(curr_pos, (unsigned char)POINT);
-			}
-			else
-			{
-				print_move(curr_pos, ' ');
-			}
-			print_move(next_pos, GHOST_ICON);
+			print_move(curr_pos, ' ');
 		}
+		print_move(next_pos, GHOST_ICON);
+
 	}
 }
 Position Game::handle_key_input(unsigned char currentKey)
@@ -188,10 +186,12 @@ Position Game::handle_key_input(unsigned char currentKey)
 void Game::print_move(Position pos, unsigned char c) {
 	display_score_souls();
 	pos.set_xy(pos.get_x(), pos.get_y());
-	
+
 	if (this->color_mode)
 	{
-		if (c == TELEPORT)
+		if (c == POINT)
+			board.set_color(WHITE);
+		else if (c == TELEPORT)
 			board.set_color(LIGHTBLUE);
 		else if (c == PACMAN_ICON)
 			board.set_color(YELLOW);
@@ -208,7 +208,7 @@ bool Game::is_collided_ghost() {
 	{
 		if (compare_pos(ghosts[i].get_position(), pacman.get_position()))
 			return true;
-	}
+		}
 	return false;
 }
 bool Game::is_invalid_place(Position next_pos) {
@@ -292,7 +292,7 @@ void Game::lose() {
 }
 void Game::win() {
 	system("cls");
-	cout << "you won."<<endl;
+	cout << "you won." << endl;
 	system("pause");
 	loop_flag = true;
 }

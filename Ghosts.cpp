@@ -16,12 +16,13 @@ Position Ghosts::move_ghost(){
 	{
 		dir_pos.set_xy(pos.get_x()-1, pos.get_y());
 	}
-	else
+	else //RIGHT
 	{  
 		dir_pos.set_xy(pos.get_x()+1, pos.get_y());
 	}
 
 	return dir_pos;
 }
+
 
 

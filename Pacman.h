@@ -6,7 +6,6 @@
 #define INITIAL_Y 12
 class Pacman
 {
-
 private:
     int souls;
     int direction;

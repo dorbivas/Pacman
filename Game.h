@@ -38,6 +38,8 @@ private:
     bool loop_flag = false;
 
 public:
+
+    Game();
     Pacman get_pacman() { return this->pacman; } // TODO need?
     void set_pacman(Pacman pacman) { this->pacman = pacman; }
     Position get_pacman_position() { return this->pacman.get_position(); }

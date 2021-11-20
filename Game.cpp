@@ -1,29 +1,31 @@
 ﻿#include "Game.h"
 
+Game::Game()
+{
+	srand(time(NULL)); //start generating rand numbers for ghost dir
 
-void Game::game(){
 	Position starting_point(INITIAL_X, INITIAL_Y);
 	Pacman pacman_temp(NUM_OF_SOULS, STAY, starting_point, ZERO_POINTS);
+	set_pacman(pacman_temp);
+
+	ghosts[0].set_position(INITAL_GHOST_X, INITAL_GHOST_Y);
+	ghosts[1].set_position(INITAL_GHOST_X+3, INITAL_GHOST_Y);
+}
+void Game::game()
+{
+	board.print_board(this->color_mode);
+
 	Position dir_pos(0, 0);
 	unsigned char currentKey;
 	unsigned char temp;
-
-	this->set_pacman(pacman_temp);
-
-	srand(time(NULL)); //start generating rand numbers for ghost dir
-
-	board.print_board(this->color_mode); 
-
 	currentKey = _kbhit();
+
 	while (!is_valid_key(currentKey))
 		currentKey = _getch();
 	temp = currentKey;
 
-	ghosts[1].set_position(INITAL_GHOST_X + 2, INITAL_GHOST_Y);
-
 	while (!loop_flag)
 	{
-		
 		handle_ghost_move();
 		Sleep(150);			//1 ms between moves
 		if (_kbhit())	// if any key was hit , only if a key was hit we read what key code it was
@@ -77,7 +79,7 @@ void Game::pacman_move(Position dir_pos) {
 	handle_move(next_pos);
 }
 
-void Game::handle_move(Position next_pos) {
+void Game::handle_move(Position next_pos) {//TODO COUNTER
 
 	if (is_invalid_place(next_pos))
 		return;
@@ -264,7 +266,9 @@ void Game::pause() {
 	cout << "Pause . . .";
 	unsigned char c = _getch();
 	while (c != ESC)
+	{
 		c = _getch();
+	}
 	goto_xy(11, 23);
 	cout << "           ";
 }
@@ -304,7 +308,7 @@ void Game::display_score_souls() {
 }
 void Game::Menu()
 {
-	int userChoice = 0;
+	char userChoice = 0;
 	do
 	{
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), WHITE);
@@ -315,19 +319,20 @@ void Game::Menu()
 		cout << "8 ==> Present instructions and keys" << endl << endl;
 		cout << "9 ==> Exit" << endl;
 
-		cin >> userChoice;
-		if (userChoice == 8)
+		//cin >> userChoice;
+		userChoice = _getch();
+		if (userChoice == '8')
 		{
 			print_ruls();
 			system("PAUSE");
 			system("cls");
 		}
-		else if (userChoice == 1)
+		else if (userChoice == '1')
 		{
 			system("cls");
 			game();
 		}
-		else if (userChoice == 2)
+		else if (userChoice == '2')
 		{
 			if (this->color_mode == true)
 			{
@@ -341,8 +346,9 @@ void Game::Menu()
 				Menu();
 			}
 		}
-		else{
-			if (userChoice != 9)
+		else
+		{
+			if (userChoice != '9')
 			{
 				cout << "pick valid choice." << endl;
 				Sleep(250);
@@ -351,7 +357,7 @@ void Game::Menu()
 			}
 		}
 
-	} while (userChoice != 9);
+	} while (userChoice != '9');
 	system("cls");
 	return;
 }

@@ -2,7 +2,7 @@
 
 Position Ghosts::move_ghost(){
 	Position dir_pos;
-	direction = rand() % 4;
+	set_direction();
 
 	if (direction == UP)
 	{

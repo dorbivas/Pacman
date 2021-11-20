@@ -10,10 +10,8 @@ Pacman::Pacman(int souls,int direction,Position pos,int score){
     this->direction = direction;
     this->pos = pos;
 }
-Pacman::~Pacman() {
-}
 
-int Pacman::get_souls(){
+int Pacman::get_souls() const {
     return this->souls;
 }
 void Pacman::set_souls(int souls){
@@ -40,6 +38,6 @@ void Pacman::set_score(int score){
 void Pacman::add_score(){
     this->score++;   
 }
-int Pacman::get_score(){
+int Pacman::get_score() const {
     return this->score;
 }

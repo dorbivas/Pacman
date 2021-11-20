@@ -1,8 +1,10 @@
 #pragma once
-#include "Pacman.h"
+#include "Utility.h"
 
 #define INITAL_GHOST_X 17
 #define INITAL_GHOST_Y 6
+#define MAX_STEPS 20
+
 class Ghosts
 {
 
@@ -10,12 +12,13 @@ private:
     Position pos;
     int direction;
     int steps;//steps counter
+    int generate_random_dir() { return rand() % 4; }
 
 public:
     //constructors
     Ghosts(){
         steps = 0;
-        direction = rand() % 4;
+        direction = generate_random_dir();
         pos.set_xy(INITAL_GHOST_X, INITAL_GHOST_Y);
     }
     ~Ghosts() {};
@@ -24,18 +27,15 @@ public:
     int get_step() { return steps; }
     void set_position(Position Pos) { this->pos = Pos; }
     void set_position(int x, int y) { pos.set_xy(x, y); }
-    int get_direction() { return direction; }
+    int get_direction() { return direction; } const
 
     void set_direction() {
-        if (steps == 20) { steps = 0; direction = rand() % 4; }
+        if (steps == MAX_STEPS) { steps = 0; direction = generate_random_dir(); }
         else { steps++; }
     }
-    
     void rotate_direction() {//TODO STATIC
-        if (direction == 3) { direction = 0; }
+        if (direction == RIGHT) { direction = UP; }
         else { direction++; }
     }
-        
     Position move_ghost();
-
 };

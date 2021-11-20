@@ -37,9 +37,6 @@ private:
     bool color_mode = true;
     bool loop_flag = false;
 
-public:
-
-    Game();
     Pacman get_pacman() { return this->pacman; } // TODO need?
     void set_pacman(Pacman pacman) { this->pacman = pacman; }
     Position get_pacman_position() { return this->pacman.get_position(); }
@@ -53,20 +50,22 @@ public:
     bool is_invalid_place(Position next_pos);
     void handle_score(Position pacman_pos);
     bool is_teleporting(Position next_pos);
-    Position teleport(Position next_pos);
+    Position handle_teleport(Position next_pos);
     void pause();
     Position handle_key_input(unsigned char currentKey);
 
     //--Display Fucns: --//
-    void Menu();
     void print_ruls();
-    void game();
-    void print_move(Position pos, unsigned char c);
-    void display_score_souls();
+    void print_move(const Position pos, const unsigned char c) const;
+    void display_score_souls() const;
 
     void win();
     void lose();
     void reset_game();
 
+public:
+    Game();
+    void Menu();
+    void game();
 
 };

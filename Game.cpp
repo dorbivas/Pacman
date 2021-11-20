@@ -19,18 +19,12 @@ void Game::game(){
 		currentKey = _getch();
 	temp = currentKey;
 
-
-	init_ghosts();
+	ghosts[1].set_position(INITAL_GHOST_X + 2, INITAL_GHOST_Y);
 
 	while (!loop_flag)
 	{
-		//GHOSTS
-		ghosts[0].set_position(handle_ghost_move(ghosts[0].get_position(), ghosts[0].move_ghost()));
-		print_move(ghosts[0].get_position(), GHOST_ICON);
 		
-		ghosts[1].set_position(handle_ghost_move(ghosts[1].get_position(), ghosts[1].move_ghost()));
-		print_move(ghosts[1].get_position(), GHOST_ICON);
-
+		handle_ghost_move();
 		Sleep(150);			//1 ms between moves
 		if (_kbhit())	// if any key was hit , only if a key was hit we read what key code it was
 			currentKey = _getch();
@@ -109,23 +103,32 @@ void Game::handle_move(Position next_pos) {
 	}
 }
 
-Position Game::handle_ghost_move(Position curr_pos,Position dir_pos)//TODO
+void Game::handle_ghost_move()
 {
-	if (board.get_cell(curr_pos) == (unsigned char)POINT)
+	Position curr_pos, next_pos;
+	for (int i = 0; i < NUM_OF_GHOSTS; i++)
 	{
-		board.set_cell(curr_pos, (unsigned char)POINT);
-		print_move(curr_pos,(unsigned char)POINT);
+		curr_pos = ghosts[i].get_position();
+		next_pos=ghosts[i].move_ghost();
+		if (is_invalid_place(next_pos) || board.get_cell(next_pos) == (unsigned char)TELEPORT)
+		{
+			return;
+		}
+		else
+		{
+			ghosts[i].set_position(next_pos);
+			if (board.get_cell(curr_pos) == (unsigned char)POINT)
+			{
+				board.set_cell(curr_pos, (unsigned char)POINT);
+				print_move(curr_pos, (unsigned char)POINT);
+			}
+			else
+			{
+				print_move(curr_pos, ' ');
+			}
+			print_move(next_pos, GHOST_ICON);
+		}
 	}
-	else
-	{
-		print_move(curr_pos, ' ');
-		//board.set_cell(curr_pos, ' ');
-	}
-	Position next_pos(dir_pos.get_x(), dir_pos.get_y());
-
-	if (is_invalid_place(next_pos)||board.get_cell(next_pos) == (unsigned char)TELEPORT)
-		return curr_pos;
-	return next_pos;
 }
 Position Game::handle_key_input(unsigned char currentKey)
 {
@@ -274,15 +277,6 @@ void Game::handle_score(Position pacman_pos) {
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), WHITE);
 			win();
 		}
-	}
-}
-
-void Game::init_ghosts()
-{
-	for(int i=0;i<NUM_OF_GHOSTS;i++)//INIT GHOSTS
-	{
-		ghosts[i].set_position(ghosts[i].get_position().get_x() + i*2, ghosts[i].get_position().get_y());
-		print_move(ghosts[i].get_position(), GHOST_ICON);
 	}
 }
 //--Display Fucns: --//

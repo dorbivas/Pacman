@@ -45,8 +45,7 @@ public:
 
     //--Game Logic Fucns: --//
     void pacman_move(Position dir_pos);
-    Position handle_ghost_move(Position curr_pos,Position dir_pos);
-    void init_ghosts();
+    void handle_ghost_move();
     void handle_move(Position next_pos);
     bool is_collided_ghost();
     bool is_invalid_place(Position next_pos);

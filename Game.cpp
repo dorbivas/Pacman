@@ -110,16 +110,15 @@ void Game::game()
 void Game::pacman_move(Position dir_pos) {
 
 	if (board.get_cell(pacman.get_position()) == (unsigned char)POINT)
-		board.set_cell(pacman.get_position(), ' ');
-	//if (board.get_cell(pacman.get_position()) != (unsigned char)GHOST)) TODO 
-	print_move(pacman.get_position(), ' ');
-
+		
 	//only for example
-	if(is_collided_ghost())
+	else if(is_collided_ghost())
 		print_move(pacman.get_position(), GHOST_SYMBOL);
 
-	if (is_teleporting(pacman.get_position()))
+	else if (is_teleporting(pacman.get_position()))
 		print_move(pacman.get_position(), TELEPORT);
+	else
+		board.set_cell(pacman.get_position(), ' ');
 
 	int dir_x = dir_pos.get_x();
 	int dir_y = dir_pos.get_y();

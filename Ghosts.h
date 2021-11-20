@@ -12,10 +12,7 @@ private:
 
 public:
     //constructors
-    Ghosts() {
-        direction = STAY;
-        pos.set_xy(INITAL_GHOST_X, INITAL_GHOST_Y);
-    }
+    Ghosts();
     ~Ghosts();
 
     Position get_position();
@@ -24,6 +21,6 @@ public:
     int get_direction();
     void set_direction(int direction);
    // Position get_pacman_position(Pacman pacman);
-    void set_direction_near();
+    void set_direction_near();//TODO
 
 };

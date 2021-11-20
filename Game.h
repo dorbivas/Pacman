@@ -46,7 +46,7 @@ public:
     void set_color_mode(bool color_mode_switch) { this->color_mode = color_mode_switch; }
 
     //--Game Logic Fucns: --//
-    void pacman_move(Position dir_pos);
+    void check_pacman_move(Position dir_pos);
     void handle_ghost_move();
     void handle_move(Position next_pos);
     bool is_collided_ghost();

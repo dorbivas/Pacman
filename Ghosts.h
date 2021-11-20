@@ -31,7 +31,7 @@ public:
         else { steps++; }
     }
     
-    void rotate_direction() {
+    void rotate_direction() {//TODO STATIC
         if (direction == 3) { direction = 0; }
         else { direction++; }
     }

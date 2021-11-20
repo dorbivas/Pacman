@@ -6,13 +6,12 @@
 #define	TELEPORT 176
 
 enum board_dictionary {
-	WIDTH = 80,
-	HEIGHT = 25,
-	MAX_SCORE = 100,
+	WIDTH = 80      ,
+	HEIGHT = 25     ,
+	MAX_SCORE = 100 ,
 };
 
-enum Color
-{
+enum Color {
 	BLACK           ,
 	BLUE 			,
 	GREEN			,
@@ -70,12 +69,6 @@ public:
 	void set_cell(Position cell_pos, unsigned char c) { board[cell_pos.get_y()][cell_pos.get_x()] = c; }
 
 };
-
-
-/**/
-
-
-
 
 
 

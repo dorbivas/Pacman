@@ -7,10 +7,10 @@
 class Pacman
 {
 private:
-    int souls;
-    int direction;
+    int souls=3;
+    int direction=STAY;
     Position pos;
-    int score;
+    int score=ZERO_POINTS;
 
 public:
     //constructors
@@ -21,7 +21,7 @@ public:
     int get_souls();
     void set_souls(int souls);
     void set_score(int score);
-    void add_score();
+    void add_score();//TODO STATIC
     int get_score();
     int get_direction();
     void set_direction(int direction);

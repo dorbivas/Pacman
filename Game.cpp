@@ -5,14 +5,11 @@ Game::Game()
 	srand(time(NULL)); //start generating rand numbers for ghost dir
 
 	Position starting_point(INITIAL_X, INITIAL_Y);
-	Pacman pacman_temp(NUM_OF_SOULS, STAY, starting_point, ZERO_POINTS);
-	set_pacman(pacman_temp);
-
+	pacman = Pacman(NUM_OF_SOULS, STAY, starting_point, ZERO_POINTS);
 	ghosts[0].set_position(INITAL_GHOST_X, INITAL_GHOST_Y);
 	ghosts[1].set_position(INITAL_GHOST_X + 3, INITAL_GHOST_Y);
 }
-void Game::game()
-{
+void Game::game(){
 	board.print_board(this->color_mode);
 
 	Position dir_pos(0, 0);
@@ -26,8 +23,8 @@ void Game::game()
 
 	while (!loop_flag)
 	{
-		handle_ghost_move();
 		Sleep(100);			//1 ms between moves
+		handle_ghost_move();
 		if (_kbhit())	// if any key was hit , only if a key was hit we read what key code it was
 			currentKey = _getch();
 		if (is_valid_key(currentKey))
@@ -38,7 +35,7 @@ void Game::game()
 				currentKey = temp;
 				pause_flag = false;
 			}
-			pacman_move(dir_pos);
+			check_pacman_move(dir_pos);
 			print_move(pacman.get_position(), (unsigned char)PACMAN_ICON);
 			temp = currentKey;
 		}
@@ -54,7 +51,7 @@ void Game::game()
 	return;
 }
 //--Game Logic Fucns: --//
-void Game::pacman_move(Position dir_pos) {
+void Game::check_pacman_move(Position dir_pos) {
 	if (is_collided_ghost())
 		print_move(pacman.get_position(), GHOST_ICON);
 
@@ -99,6 +96,18 @@ void Game::handle_move(Position next_pos) {//TODO COUNTER
 		}
 		handle_score(next_pos);
 
+		pacman.set_position(next_pos);
+		
+		if (is_collided_ghost())//with ghost
+		{
+			pacman.decrease_soul();
+			next_pos.set_xy(INITIAL_X, INITIAL_Y);
+			if (pacman.get_souls() == 0)
+			{
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), WHITE);
+				lose();
+			}
+		}
 		pacman.set_position(next_pos);
 	}
 }
@@ -183,7 +192,7 @@ Position Game::handle_key_input(unsigned char currentKey)
 
 }
 
-void Game::print_move(Position pos, unsigned char c) {
+void Game::print_move(Position pos,const unsigned char c) {
 	display_score_souls();
 	pos.set_xy(pos.get_x(), pos.get_y());
 
@@ -308,7 +317,8 @@ void Game::display_score_souls() {
 }
 void Game::Menu()
 {
-	char userChoice = 0;
+	//char userChoice = 0;
+	int userChoice = 0;
 	do
 	{
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), WHITE);
@@ -319,20 +329,20 @@ void Game::Menu()
 		cout << "8 ==> Present instructions and keys" << endl << endl;
 		cout << "9 ==> Exit" << endl;
 
-		//cin >> userChoice;
-		userChoice = _getch();
-		if (userChoice == '8')
+		cin >> userChoice;
+		//userChoice = _getch();//TODO
+		if (userChoice == 8)
 		{
 			print_ruls();
 			system("PAUSE");
 			system("cls");
 		}
-		else if (userChoice == '1')
+		else if (userChoice == 1)
 		{
 			system("cls");
 			game();
 		}
-		else if (userChoice == '2')
+		else if (userChoice == 2)
 		{
 			if (this->color_mode == true)
 			{
@@ -348,7 +358,7 @@ void Game::Menu()
 		}
 		else
 		{
-			if (userChoice != '9')
+			if (userChoice != 9)
 			{
 				cout << "pick valid choice." << endl;
 				Sleep(250);

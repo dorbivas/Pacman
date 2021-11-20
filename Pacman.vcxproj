@@ -153,7 +153,6 @@
     <ClInclude Include="Pacman.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Position.h" />
-    <ClInclude Include="resource.h" />
     <ClInclude Include="Utility.h" />
   </ItemGroup>
   <ItemGroup>

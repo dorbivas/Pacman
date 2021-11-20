@@ -10,11 +10,7 @@ using std::cin;
 using std::endl;
 using std::cerr;
 using std::string;
-using std::ifstream;
 using std::srand;
-using std::basic_istream; //TODO remove
-
-using namespace std; //TODO FIX
 
 enum Keys {
 	up_upper_case = 87,
@@ -32,8 +28,8 @@ enum Keys {
 
 enum direction {
 	UP,
-	LEFT,
 	DOWN,
+	LEFT,
 	RIGHT,
 	STAY
 };

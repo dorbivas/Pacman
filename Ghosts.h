@@ -1,8 +1,8 @@
 #pragma once
 #include "Pacman.h"
 
-#define INITAL_GHOST_X 15
-#define INITAL_GHOST_Y 2
+#define INITAL_GHOST_X 17
+#define INITAL_GHOST_Y 6
 class Ghosts
 {
 
@@ -20,7 +20,7 @@ public:
     void set_position(int x, int y);
     int get_direction();
     void set_direction(int direction);
-   // Position get_pacman_position(Pacman pacman);
+    Position move_ghost();
     void set_direction_near();//TODO
 
 };

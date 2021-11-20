@@ -1,7 +1,6 @@
 #pragma once
 #include "Utility.h"
 
-//#define NUM_OF_BARRIES 50
 #define	WALL 219
 #define	POINT 250
 #define	TELEPORT 176
@@ -14,22 +13,22 @@ enum board_dictionary {
 
 enum Color
 {
-	BLACK = 0,
-	BLUE = 1,
-	GREEN = 2,
-	CYAN = 3,
-	RED = 4,
-	MAGENTA = 5,
-	BROWN = 6,
-	LIGHTGREY = 7,
-	DARKGREY = 8,
-	LIGHTBLUE = 9,
-	LIGHTGREEN = 10,
-	LIGHTCYAN = 11,
-	LIGHTRED = 12,
-	LIGHTMAGENTA = 13,
-	YELLOW = 14,
-	WHITE = 15
+	BLACK           ,
+	BLUE 			,
+	GREEN			,
+	CYAN 			,
+	RED 			,
+	MAGENTA 		,
+	BROWN  			,
+	LIGHTGREY 		,
+	DARKGREY 		,
+	LIGHTBLUE 		,
+	LIGHTGREEN		,
+	LIGHTCYAN 		,
+	LIGHTRED 		,
+	LIGHTMAGENTA 	,
+	YELLOW  		,
+	WHITE 
 };
 
 class Board {
@@ -64,8 +63,8 @@ class Board {
 	};
 public:
 
-	void print_board();
-	void set_color(int colorToSet) {SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), colorToSet);}
+	void print_board(bool color_mode);
+	void set_color(int color_pick) {SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color_pick);}
 
 	unsigned char get_cell(Position cell_pos) { return board[cell_pos.get_y()][cell_pos.get_x()]; }
 	void set_cell(Position cell_pos, unsigned char c) { board[cell_pos.get_y()][cell_pos.get_x()] = c; }

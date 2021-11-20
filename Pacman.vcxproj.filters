@@ -61,11 +61,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Board.txt">
-      <Filter>Source Files</Filter>
-    </Text>
-  </ItemGroup>
-  <ItemGroup>
     <ResourceCompile Include="Pacman.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>

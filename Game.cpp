@@ -10,14 +10,14 @@ void Game::game() {
 	unsigned char currentKey, temp;
 	currentKey = _kbhit();
 
-	while (!is_valid_key(currentKey))
+	while (!is_valid_key(currentKey) || currentKey == ESC)
 		currentKey = _getch();
 	temp = currentKey;
 
 	while (!loop_flag)
 	{
-		Sleep(150);//game speed	
-		handle_ghost_move();//
+		Sleep(100);//game speed	
+		handle_ghost_move();
 		if (_kbhit())	
 			currentKey = _getch();
 		if (is_valid_key(currentKey))
@@ -32,6 +32,7 @@ void Game::game() {
 			if (is_collided_ghost(pacman.get_position()))
 			{
 				handle_collision();
+				currentKey = stay_lower_case;
 				continue; // no need to cheeck other conditions.
 			}
 			check_pacman_move(move_vector);
@@ -74,6 +75,7 @@ void Game::handle_collision() {
 	pacman.decrease_soul();//decreases soul from the pacman
 	print_move(pacman.get_position(), (unsigned char)GHOST_ICON);
 	pacman.set_position(Position(INITIAL_X, INITIAL_Y));//returns the pacman to its original position
+	pacman.set_direction(STAY);
 	if (pacman.get_souls() == 0)
 	{
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), WHITE);
@@ -335,12 +337,16 @@ void Game::Menu(){
 			{
 				cout << "color off!" << endl << endl;
 				set_color_mode(false);
+				Sleep(200);
+				system("cls");
 				Menu();
 			}
 			else 
 			{
 				cout << "color on!" << endl << endl;
 				set_color_mode(true);
+				Sleep(200);
+				system("cls");
 				Menu();
 			}
 		}

@@ -1,6 +1,6 @@
 #pragma once
 #include "Utility.h"
-
+#include "Position.h"
 #define POINT 250
 #define WALL 219
 #define TELEPORT 176

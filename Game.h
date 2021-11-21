@@ -2,6 +2,7 @@
 #include "Pacman.h"
 #include "Board.h"
 #include "Ghosts.h"
+#include "Utility.h"
 
 #define MAX_POINTS 629 
 #define PACMAN_ICON 233 
@@ -37,7 +38,6 @@ private:
     bool color_mode = true;
     bool loop_flag = false;
 
-    Pacman get_pacman() { return this->pacman; } // TODO need?
     void set_pacman(Pacman pacman) { this->pacman = pacman; }
     Position get_pacman_position() { return this->pacman.get_position(); }
     void set_color_mode(bool color_mode_switch) { this->color_mode = color_mode_switch; }

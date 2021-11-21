@@ -2,10 +2,12 @@
 
 Game::Game()
 {
+	board.init_board();
 	srand(time(NULL)); //start generating rand numbers for ghost dir
 	ghosts[0].set_position(INITAL_GHOST_X, INITAL_GHOST_Y);
 	ghosts[1].set_position(INITAL_GHOST_X + 3, INITAL_GHOST_Y);
 }
+
 void Game::game() {
 	Position dir_pos(0, 0);
 	unsigned char currentKey, temp;
@@ -18,7 +20,7 @@ void Game::game() {
 
 	while (!loop_flag)
 	{
-		Sleep(500);			//1 ms between moves
+		Sleep(500);			//500 ms between moves
 		handle_ghost_move();
 		if (_kbhit())	// if any key was hit , only if a key was hit we read what key code it was
 			currentKey = _getch();
@@ -81,7 +83,7 @@ void Game::check_pacman_move(Position dir_pos) {
 	handle_move(next_pos);
 }
 
-void Game::handle_move(Position next_pos) {//TODO COUNTER
+void Game::handle_move(Position next_pos) {
 
 
 	if (is_invalid_place(next_pos))
@@ -91,21 +93,11 @@ void Game::handle_move(Position next_pos) {//TODO COUNTER
 		if (is_teleporting(next_pos))
 			next_pos = handle_teleport(next_pos);
 
-		//if (is_collided_ghost(pacman.get_position())||is_collided_ghost(next_pos))//with ghost
-		//{
-		//	pacman.decrease_soul();
-		//	pacman.get_position().set_xy(INITIAL_X, INITIAL_Y);
-		//	next_pos.set_xy(INITIAL_X, INITIAL_Y);
-		//	if (pacman.get_souls() == 0)
-		//	{
-		//		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), WHITE);
-		//		lose();
-		//	}
-		//}
 		handle_score(next_pos);
 		pacman.set_position(next_pos);
 	}
 }
+
 void Game::handle_ghost_move() {
 	Position curr_pos, next_pos;
 	for (int i = 0; i < NUM_OF_GHOSTS; i++)
@@ -116,7 +108,6 @@ void Game::handle_ghost_move() {
 		{
 			ghosts[i].rotate_direction();
 			next_pos = ghosts[i].move_ghost();
-			//return;
 		}
 
 		ghosts[i].set_position(next_pos);
@@ -204,22 +195,22 @@ void Game::print_move(const Position pos, const unsigned char c) const{
 }
 
 bool Game::is_collided_ghost(Position pacman_pos) {
+	int d1, d2, x_dif, y_dif;
 	for (int i = 0; i < NUM_OF_GHOSTS; i++)
 	{
-		if (compare_pos(ghosts[i].get_position(), pacman_pos))
-			//if(ghosts[i].get_position()=pacman.get_position())
+		if(ghosts[i].get_position()==pacman.get_position())
 			return true;
 		
-		int d1 = ghosts[i].get_direction();
-		int d2 = pacman.get_direction();
-		int x_dif = pacman_pos.get_x() - ghosts[i].get_position().get_x();
-		int y_dif = pacman_pos.get_y() - ghosts[i].get_position().get_y();
+		d1 = ghosts[i].get_direction();
+		d2 = pacman.get_direction();
+		x_dif = pacman_pos.get_x() - ghosts[i].get_position().get_x();
+		y_dif = pacman_pos.get_y() - ghosts[i].get_position().get_y();
 		Position dif(x_dif, y_dif);
 
-		if (d1 == UP && d2 == DOWN && compare_pos(dif, Position(0, 1)) ||
-			d1 == DOWN && d2 == UP && compare_pos(dif, Position(0, -1)) ||
-			d1 == LEFT && d2 == RIGHT && compare_pos(dif, Position(-1, 0)) ||
-			d1 == RIGHT && d2 == LEFT && compare_pos(dif, Position(1, 0)))
+		if (d1 == UP && d2 == DOWN && dif== Position(0, 1) ||
+			d1 == DOWN && d2 == UP && dif== Position(0, -1) ||
+			d1 == LEFT && d2 == RIGHT && dif== Position(-1, 0) ||
+			d1 == RIGHT && d2 == LEFT && dif==Position(1, 0))
 			return true;
 	}
 
@@ -318,7 +309,6 @@ void Game::display_score_souls() const {
 }
 void Game::Menu()
 {
-	//char userChoice = 0;
 	int userChoice = 0;
 	do
 	{
@@ -389,7 +379,7 @@ void Game::reset_game() {
 	this->pacman = Pacman();
 	ghosts[0].set_position(INITAL_GHOST_X, INITAL_GHOST_Y);
 	ghosts[1].set_position(INITAL_GHOST_X + 3, INITAL_GHOST_Y);
-	this->pause_flag = false;
-	this->loop_flag = false;
+	pause_flag = false;
+	loop_flag = false;
 }
 

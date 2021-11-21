@@ -63,7 +63,6 @@ void Board::print_board(bool color_mode)
 				if (color_mode)
 					set_color(LIGHTBLUE);
 				cout << board[i][j];
-				//cout << endl << i << " : " << j << endl; "TODO remove";
 			}
 			else {
 				if (color_mode)

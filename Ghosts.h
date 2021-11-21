@@ -1,6 +1,6 @@
 #pragma once
+#include "Position.h"
 #include "Utility.h"
-
 #define INITAL_GHOST_X 17
 #define INITAL_GHOST_Y 6
 #define MAX_STEPS 20
@@ -25,7 +25,7 @@ public:
 
     Position get_position() { return pos; }
     int get_step() { return steps; }
-    void set_position(Position Pos) { this->pos = Pos; }
+    void set_position(Position Pos) { pos = Pos; }
     void set_position(int x, int y) { pos.set_xy(x, y); }
     int get_direction() { return direction; } const
 
@@ -33,7 +33,7 @@ public:
         if (steps == MAX_STEPS) { steps = 0; direction = generate_random_dir(); }
         else { steps++; }
     }
-    void rotate_direction() {//TODO STATIC
+    void rotate_direction() {
         if (direction == RIGHT) { direction = UP; }
         else { direction++; }
     }

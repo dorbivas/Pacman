@@ -1,6 +1,7 @@
 #include "Game.h"
 
-void main() {
+int main() {
 	Game game;
 	game.Menu();
+	return 0;
 }

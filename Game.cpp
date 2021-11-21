@@ -16,8 +16,8 @@ void Game::game() {
 
 	while (!loop_flag)
 	{
-		Sleep(30);	
-		handle_ghost_move();
+		Sleep(150);//game speed	
+		handle_ghost_move();//
 		if (_kbhit())	
 			currentKey = _getch();
 		if (is_valid_key(currentKey))
@@ -43,7 +43,7 @@ void Game::game() {
 			if (currentKey != '9')
 				currentKey = temp;
 			else
-				loop_flag = true;
+				loop_flag = true;//stop the loop
 		}
 	}
 	system("cls");
@@ -71,9 +71,9 @@ void Game::check_pacman_move(const Position move_vector) {
 }
 
 void Game::handle_collision() {
-	pacman.decrease_soul();
+	pacman.decrease_soul();//decreases soul from the pacman
 	print_move(pacman.get_position(), (unsigned char)GHOST_ICON);
-	pacman.set_position(Position(INITIAL_X, INITIAL_Y));
+	pacman.set_position(Position(INITIAL_X, INITIAL_Y));//returns the pacman to its original position
 	if (pacman.get_souls() == 0)
 	{
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), WHITE);
@@ -208,13 +208,13 @@ Position Game::handle_teleport(Position next_pos) {
 
 void Game::pause() {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), WHITE);
-	goto_xy(11, 23);//location of "pause..." in the console
+	goto_xy(11, 24);//location of "pause..." in the console
 	cout << "Pause . . .";
 	unsigned char c = _getch();
 	while (c != ESC)
 		c = _getch();
 
-	goto_xy(11, 23);
+	goto_xy(11, 24);
 	cout << "           ";
 }
 

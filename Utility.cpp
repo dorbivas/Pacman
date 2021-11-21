@@ -1,7 +1,7 @@
 #include "Utility.h"
 
 void goto_xy(const int x,const int y){
-    cout.flush();                                   //clean the buffer before printing in this coordinate                          
+    cout.flush();      //clean the buffer before printing in this coordinate                          
     COORD pos{ (short)x, (short)y };
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 }

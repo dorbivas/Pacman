@@ -16,7 +16,7 @@ void Game::game() {
 
 	while (!loop_flag)
 	{
-		Sleep(200);	
+		Sleep(30);	
 		handle_ghost_move();
 		if (_kbhit())	
 			currentKey = _getch();
@@ -32,14 +32,14 @@ void Game::game() {
 			if (is_collided_ghost(pacman.get_position()))
 			{
 				handle_collision();
-				continue;
+				continue; // no need to cheeck other conditions.
 			}
 			check_pacman_move(move_vector);
 			print_move(pacman.get_position(), (unsigned char)PACMAN_ICON);
 			temp = currentKey;
 		}
 		else
-		{
+		{		//exit yo menu 
 			if (currentKey != '9')
 				currentKey = temp;
 			else
@@ -114,7 +114,7 @@ void Game::handle_ghost_move() {
 			print_move(curr_pos, (unsigned char)POINT);
 		}
 		else
-			print_move(curr_pos, ' ');
+			print_move(curr_pos, ' ');//deletes the previous symbol
 		
 		print_move(next_pos, GHOST_ICON);
 	}
@@ -144,7 +144,8 @@ bool Game::is_collided_ghost(const Position pacman_pos) {
 	{
 		if (ghosts[i].get_position() == pacman.get_position())
 			return true;
-
+		
+		//edge cases
 		d1 = ghosts[i].get_direction();
 		d2 = pacman.get_direction();
 		x_dif = pacman_pos.get_x() - ghosts[i].get_position().get_x();
@@ -155,20 +156,8 @@ bool Game::is_collided_ghost(const Position pacman_pos) {
 			d1 == DOWN && d2 == UP && dif == Position(0, -1) ||
 			d1 == LEFT && d2 == RIGHT && dif == Position(-1, 0) ||
 			d1 == RIGHT && d2 == LEFT && dif == Position(1, 0)))
-				return true;
-		/*	||
-			(d1 == UP && d2 == RIGHT && dif == Position(1, 1) ||
-			d1 == RIGHT && d2 == UP && dif == Position(-1, -1) ||
-			d1 == DOWN && d2 == RIGHT && dif == Position(1, -1) ||
-			d1 == RIGHT && d2 == DOWN && dif == Position(-1, 1))
-			||
-			(d1 == UP && d2 == LEFT && dif == Position(-1, 1) ||
-			d1 == LEFT && d2 == UP && dif == Position(1, -1) ||
-			d1 == DOWN && d2 == LEFT && dif == Position(-1, 1) ||
-			d1 == LEFT && d2 == DOWN && dif == Position(1, -1)))*/
-				
+				return true;		
 	}
-
 	return false;
 }
 
@@ -179,7 +168,8 @@ bool Game::is_invalid_place(const Position next_pos) {
 bool Game::is_teleporting(const Position next_pos) {
 	return (board.get_cell(next_pos) == (unsigned char)TELEPORT);
 }
-Position Game::handle_teleport(Position next_pos) { //teleporting the pacman and return if teleported
+
+Position Game::handle_teleport(Position next_pos) { 
 	int Pacman_x = next_pos.get_x();
 	int Pacman_y = next_pos.get_y();
 
@@ -218,7 +208,7 @@ Position Game::handle_teleport(Position next_pos) { //teleporting the pacman and
 
 void Game::pause() {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), WHITE);
-	goto_xy(11, 23);
+	goto_xy(11, 23);//location of "pause..." in the console
 	cout << "Pause . . .";
 	unsigned char c = _getch();
 	while (c != ESC)
@@ -240,7 +230,7 @@ void Game::handle_score(Position pacman_pos) {
 	}
 }
 
-Position Game::handle_key_input(const unsigned char currentKey) {
+Position Game::handle_key_input(const unsigned char currentKey) {  //return the direction vectors
 	int dir_x = 0, dir_y = 0;
 	Position pos(dir_x, dir_y);
 	int pacman_x = pacman.get_position().get_x();
@@ -373,6 +363,7 @@ void Game::Menu(){
 void Game::print_ruls() const {
 	cout << "Welcome to \"the\" Pacman !" << endl << "Your goal is to eat 'em all inorder to accumulate scroe" << endl
 		<< "Each point equal to +1 for your score" << endl
+		<< "Collect 300 POINTS!" << endl
 		<< "Once you ate 'em all you won." << endl << endl
 		<< "Keys:" << endl
 		<< "UP --> w or W" << endl

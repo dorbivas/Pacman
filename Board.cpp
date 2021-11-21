@@ -39,8 +39,7 @@ void Board::init_board() {
 	}
 }
 
-void Board::print_board(const bool color_mode) 
-{
+void Board::print_board(const bool color_mode) {
 	for (int i = 0; i < HEIGHT; i++)
 	{
 		for (int j = 0; j < WIDTH; j++) 

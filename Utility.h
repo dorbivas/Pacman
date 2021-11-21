@@ -32,7 +32,7 @@ enum direction {
 	RIGHT	,
 	STAY
 };
-
+	//--Game Logic Fucns: --//
 void goto_xy(const int x, const int y);
 bool is_valid_key(const unsigned char c);
 

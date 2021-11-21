@@ -7,42 +7,42 @@ Game::Game(){
 void Game::game() {
 	reset_game();
 	Position move_vector(0, 0);
-	unsigned char currentKey, temp;
-	currentKey = _kbhit();
+	unsigned char current_key, temp;
+	current_key = _kbhit();
 
-	while (!is_valid_key(currentKey) || currentKey == ESC)
-		currentKey = _getch();
-	temp = currentKey;
+	while (!is_valid_key(current_key) || current_key == ESC)
+		current_key = _getch();
+	temp = current_key;
 
 	while (!loop_flag)
 	{
 		Sleep(100);//game speed	
 		handle_ghost_move();
 		if (_kbhit())	
-			currentKey = _getch();
-		if (is_valid_key(currentKey))
+			current_key = _getch();
+		if (is_valid_key(current_key))
 		{
-			move_vector = handle_key_input(currentKey);
+			move_vector = handle_key_input(current_key);
 			if (pause_flag)
 			{
-				currentKey = temp;
+				current_key = temp;
 				pause_flag = false;
 			}
 
 			if (is_collided_ghost(pacman.get_position()))
 			{
 				handle_collision();
-				currentKey = stay_lower_case;
+				current_key = stay_lower_case;
 				continue; // no need to cheeck other conditions.
 			}
 			check_pacman_move(move_vector);
 			print_move(pacman.get_position(), (unsigned char)PACMAN_ICON);
-			temp = currentKey;
+			temp = current_key;
 		}
 		else
 		{		//exit yo menu 
-			if (currentKey != '9')
-				currentKey = temp;
+			if (current_key != '9')
+				current_key = temp;
 			else
 				loop_flag = true;//stop the loop
 		}
@@ -232,12 +232,12 @@ void Game::handle_score(Position pacman_pos) {
 	}
 }
 
-Position Game::handle_key_input(const unsigned char currentKey) {  //return the direction vectors
+Position Game::handle_key_input(const unsigned char current_key) {  //return the direction vectors
 	int dir_x = 0, dir_y = 0;
 	Position pos(dir_x, dir_y);
 	int pacman_x = pacman.get_position().get_x();
 	int pacman_y = pacman.get_position().get_y();
-	switch (currentKey)
+	switch (current_key)
 	{
 	case right_upper_case:
 	case right_lower_case:

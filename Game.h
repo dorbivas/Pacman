@@ -57,7 +57,7 @@ private:
     
     void reset_game();
     void pause();
-    Position handle_key_input(const unsigned char currentKey);
+    Position handle_key_input(const unsigned char current_key);
 
     //--Display Fucns: --//
     void print_ruls() const;

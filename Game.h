@@ -7,7 +7,7 @@
 #define MAX_POINTS 629 
 #define PACMAN_ICON 233 
 #define GHOST_ICON 36
-#define NUM_OF_GHOSTS 2
+#define NUM_OF_GHOSTS 4
 
 /*teleports order is sync with the board from left to right */
 enum teleports {
@@ -38,31 +38,33 @@ private:
     bool color_mode = true;
     bool loop_flag = false;
 
+    //--Data Members Fucns: --//
     void set_pacman(Pacman pacman) { this->pacman = pacman; }
-    Position get_pacman_position() { return this->pacman.get_position(); }
+    Position get_pacman_position()const { return this->pacman.get_position(); }
     void set_color_mode(bool color_mode_switch) { this->color_mode = color_mode_switch; }
 
     //--Game Logic Fucns: --//
-    void check_pacman_move(Position dir_pos);
+    void check_pacman_move(const Position move_vector);
     void handle_ghost_move();
     void handle_move(Position next_pos);
-    bool is_collided_ghost(Position pacman_pos);
-    bool is_invalid_place(Position next_pos);
     void handle_score(Position pacman_pos);
-    bool is_teleporting(Position next_pos);
     Position handle_teleport(Position next_pos);
+
+    bool is_collided_ghost(const Position pacman_pos);
+    bool is_invalid_place(const Position next_pos);
+    bool is_teleporting(const Position next_pos);
+    
+    void reset_game();
     void pause();
-    Position handle_key_input(unsigned char currentKey);
-    void check_colision(Position dir_pos);
+    Position handle_key_input(const unsigned char currentKey);
 
     //--Display Fucns: --//
-    void print_ruls();
+    void print_ruls() const;
     void print_move(const Position pos, const unsigned char c) const;
     void display_score_souls() const;
 
     void win();
     void lose();
-    void reset_game();
 
 public:
     Game();

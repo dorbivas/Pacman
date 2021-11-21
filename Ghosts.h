@@ -11,7 +11,7 @@ class Ghosts
 private:
     Position pos;
     int direction;
-    int steps;//steps counter
+    int steps;
     int generate_random_dir() { return rand() % 4; }
 
 public:
@@ -21,13 +21,12 @@ public:
         direction = generate_random_dir();
         pos.set_xy(INITAL_GHOST_X, INITAL_GHOST_Y);
     }
-    ~Ghosts() {};
 
-    Position get_position() { return pos; }
-    int get_step() { return steps; }
+    Position get_position() const { return pos; }
+    int get_step() const { return steps; }
     void set_position(Position Pos) { pos = Pos; }
     void set_position(int x, int y) { pos.set_xy(x, y); }
-    int get_direction() { return direction; } const
+    int get_direction() const { return direction; }
 
     void set_direction() {
         if (steps == MAX_STEPS) { steps = 0; direction = generate_random_dir(); }

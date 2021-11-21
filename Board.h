@@ -10,8 +10,8 @@
 #define S 32
 
 enum board_dictionary {
-	WIDTH = 80,
-	HEIGHT = 25,
+	WIDTH = 80		,
+	HEIGHT = 25		,
 	//WALL = 219,
 	//W = 219,
 	//POINT = 250,
@@ -45,10 +45,10 @@ class Board {
 
 public:
 	void init_board();
-	void print_board(bool color_mode);
+	void print_board(const bool color_mode);
 	void set_color(int color_pick) const {SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color_pick) ;}
 
-	unsigned char get_cell(Position cell_pos) { return board[cell_pos.get_y()][cell_pos.get_x()]; }
+	unsigned char get_cell(const Position cell_pos) { return board[cell_pos.get_y()][cell_pos.get_x()]; }
 	void set_cell(Position cell_pos, unsigned char c) { board[cell_pos.get_y()][cell_pos.get_x()] = c; }
 
 };

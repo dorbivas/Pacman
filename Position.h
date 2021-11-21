@@ -14,5 +14,5 @@ public:
         this->x = x;
         this->y = y;
     }
-    bool operator==(Position pos){return((pos.get_x()==x)&&(pos.get_y()==y));}
+    bool operator==(const Position pos){return((pos.get_x()==x)&&(pos.get_y()==y));}
 };

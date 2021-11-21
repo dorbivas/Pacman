@@ -46,13 +46,14 @@ private:
     void check_pacman_move(Position dir_pos);
     void handle_ghost_move();
     void handle_move(Position next_pos);
-    bool is_collided_ghost();
+    bool is_collided_ghost(Position pacman_pos);
     bool is_invalid_place(Position next_pos);
     void handle_score(Position pacman_pos);
     bool is_teleporting(Position next_pos);
     Position handle_teleport(Position next_pos);
     void pause();
     Position handle_key_input(unsigned char currentKey);
+    void check_colision(Position dir_pos);
 
     //--Display Fucns: --//
     void print_ruls();

@@ -17,5 +17,4 @@ public:
         this->y = y;
     }
     //Position& operator=(Position pos){return((pos.get_x()==x)&&(pos.get_y()==y));}
-
 };

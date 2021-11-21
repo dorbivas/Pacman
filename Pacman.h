@@ -2,12 +2,12 @@
 #include "Utility.h"
 #define NUM_OF_SOULS 3
 #define ZERO_POINTS 0
-#define INITIAL_X 39
-#define INITIAL_Y 12
+#define INITIAL_X 15//39
+#define INITIAL_Y 6//12
 class Pacman
 {
 private:
-	int souls = 3;
+	int souls = 300; //todo
 	int direction = STAY;
 	Position pos{ INITIAL_X,INITIAL_Y };
 	int score = ZERO_POINTS;

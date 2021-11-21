@@ -6,8 +6,10 @@
 #define TELEPORT 176
 #define P 250
 #define W 219
+#define TS 219 
 #define T 176
 #define S 32
+
 
 enum board_dictionary {
 	WIDTH = 80		,

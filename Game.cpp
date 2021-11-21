@@ -31,14 +31,7 @@ void Game::game() {
 
 			if (is_collided_ghost(pacman.get_position()))
 			{
-				pacman.decrease_soul();
-				print_move(pacman.get_position(), (unsigned char)GHOST_ICON);
-				pacman.set_position(Position(INITIAL_X, INITIAL_Y));
-				if (pacman.get_souls() == 0)
-				{
-					SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), WHITE);
-					lose();
-				}
+				handle_collision();
 				continue;
 			}
 			check_pacman_move(move_vector);
@@ -75,6 +68,17 @@ void Game::check_pacman_move(const Position move_vector) {
 	Position next_pos(next_x, next_y);
 
 	handle_move(next_pos);
+}
+
+void Game::handle_collision() {
+	pacman.decrease_soul();
+	print_move(pacman.get_position(), (unsigned char)GHOST_ICON);
+	pacman.set_position(Position(INITIAL_X, INITIAL_Y));
+	if (pacman.get_souls() == 0)
+	{
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), WHITE);
+		lose();
+	}
 }
 
 void Game::handle_move(Position next_pos) {
@@ -147,11 +151,22 @@ bool Game::is_collided_ghost(const Position pacman_pos) {
 		y_dif = pacman_pos.get_y() - ghosts[i].get_position().get_y();
 		Position dif(x_dif, y_dif);
 
-		if (d1 == UP && d2 == DOWN && dif == Position(0, 1) ||
+		if ((d1 == UP && d2 == DOWN && dif == Position(0, 1) ||
 			d1 == DOWN && d2 == UP && dif == Position(0, -1) ||
 			d1 == LEFT && d2 == RIGHT && dif == Position(-1, 0) ||
-			d1 == RIGHT && d2 == LEFT && dif == Position(1, 0))
+			d1 == RIGHT && d2 == LEFT && dif == Position(1, 0)))
 				return true;
+		/*	||
+			(d1 == UP && d2 == RIGHT && dif == Position(1, 1) ||
+			d1 == RIGHT && d2 == UP && dif == Position(-1, -1) ||
+			d1 == DOWN && d2 == RIGHT && dif == Position(1, -1) ||
+			d1 == RIGHT && d2 == DOWN && dif == Position(-1, 1))
+			||
+			(d1 == UP && d2 == LEFT && dif == Position(-1, 1) ||
+			d1 == LEFT && d2 == UP && dif == Position(1, -1) ||
+			d1 == DOWN && d2 == LEFT && dif == Position(-1, 1) ||
+			d1 == LEFT && d2 == DOWN && dif == Position(1, -1)))*/
+				
 	}
 
 	return false;

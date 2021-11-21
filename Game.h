@@ -49,6 +49,7 @@ private:
     void handle_move(Position next_pos);
     void handle_score(Position pacman_pos);
     Position handle_teleport(Position next_pos);
+    void handle_collision();
 
     bool is_collided_ghost(const Position pacman_pos);
     bool is_invalid_place(const Position next_pos);

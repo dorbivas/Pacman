@@ -18,7 +18,7 @@ public:
 
     //--Game Logic Fucns: --//
     bool operator==(const Position pos){return((pos.get_x()==x)&&(pos.get_y()==y));}
-};
+}; 
 
 
 /*

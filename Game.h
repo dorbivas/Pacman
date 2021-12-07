@@ -7,7 +7,7 @@
 #define MAX_POINTS 300 
 #define PACMAN_ICON 233 
 #define GHOST_ICON 36
-#define NUM_OF_GHOSTS 2
+#define NUM_OF_GHOSTS 15
 
 /*teleports order is sync with the board from left to right */
 enum teleports {

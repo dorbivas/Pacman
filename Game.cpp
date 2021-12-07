@@ -137,7 +137,7 @@ void Game::print_move(const Position pos, const unsigned char c) const {
 	}
 	goto_xy(pos.get_x(), pos.get_y());
 	if (c != 0)
-		cout << c;
+		cout << c;//TIODO MAYBE SET CELL 
 }
 
 bool Game::is_collided_ghost(const Position pacman_pos) {

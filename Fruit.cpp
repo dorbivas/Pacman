@@ -1,8 +1,5 @@
 #include "Fruit.h"
 
-Fruit::Fruit() {
-
-}
 
 
 Position Fruit::generate_random_pos() {
@@ -13,3 +10,4 @@ Position Fruit::generate_random_pos() {
 void Fruit::fruit_interaction() { //move to game
 	
 }
+

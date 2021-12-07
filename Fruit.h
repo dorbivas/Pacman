@@ -1,7 +1,5 @@
-
 #include "Position.h"
 #include "Utility.h"
-
 
 class Fruit {
 
@@ -12,8 +10,6 @@ private:
 	Position fruit_pos;
 
 	char num_to_char(int fruit) { return fruit + offset; }
-
-	
 
 public:
 	Fruit() {

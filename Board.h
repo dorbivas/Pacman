@@ -12,8 +12,8 @@
 #define S 32
 
 enum board_dictionary {
-	WIDTH = 80		,
-	HEIGHT = 25		,
+	WIDTH = 80,
+	HEIGHT = 25,
 };
 
 enum Color {
@@ -36,8 +36,9 @@ enum Color {
 };
 
 class Board {
-	unsigned char board[HEIGHT][WIDTH];
 
+	unsigned char board[HEIGHT][WIDTH];
+	
 public:
 	void init_board();
 	void print_board(const bool color_mode);

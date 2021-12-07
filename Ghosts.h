@@ -22,7 +22,7 @@ public:
         pos.set_xy(INITAL_GHOST_X, INITAL_GHOST_Y);
     }
      //--Data Members Fucns: --//
-    Position& get_position() const { return pos; }
+    Position get_position() const { return pos; }
     int get_step() const { return steps; }
     int get_direction() const { return direction; }
 

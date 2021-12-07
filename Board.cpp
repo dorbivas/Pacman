@@ -1,5 +1,6 @@
 #include "Board.h"
 
+
 const static unsigned char default_board[HEIGHT][WIDTH] =
 {
 	{S,  S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, W, W, W, S, S, S, S, S, S, S, S, S, S , S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, W, W, W, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S,},
@@ -28,7 +29,6 @@ const static unsigned char default_board[HEIGHT][WIDTH] =
 	{ S, 'S', 'c', 'o', 'r', 'e', ':', S , S, S, S, S, S, S, S, S,  S, S, S, S, W, W, W, S, S, S, S, S, S, S, S, S, S , S, S, S, S, S, S, S, S, S, S, S, S, S, S, S,  S, S, S, S, W, W, W, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S,   },
 	{ S, 'S', 'o', 'u', 'l', 's', ':', S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S , S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S,   },
 };
-
 void Board::init_board() {
 	for (int i = 0; i < HEIGHT; i++)
 	{
@@ -38,6 +38,7 @@ void Board::init_board() {
 		}
 	}
 }
+
 
 void Board::print_board(const bool color_mode) {
 	for (int i = 0; i < HEIGHT; i++)

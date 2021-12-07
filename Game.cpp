@@ -74,7 +74,7 @@ void Game::check_pacman_move(const Position move_vector) {
 void Game::handle_collision() {
 	pacman.decrease_soul();//decreases soul from the pacman
 	print_move(pacman.get_position(), (unsigned char)GHOST_ICON);
-	pacman.set_position(Position(INITIAL_X, INITIAL_Y));//returns the pacman to its original position
+	pacman.set_position(Position(INITIAL_X, INITIAL_Y)); //returns the pacman to its original position
 	pacman.set_direction(STAY);
 	if (pacman.get_souls() == 0)
 	{
@@ -210,7 +210,7 @@ Position Game::handle_teleport(Position next_pos) {
 
 void Game::pause() {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), WHITE);
-	goto_xy(11, 24);//location of "pause..." in the console
+	goto_xy(11, 24);  // location of "pause..." in the console
 	cout << "Pause . . .";
 	unsigned char c = _getch();
 	while (c != ESC)

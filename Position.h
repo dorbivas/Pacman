@@ -31,7 +31,7 @@ public:
       instead of literals (Game::Menu, ::pause)
 
     - Board enum
-    - delete corsair
+     ***done*** delete corsair
 
 
       TODO yarden

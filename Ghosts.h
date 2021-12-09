@@ -35,7 +35,7 @@ public:
 
     //--Game Logic Fucns: --//
     void rotate_direction() {
-        if (direction == RIGHT) { direction = UP; }
+        if (direction == (int)direction::RIGHT) { direction = (int)direction::UP; }
         else { direction++; }
     }
     Position move_ghost();

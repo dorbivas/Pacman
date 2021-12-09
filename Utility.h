@@ -25,18 +25,18 @@ enum Keys {
 	ESC = 27
 };
 
-enum direction {
+enum class direction {
 	UP		,
 	DOWN	,
 	LEFT	,
 	RIGHT	,
 	STAY
 };
+
 	//--Game Logic Fucns: --//
 void goto_xy(const int x, const int y);
 bool is_valid_key(const unsigned char c);
 
-void conceel_cursor();
 void cursor_visibility(bool showFlag);
 
 

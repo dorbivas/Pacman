@@ -3,32 +3,27 @@
 #include "Ghosts.h"
 #include "Entity.h"
 
-/*teleports order is sync with the board from left to right */
-enum teleports {
-    TP_NORTH1_TOP_X = 21,
-    TP_NORTH1_TOP_Y = 1 ,
-    TP_NORTH2_TOP_X = 53,
-    TP_NORTH2_TOP_Y = 1 ,
-
-    TP_NORTH1_BOT_X = 21,
-    TP_NORTH1_BOT_Y = 22,
-    TP_NORTH2_BOT_X = 53,
-    TP_NORTH2_BOT_Y = 22,
-
-    TP_EAST_BOT_X = 79,
-    TP_EAST_BOT_Y = 21,
-    TP_WEST_TOP_X = 1 ,
-    TP_WEST_TOP_Y = 6
-};
-
-class Game:Entity {
+class Game {
 
 private:
     static const int MAX_POINTS = 30 , PACMAN_ICON = 233 , GHOST_ICON = 36, NUM_OF_GHOSTS = 4; //todo good sol ?
-    //#define MAX_POINTS 300 
-    //#define PACMAN_ICON 233 
-    //#define GHOST_ICON 36
-    //#define NUM_OF_GHOSTS 15
+    /*teleports order is sync with the board from left to right */
+    enum teleports {
+        TP_NORTH1_TOP_X = 21,
+        TP_NORTH1_TOP_Y = 1,
+        TP_NORTH2_TOP_X = 53,
+        TP_NORTH2_TOP_Y = 1,
+
+        TP_NORTH1_BOT_X = 21,
+        TP_NORTH1_BOT_Y = 22,
+        TP_NORTH2_BOT_X = 53,
+        TP_NORTH2_BOT_Y = 22,
+
+        TP_EAST_BOT_X = 79,
+        TP_EAST_BOT_Y = 21,
+        TP_WEST_TOP_X = 1,
+        TP_WEST_TOP_Y = 6
+    };
 
     class Menu {
     private:
@@ -81,11 +76,6 @@ private:
     void lose();
 
 public:
-    //--Constructor --//
     Game();
-
-    void run_menu() { menu.handle_menu(); }
-  
-
-
+    void run_menu() { menu.handle_menu(); } //TODO ?
 };

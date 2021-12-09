@@ -1,21 +1,26 @@
 #pragma once
 #include "Position.h"
-#include "Entity.h"
+#include "Utility.h"
+//
+//#define STARTING_SOULS 3
+//#define ZERO_POINTS 0
+//#define INITIAL_X 39
+//#define INITIAL_Y 12
 
-#define STARTING_SOULS 3
-#define ZERO_POINTS 0
-#define INITIAL_X 39
-#define INITIAL_Y 12
-
-class Pacman:Entity
+class Pacman
 {
+public:
+	enum pacman_table { STARTING_SOULS = 3, ZERO_POINTS = 0, INITIAL_X = 39, INITIAL_Y = 12 };
+
 private:
 	int souls = STARTING_SOULS;
-	int direction = STAY;
+	int direction = (int)direction::STAY;
 	Position pos{ INITIAL_X,INITIAL_Y };
 	int score = ZERO_POINTS;
 
+
 public:
+
 	//--Constructor --//
 	Pacman() {};
 	Pacman(int souls, int direction, Position pos, int score);

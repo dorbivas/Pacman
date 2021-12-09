@@ -1,6 +1,6 @@
 ﻿#include "Game.h"
 
-Game::Game(){
+Game::Game() {
 	srand(time(NULL)); //start generating rand numbers for ghost dir
 }
 
@@ -18,7 +18,7 @@ void Game::game() {
 	{
 		Sleep(100);//game speed	
 		handle_ghost_move();
-		if (_kbhit())	
+		if (_kbhit())
 			current_key = _getch();
 		if (is_valid_key(current_key))
 		{
@@ -117,7 +117,7 @@ void Game::handle_ghost_move() {
 		}
 		else
 			print_move(curr_pos, ' ');//deletes the previous symbol
-		
+
 		print_move(next_pos, GHOST_ICON);
 	}
 }
@@ -146,7 +146,7 @@ bool Game::is_collided_ghost(const Position pacman_pos) {
 	{
 		if (ghosts[i].get_position() == pacman.get_position())
 			return true;
-		
+
 		//edge cases
 		d1 = ghosts[i].get_direction();
 		d2 = pacman.get_direction();
@@ -158,7 +158,7 @@ bool Game::is_collided_ghost(const Position pacman_pos) {
 			d1 == DOWN && d2 == UP && dif == Position(0, -1) ||
 			d1 == LEFT && d2 == RIGHT && dif == Position(-1, 0) ||
 			d1 == RIGHT && d2 == LEFT && dif == Position(1, 0)))
-				return true;		
+			return true;
 	}
 	return false;
 }
@@ -171,7 +171,7 @@ bool Game::is_teleporting(const Position next_pos) {
 	return (board.get_cell(next_pos) == (unsigned char)TELEPORT);
 }
 
-Position Game::handle_teleport(Position next_pos) { 
+Position Game::handle_teleport(Position next_pos) {
 	int Pacman_x = next_pos.get_x();
 	int Pacman_y = next_pos.get_y();
 
@@ -307,52 +307,117 @@ void Game::display_score_souls() const {
 	cout << pacman.get_souls();
 }
 
-void Game::Menu(){
-	int userChoice = 0;
-	do
-	{
-		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), WHITE);
-		cout << "Welcome to \"the\" Pacman !" << endl;
-		cout << "Please select option : " << endl << endl;
-		cout << "1 ==> Start a new game" << endl << endl;
-		cout << "2 ==> switch color mode ON\\\OFF" << endl << endl;
-		cout << "8 ==> Present instructions and keys" << endl << endl;
-		cout << "9 ==> Exit" << endl;
-		cin >> userChoice;
+void Game::reset_game() {
+	board.init_board();
+	board.print_board(this->color_mode);
+	this->pacman = Pacman();
+	pause_flag = false;
+	loop_flag = false;
+	for (int i = 0; i < NUM_OF_GHOSTS; i++)
+		ghosts[i].set_position(INITAL_GHOST_X + (2 * i), INITAL_GHOST_Y);
+}
 
-		if (userChoice == 8)
+//----------- Menu Class: -----------//
+
+//void Game::Menu::menu_display(){
+//	Game run; // TODO ?
+//	do
+//	{
+//		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), WHITE);
+//		cout << "Welcome to \"the\" Pacman !" << endl;
+//		cout << "Please select option : " << endl << endl;
+//		cout << "1 ==> Start a new game" << endl << endl;
+//		cout << "2 ==> switch color mode ON\\\OFF" << endl << endl;
+//		cout << "8 ==> Present instructions and keys" << endl << endl;
+//		cout << "9 ==> Exit" << endl;
+//		cin >> userChoice;
+//
+//		if (userChoice == 8)
+//		{
+//			print_ruls();
+//			system("PAUSE");
+//			system("cls");
+//		}
+//		else if (userChoice == 1)
+//		{
+//			system("cls");
+//			run.game();
+//		}
+//		else if (userChoice == 2)
+//		{
+//			if (run.color_mode == true)
+//			{
+//				cout << "color off!" << endl << endl;
+//				run.set_color_mode(false);
+//				Sleep(200);
+//				system("cls");
+//				menu_display();
+//			}
+//			else 
+//			{
+//				cout << "color on!" << endl << endl;
+//				run.set_color_mode(true);
+//				Sleep(200);
+//				system("cls");
+//				menu_display();
+//			}
+//		}
+//		else
+//		{
+//			if (userChoice != 9)
+//			{
+//				cout << "pick valid choice." << endl;
+//				Sleep(250);
+//				system("cls");
+//				continue;
+//			}
+//		}
+//
+//	} while (userChoice != 9);
+//	system("cls");
+//	return;
+//}
+
+void Game::Menu::handle_menu() { //TODO number table for user choice?
+	Game run; // TODO ?
+	do	{
+		system("cls");
+		menu_display();
+		cin >> user_choice;
+
+		if (user_choice == 8)
 		{
 			print_ruls();
 			system("PAUSE");
 			system("cls");
 		}
-		else if (userChoice == 1)
+		else if (user_choice == 1)
 		{
 			system("cls");
-			game();
+			run.game();
 		}
-		else if (userChoice == 2)
+		else if (user_choice == 2)
 		{
-			if (this->color_mode == true)
+			if (run.color_mode == true)
 			{
 				cout << "color off!" << endl << endl;
-				set_color_mode(false);
+				run.set_color_mode(false);
 				Sleep(200);
 				system("cls");
-				Menu();
+				menu_display();
 			}
-			else 
+			else
 			{
 				cout << "color on!" << endl << endl;
-				set_color_mode(true);
+				run.set_color_mode(true);
 				Sleep(200);
 				system("cls");
-				Menu();
+				menu_display();
 			}
 		}
 		else
 		{
-			if (userChoice != 9)
+			if (user_choice != 9)
 			{
 				cout << "pick valid choice." << endl;
 				Sleep(250);
@@ -361,12 +426,23 @@ void Game::Menu(){
 			}
 		}
 
-	} while (userChoice != 9);
+	} while (user_choice != 9);
 	system("cls");
 	return;
 }
 
-void Game::print_ruls() const {
+void Game::Menu::menu_display() {
+
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), WHITE);
+	cout << "Welcome to \"the\" Pacman !" << endl;
+	cout << "Please select option : " << endl << endl;
+	cout << "1 ==> Start a new game" << endl << endl;
+	cout << "2 ==> switch color mode ON\\\OFF" << endl << endl;
+	cout << "8 ==> Present instructions and keys" << endl << endl;
+	cout << "9 ==> Exit" << endl;
+}
+
+void Game::Menu::print_ruls() const {
 	cout << "Welcome to \"the\" Pacman !" << endl << "Your goal is to eat 'em all inorder to accumulate scroe" << endl
 		<< "Each point equal to +1 for your score" << endl
 		<< "Collect 300 POINTS!" << endl
@@ -378,15 +454,5 @@ void Game::print_ruls() const {
 		<< "RIGHT --> d or D" << endl
 		<< "STAY --> s or S" << endl
 		<< "ESC --> Pause" << endl << endl;
-}
-
-void Game::reset_game() {
-	board.init_board();
-	board.print_board(this->color_mode);
-	this->pacman = Pacman();
-	pause_flag = false;
-	loop_flag = false;
-	for (int i = 0; i < NUM_OF_GHOSTS; i++)
-		ghosts[i].set_position(INITAL_GHOST_X + (2 * i), INITAL_GHOST_Y);
 }
 

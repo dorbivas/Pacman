@@ -4,11 +4,6 @@
 #include "Ghosts.h"
 #include "Utility.h"
 
-#define MAX_POINTS 300 
-#define PACMAN_ICON 233 
-#define GHOST_ICON 36
-#define NUM_OF_GHOSTS 15
-
 /*teleports order is sync with the board from left to right */
 enum teleports {
     TP_NORTH1_TOP_X = 21,
@@ -30,9 +25,27 @@ enum teleports {
 class Game {
 
 private:
+    static const int MAX_POINTS = 30 , PACMAN_ICON = 233 , GHOST_ICON = 36, NUM_OF_GHOSTS = 4; //todo good sol ?
+    //#define MAX_POINTS 300 
+    //#define PACMAN_ICON 233 
+    //#define GHOST_ICON 36
+    //#define NUM_OF_GHOSTS 15
+
+    class Menu {
+    private:
+        int user_choice = 0;
+
+    public:
+        void handle_menu();
+        void menu_display();
+        void print_ruls() const;
+        friend class Game; //todo ?
+    };
+
     Pacman pacman;
     Ghosts ghosts[NUM_OF_GHOSTS];
     Board board;
+    Menu menu;
 
     bool pause_flag = false;
     bool color_mode = true;
@@ -42,8 +55,9 @@ private:
     void set_pacman(Pacman pacman) { this->pacman = pacman; }
     Position get_pacman_position()const { return this->pacman.get_position(); }
     void set_color_mode(bool color_mode_switch) { this->color_mode = color_mode_switch; }
-
+   
     //--Game Logic Fucns: --//
+    void game();
     void check_pacman_move(const Position move_vector);
     void handle_ghost_move();
     void handle_move(Position next_pos);
@@ -60,19 +74,22 @@ private:
     Position handle_key_input(const unsigned char current_key);
 
     //--Display Fucns: --//
-    void print_ruls() const;
+    //void print_ruls() const; todo
     void print_move(const Position pos, const unsigned char c) const;
     void display_score_souls() const;
 
     void win();
     void lose();
 
+    
+
 public:
     //--Constructor --//
     Game();
 
     //--Display Fucns: --//
-    void Menu();
-    void game();
+    void run_menu() { menu.handle_menu(); }
+  
+
 
 };

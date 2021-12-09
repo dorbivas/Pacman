@@ -1,7 +1,2 @@
 #include "Game.h"
-
-int main() {
-	Game game;
-	game.Menu();
-	return 0;
-}
+int main() { Game game;		game.run_menu();	return 0; }

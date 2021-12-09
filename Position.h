@@ -20,12 +20,11 @@ public:
     bool operator==(const Position pos){return((pos.get_x()==x)&&(pos.get_y()==y));}
 }; 
 
-
 /*
    
     TODO dor
     
-    - (no deduction) missing a dedicated Menu class for handling user input / output - 
+    ***done*** (no deduction) missing a dedicated Menu class for handling user input / output - 
       menu option selection and printing instructions and messages (e.g. for Game::Menu, ::print_ruls)
 
     - (-1) use enum class rather than enum (enum Color, Direction); (-1) should use named constants / enum 
@@ -33,7 +32,6 @@ public:
 
     - Board enum
     - delete corsair
-
 
 
       TODO yarden
@@ -68,12 +66,13 @@ public:
     - Finish fruit 
 
     - ghost LVLS
+        BFS startegy
 
     - board File Support 
 
     - gibson haritage cherry les paul ++ 
 
-    
+    - GENERIC TELEPORT (modulo size of board)
 
 
 */

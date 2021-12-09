@@ -7,7 +7,7 @@
 class Game {
 
 private:
-    static const int MAX_POINTS = 30 , PACMAN_ICON = 233 , GHOST_ICON = 36, NUM_OF_GHOSTS = 4; //todo good sol ?
+    static const int MAX_POINTS = 30 , PACMAN_ICON = 233 , GHOST_ICON = 36, NUM_OF_GHOSTS = 4 , SPEED = 150; //todo good sol ?
     /*teleports order is sync with the board from left to right */
     enum teleports {
         TP_NORTH1_TOP_X = 21,
@@ -31,6 +31,7 @@ private:
         int user_choice = 0;
 
     public:
+        enum user_options { Start_Game = 1, Change_Color_Mode , Show_Ruls = 8, Exit_Game = 9 };
         void handle_menu();
         void menu_display();
         void print_ruls() const;
@@ -69,7 +70,6 @@ private:
     Position handle_key_input(const unsigned char current_key);
 
     //--Display Fucns: --//
-    //void print_ruls() const; todo
     void print_move(const Position pos, const unsigned char c) const;
     void display_score_souls() const;
 

@@ -16,7 +16,7 @@ void Game::game() {
 
 	while (!loop_flag)
 	{
-		Sleep(100);//game speed	
+		Sleep(SPEED);
 		handle_ghost_move();
 		if (_kbhit())
 			current_key = _getch();
@@ -327,18 +327,18 @@ void Game::Menu::handle_menu() { //TODO number table for user choice?
 		menu_display();
 		cin >> user_choice;
 
-		if (user_choice == 8)
+		if (user_choice == Show_Ruls)
 		{
 			print_ruls();
 			system("PAUSE");
 			system("cls");
 		}
-		else if (user_choice == 1)
+		else if (user_choice == Start_Game)
 		{
 			system("cls");
 			run.game();
 		}
-		else if (user_choice == 2)
+		else if (user_choice == Change_Color_Mode)
 		{
 			if (run.color_mode == true)
 			{
@@ -359,7 +359,7 @@ void Game::Menu::handle_menu() { //TODO number table for user choice?
 		}
 		else
 		{
-			if (user_choice != 9)
+			if (user_choice != Exit_Game)
 			{
 				cout << "pick valid choice." << endl;
 				Sleep(250);
@@ -368,7 +368,7 @@ void Game::Menu::handle_menu() { //TODO number table for user choice?
 			}
 		}
 
-	} while (user_choice != 9);
+	} while (user_choice != Exit_Game);
 	system("cls");
 	return;
 }

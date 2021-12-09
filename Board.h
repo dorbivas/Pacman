@@ -5,7 +5,7 @@
 
 class Board {
 
-public://TODO class?
+public:
 	enum board_signs { P = 250, W = 219, T = 176, S = 32 , POINT = 250, WALL = 219, TELEPORT = 176 };
     enum class Color {
         BLACK,
@@ -39,14 +39,6 @@ public:
 	void set_cell(Position cell_pos, unsigned char c) { board[cell_pos.get_y()][cell_pos.get_x()] = c; }
 
 };
-
-//#define POINT 250
-//#define WALL 219
-//#define TELEPORT 176
-//#define P 250
-//#define W 219
-//#define T 176
-//#define S 32
 
 
 

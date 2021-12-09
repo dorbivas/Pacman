@@ -30,8 +30,8 @@ enum Keys {
 void goto_xy(const int x, const int y);
 bool is_valid_key(const unsigned char c);
 
-
-
+void conceel_cursor();
+void cursor_visibility(bool showFlag);
 
 
 

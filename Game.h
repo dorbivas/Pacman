@@ -81,13 +81,10 @@ private:
     void win();
     void lose();
 
-    
-
 public:
     //--Constructor --//
     Game();
 
-    //--Display Fucns: --//
     void run_menu() { menu.handle_menu(); }
   
 

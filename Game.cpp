@@ -381,6 +381,8 @@ void Game::reset_game() {
 void Game::Menu::handle_menu() { //TODO number table for user choice?
 	Game run; // TODO ?
 	do	{
+		cursor_visibility(false); //hiding console cursor
+
 		system("cls");
 		menu_display();
 		cin >> user_choice;

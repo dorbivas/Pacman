@@ -2,37 +2,40 @@
 #include "Utility.h"
 #include "Position.h"
 
-#define POINT 250
-#define WALL 219
-#define TELEPORT 176
-#define P 250
-#define W 219
-#define TS 219 
-#define T 176
-#define S 32
-
-enum board_dictionary {
-	WIDTH = 80,
-	HEIGHT = 25,
+enum Shape {
+    PACMAN_ICON = '@',
+    GHOST_ICON = '$',
+    //POINT = 250,
+    WALL = 219,
+    TELEPORT = 176,
+    P = 250,
+    W = 219,
+    TS = 219,
+    T = 176,
+    S = 32,
 };
 
 enum Color {
-	BLACK           ,
-	BLUE 			,
-	GREEN			,
-	CYAN 			,
-	RED 			,
-	MAGENTA 		,
-	BROWN  			,
-	LIGHTGREY 		,
-	DARKGREY 		,
-	LIGHTBLUE 		,
-	LIGHTGREEN		,
-	LIGHTCYAN 		,
-	LIGHTRED 		,
-	LIGHTMAGENTA 	,
-	YELLOW  		,
-	WHITE 
+    BLACK,
+    BLUE,
+    GREEN,
+    CYAN,
+    RED,
+    MAGENTA,
+    BROWN,
+    LIGHTGREY,
+    DARKGREY,
+    LIGHTBLUE,
+    LIGHTGREEN,
+    LIGHTCYAN,
+    LIGHTRED,
+    LIGHTMAGENTA,
+    YELLOW,
+    WHITE
+};
+enum board_dictionary {
+	WIDTH = 80,
+	HEIGHT = 25,
 };
 
 class Board {

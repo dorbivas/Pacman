@@ -36,7 +36,7 @@ void Game::game() {
 				continue; // no need to cheeck other conditions.
 			}
 			check_pacman_move(move_vector);
-			print_move(pacman.get_position(), (unsigned char)PACMAN_ICON);
+			print_move(pacman.get_position(), PACMAN_ICON,color_mode,pacman.get_score(),pacman.get_souls());
 			temp = current_key;
 		}
 		else
@@ -56,12 +56,12 @@ void Game::check_pacman_move(const Position move_vector) {
 	if (is_teleporting(pacman.get_position()))
 	{
 		board.set_cell(pacman.get_position(), (unsigned char)TELEPORT);
-		print_move(pacman.get_position(), (unsigned char)TELEPORT);
+		print_move(pacman.get_position(), TELEPORT, color_mode, pacman.get_score(), pacman.get_souls());
 	}
 	else
 	{
-		board.set_cell(pacman.get_position(), ' ');
-		print_move(pacman.get_position(), ' ');
+		board.set_cell(pacman.get_position(), S);
+		print_move(pacman.get_position(), S,color_mode, pacman.get_score(), pacman.get_souls());
 	}
 
 	int next_x = pacman.get_position().get_x() + move_vector.get_x();
@@ -73,7 +73,7 @@ void Game::check_pacman_move(const Position move_vector) {
 
 void Game::handle_collision() {
 	pacman.decrease_soul();//decreases soul from the pacman
-	print_move(pacman.get_position(), (unsigned char)GHOST_ICON);
+	print_move(pacman.get_position(), GHOST_ICON, color_mode, pacman.get_score(), pacman.get_souls());
 	pacman.set_position(Position(INITIAL_X, INITIAL_Y)); //returns the pacman to its original position
 	pacman.set_direction(STAY);
 	if (pacman.get_souls() == 0)
@@ -98,6 +98,8 @@ void Game::handle_move(Position next_pos) {
 
 void Game::handle_ghost_move() {
 	Position curr_pos, next_pos;
+	int souls = pacman.get_souls();
+	int score = pacman.get_score();
 	for (int i = 0; i < NUM_OF_GHOSTS; i++)
 	{
 		curr_pos = ghosts[i].get_position();
@@ -110,35 +112,18 @@ void Game::handle_ghost_move() {
 
 		ghosts[i].set_position(next_pos);
 
-		if (board.get_cell(curr_pos) == (unsigned char)POINT)
+		if (board.get_cell(curr_pos) == P)
 		{
-			board.set_cell(curr_pos, (unsigned char)POINT);
-			print_move(curr_pos, (unsigned char)POINT);
+			board.set_cell(curr_pos, P);
+			print_move(curr_pos, P, color_mode, score, souls);
 		}
 		else
-			print_move(curr_pos, ' ');//deletes the previous symbol
+			print_move(curr_pos, S, color_mode, score, souls);//deletes the previous symbol
 		
-		print_move(next_pos, GHOST_ICON);
+		print_move(next_pos, GHOST_ICON, color_mode, score, souls);
 	}
 }
 
-void Game::print_move(const Position pos, const unsigned char c) const {
-	display_score_souls();
-	if (this->color_mode)
-	{
-		if (c == POINT)
-			board.set_color(WHITE);
-		else if (c == TELEPORT)
-			board.set_color(LIGHTBLUE);
-		else if (c == PACMAN_ICON)
-			board.set_color(YELLOW);
-		else // (c == GHOST_ICON)
-			board.set_color(RED);
-	}
-	goto_xy(pos.get_x(), pos.get_y());
-	if (c != 0)
-		cout << c;//TIODO MAYBE SET CELL 
-}
 
 bool Game::is_collided_ghost(const Position pacman_pos) {
 	int d1, d2, x_dif, y_dif;
@@ -221,7 +206,7 @@ void Game::pause() {
 }
 
 void Game::handle_score(Position pacman_pos) {
-	if (board.get_cell(pacman_pos) == POINT)
+	if (board.get_cell(pacman_pos) == P)
 	{
 		pacman.add_score();
 		if (pacman.get_score() == MAX_POINTS)
@@ -296,16 +281,7 @@ void Game::win() {
 	system("pause");
 	loop_flag = true;
 }
-void Game::display_score_souls() const {
-	goto_xy(7, 23);
-	if (color_mode)
-		board.set_color(LIGHTGREEN);
-	cout << pacman.get_score();
-	goto_xy(7, 24);
-	if (color_mode)
-		board.set_color(RED);
-	cout << pacman.get_souls();
-}
+
 
 void Game::Menu(){
 	int userChoice = 0;

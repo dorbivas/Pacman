@@ -18,8 +18,8 @@ int Pacman::get_direction() const{
 void Pacman::set_direction(int direction) {
 	this->direction = direction;
 }
-Position Pacman::get_position()const {
-	return pos;
+Position& Pacman::get_position()const {
+	return *this;
 }
 void Pacman::set_position(Position pos) {
 	this->pos = pos;

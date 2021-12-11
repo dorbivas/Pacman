@@ -1,11 +1,11 @@
 #pragma once
 #include "Position.h"
-#include "Utility.h"
+#include "Entity.h"
 #define INITAL_GHOST_X 17
 #define INITAL_GHOST_Y 6
 #define MAX_STEPS 20
 
-class Ghosts
+class Ghosts:Entity
 {
 
 private:

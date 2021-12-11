@@ -1,14 +1,10 @@
 #pragma once
 #include "Pacman.h"
-#include "Board.h"
 #include "Ghosts.h"
-#include "Utility.h"
+#include "Entity.h"
 
 #define MAX_POINTS 300 
-#define PACMAN_ICON 233 
-#define GHOST_ICON 36
-#define NUM_OF_GHOSTS 15
-
+#define NUM_OF_GHOSTS 2
 /*teleports order is sync with the board from left to right */
 enum teleports {
     TP_NORTH1_TOP_X = 21,
@@ -27,12 +23,12 @@ enum teleports {
     TP_WEST_TOP_Y = 6
 };
 
-class Game {
+class Game:Entity {
 
 private:
     Pacman pacman;
     Ghosts ghosts[NUM_OF_GHOSTS];
-    Board board;
+    
 
     bool pause_flag = false;
     bool color_mode = true;
@@ -61,8 +57,8 @@ private:
 
     //--Display Fucns: --//
     void print_ruls() const;
-    void print_move(const Position pos, const unsigned char c) const;
-    void display_score_souls() const;
+   // void print_move(const Position pos, const unsigned char c) const;
+    //void display_score_souls() const;
 
     void win();
     void lose();

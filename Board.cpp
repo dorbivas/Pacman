@@ -51,7 +51,7 @@ void Board::print_board(const bool color_mode) {
 					set_color(LIGHTCYAN);
 				cout << board[i][j];
 			}
-			else if (board[i][j] == (unsigned char) POINT) 
+			else if (board[i][j] == (unsigned char) P) 
 			{
 				if (color_mode)
 					set_color(LIGHTGREY);

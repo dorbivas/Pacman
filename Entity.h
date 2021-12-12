@@ -43,9 +43,16 @@ public:
         WHITE
     };
 
-
-    int get_speed() { return speed; }
-    void set_speed(int speed) { this->speed = speed; }
+    enum Shape {
+        PACMAN = 233,
+        GHOST=36,
+        P = 250,
+        W = 219,
+        T = 176,
+        S = 32
+    };
+    //int get_speed() { return speed; }
+   // void set_speed(int speed) { this->speed = speed; }
     Position& get_position() { return curr; }
     void print_move(const Position pos, Shape shape, bool color_mode, int score, int souls) const;
     void display_score_souls(int score, int souls, bool color_mode) const;

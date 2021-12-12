@@ -7,7 +7,12 @@
 //#define INITIAL_X 39
 //#define INITIAL_Y 12
 
-class Pacman
+//#define STARTING_SOULS 3
+//#define ZERO_POINTS 0
+//#define INITIAL_X 39
+//#define INITIAL_Y 12
+
+class Pacman:Entity
 {
 public:
 	enum pacman_table { STARTING_SOULS = 3, ZERO_POINTS = 0, INITIAL_X = 39, INITIAL_Y = 12 };

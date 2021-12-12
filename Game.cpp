@@ -292,15 +292,6 @@ void Game::reset_game() {
 		ghosts[i].set_position(INITAL_GHOST_X + (2 * i), INITAL_GHOST_Y);
 }
 
-void Game::reset_game() {
-	board.init_board();
-	board.print_board(this->color_mode);
-	this->pacman = Pacman();
-	pause_flag = false;
-	loop_flag = false;
-	for (int i = 0; i < NUM_OF_GHOSTS; i++)
-		ghosts[i].set_position(INITAL_GHOST_X + (2 * i), INITAL_GHOST_Y);
-}
 
 //----------- Menu Class: -----------//
 void Game::Menu::handle_menu() { //TODO number table for user choice?

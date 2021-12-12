@@ -1,11 +1,15 @@
 #pragma once
 #include "Position.h"
+
 #include "Utility.h"
 //
 //#define STARTING_SOULS 3
 //#define ZERO_POINTS 0
 //#define INITIAL_X 39
 //#define INITIAL_Y 12
+
+#include "Entity.h"
+
 
 //#define STARTING_SOULS 3
 //#define ZERO_POINTS 0
@@ -40,8 +44,8 @@ public:
 	int get_souls()const;
 	int get_score() const;
 	int get_direction() const;
-	Position& get_position() { return pos; }
 
+	Position& get_position() { return pos; }
 	void add_score();
 	void decrease_soul();
 };

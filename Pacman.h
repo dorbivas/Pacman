@@ -12,7 +12,7 @@
 //#define INITIAL_X 39
 //#define INITIAL_Y 12
 
-class Pacman:Entity
+class Pacman :Entity
 {
 public:
 	enum pacman_table { STARTING_SOULS = 3, ZERO_POINTS = 0, INITIAL_X = 39, INITIAL_Y = 12 };
@@ -40,7 +40,7 @@ public:
 	int get_souls()const;
 	int get_score() const;
 	int get_direction() const;
-	Position& get_position(){ return pos; }
+	Position& get_position() { return pos; }
 
 	void add_score();
 	void decrease_soul();

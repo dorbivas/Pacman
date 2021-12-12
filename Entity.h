@@ -3,7 +3,7 @@
 //#include "Ghosts.h"
 //#include "Pacman.h"
 class Entity {
-    
+
 
 public:
 
@@ -16,7 +16,7 @@ public:
 //Kids:
     //colision()
 
-    
+
     enum direction {
         UP,
         DOWN,
@@ -45,7 +45,7 @@ public:
 
     enum Shape {
         PACMAN = 233,
-        GHOST=36,
+        GHOST = 36,
         P = 250,
         W = 219,
         T = 176,
@@ -56,13 +56,13 @@ public:
     Position& get_position() { return curr; }
     void print_move(const Position pos, Shape shape, bool color_mode, int score, int souls) const;
     void display_score_souls(int score, int souls, bool color_mode) const;
-   // virtual bool is_collided_ghost(const Position pacman_pos,Ghosts ghosts[],int num_of_ghosts,Pacman pacman);
+    // virtual bool is_collided_ghost(const Position pacman_pos,Ghosts ghosts[],int num_of_ghosts,Pacman pacman);
 protected:
     Board board;
 
 private:
     int speed;
     Position curr;
-    
+
 
 };

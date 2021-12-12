@@ -36,7 +36,7 @@ void Game::game() {
 				continue; // no need to cheeck other conditions.
 			}
 			check_pacman_move(move_vector);
-			print_move(pacman.get_position(), PACMAN,color_mode,pacman.get_score(),pacman.get_souls());
+			print_move(pacman.get_position(), PACMAN, color_mode, pacman.get_score(), pacman.get_souls());
 			temp = current_key;
 		}
 		else
@@ -55,13 +55,13 @@ void Game::game() {
 void Game::check_pacman_move(const Position move_vector) {
 	if (is_teleporting(pacman.get_position()))
 	{
-		board.set_cell(pacman.get_position(), (unsigned char) Board::TELEPORT);
-		print_move(pacman.get_position(), T,color_mode,pacman.get_score(),pacman.get_souls());
+		board.set_cell(pacman.get_position(), (unsigned char)Board::TELEPORT);
+		print_move(pacman.get_position(), T, color_mode, pacman.get_score(), pacman.get_souls());
 	}
 	else
 	{
 		board.set_cell(pacman.get_position(), S);
-		print_move(pacman.get_position(), S,color_mode, pacman.get_score(), pacman.get_souls());
+		print_move(pacman.get_position(), S, color_mode, pacman.get_score(), pacman.get_souls());
 	}
 
 	int next_x = pacman.get_position().get_x() + move_vector.get_x();
@@ -119,7 +119,7 @@ void Game::handle_ghost_move() {
 		}
 		else
 			print_move(curr_pos, S, color_mode, pacman.get_score(), pacman.get_souls());//deletes the previous symbol
-		
+
 		print_move(next_pos, GHOST, color_mode, score, souls);
 	}
 	goto_xy(pos.get_x(), pos.get_y());
@@ -307,7 +307,7 @@ void Game::reset_game() {
 //----------- Menu Class: -----------//
 void Game::Menu::handle_menu() { //TODO number table for user choice?
 	Game run; // TODO ?
-	do	{
+	do {
 		cursor_visibility(false); //hiding console cursor
 
 		system("cls");

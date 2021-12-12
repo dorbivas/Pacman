@@ -3,10 +3,10 @@
 #include "Ghosts.h"
 #include "Entity.h"
 
-class Game :Entity{
+class Game :Entity {
 
 private:
-    static const int MAX_POINTS = 30 , PACMAN_ICON = 233 , GHOST_ICON = 36, NUM_OF_GHOSTS = 4 , SPEED = 150; //todo good sol ?
+    static const int MAX_POINTS = 30, PACMAN_ICON = 233, GHOST_ICON = 36, NUM_OF_GHOSTS = 4, SPEED = 150; //todo good sol ?
     /*teleports order is sync with the board from left to right */
     enum teleports {
         TP_NORTH1_TOP_X = 21,
@@ -30,7 +30,7 @@ private:
         int user_choice = 0;
 
     public:
-        enum user_options { Start_Game = 1, Change_Color_Mode , Show_Ruls = 8, Exit_Game = 9 };
+        enum user_options { Start_Game = 1, Change_Color_Mode, Show_Ruls = 8, Exit_Game = 9 };
         void handle_menu();
         void menu_display();
         void print_ruls() const;
@@ -48,9 +48,9 @@ private:
 
     //--Data Members Fucns: --//
     void set_pacman(Pacman pacman) { this->pacman = pacman; }
-    Position& get_pacman_position(){ return this->pacman.get_position(); }
+    Position& get_pacman_position() { return this->pacman.get_position(); }
     void set_color_mode(bool color_mode_switch) { this->color_mode = color_mode_switch; }
-   
+
     //--Game Logic Fucns: --//
     void game();
     void check_pacman_move(const Position move_vector);
@@ -63,7 +63,7 @@ private:
     bool is_collided_ghost(const Position pacman_pos);
     bool is_invalid_place(const Position next_pos);
     bool is_teleporting(const Position next_pos);
-    
+
     void reset_game();
     void pause();
     Position handle_key_input(const unsigned char current_key);

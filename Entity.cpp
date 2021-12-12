@@ -1,7 +1,7 @@
 #include "Entity.h"
 
-void Entity::print_move(const Position pos, Shape shape,bool color_mode,int score,int souls) const {
-	display_score_souls(score,souls,color_mode);
+void Entity::print_move(const Position pos, Shape shape, bool color_mode, int score, int souls) const {
+	display_score_souls(score, souls, color_mode);
 	if (color_mode)
 	{
 		if (shape == P)
@@ -17,7 +17,7 @@ void Entity::print_move(const Position pos, Shape shape,bool color_mode,int scor
 	if (shape != 0)
 		cout << char(shape);//TIODO MAYBE SET CELL 
 }
-void Entity::display_score_souls(int score,int souls,bool color_mode) const {
+void Entity::display_score_souls(int score, int souls, bool color_mode) const {
 	goto_xy(7, 23);
 	if (color_mode)
 		board.set_color(LIGHTGREEN);

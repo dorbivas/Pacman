@@ -9,13 +9,18 @@
 
 class Pacman:Entity
 {
+public:
+	enum pacman_table { STARTING_SOULS = 3, ZERO_POINTS = 0, INITIAL_X = 39, INITIAL_Y = 12 };
+
 private:
 	int souls = STARTING_SOULS;
-	int direction = STAY;
+	int direction = (int)direction::STAY;
 	Position pos{ INITIAL_X,INITIAL_Y };
 	int score = ZERO_POINTS;
 
+
 public:
+
 	//--Constructor --//
 	Pacman() {};
 	Pacman(int souls, int direction, Position pos, int score);

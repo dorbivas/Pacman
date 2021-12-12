@@ -1,6 +1,6 @@
 ﻿#include "Game.h"
 
-Game::Game(){
+Game::Game() {
 	srand(time(NULL)); //start generating rand numbers for ghost dir
 }
 
@@ -16,9 +16,9 @@ void Game::game() {
 
 	while (!loop_flag)
 	{
-		Sleep(100);//game speed	
+		Sleep(SPEED);
 		handle_ghost_move();
-		if (_kbhit())	
+		if (_kbhit())
 			current_key = _getch();
 		if (is_valid_key(current_key))
 		{
@@ -55,8 +55,8 @@ void Game::game() {
 void Game::check_pacman_move(const Position move_vector) {
 	if (is_teleporting(pacman.get_position()))
 	{
-		board.set_cell(pacman.get_position(), (unsigned char)TELEPORT);
-		print_move(pacman.get_position(), TELEPORT, color_mode, pacman.get_score(), pacman.get_souls());
+		board.set_cell(pacman.get_position(), (unsigned char) Board::TELEPORT);
+		print_move(pacman.get_position(), (unsigned char)Board::TELEPORT);
 	}
 	else
 	{
@@ -73,12 +73,12 @@ void Game::check_pacman_move(const Position move_vector) {
 
 void Game::handle_collision() {
 	pacman.decrease_soul();//decreases soul from the pacman
-	print_move(pacman.get_position(), GHOST_ICON, color_mode, pacman.get_score(), pacman.get_souls());
-	pacman.set_position(INITIAL_X, INITIAL_Y); //returns the pacman to its original position
-	pacman.set_direction(STAY);
+	print_move(pacman.get_position(), (unsigned char)GHOST_ICON);
+	pacman.set_position(Position((int)Pacman::INITIAL_X, (int)Pacman::INITIAL_Y)); //returns the pacman to its original position
+	pacman.set_direction((int)direction::STAY);
 	if (pacman.get_souls() == 0)
 	{
-		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), WHITE);
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (int)Board::Color::WHITE);
 		lose();
 	}
 }
@@ -104,7 +104,7 @@ void Game::handle_ghost_move() {
 	{
 		curr_pos = ghosts[i].get_position();
 		next_pos = ghosts[i].move_ghost();
-		while (is_invalid_place(next_pos) || board.get_cell(next_pos) == TELEPORT)
+		while (is_invalid_place(next_pos) || board.get_cell(next_pos) == (unsigned char)Board::TELEPORT)
 		{
 			ghosts[i].rotate_direction();
 			next_pos = ghosts[i].move_ghost();
@@ -118,6 +118,9 @@ void Game::handle_ghost_move() {
 			print_move(curr_pos, P, color_mode, score, souls);
 		}
 		else
+			print_move(curr_pos, ' ');//deletes the previous symbol
+
+		print_move(next_pos, GHOST_ICON);
 			print_move(curr_pos, S, color_mode, score, souls);//deletes the previous symbol
 		
 		print_move(next_pos, GHOST_ICON, color_mode, score, souls);
@@ -131,7 +134,7 @@ bool Game::is_collided_ghost(const Position pacman_pos) {
 	{
 		if (ghosts[i].get_position() == pacman.get_position())
 			return true;
-		
+
 		//edge cases
 		d1 = ghosts[i].get_direction();
 		d2 = pacman.get_direction();
@@ -139,62 +142,62 @@ bool Game::is_collided_ghost(const Position pacman_pos) {
 		y_dif = pacman_pos.get_y() - ghosts[i].get_position().get_y();
 		Position dif(x_dif, y_dif);
 
-		if ((d1 == UP && d2 == DOWN && dif == Position(0, 1) ||
-			d1 == DOWN && d2 == UP && dif == Position(0, -1) ||
-			d1 == LEFT && d2 == RIGHT && dif == Position(-1, 0) ||
-			d1 == RIGHT && d2 == LEFT && dif == Position(1, 0)))
-				return true;		
+		if ((d1 == (int)direction::UP && d2 == (int)direction::DOWN && dif == Position(0, 1) ||
+			d1 == (int)direction::DOWN && d2 == (int)direction::UP && dif == Position(0, -1) ||
+			d1 == (int)direction::LEFT && d2 == (int)direction::RIGHT && dif == Position(-1, 0) ||
+			d1 == (int)direction::RIGHT && d2 == (int)direction::LEFT && dif == Position(1, 0)))
+			return true;
 	}
 	return false;
 }
 
 bool Game::is_invalid_place(const Position next_pos) {
-	return (board.get_cell(next_pos) == (unsigned char)WALL);
+	return (board.get_cell(next_pos) == (unsigned char)Board::WALL);
 }
 
 bool Game::is_teleporting(const Position next_pos) {
-	return (board.get_cell(next_pos) == (unsigned char)TELEPORT);
+	return (board.get_cell(next_pos) == (unsigned char)Board::TELEPORT);
 }
 
-Position Game::handle_teleport(Position next_pos) { 
+Position Game::handle_teleport(Position next_pos) {
 	int Pacman_x = next_pos.get_x();
 	int Pacman_y = next_pos.get_y();
 
 	if (Pacman_x == TP_NORTH1_TOP_X && Pacman_y == TP_NORTH1_TOP_Y)
 	{
 		next_pos.set_xy(TP_NORTH1_BOT_X, TP_NORTH1_BOT_Y);
-		pacman.set_direction(UP);
+		pacman.set_direction((int)direction::UP);
 	}
 	else if (Pacman_x == TP_NORTH2_TOP_X && Pacman_y == TP_NORTH2_TOP_Y)
 	{
 		next_pos.set_xy(TP_NORTH2_BOT_X, TP_NORTH2_BOT_Y);
-		pacman.set_direction(UP);
+		pacman.set_direction((int)direction::UP);
 	}
 	else if (Pacman_x == TP_NORTH1_BOT_X && Pacman_y == TP_NORTH1_BOT_Y)
 	{
 		next_pos.set_xy(TP_NORTH1_TOP_X, TP_NORTH1_TOP_Y);
-		pacman.set_direction(DOWN);
+		pacman.set_direction((int)direction::DOWN);
 	}
 	else if (Pacman_x == TP_NORTH2_BOT_X && Pacman_y == TP_NORTH2_BOT_Y)
 	{
 		next_pos.set_xy(TP_NORTH2_TOP_X, TP_NORTH2_TOP_Y);
-		pacman.set_direction(DOWN);
+		pacman.set_direction((int)direction::DOWN);
 	}
 	else if (Pacman_x == TP_EAST_BOT_X && Pacman_y == TP_EAST_BOT_Y)
 	{
 		next_pos.set_xy(TP_WEST_TOP_X, TP_WEST_TOP_Y);
-		pacman.set_direction(RIGHT);
+		pacman.set_direction((int)direction::RIGHT);
 	}
 	else if (Pacman_x == TP_WEST_TOP_X && Pacman_y == TP_WEST_TOP_Y)
 	{
 		next_pos.set_xy(TP_EAST_BOT_X, TP_EAST_BOT_Y);
-		pacman.set_direction(LEFT);
+		pacman.set_direction((int)direction::LEFT);
 	}
 	return next_pos;
 }
 
 void Game::pause() {
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), WHITE);
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (int)Board::Color::WHITE);
 	goto_xy(11, 24);  // location of "pause..." in the console
 	cout << "Pause . . .";
 	unsigned char c = _getch();
@@ -211,7 +214,7 @@ void Game::handle_score(Position pacman_pos) {
 		pacman.add_score();
 		if (pacman.get_score() == MAX_POINTS)
 		{
-			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), WHITE);
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (int)Board::Color::WHITE);
 			win();
 		}
 	}
@@ -228,35 +231,35 @@ Position Game::handle_key_input(const unsigned char current_key) {  //return the
 	case right_lower_case:
 		dir_x = 1;
 		dir_y = 0;
-		pacman.set_direction(RIGHT);
+		pacman.set_direction((int)direction::RIGHT);
 		break;
 
 	case left_upper_case:
 	case left_lower_case:
 		dir_x = -1;
 		dir_y = 0;
-		pacman.set_direction(LEFT);
+		pacman.set_direction((int)direction::LEFT);
 		break;
 
 	case up_upper_case:
 	case up_lower_case:
 		dir_x = 0;
 		dir_y = -1;
-		pacman.set_direction(UP);
+		pacman.set_direction((int)direction::UP);
 		break;
 
 	case down_upper_case:
 	case down_lower_case:
 		dir_x = 0;
 		dir_y = 1;
-		pacman.set_direction(DOWN);
+		pacman.set_direction((int)direction::DOWN);
 		break;
 
 	case stay_upper_case:
 	case stay_lower_case:
 		dir_x = 0;
 		dir_y = 0;
-		pacman.set_direction(STAY);
+		pacman.set_direction((int)direction::STAY);
 		break;
 
 	case ESC:
@@ -282,53 +285,59 @@ void Game::win() {
 	loop_flag = true;
 }
 
+void Game::reset_game() {
+	board.init_board();
+	board.print_board(this->color_mode);
+	this->pacman = Pacman();
+	pause_flag = false;
+	loop_flag = false;
+	for (int i = 0; i < NUM_OF_GHOSTS; i++)
+		ghosts[i].set_position(INITAL_GHOST_X + (2 * i), INITAL_GHOST_Y);
+}
 
-void Game::Menu(){
-	int userChoice = 0;
-	do
-	{
-		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), WHITE);
-		cout << "Welcome to \"the\" Pacman !" << endl;
-		cout << "Please select option : " << endl << endl;
-		cout << "1 ==> Start a new game" << endl << endl;
-		cout << "2 ==> switch color mode ON\\\OFF" << endl << endl;
-		cout << "8 ==> Present instructions and keys" << endl << endl;
-		cout << "9 ==> Exit" << endl;
-		cin >> userChoice;
+//----------- Menu Class: -----------//
+void Game::Menu::handle_menu() { //TODO number table for user choice?
+	Game run; // TODO ?
+	do	{
+		cursor_visibility(false); //hiding console cursor
 
-		if (userChoice == 8)
+		system("cls");
+		menu_display();
+		cin >> user_choice;
+
+		if (user_choice == Show_Ruls)
 		{
 			print_ruls();
 			system("PAUSE");
 			system("cls");
 		}
-		else if (userChoice == 1)
+		else if (user_choice == Start_Game)
 		{
 			system("cls");
-			game();
+			run.game();
 		}
-		else if (userChoice == 2)
+		else if (user_choice == Change_Color_Mode)
 		{
-			if (this->color_mode == true)
+			if (run.color_mode == true)
 			{
 				cout << "color off!" << endl << endl;
-				set_color_mode(false);
+				run.set_color_mode(false);
 				Sleep(200);
 				system("cls");
-				Menu();
+				menu_display();
 			}
-			else 
+			else
 			{
 				cout << "color on!" << endl << endl;
-				set_color_mode(true);
+				run.set_color_mode(true);
 				Sleep(200);
 				system("cls");
-				Menu();
+				menu_display();
 			}
 		}
 		else
 		{
-			if (userChoice != 9)
+			if (user_choice != Exit_Game)
 			{
 				cout << "pick valid choice." << endl;
 				Sleep(250);
@@ -337,14 +346,25 @@ void Game::Menu(){
 			}
 		}
 
-	} while (userChoice != 9);
+	} while (user_choice != Exit_Game);
 	system("cls");
 	return;
 }
 
-void Game::print_ruls() const {
+void Game::Menu::menu_display() {
+
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (int)Board::Color::WHITE);
+	cout << "Welcome to \"the\" Pacman !" << endl;
+	cout << "Please select option : " << endl << endl;
+	cout << "1 ==> Start a new game" << endl << endl;
+	cout << "2 ==> switch color mode ON\\\OFF" << endl << endl;
+	cout << "8 ==> Present instructions and keys" << endl << endl;
+	cout << "9 ==> Exit" << endl;
+}
+
+void Game::Menu::print_ruls() const {
 	cout << "Welcome to \"the\" Pacman !" << endl << "Your goal is to eat 'em all inorder to accumulate scroe" << endl
-		<< "Each point equal to +1 for your score" << endl
+		<< "Each POINT equal to +1 for your score" << endl
 		<< "Collect 300 POINTS!" << endl
 		<< "Once you ate 'em all you won." << endl << endl
 		<< "Keys:" << endl
@@ -354,15 +374,5 @@ void Game::print_ruls() const {
 		<< "RIGHT --> d or D" << endl
 		<< "STAY --> s or S" << endl
 		<< "ESC --> Pause" << endl << endl;
-}
-
-void Game::reset_game() {
-	board.init_board();
-	board.print_board(this->color_mode);
-	this->pacman = Pacman();
-	pause_flag = false;
-	loop_flag = false;
-	for (int i = 0; i < NUM_OF_GHOSTS; i++)
-		ghosts[i].set_position(INITAL_GHOST_X + (2 * i), INITAL_GHOST_Y);
 }
 

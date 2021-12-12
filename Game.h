@@ -3,32 +3,44 @@
 #include "Ghosts.h"
 #include "Entity.h"
 
-#define MAX_POINTS 300 
-#define NUM_OF_GHOSTS 2
-/*teleports order is sync with the board from left to right */
-enum teleports {
-    TP_NORTH1_TOP_X = 21,
-    TP_NORTH1_TOP_Y = 1 ,
-    TP_NORTH2_TOP_X = 53,
-    TP_NORTH2_TOP_Y = 1 ,
-
-    TP_NORTH1_BOT_X = 21,
-    TP_NORTH1_BOT_Y = 22,
-    TP_NORTH2_BOT_X = 53,
-    TP_NORTH2_BOT_Y = 22,
-
-    TP_EAST_BOT_X = 79,
-    TP_EAST_BOT_Y = 21,
-    TP_WEST_TOP_X = 1 ,
-    TP_WEST_TOP_Y = 6
-};
-
-class Game:Entity {
+class Game {
 
 private:
+    static const int MAX_POINTS = 30 , PACMAN_ICON = 233 , GHOST_ICON = 36, NUM_OF_GHOSTS = 4 , SPEED = 150; //todo good sol ?
+    /*teleports order is sync with the board from left to right */
+    enum teleports {
+        TP_NORTH1_TOP_X = 21,
+        TP_NORTH1_TOP_Y = 1,
+        TP_NORTH2_TOP_X = 53,
+        TP_NORTH2_TOP_Y = 1,
+
+        TP_NORTH1_BOT_X = 21,
+        TP_NORTH1_BOT_Y = 22,
+        TP_NORTH2_BOT_X = 53,
+        TP_NORTH2_BOT_Y = 22,
+
+        TP_EAST_BOT_X = 79,
+        TP_EAST_BOT_Y = 21,
+        TP_WEST_TOP_X = 1,
+        TP_WEST_TOP_Y = 6
+    };
+
+    class Menu {
+    private:
+        int user_choice = 0;
+
+    public:
+        enum user_options { Start_Game = 1, Change_Color_Mode , Show_Ruls = 8, Exit_Game = 9 };
+        void handle_menu();
+        void menu_display();
+        void print_ruls() const;
+        friend class Game; //todo ?
+    };
+
     Pacman pacman;
     Ghosts ghosts[NUM_OF_GHOSTS];
-    
+    Board board;
+    Menu menu;
 
     bool pause_flag = false;
     bool color_mode = true;
@@ -38,8 +50,9 @@ private:
     void set_pacman(Pacman pacman) { this->pacman = pacman; }
     Position& get_pacman_position(){ return this->pacman.get_position(); }
     void set_color_mode(bool color_mode_switch) { this->color_mode = color_mode_switch; }
-
+   
     //--Game Logic Fucns: --//
+    void game();
     void check_pacman_move(const Position move_vector);
     void handle_ghost_move();
     void handle_move(Position next_pos);
@@ -64,11 +77,6 @@ private:
     void lose();
 
 public:
-    //--Constructor --//
     Game();
-
-    //--Display Fucns: --//
-    void Menu();
-    void game();
-
+    void run_menu() { menu.handle_menu(); } //TODO ?
 };

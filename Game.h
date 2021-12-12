@@ -3,7 +3,7 @@
 #include "Ghosts.h"
 #include "Entity.h"
 
-class Game {
+class Game :Entity{
 
 private:
     static const int MAX_POINTS = 30 , PACMAN_ICON = 233 , GHOST_ICON = 36, NUM_OF_GHOSTS = 4 , SPEED = 150; //todo good sol ?

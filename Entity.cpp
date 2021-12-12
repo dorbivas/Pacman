@@ -6,9 +6,9 @@ void Entity::print_move(const Position pos, Shape shape,bool color_mode,int scor
 	{
 		if (shape == P)
 			board.set_color(WHITE);
-		else if (shape == TELEPORT)
+		else if (shape == T)
 			board.set_color(LIGHTBLUE);
-		else if (shape == PACMAN_ICON)
+		else if (shape == PACMAN)
 			board.set_color(YELLOW);
 		else // (c == GHOST_ICON)
 			board.set_color(RED);

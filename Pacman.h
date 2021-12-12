@@ -23,14 +23,14 @@ public:
 	//--Data Members Funcs: --//
 	void set_souls(int souls);
 	void set_score(int score);
-	void set_position(Position pos);
+	void set_position(Position& pos) { this->pos = pos; }
 	void set_position(int x, int y) { this->pos.set_xy(x, y); }
 	void set_direction(int direction);
 
 	int get_souls()const;
 	int get_score() const;
 	int get_direction() const;
-	Position& get_position() const;
+	Position& get_position(){ return pos; }
 
 	void add_score();
 	void decrease_soul();

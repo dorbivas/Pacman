@@ -36,7 +36,7 @@ private:
 
     //--Data Members Fucns: --//
     void set_pacman(Pacman pacman) { this->pacman = pacman; }
-    Position get_pacman_position()const { return this->pacman.get_position(); }
+    Position& get_pacman_position(){ return this->pacman.get_position(); }
     void set_color_mode(bool color_mode_switch) { this->color_mode = color_mode_switch; }
 
     //--Game Logic Fucns: --//

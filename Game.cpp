@@ -74,7 +74,7 @@ void Game::check_pacman_move(const Position move_vector) {
 void Game::handle_collision() {
 	pacman.decrease_soul();//decreases soul from the pacman
 	print_move(pacman.get_position(), GHOST_ICON, color_mode, pacman.get_score(), pacman.get_souls());
-	pacman.set_position(Position(INITIAL_X, INITIAL_Y)); //returns the pacman to its original position
+	pacman.set_position(INITIAL_X, INITIAL_Y); //returns the pacman to its original position
 	pacman.set_direction(STAY);
 	if (pacman.get_souls() == 0)
 	{
@@ -104,7 +104,7 @@ void Game::handle_ghost_move() {
 	{
 		curr_pos = ghosts[i].get_position();
 		next_pos = ghosts[i].move_ghost();
-		while (is_invalid_place(next_pos) || board.get_cell(next_pos) == (unsigned char)TELEPORT)
+		while (is_invalid_place(next_pos) || board.get_cell(next_pos) == TELEPORT)
 		{
 			ghosts[i].rotate_direction();
 			next_pos = ghosts[i].move_ghost();

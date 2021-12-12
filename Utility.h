@@ -25,13 +25,6 @@ enum Keys {
 	ESC = 27
 };
 
-enum class direction {
-	UP		,
-	DOWN	,
-	LEFT	,
-	RIGHT	,
-	STAY
-};
 
 	//--Game Logic Fucns: --//
 void goto_xy(const int x, const int y);

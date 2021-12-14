@@ -4,6 +4,8 @@
 #include <conio.h>
 #include <string.h>
 #include "Position.h"
+#include<set>
+using std::set;
 
 using std::cout;
 using std::cin;
@@ -31,7 +33,7 @@ void goto_xy(const int x, const int y);
 bool is_valid_key(const unsigned char c);
 
 void cursor_visibility(bool showFlag);
-
+void printfiles();
 
 
 

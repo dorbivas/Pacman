@@ -6,7 +6,7 @@
 class Game :Entity{
 
 private:
-    static const int MAX_POINTS = 30 , PACMAN_ICON = 233 , GHOST_ICON = 36, NUM_OF_GHOSTS = 4 , SPEED = 150,PAUSE_X=11,PAUSE_Y=24; //todo good sol ?
+    static const int MAX_POINTS = 30  , NUM_OF_GHOSTS = 4 , SPEED = 150,PAUSE_X=11,PAUSE_Y=24; //todo good sol ?
     /*teleports order is sync with the board from left to right */
     enum teleports {
         TP_NORTH1_TOP_X = 21,

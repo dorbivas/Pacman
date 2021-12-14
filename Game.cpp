@@ -83,7 +83,7 @@ void Game::handle_collision() {
 	}
 }
 
-void Game::handle_move(Position next_pos) {
+void Game::handle_move(Position& next_pos) {
 	if (is_invalid_place(next_pos))
 		return;
 	else

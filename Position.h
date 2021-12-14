@@ -32,6 +32,9 @@ public:
 
     - Board enum
      ***done*** delete corsair
+     * 
+     * 
+     * scan file func to find .screen
 
 
       TODO yarden
@@ -44,8 +47,7 @@ public:
     copy (Ghosts::get_position, Pacman::get_position); (-2) objects should be received by reference to avoid copy 
    (Ghosts::set_position, Pacman::set_position)
 
-    
-
+   
 
     TODO Gen
     - Finish fruit 

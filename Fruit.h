@@ -1,7 +1,8 @@
 #include "Position.h"
 #include "Utility.h"
+#include "Entity.h"
 
-class Fruit {
+class Fruit:Entity {
 
 private:
 	static const int offset = 49; //diffrence between the int and the char his represent.

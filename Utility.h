@@ -4,6 +4,10 @@
 #include <conio.h>
 #include <string.h>
 #include "Position.h"
+#include <direct.h>
+#include<limits.h>
+
+
 #include<set>
 using std::set;
 
@@ -12,6 +16,7 @@ using std::cin;
 using std::endl;
 using std::string;
 using std::srand;
+
 
 enum Keys {
 	up_upper_case = 87		,

@@ -52,8 +52,8 @@ void Game::game() {
 }
 
 //--Game Logic Fucns: --//
-void Game::check_pacman_move(const Position move_vector) {
-	if (is_teleporting(pacman.get_position()))
+void Game::check_pacman_move(const Position& move_vector) {
+	if (is_my_teleporting(pacman.get_position()))
 	{
 		board.set_cell(pacman.get_position(), (unsigned char) Board::TELEPORT);
 		print_move(pacman.get_position(), T,color_mode,pacman.get_score(),pacman.get_souls());
@@ -75,7 +75,7 @@ void Game::handle_collision() {
 	pacman.decrease_soul();//decreases soul from the pacman
 	print_move(pacman.get_position(), GHOST, color_mode, pacman.get_score(), pacman.get_souls());
 	pacman.set_position((int)Pacman::INITIAL_X, (int)Pacman::INITIAL_Y); //returns the pacman to its original position
-	pacman.set_direction((int)direction::STAY);
+	pacman.set_direction((int)Direction::STAY);
 	if (pacman.get_souls() == 0)
 	{
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (int)Board::Color::WHITE);
@@ -88,8 +88,8 @@ void Game::handle_move(Position& next_pos) {
 		return;
 	else
 	{
-		if (is_teleporting(next_pos))
-			next_pos = handle_teleport(next_pos);
+		if (is_my_teleporting(next_pos))
+			next_pos = my_teleport(next_pos);
 
 		handle_score(next_pos);
 		pacman.set_position(next_pos);
@@ -125,7 +125,7 @@ void Game::handle_ghost_move() {
 }
 
 
-bool Game::is_collided_ghost(const Position pacman_pos) {
+bool Game::is_collided_ghost(const Position& pacman_pos) {
 	int d1, d2, x_dif, y_dif;
 	for (int i = 0; i < NUM_OF_GHOSTS; i++)
 	{
@@ -139,73 +139,88 @@ bool Game::is_collided_ghost(const Position pacman_pos) {
 		y_dif = pacman_pos.get_y() - ghosts[i].get_position().get_y();
 		Position dif(x_dif, y_dif);
 
-		if ((d1 == (int)direction::UP && d2 == (int)direction::DOWN && dif == Position(0, 1) ||
-			d1 == (int)direction::DOWN && d2 == (int)direction::UP && dif == Position(0, -1) ||
-			d1 == (int)direction::LEFT && d2 == (int)direction::RIGHT && dif == Position(-1, 0) ||
-			d1 == (int)direction::RIGHT && d2 == (int)direction::LEFT && dif == Position(1, 0)))
+		if ((d1 == (int)Direction::UP && d2 == (int)Direction::DOWN && dif == Position(0, 1) ||
+			d1 == (int)Direction::DOWN && d2 == (int)Direction::UP && dif == Position(0, -1) ||
+			d1 == (int)Direction::LEFT && d2 == (int)Direction::RIGHT && dif == Position(-1, 0) ||
+			d1 == (int)Direction::RIGHT && d2 == (int)Direction::LEFT && dif == Position(1, 0)))
 			return true;
 	}
 	return false;
 }
 
-bool Game::is_invalid_place(const Position next_pos) {
-	return (board.get_cell(next_pos) == (unsigned char)Board::WALL);
-}
 
-bool Game::is_teleporting(const Position next_pos) {
+//addition
+bool Game::is_my_teleporting(const Position& next_pos) {
 	return (board.get_cell(next_pos) == (unsigned char)Board::TELEPORT);
 }
-
-Position Game::handle_teleport(Position next_pos) {
+//addition
+Position& Game::my_teleport(Position& next_pos) {
 	int Pacman_x = next_pos.get_x();
 	int Pacman_y = next_pos.get_y();
 
 	if (Pacman_x == TP_NORTH1_TOP_X && Pacman_y == TP_NORTH1_TOP_Y)
 	{
 		next_pos.set_xy(TP_NORTH1_BOT_X, TP_NORTH1_BOT_Y);
-		pacman.set_direction((int)direction::UP);
+		pacman.set_direction((int)Direction::UP);
 	}
 	else if (Pacman_x == TP_NORTH2_TOP_X && Pacman_y == TP_NORTH2_TOP_Y)
 	{
 		next_pos.set_xy(TP_NORTH2_BOT_X, TP_NORTH2_BOT_Y);
-		pacman.set_direction((int)direction::UP);
+		pacman.set_direction((int)Direction::UP);
 	}
 	else if (Pacman_x == TP_NORTH1_BOT_X && Pacman_y == TP_NORTH1_BOT_Y)
 	{
 		next_pos.set_xy(TP_NORTH1_TOP_X, TP_NORTH1_TOP_Y);
-		pacman.set_direction((int)direction::DOWN);
+		pacman.set_direction((int)Direction::DOWN);
 	}
 	else if (Pacman_x == TP_NORTH2_BOT_X && Pacman_y == TP_NORTH2_BOT_Y)
 	{
 		next_pos.set_xy(TP_NORTH2_TOP_X, TP_NORTH2_TOP_Y);
-		pacman.set_direction((int)direction::DOWN);
+		pacman.set_direction((int)Direction::DOWN);
 	}
 	else if (Pacman_x == TP_EAST_BOT_X && Pacman_y == TP_EAST_BOT_Y)
 	{
 		next_pos.set_xy(TP_WEST_TOP_X, TP_WEST_TOP_Y);
-		pacman.set_direction((int)direction::RIGHT);
+		pacman.set_direction((int)Direction::RIGHT);
 	}
 	else if (Pacman_x == TP_WEST_TOP_X && Pacman_y == TP_WEST_TOP_Y)
 	{
 		next_pos.set_xy(TP_EAST_BOT_X, TP_EAST_BOT_Y);
-		pacman.set_direction((int)direction::LEFT);
+		pacman.set_direction((int)Direction::LEFT);
 	}
 	return next_pos;
 }
-
+void Game::handle_teleport(Position& pacman_pos)//TODO
+{
+	int pacman_direction = pacman.get_direction();
+	int num_of_lines=25;
+	int num_of_cols = 70;
+	
+	if (board.get_cell(pacman_pos) == Shape::S)
+	{
+		if (pacman_direction == int(Direction::DOWN))
+			pacman.set_position(pacman_pos.get_x(), pacman_pos.get_y() % num_of_lines);
+		if (pacman_direction == int(Direction::UP))
+			pacman.set_position(pacman_pos.get_x(), pacman_pos.get_y() + num_of_lines);
+		if (pacman_direction == int(Direction::LEFT))
+			pacman.set_position(pacman_pos.get_x()+num_of_cols, pacman_pos.get_y());
+		if (pacman_direction == int(Direction::RIGHT))
+			pacman.set_position(pacman_pos.get_x()%num_of_cols, pacman_pos.get_y());
+	}
+}
 void Game::pause() {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (int)Board::Color::WHITE);
-	goto_xy(11, 24);  // location of "pause..." in the console
+	goto_xy(PAUSE_X, PAUSE_Y);  // location of "pause..." in the console
 	cout << "Pause . . .";
 	unsigned char c = _getch();
 	while (c != ESC)
 		c = _getch();
 
-	goto_xy(11, 24);
+	goto_xy(PAUSE_X, PAUSE_Y);
 	cout << "           ";
 }
 
-void Game::handle_score(Position pacman_pos) {
+void Game::handle_score(Position& pacman_pos) {
 	if (board.get_cell(pacman_pos) == P)
 	{
 		pacman.add_score();
@@ -217,7 +232,7 @@ void Game::handle_score(Position pacman_pos) {
 	}
 }
 
-Position Game::handle_key_input(const unsigned char current_key) {  //return the direction vectors
+Position& Game::handle_key_input(const unsigned char current_key) {  //return the direction vectors
 	int dir_x = 0, dir_y = 0;
 	Position pos(dir_x, dir_y);
 	int pacman_x = pacman.get_position().get_x();
@@ -228,35 +243,35 @@ Position Game::handle_key_input(const unsigned char current_key) {  //return the
 	case right_lower_case:
 		dir_x = 1;
 		dir_y = 0;
-		pacman.set_direction((int)direction::RIGHT);
+		pacman.set_direction((int)Direction::RIGHT);
 		break;
 
 	case left_upper_case:
 	case left_lower_case:
 		dir_x = -1;
 		dir_y = 0;
-		pacman.set_direction((int)direction::LEFT);
+		pacman.set_direction((int)Direction::LEFT);
 		break;
 
 	case up_upper_case:
 	case up_lower_case:
 		dir_x = 0;
 		dir_y = -1;
-		pacman.set_direction((int)direction::UP);
+		pacman.set_direction((int)Direction::UP);
 		break;
 
 	case down_upper_case:
 	case down_lower_case:
 		dir_x = 0;
 		dir_y = 1;
-		pacman.set_direction((int)direction::DOWN);
+		pacman.set_direction((int)Direction::DOWN);
 		break;
 
 	case stay_upper_case:
 	case stay_lower_case:
 		dir_x = 0;
 		dir_y = 0;
-		pacman.set_direction((int)direction::STAY);
+		pacman.set_direction((int)Direction::STAY);
 		break;
 
 	case ESC:

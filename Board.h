@@ -35,8 +35,8 @@ public:
 	void print_board(const bool color_mode);
 
 	void set_color(int color_pick) const { SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color_pick); }
-	unsigned char get_cell(const Position cell_pos) { return board[cell_pos.get_y()][cell_pos.get_x()]; }
-	void set_cell(Position cell_pos, unsigned char c) { board[cell_pos.get_y()][cell_pos.get_x()] = c; }
+	unsigned char get_cell(const Position& cell_pos) { return board[cell_pos.get_y()][cell_pos.get_x()]; }
+	void set_cell(Position& cell_pos, unsigned char c) { board[cell_pos.get_y()][cell_pos.get_x()] = c; }
 
 };
 

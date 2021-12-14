@@ -23,7 +23,7 @@ public:
 
 private:
 	int souls = STARTING_SOULS;
-	int direction = (int)direction::STAY;
+	int direction = int(Direction::STAY);
 	Position pos{ INITIAL_X,INITIAL_Y };
 	int score = ZERO_POINTS;
 
@@ -32,7 +32,7 @@ public:
 
 	//--Constructor --//
 	Pacman() {};
-	Pacman(int souls, int direction, Position pos, int score);
+	Pacman(int souls, int direction, Position& pos, int score);
 
 	//--Data Members Funcs: --//
 	void set_souls(int souls);

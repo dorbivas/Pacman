@@ -6,7 +6,7 @@
 class Game :Entity{
 
 private:
-    static const int MAX_POINTS = 30 , PACMAN_ICON = 233 , GHOST_ICON = 36, NUM_OF_GHOSTS = 4 , SPEED = 150; //todo good sol ?
+    static const int MAX_POINTS = 30 , PACMAN_ICON = 233 , GHOST_ICON = 36, NUM_OF_GHOSTS = 4 , SPEED = 150,PAUSE_X=11,PAUSE_Y=24; //todo good sol ?
     /*teleports order is sync with the board from left to right */
     enum teleports {
         TP_NORTH1_TOP_X = 21,
@@ -47,27 +47,26 @@ private:
     bool loop_flag = false;
 
     //--Data Members Fucns: --//
-    void set_pacman(Pacman pacman) { this->pacman = pacman; }
-    Position& get_pacman_position(){ return this->pacman.get_position(); }
+    void set_pacman(Pacman& pacman) { this->pacman = pacman; }
+    Position& get_pacman_position(){ return pacman.get_position(); }
     void set_color_mode(bool color_mode_switch) { this->color_mode = color_mode_switch; }
    
     //--Game Logic Fucns: --//
     void game();
-    void check_pacman_move(const Position move_vector);
+    void check_pacman_move(const Position& move_vector);
     void handle_ghost_move();
     void handle_move(Position& next_pos);
     void handle_score(Position& pacman_pos);
-    Position handle_teleport(Position& next_pos);
+    Position& my_teleport(Position& next_pos);
     void handle_collision();
 
-    bool is_collided_ghost(const Position pacman_pos);
-    bool is_invalid_place(const Position next_pos);
-    bool is_teleporting(const Position next_pos);
+    bool is_collided_ghost(const Position& pacman_pos);
 
+    bool is_my_teleporting(const Position& next_pos);
+    void handle_teleport(Position& pacman_pos);
     void reset_game();
     void pause();
-    Position handle_key_input(const unsigned char current_key);
-
+    Position& handle_key_input(const unsigned char current_key);
     //--Display Fucns: --//
     void print_ruls() const;
    // void print_move(const Position pos, const unsigned char c) const;
@@ -78,5 +77,6 @@ private:
 
 public:
     Game();
+
     void run_menu() { menu.handle_menu(); } //TODO ?
 };

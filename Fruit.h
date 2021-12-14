@@ -18,18 +18,16 @@ public:
 		fruit_val = generate_random_fruit_val();
 		
 	}
-	Fruit(Position new_pos) {
-
+	Fruit(Position& new_pos) {
 		fruit_pos = generate_random_pos();
-
 	}
-	Position generate_random_pos();
+	Position& generate_random_pos();
 	
 	void place_fruit();
 	void generate_new_fruit() { Fruit(); } //TODO 
 	void fruit_interaction();
 
-	int get_fruit_val()const { return this->fruit_val; } 
-	Position get_fruit_pos()const { return this->fruit_pos; }
+	int get_fruit_val()const { return fruit_val; } 
+	Position& get_fruit_pos() { return fruit_pos; }
 
 };

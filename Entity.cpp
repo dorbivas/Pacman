@@ -27,3 +27,6 @@ void Entity::display_score_souls(int score, int souls, bool color_mode) const {
 		board.set_color(RED);
 	cout << souls;
 }
+bool Entity::is_invalid_place(const Position& next_pos) {
+	return (board.get_cell(next_pos) == (unsigned char)Board::WALL);
+}

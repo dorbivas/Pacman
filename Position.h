@@ -17,49 +17,56 @@ public:
     int get_y() const { return this->y; }
 
     //--Game Logic Fucns: --//
-    bool operator==(const Position pos){return((pos.get_x()==x)&&(pos.get_y()==y));}
+    bool operator==(const Position& pos){return((pos.get_x()==x)&&(pos.get_y()==y));}
 }; 
 
 /*
    
     TODO dor
-    
-    ***done*** (no deduction) missing a dedicated Menu class for handling user input / output - 
+   
+    ***done*** (no deduction) missing a dedicated Menu class for handling user input / output -
       menu option selection and printing instructions and messages (e.g. for Game::Menu, ::print_ruls)
 
-    - (-1) use enum class rather than enum (enum Color, Direction); (-1) should use named constants / enum 
+    - (-1) use enum class rather than enum (enum Color, Direction); (-1) should use named constants / enum
       instead of literals (Game::Menu, ::pause)
 
     - Board enum
      ***done*** delete corsair
-     * 
-     * 
+     *
+     *
      * scan file func to find .screen
 
 
       TODO yarden
-    - (-1) logic to draw entities should be placed in entity classes and not in encompassing board 
+    - (-1) logic to draw entities should be placed in entity classes and not in encompassing board
     / game class - or altogether separated from classes which handle game logic (Game::
-    
- )
-  
-   - (-2) objects (which are not locally created) should be returned by reference to avoid 
-    copy (Ghosts::get_position, Pacman::get_position); (-2) objects should be received by reference to avoid copy 
-   (Ghosts::set_position, Pacman::set_position)
-
    
 
+  ***done*** - (-2) objects (which are not locally created) should be returned by reference to avoid
+    copy (Ghosts::get_position, Pacman::get_position); (-2) objects should be received by reference to avoid copy
+   (Ghosts::set_position, Pacman::set_position)
+
+   - copy constractors delete? when we have dynemic alocations.
+   
+
+
     TODO Gen
-    - Finish fruit 
+    - Finish fruit
 
     - ghost LVLS
         BFS startegy
+        **done** Novice = rand every 20 move
+        * GOOD =  novic 5 + Smart 1-15~
+        * Smart
 
-    - board File Support 
+    - board File Support
+       
 
-    - gibson haritage cherry les paul ++ 
+    - gibson haritage cherry les paul ++
 
     - GENERIC TELEPORT (modulo size of board)
 
 
+    BUGS:
+    board unexpected behaver in some X Y check ?
 */

@@ -17,7 +17,7 @@ public:
     //colision()
 
     
-    enum direction {
+    enum Direction {
         UP,
         DOWN,
         LEFT,
@@ -58,7 +58,8 @@ public:
     void display_score_souls(int score, int souls, bool color_mode) const;
    // virtual bool is_collided_ghost(const Position pacman_pos,Ghosts ghosts[],int num_of_ghosts,Pacman pacman);
 protected:
-    Board board;
+    Board board;//maybe not //TODO
+    bool is_invalid_place(const Position& next_pos);//TODO
 
 private:
     int speed;

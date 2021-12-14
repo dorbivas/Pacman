@@ -1,6 +1,6 @@
 #include "Pacman.h"
 
-Pacman::Pacman(int souls, int direction, Position pos, int score) {
+Pacman::Pacman(int souls, int direction, Position& pos, int score) {
 	this->souls = souls;
 	this->score = score;
 	this->direction = direction;

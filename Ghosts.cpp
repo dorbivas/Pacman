@@ -4,15 +4,15 @@ Position Ghosts::move_ghost(){
 	Position dir_pos;
 	set_direction();
 
-	if (direction == (int)direction::UP)
+	if (direction == (int)Direction::UP)
 	{
 		dir_pos.set_xy(pos.get_x(), pos.get_y() + 1); 
 	}
-	else if (direction == (int)direction::DOWN)
+	else if (direction == (int)Direction::DOWN)
 	{
 		dir_pos.set_xy(pos.get_x(), pos.get_y() - 1);
 	}
-	else if (direction == (int)direction::LEFT)
+	else if (direction == (int)Direction::LEFT)
 	{
 		dir_pos.set_xy(pos.get_x()-1, pos.get_y());
 	}

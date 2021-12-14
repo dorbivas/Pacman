@@ -21,7 +21,7 @@ bool is_valid_key(const unsigned char c) {
 /*
 void printfiles() {
 	string path_name;
-	_getcwd(path_name, 256);
+	getcwd(path_name, 256);
 	//string path_name = "c:\users\user\source\repos\pacman";
 	int is_found = -1; //start as false
 	// filenames are unique so we can use a set

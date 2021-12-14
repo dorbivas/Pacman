@@ -4,8 +4,8 @@
 #include <conio.h>
 #include <string.h>
 #include "Position.h"
-#include <direct.h>
-#include<limits.h>
+#include <filesystem>
+//#include <cunistd.h>
 
 
 #include<set>
@@ -16,7 +16,7 @@ using std::cin;
 using std::endl;
 using std::string;
 using std::srand;
-
+//using std::filesystem::current_path;
 
 enum Keys {
 	up_upper_case = 87		,

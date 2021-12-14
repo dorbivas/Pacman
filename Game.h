@@ -56,8 +56,8 @@ private:
     void check_pacman_move(const Position move_vector);
     void handle_ghost_move();
     void handle_move(Position& next_pos);
-    void handle_score(Position pacman_pos);
-    Position handle_teleport(Position next_pos);
+    void handle_score(Position& pacman_pos);
+    Position handle_teleport(Position& next_pos);
     void handle_collision();
 
     bool is_collided_ghost(const Position pacman_pos);

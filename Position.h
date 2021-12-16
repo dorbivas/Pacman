@@ -53,6 +53,14 @@ public:
 
     - (-1) logic to draw entities should be placed in entity classes and not in encompassing board
     / game class - or altogether separated from classes which handle game logic (Game::
+ 
+        Kids
+        -   shape color at entity kids init them on the constructor
+        - virt funcs to kids
+        - init() func which sets the initial parms every board Maybe dad do init for all
+
+
+
 
    - copy constractors delete? when we have dynemic alocations.
 

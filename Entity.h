@@ -6,17 +6,11 @@ class Entity {
     
 
 public:
-
-
-
-    //  +1 move()
+    //virtual void move(); //kids may or may not move() TODO ? = 0 
+    //virtual void colision(Entity other);
     //   +1 virtual colision(Pos1 , Pos2, Object1, Object2 )
-
-
 //Kids:
     //colision()
-
-    
     enum Direction {
         UP,
         DOWN,
@@ -64,6 +58,7 @@ protected:
 private:
     int speed;
     Position curr;
-    
+    //shape color  TODO
+
 
 };

@@ -1,5 +1,9 @@
 #include "Ghosts.h"
+//#include "Game.h" TODO? 
 #include <queue>
+
+#include "Game.h"
+
 
 Position Ghosts::move_ghost(){
 	Position new_dir;
@@ -24,78 +28,48 @@ Position Ghosts::move_ghost(){
 
 	return new_dir;
 }
-/*
-void Ghost::handle_smart_move()
-{
-    Position curr_pos, next_pos;
-    for (int i = 0; i < 2NUM_OF_GHOSTS; i++)
-    {
-
-    }
-}
-
-
-void Game::handle_ghost_move() {
-    Position curr_pos, next_pos;
-    for (int i = 0; i < NUM_OF_GHOSTS; i++) 
-    {
-        curr_pos = ghosts[i].get_position();
-        next_pos = ghosts[i].move_ghost();
-        while (is_invalid_place(next_pos) || board.get_cell(next_pos) == (unsigned char)Board::TELEPORT)
-        {
-            ghosts[i].rotate_direction();
-            next_pos = ghosts[i].move_ghost();
-        }
-
-        ghosts[i].set_position(next_pos);
-
-        if (board.get_cell(curr_pos) == (unsigned char)Board::POINT)
-        {
-            board.set_cell(curr_pos, (unsigned char)Board::POINT);
-            print_move(curr_pos, (unsigned char)Board::POINT);
-        }
-        else
-            print_move(curr_pos, ' ');//deletes the previous symbol
-
-        print_move(next_pos, GHOST_ICON);
-    }
-}
-
 
 
 //smart ghost using BFS
 //void Ghosts::smart(int grid[][COL], bool vis[][COL], int row, int col)
-void Ghosts::smart(int grid[][25], Position curr_pos)
+Entity::Direction Ghosts::smart(unsigned char grid[][25], Position target)
 {
-    int ghost_x = curr_pos.get_x(), ghost_y = curr_pos.get_y();
-    std::queue<Position> moving_queue;// data member?
-    bool is_visted[][25] = { false }; //init all cells as unvisited cells. data member?
+    // Direction vectors
+    int move_vector_x[] = { -1, 0, 1, 0 };
+    int move_vector_y[] = { 0, 1, 0, -1 };
+	Entity::Direction next_move;
+
+
+    int target_x = target.get_x(), target_y = target.get_y();
+    std::queue<Position> moving_queue;
+    bool is_visted[][25] = { false }; //init all cells as unvisited cells. 
     Position new_pos;
 
-    moving_queue.push(curr_pos);
-    is_visted[ghost_x][ghost_y] = true;
+    moving_queue.push(target);
+    is_visted[target_x][target_y] = true;
 
     while (!moving_queue.empty()) {
 
-        Position cell = moving_queue.front();
+        Position curr = moving_queue.front();
+		moving_queue.pop();
 
-        int x = cell.get_x();
-        int y = cell.get_y();
-
-
-        moving_queue.pop();
-
-        // Direction vectors
-        int move_vector_row[] = { -1, 0, 1, 0 };
-        int move_vector_col[] = { 0, 1, 0, -1 };
-		if naghber ghost return;
-
-
+		int curr_x = curr.get_x();
+		int curr_y = curr.get_y();
         // Go to the adjacent cells
         for (int i = 0; i < 4; i++) {
 
-            new_pos.set_xy(x = ghost_x + move_vector_row[i], y = ghost_y + move_vector_col[i]);
-            //if (is_invalid_place(new_pos))
+			if (get_position().get_x() + move_vector_x[i] == curr_x && 
+				get_position().get_y() + move_vector_y[i] == curr_y )
+			{
+				switch (i) {
+				case 0:	return Entity::Direction::LEFT;
+				case 1: return Entity::Direction::UP;
+				case 2:	return Entity::Direction::RIGHT;
+				case 3:	return Entity::Direction::DOWN;
+				}
+			}
+            new_pos.set_xy(curr_x + move_vector_x[i], curr_y + move_vector_y[i]);
+            if (!is_invalid_place(new_pos) /*&& teleport && visited == false*/)
             {
                 moving_queue.push(new_pos);
                 is_visted[new_pos.get_x()][new_pos.get_y()] = true;
@@ -129,50 +103,50 @@ bool Ghosts::Entity::is_collided_ghost(const Position pacman_pos,Ghosts ghosts[]
 }*/
 
 
-/*
 
-void Ex01Logic::getInputFromUserForArr(int& sumInput)
-{
-	string inputForArr;
-	int numberInArr = 0;
-	int sizeOfArr = 0;
-	string token;
-
-	cout << "Please enter in the first row the size of an array." << endl <<
-		"In the second row the members of the array." << endl << "In the third row a searched sum of two numbers : " << endl;
-	getline(cin, inputForArr);
-	sizeOfArr = stoi(inputForArr);
-	getline(cin, inputForArr);
-	istringstream iss(inputForArr);
-	getline(cin, inputForArr);
-	sumInput = stoi(inputForArr);
-
-	if (cin.eof() || (!iss.eof())) {
-		while (getline(iss, token, '\n'))
-		{
-			num_of_lines++;
-			numberInArr = stoi(token);
-			if (numberInArr < 0)
-			{
-				arr.clear();
-				throw "The arr can contain only natural numbers!";
-			}
-			else
-			{
-				arr.push_back(numberInArr);
-			}
-			sizeOfArr--;
-		}
-	}
-	if (sizeOfArr > 0 || sizeOfArr < 0)
-	{
-		arr.clear();
-		throw "The number of members that entered the array does not match its size";
-	}
-
-	if (arr.size() == 0)
-	{
-		throw "The array is empty!";
-	}
-
-}*/
+//
+//void Ex01Logic::getInputFromUserForArr(int& sumInput)
+//{
+//	string inputForArr;
+//	int numberInArr = 0;
+//	int sizeOfArr = 0;
+//	string token;
+//
+//	cout << "Please enter in the first row the size of an array." << endl <<
+//		"In the second row the members of the array." << endl << "In the third row a searched sum of two numbers : " << endl;
+//	getline(cin, inputForArr);
+//	sizeOfArr = stoi(inputForArr);
+//	getline(cin, inputForArr);
+//	istringstream iss(inputForArr);
+//	getline(cin, inputForArr);
+//	sumInput = stoi(inputForArr);
+//
+//	if (cin.eof() || (!iss.eof())) {
+//		while (getline(iss, token, '\n'))
+//		{
+//			num_of_lines++;
+//			numberInArr = stoi(token);
+//			if (numberInArr < 0)
+//			{
+//				arr.clear();
+//				throw "The arr can contain only natural numbers!";
+//			}
+//			else
+//			{
+//				arr.push_back(numberInArr);
+//			}
+//			sizeOfArr--;
+//		}
+//	}
+//	if (sizeOfArr > 0 || sizeOfArr < 0)
+//	{
+//		arr.clear();
+//		throw "The number of members that entered the array does not match its size";
+//	}
+//
+//	if (arr.size() == 0)
+//	{
+//		throw "The array is empty!";
+//	}
+//
+//}

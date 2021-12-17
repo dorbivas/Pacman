@@ -2,19 +2,10 @@
 #include "Position.h"
 
 #include "Utility.h"
-//
-//#define STARTING_SOULS 3
-//#define ZERO_POINTS 0
-//#define INITIAL_X 39
-//#define INITIAL_Y 12
 
 #include "Entity.h"
 
 
-//#define STARTING_SOULS 3
-//#define ZERO_POINTS 0
-//#define INITIAL_X 39
-//#define INITIAL_Y 12
 
 class Pacman :Entity
 {

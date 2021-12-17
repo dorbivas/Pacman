@@ -20,6 +20,7 @@ public:
         steps = 0;
         direction = generate_random_dir();
         pos.set_xy(INITAL_GHOST_X, INITAL_GHOST_Y);
+ 
     }
      //--Data Members Fucns: --//
     Position& get_position() { return pos; }
@@ -32,6 +33,7 @@ public:
         if (steps == MAX_STEPS) { steps = 0; direction = generate_random_dir(); }
         else { steps++; }
     }
+    void set_direction1(int dir) { direction = dir; } //TODO
 
     //--Game Logic Fucns: --//
     void rotate_direction() {
@@ -39,5 +41,6 @@ public:
         else { direction++; }
     }
     Position move_ghost();
-   //bool is_collided_ghost(const Position pacman_pos, Ghosts ghosts[], int num_of_ghosts, Pacman pacman);
+    Entity::Direction smart(unsigned char grid[][25], Position target)
+        //bool is_collided_ghost(const Position pacman_pos, Ghosts ghosts[], int num_of_ghosts, Pacman pacman);
 };

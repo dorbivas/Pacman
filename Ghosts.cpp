@@ -46,7 +46,7 @@ void Ghosts::smart(Position target)
 
     int target_x = target.get_x(), target_y = target.get_y();
     std::queue<Position> moving_queue;
-    bool is_visted[][25] = { false }; //init all cells as unvisited cells. 
+    bool is_visted[80][25] = { false }; //init all cells as unvisited cells. 
     Position new_pos;
 
     moving_queue.push(target);

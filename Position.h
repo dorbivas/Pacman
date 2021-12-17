@@ -110,7 +110,7 @@ public:
         - another mode with our custome made board.
         TODO level ghosts display
 
-
+    //TODO is telepot and is valid
     BUGS:
     board unexpected behaver in some X Y check ?
 */

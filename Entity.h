@@ -37,7 +37,7 @@ public:
 protected:
     Board board;//maybe not //TODO
     Direction good_lvl_ghost(Position target);
-    bool is_visted[80][25] = { false }; //init all cells as unvisited cells. // TODO sizes
+   
     bool is_my_teleporting(const Position& next_pos) {
         return (board.get_cell(next_pos) == (unsigned char)Board::TELEPORT);
     }

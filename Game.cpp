@@ -96,21 +96,42 @@ void Game::handle_move(Position& next_pos) {
 	}
 }
 
-void Game::handle_ghost_move() {
+void Game::handle_ghost_move() {//TODO VIRTUAL
 	Position curr_pos, next_pos;
-	int souls = pacman.get_souls();
-	int score = pacman.get_score();
 	for (int i = 0; i < NUM_OF_GHOSTS; i++)
 	{
 		curr_pos = ghosts[i].get_position();
-		next_pos = ghosts[i].move_ghost();
-		while (is_invalid_place(next_pos) || board.get_cell(next_pos) == (unsigned char)Board::TELEPORT)
-		{
-			ghosts[i].rotate_direction();
-			next_pos = ghosts[i].move_ghost();
-		}
+		if(ghosts[i].get_mode()==(int)Smart)
+			ghosts[i].smart(pacman.get_position());
+		else if(ghosts[i].get_mode() == (int)Novice)
+			ghosts[i].novice_lvl_ghost();
+		else
+			ghosts[i].good_lvl_ghost(pacman.get_position());
 
-		ghosts[i].set_position(next_pos);
+		next_pos = ghosts[i].move_dir();
+		if (ghosts[i].get_mode() != (int)Smart)
+		{
+
+			while (is_invalid_place(next_pos) || board.get_cell(next_pos) == (unsigned char)Board::TELEPORT)
+			{
+				//novice mode
+				if (ghosts[i].get_mode() == (int)Smart)
+					ghosts[i].smart(pacman.get_position());
+				else if (ghosts[i].get_mode() == (int)Novice)
+				{
+					ghosts[i].rotate_direction();
+					ghosts[i].novice_lvl_ghost();
+				}
+				else
+				{
+					ghosts[i].rotate_direction();
+					ghosts[i].good_lvl_ghost(pacman.get_position());
+				}
+				next_pos = ghosts[i].move_dir();
+			}
+			ghosts[i].set_position(next_pos);
+		}
+		
 
 		if (board.get_cell(curr_pos) == Entity::Shape::P)
 		{
@@ -353,6 +374,8 @@ void Game::Menu::handle_menu() { //TODO number table for user choice?
 		else if (user_choice == Start_Game)
 		{
 			system("cls");
+			handle_ghosts_level(run);
+			system("cls");
 			run.game();
 		}
 		else if (user_choice == Change_Color_Mode)
@@ -386,10 +409,39 @@ void Game::Menu::handle_menu() { //TODO number table for user choice?
 		}
 
 	} while (user_choice != Exit_Game);
+
+	
+
 	system("cls");
 	return;
 }
-
+void Game::Menu::handle_ghosts_level(Game run)
+{
+	cout << "Please select the level of ghosts" << endl;
+	cout << "a ==> BEST" << endl << endl;
+	cout << "b ==> GOOD" << endl << endl;
+	cout << "c ==> NOVICE" << endl << endl;
+	do
+	{
+		cin >> ghosts_level_choice;
+		if (ghosts_level_choice == BEST)
+			run.set_ghosts_mode(Smart);
+		else if (ghosts_level_choice == GOOD)
+			run.set_ghosts_mode(Good);
+		else if (ghosts_level_choice == 'c')
+			run.set_ghosts_mode(Novice);
+		else
+		{
+			cout << "pick valid choice." << endl;
+			Sleep(250);
+			system("cls");
+			cout << "Please select the level of ghosts" << endl;//TODO PRINT MENU
+			cout << "a ==> BEST" << endl << endl;
+			cout << "b ==> GOOD" << endl << endl;
+			cout << "c ==> NOVICE" << endl << endl;
+		}//TO DO FUNCTION WHILE
+	} while (ghosts_level_choice != Exit_Game && ghosts_level_choice != BEST &&ghosts_level_choice != GOOD &&ghosts_level_choice != NOVICE);
+}
 void Game::Menu::menu_display() {
 
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (int)Board::Color::WHITE);

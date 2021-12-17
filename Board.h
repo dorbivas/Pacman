@@ -29,7 +29,7 @@ public:
 private:
 	enum board_size { WIDTH = 80, HEIGHT = 25, };
 	unsigned char board[HEIGHT][WIDTH];
-    bool is_visted[80][25] = { false }; //init all cells as unvisited cells. // TODO sizes
+    
 
 public:
 	void print_board(const bool color_mode);

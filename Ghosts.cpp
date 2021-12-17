@@ -1,12 +1,9 @@
 #include "Ghosts.h"
-
-Position Ghosts::move_ghost(){
+Position Ghosts::move_dir() {
 	Position new_dir;
-	set_direction();
-
 	if (direction == (int)Direction::UP)
 	{
-		new_dir.set_xy(pos.get_x(), pos.get_y() + 1); 
+		new_dir.set_xy(pos.get_x(), pos.get_y() + 1);
 	}
 	else if (direction == (int)Direction::DOWN)
 	{
@@ -14,26 +11,34 @@ Position Ghosts::move_ghost(){
 	}
 	else if (direction == (int)Direction::LEFT)
 	{
-		new_dir.set_xy(pos.get_x()-1, pos.get_y());
+		new_dir.set_xy(pos.get_x() - 1, pos.get_y());
 	}
 	else //RIGHT
-	{  
-		new_dir.set_xy(pos.get_x()+1, pos.get_y());
+	{
+		new_dir.set_xy(pos.get_x() + 1, pos.get_y());
 	}
-
 	return new_dir;
 }
-/*
-Entity::Direction Ghosts::good_lvl_ghost(Position target)
+
+void Ghosts::novice_lvl_ghost(){
+	if (steps == MAX_STEPS) {
+		steps = 0;
+		direction = generate_random_dir();
+	}
+	else
+		steps++;
+}
+
+void Ghosts::good_lvl_ghost(Position target)
 {
 	if (steps >= 0 && steps <= 5)
-		return (Entity::Direction)generate_random_dir();
+		novice_lvl_ghost();
 	else
-		return smart(target);
-}*/
-/*
+		smart(target);
+}
+
 //smart ghost using BFS
-Entity::Direction Ghosts::smart(Position target)
+void Ghosts::smart(Position target)
 {
     // Direction vectors
     int move_vector_x[] = { -1, 0, 1, 0 };
@@ -55,27 +60,27 @@ Entity::Direction Ghosts::smart(Position target)
 		int curr_x = curr.get_x();
 		int curr_y = curr.get_y();
         // Go to the adjacent cells
-        for (int i = 0; i < 4; i++) {
-
+		for (int i = 0; i < 4; i++) {
+	
 			if (get_position().get_x() + move_vector_x[i] == curr_x && 
 				get_position().get_y() + move_vector_y[i] == curr_y )
 			{
 				switch (i) {
-				case 0:	return Entity::Direction::LEFT;
-				case 1: return Entity::Direction::UP;
-				case 2:	return Entity::Direction::RIGHT;
-				case 3:	return Entity::Direction::DOWN;
+					case 0:	set_direction(Entity::Direction::LEFT);
+					case 1: set_direction(Entity::Direction::UP);
+					case 2:	set_direction(Entity::Direction::RIGHT);
+					case 3:	set_direction(Entity::Direction::DOWN);
 				}
 			}
             new_pos.set_xy(curr_x + move_vector_x[i], curr_y + move_vector_y[i]);
-            if (!is_invalid_place(new_pos) && is_visted[new_pos.get_x()][new_pos.get_y()] == false)/*is_my_teleporting(new_pos) &&
+            if (!is_invalid_place(new_pos) && is_visted[new_pos.get_x()][new_pos.get_y()] == false && is_my_teleporting(new_pos))
             {
                 moving_queue.push(new_pos);
                 is_visted[new_pos.get_x()][new_pos.get_y()] = true;
             }
         }
     }
-}*/
+}
 
 //
 //void Ex01Logic::getInputFromUserForArr(int& sumInput)

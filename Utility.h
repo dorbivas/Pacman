@@ -33,6 +33,12 @@ enum Keys {
 	ESC = 27
 };
 
+enum Ghost_mode {//TODO
+	Smart,
+	Good,
+	Novice
+};
+
 
 	//--Game Logic Fucns: --//
 void goto_xy(const int x, const int y);

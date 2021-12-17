@@ -12,7 +12,7 @@ public:
     //   +1 virtual colision(Pos1 , Pos2, Object1, Object2 )
 //Kids:
     //colision()
-    enum Direction {
+    enum class Direction {
         UP,
         DOWN,
         LEFT,
@@ -20,7 +20,7 @@ public:
         STAY
     };
     
-    enum Shape {
+    enum  Shape {
         PACMAN = 233,
         GHOST = 36,
         P = 250,
@@ -37,7 +37,13 @@ public:
 protected:
     Board board;//maybe not //TODO
     Direction good_lvl_ghost(Position target);
-
+    bool is_visted[80][25] = { false }; //init all cells as unvisited cells. // TODO sizes
+    bool is_my_teleporting(const Position& next_pos) {
+        return (board.get_cell(next_pos) == (unsigned char)Board::TELEPORT);
+    }
+    bool is_invalid_place(const Position& next_pos) {
+        return (board.get_cell(next_pos) == (unsigned char)Board::WALL);
+    }
 
 private:
     int speed;

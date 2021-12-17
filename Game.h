@@ -2,13 +2,12 @@
 #include "Pacman.h"
 #include "Ghosts.h"
 
-#define NUM_OF_GHOSTS 2
 //#include <filesystem>
 //#include <istream>
 //#include <fstream>
 class Game{
 private:
-    static const int MAX_POINTS = 30, SPEED = 150, PAUSE_X = 11, PAUSE_Y = 24; //todo good sol 
+    static const int MAX_POINTS = 300, SPEED = 150, NUM_OF_GHOSTS=2, PAUSE_X = 11, PAUSE_Y = 24; //todo good sol 
     Pacman pacman;
     Ghosts ghosts[NUM_OF_GHOSTS];
     Board board;
@@ -40,10 +39,13 @@ private:
     class Menu {
     private:
         int user_choice = 0;
+        char ghosts_level_choice;
 
     public:
         enum user_options { Start_Game = 1, Change_Color_Mode , Show_Ruls = 8, Exit_Game = 9 };
+        enum ghosts_level_options { BEST = 'a', GOOD = 'b', NOVICE = 'c' };
         void handle_menu();
+        void handle_ghosts_level(Game run);
         void menu_display();
         void print_ruls() const;
         
@@ -72,6 +74,10 @@ private:
     bool is_invalid_place(const Position& next_pos);
     bool is_my_teleporting(const Position& next_pos) {
         return (board.get_cell(next_pos) == (unsigned char)Board::TELEPORT);
+    }
+    void set_ghosts_mode(Ghost_mode mode) {
+        for (int i = 0; i < NUM_OF_GHOSTS; i++)
+            ghosts[i].set_mode(mode);
     }
     //bool is_my_teleporting(const Position& next_pos);
     void reset_game();

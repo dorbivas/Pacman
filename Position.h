@@ -85,6 +85,8 @@ public:
         *       - pass the next pos + direction to the move func
         * implement Good in ghost class 
         *
+        * to do mode enum
+        * set mode
 
     - board File Support
        - locate file ".scree" almost done include fix
@@ -106,7 +108,7 @@ public:
 
     MENU - low priority
         - another mode with our custome made board.
-
+        TODO level ghosts display
 
 
     BUGS:

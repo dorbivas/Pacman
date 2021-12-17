@@ -2,13 +2,11 @@
 #include "Utility.h"
 #include "Entity.h"
 
-class Fruit:Entity {
+class Fruit:public Entity {
 
 private:
 	static const int offset = 49; //diffrence between the int and the char his represent.
 	int generate_random_fruit_val() { return  5 + (rand() % 5); } //5-9 
-	//Shape shape = Shape::P;
-	//Color color = Color::LIGHTGREEN;
 	int fruit_val = generate_random_fruit_val();
 	Position fruit_pos;
 
@@ -16,6 +14,8 @@ private:
 
 public:
 	Fruit() {
+		shape = Shape::P;
+		color = Board::Color::WHITE;
 		fruit_pos = generate_random_pos();
 		fruit_val = generate_random_fruit_val();
 		

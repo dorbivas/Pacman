@@ -11,7 +11,7 @@ private:
     Pacman pacman;
     Ghosts ghosts[NUM_OF_GHOSTS];
     Board board;
-    
+    Ghost_mode ghosts_level_mode= Ghost_mode::Novice;
 
     bool pause_flag = false;
     bool color_mode = true;
@@ -74,10 +74,6 @@ private:
     bool is_invalid_place(const Position& next_pos);
     bool is_my_teleporting(const Position& next_pos) {
         return (board.get_cell(next_pos) == (unsigned char)Board::TELEPORT);
-    }
-    void set_ghosts_mode(Ghost_mode mode) {
-        for (int i = 0; i < NUM_OF_GHOSTS; i++)
-            ghosts[i].set_mode(mode);
     }
     //bool is_my_teleporting(const Position& next_pos);
     void reset_game();

@@ -9,16 +9,17 @@
 #define INITAL_GHOST_Y 6
 #define MAX_STEPS 20
 
-class Ghosts:Entity
+enum Ghost_mode {//TODO
+    Smart,
+    Good,
+    Novice
+};
+class Ghosts:public Entity
 {
 
 private:
-    Position pos;
-    int direction;
+    int mode;
     int steps;
-    int mode = (int)Ghost_mode::Smart;
-    //Shape shape = Shape::GHOST;
-    //Color color = Color::LIGHTGREEN;
     int generate_random_dir() { return rand() % 4; }
 
 public:
@@ -26,20 +27,18 @@ public:
     //--Constructor --//
     Ghosts(){
         steps = 0;
+        shape = Shape::GHOST;
+        color = Board::Color::RED;
         direction = generate_random_dir();
         pos.set_xy(INITAL_GHOST_X, INITAL_GHOST_Y);
     }
      //--Data Members Fucns: --//
-    Position& get_position() { return pos; }
     int get_step() const { return steps; }
-    int get_direction() const { return direction; }
     int get_mode() { return mode; }
 
-    void set_position(Position& Pos) { pos = Pos; }
-    void set_position(int x, int y) { pos.set_xy(x, y); }
-    void set_direction(Entity::Direction dir) { direction = (int)dir; } //TODO
-    void set_mode(Ghost_mode mode) {
-        this->mode = (int)mode; }
+    void set_mode(int mode) {
+        this->mode = mode;
+    }
     //--Game Logic Fucns: --//
     Position move_dir();
     void rotate_direction() {

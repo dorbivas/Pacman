@@ -12,12 +12,6 @@ int Pacman::get_souls() const {
 void Pacman::set_souls(int souls) {
 	this->souls = souls;
 }
-int Pacman::get_direction() const{
-	return direction;
-}
-void Pacman::set_direction(int direction) {
-	this->direction = direction;
-}
 void Pacman::decrease_soul() {
 	souls--;
 }

@@ -33,11 +33,7 @@ enum Keys {
 	ESC = 27
 };
 
-enum Ghost_mode {//TODO
-	Smart,
-	Good,
-	Novice
-};
+
 
 
 	//--Game Logic Fucns: --//

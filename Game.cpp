@@ -101,23 +101,21 @@ void Game::handle_ghost_move() {//TODO VIRTUAL
 	for (int i = 0; i < NUM_OF_GHOSTS; i++)
 	{
 		curr_pos = ghosts[i].get_position();
-		if(ghosts[i].get_mode()==(int)Smart)
+		if(ghosts_level_mode==Smart)
 			ghosts[i].smart(pacman.get_position());
-		else if(ghosts[i].get_mode() == (int)Novice)
+		else if(ghosts_level_mode == Novice)
 			ghosts[i].novice_lvl_ghost();
 		else
 			ghosts[i].good_lvl_ghost(pacman.get_position());
 
 		next_pos = ghosts[i].move_dir();
-		if (ghosts[i].get_mode() != (int)Smart)
+		if (ghosts_level_mode != Smart)//TODO
 		{
 
 			while (is_invalid_place(next_pos) || board.get_cell(next_pos) == (unsigned char)Board::TELEPORT)
 			{
 				//novice mode
-				if (ghosts[i].get_mode() == (int)Smart)
-					ghosts[i].smart(pacman.get_position());
-				else if (ghosts[i].get_mode() == (int)Novice)
+				if (ghosts_level_mode == Novice)
 				{
 					ghosts[i].rotate_direction();
 					ghosts[i].novice_lvl_ghost();
@@ -159,10 +157,10 @@ void Game::print_move(const Position pos, Entity::Shape shape) {
 	}
 	goto_xy(pos.get_x(), pos.get_y());
 	if (shape != 0)
-		cout << char(shape);//TIODO MAYBE SET CELL 
+		cout << char(shape);//TODO MAYBE SET CELL 
 }
 void Game::display_score_souls() const{
-	goto_xy(7, 23);
+	goto_xy(7, 23);//TODO ENUM
 	if (color_mode)
 		board.set_color((int)Board::Color::LIGHTGREEN);
 	cout << pacman.get_score();
@@ -197,46 +195,6 @@ bool Game::is_collided_ghost(const Position& pacman_pos) {
 	return false;
 }
 
-
-//addition
-
-//addition
-Position& Game::my_teleport(Position& next_pos) {
-	int Pacman_x = next_pos.get_x();
-	int Pacman_y = next_pos.get_y();
-
-	if (Pacman_x == TP_NORTH1_TOP_X && Pacman_y == TP_NORTH1_TOP_Y)
-	{
-		next_pos.set_xy(TP_NORTH1_BOT_X, TP_NORTH1_BOT_Y);
-		pacman.set_direction((int)Entity::Direction::UP);
-	}
-	else if (Pacman_x == TP_NORTH2_TOP_X && Pacman_y == TP_NORTH2_TOP_Y)
-	{
-		next_pos.set_xy(TP_NORTH2_BOT_X, TP_NORTH2_BOT_Y);
-		pacman.set_direction((int)Entity::Direction::UP);
-	}
-	else if (Pacman_x == TP_NORTH1_BOT_X && Pacman_y == TP_NORTH1_BOT_Y)
-	{
-		next_pos.set_xy(TP_NORTH1_TOP_X, TP_NORTH1_TOP_Y);
-		pacman.set_direction((int)Entity::Direction::DOWN);
-	}
-	else if (Pacman_x == TP_NORTH2_BOT_X && Pacman_y == TP_NORTH2_BOT_Y)
-	{
-		next_pos.set_xy(TP_NORTH2_TOP_X, TP_NORTH2_TOP_Y);
-		pacman.set_direction((int)Entity::Direction::DOWN);
-	}
-	else if (Pacman_x == TP_EAST_BOT_X && Pacman_y == TP_EAST_BOT_Y)
-	{
-		next_pos.set_xy(TP_WEST_TOP_X, TP_WEST_TOP_Y);
-		pacman.set_direction((int)Entity::Direction::RIGHT);
-	}
-	else if (Pacman_x == TP_WEST_TOP_X && Pacman_y == TP_WEST_TOP_Y)
-	{
-		next_pos.set_xy(TP_EAST_BOT_X, TP_EAST_BOT_Y);
-		pacman.set_direction((int)Entity::Direction::LEFT);
-	}
-	return next_pos;
-}
 void Game::handle_teleport(Position& pacman_pos)//TODO
 {
 	int pacman_direction = pacman.get_direction();
@@ -425,11 +383,11 @@ void Game::Menu::handle_ghosts_level(Game run)
 	{
 		cin >> ghosts_level_choice;
 		if (ghosts_level_choice == BEST)
-			run.set_ghosts_mode(Smart);
+			run.ghosts_level_mode =Smart;
 		else if (ghosts_level_choice == GOOD)
-			run.set_ghosts_mode(Good);
+			run.ghosts_level_mode = Good;
 		else if (ghosts_level_choice == 'c')
-			run.set_ghosts_mode(Novice);
+			run.ghosts_level_mode = Novice;
 		else
 		{
 			cout << "pick valid choice." << endl;
@@ -507,3 +465,45 @@ char** create_board()
 	return board_matrix;
 }
 */
+
+
+
+//addition
+
+//addition
+Position& Game::my_teleport(Position& next_pos) {
+	int Pacman_x = next_pos.get_x();
+	int Pacman_y = next_pos.get_y();
+
+	if (Pacman_x == TP_NORTH1_TOP_X && Pacman_y == TP_NORTH1_TOP_Y)
+	{
+		next_pos.set_xy(TP_NORTH1_BOT_X, TP_NORTH1_BOT_Y);
+		pacman.set_direction((int)Entity::Direction::UP);
+	}
+	else if (Pacman_x == TP_NORTH2_TOP_X && Pacman_y == TP_NORTH2_TOP_Y)
+	{
+		next_pos.set_xy(TP_NORTH2_BOT_X, TP_NORTH2_BOT_Y);
+		pacman.set_direction((int)Entity::Direction::UP);
+	}
+	else if (Pacman_x == TP_NORTH1_BOT_X && Pacman_y == TP_NORTH1_BOT_Y)
+	{
+		next_pos.set_xy(TP_NORTH1_TOP_X, TP_NORTH1_TOP_Y);
+		pacman.set_direction((int)Entity::Direction::DOWN);
+	}
+	else if (Pacman_x == TP_NORTH2_BOT_X && Pacman_y == TP_NORTH2_BOT_Y)
+	{
+		next_pos.set_xy(TP_NORTH2_TOP_X, TP_NORTH2_TOP_Y);
+		pacman.set_direction((int)Entity::Direction::DOWN);
+	}
+	else if (Pacman_x == TP_EAST_BOT_X && Pacman_y == TP_EAST_BOT_Y)
+	{
+		next_pos.set_xy(TP_WEST_TOP_X, TP_WEST_TOP_Y);
+		pacman.set_direction((int)Entity::Direction::RIGHT);
+	}
+	else if (Pacman_x == TP_WEST_TOP_X && Pacman_y == TP_WEST_TOP_Y)
+	{
+		next_pos.set_xy(TP_EAST_BOT_X, TP_EAST_BOT_Y);
+		pacman.set_direction((int)Entity::Direction::LEFT);
+	}
+	return next_pos;
+}

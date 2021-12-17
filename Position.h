@@ -27,7 +27,7 @@ public:
     ***done*** (no deduction) missing a dedicated Menu class for handling user input / output -
       menu option selection and printing instructions and messages (e.g. for Game::Menu, ::print_ruls)
 
-    - (-1) use enum class rather than enum (enum Color, Direction); (-1) should use named constants / enum
+    - **done**(-1) use enum class rather than enum (enum Color, Direction); (-1) should use named constants / enum
       instead of literals (Game::Menu, ::pause)
 
     - Board enum

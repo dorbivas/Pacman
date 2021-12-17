@@ -1,9 +1,4 @@
 #include "Ghosts.h"
-//#include "Game.h" TODO? 
-#include <queue>
-
-#include "Game.h"
-
 
 Position Ghosts::move_ghost(){
 	Position new_dir;
@@ -31,14 +26,11 @@ Position Ghosts::move_ghost(){
 
 
 //smart ghost using BFS
-//void Ghosts::smart(int grid[][COL], bool vis[][COL], int row, int col)
-Entity::Direction Ghosts::smart(unsigned char grid[][25], Position target)
+Entity::Direction Ghosts::smart(Position target)
 {
     // Direction vectors
     int move_vector_x[] = { -1, 0, 1, 0 };
     int move_vector_y[] = { 0, 1, 0, -1 };
-	Entity::Direction next_move;
-
 
     int target_x = target.get_x(), target_y = target.get_y();
     std::queue<Position> moving_queue;
@@ -69,7 +61,7 @@ Entity::Direction Ghosts::smart(unsigned char grid[][25], Position target)
 				}
 			}
             new_pos.set_xy(curr_x + move_vector_x[i], curr_y + move_vector_y[i]);
-            if (!is_invalid_place(new_pos) /*&& teleport && visited == false*/)
+            if (!is_invalid_place(new_pos) && is_visted[new_pos.get_x()][new_pos.get_y()] == false)/*is_my_teleporting(new_pos) &&*/ 
             {
                 moving_queue.push(new_pos);
                 is_visted[new_pos.get_x()][new_pos.get_y()] = true;
@@ -77,32 +69,6 @@ Entity::Direction Ghosts::smart(unsigned char grid[][25], Position target)
         }
     }
 }
-
-/*
-bool Ghosts::Entity::is_collided_ghost(const Position pacman_pos,Ghosts ghosts[],int num_of_ghosts,Pacman pacman) {
-	int d1, d2, x_dif, y_dif;
-	for (int i = 0; i < num_of_ghosts; i++)
-	{
-		if (ghosts[i].get_position() == pacman.get_position())
-			return true;
-
-		//edge cases
-		d1 = ghosts[i].get_direction();
-		d2 = pacman.get_direction();
-		x_dif = pacman_pos.get_x() - ghosts[i].get_position().get_x();
-		y_dif = pacman_pos.get_y() - ghosts[i].get_position().get_y();
-		Position dif(x_dif, y_dif);
-
-		if ((d1 == UP && d2 == DOWN && dif == Position(0, 1) ||
-			d1 == DOWN && d2 == UP && dif == Position(0, -1) ||
-			d1 == LEFT && d2 == RIGHT && dif == Position(-1, 0) ||
-			d1 == RIGHT && d2 == LEFT && dif == Position(1, 0)))
-			return true;
-	}
-	return false;
-}*/
-
-
 
 //
 //void Ex01Logic::getInputFromUserForArr(int& sumInput)

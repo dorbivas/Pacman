@@ -31,8 +31,8 @@ private:
 	unsigned char board[HEIGHT][WIDTH];
 
 public:
-	void out_spacial_board();
 	void print_board(const bool color_mode);
+    void our_spacial_board();
 
 	void set_color(int color_pick) const { SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color_pick); }
 	unsigned char get_cell(const Position& cell_pos) { return board[cell_pos.get_y()][cell_pos.get_x()]; }

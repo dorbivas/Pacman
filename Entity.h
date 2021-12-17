@@ -1,5 +1,6 @@
 #pragma once
 #include "Board.h"
+#include "Game.h"
 //#include "Ghosts.h"
 //#include "Pacman.h"
 class Entity {
@@ -19,7 +20,6 @@ public:
         STAY
     };
     
-
     enum Shape {
         PACMAN = 233,
         GHOST = 36,
@@ -28,33 +28,19 @@ public:
         T = 176,
         S = 32
     };
-    enum Color {
-        BLACK,
-        BLUE,
-        GREEN,
-        CYAN,
-        RED,
-        MAGENTA,
-        BROWN,
-        LIGHTGREY,
-        DARKGREY,
-        LIGHTBLUE,
-        LIGHTGREEN,
-        LIGHTCYAN,
-        LIGHTRED,
-        LIGHTMAGENTA,
-        YELLOW,
-        WHITE
-    };
+ 
     //int get_speed() { return speed; }
    // void set_speed(int speed) { this->speed = speed; }
     Position& get_position() { return curr; }
     void print_move(const Position pos, Shape shape, bool color_mode, int score, int souls) const;
-    void display_score_souls(int score, int souls, bool color_mode) const;
+
    // virtual bool is_collided_ghost(const Position pacman_pos,Ghosts ghosts[],int num_of_ghosts,Pacman pacman);
 protected:
     Board board;//maybe not //TODO
     bool is_invalid_place(const Position& next_pos);//TODO
+    bool is_my_teleporting(const Position& next_pos) {
+	return (board.get_cell(next_pos) == (unsigned char)Board::TELEPORT);
+}
 
 private:
     int speed;

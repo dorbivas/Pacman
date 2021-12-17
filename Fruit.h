@@ -7,7 +7,7 @@ class Fruit:Entity {
 private:
 	static const int offset = 49; //diffrence between the int and the char his represent.
 	int generate_random_fruit_val() { return  5 + (rand() % 5); } //5-9 
-	Shape shape = Shape::P;
+	//Shape shape = Shape::P;
 	//Color color = Color::LIGHTGREEN;
 	int fruit_val = generate_random_fruit_val();
 	Position fruit_pos;

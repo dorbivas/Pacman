@@ -2,6 +2,7 @@
 #include "Pacman.h"
 #include "Ghosts.h"
 #include "Entity.h"
+
 #include <filesystem>
 #include <istream>
 #include <fstream>
@@ -36,6 +37,8 @@ private:
         void handle_menu();
         void menu_display();
         void print_ruls() const;
+
+        void display_score_souls(int score, int souls, bool color_mode) const;
         friend class Game; //todo ?
     };
 
@@ -61,19 +64,15 @@ private:
     void handle_score(Position& pacman_pos);
     Position& my_teleport(Position& next_pos);
     void handle_collision();
+    void handle_teleport(Position& pacman_pos);
 
     bool is_collided_ghost(const Position& pacman_pos);
-
-    bool is_my_teleporting(const Position& next_pos);
-    void handle_teleport(Position& pacman_pos);
+    //bool is_my_teleporting(const Position& next_pos);
     void reset_game();
     void pause();
     Position& handle_key_input(const unsigned char current_key);
     char**  create_board();
-    //--Display Fucns: --//
-    void print_ruls() const;
-   // void print_move(const Position pos, const unsigned char c) const;
-    //void display_score_souls() const;
+
 
     void win();
     void lose();

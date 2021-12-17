@@ -88,6 +88,9 @@ public:
 
     - board File Support
        - locate file ".scree" almost done include fix
+       -get num of lines function
+       - get num of cells function
+       
        - load the boards to matrix() - build board and fill with POINTS (?where is tp)
        - check if valid board.
        - generic tp  + support old board 

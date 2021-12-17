@@ -1,6 +1,10 @@
 #pragma once
 #include "Position.h"
 #include "Entity.h"
+
+#include "Game.h"
+#include <queue>
+
 #define INITAL_GHOST_X 17
 #define INITAL_GHOST_Y 6
 #define MAX_STEPS 20
@@ -12,7 +16,7 @@ private:
     Position pos;
     int direction;
     int steps;
-    Shape shape = Shape::GHOST;
+    //Shape shape = Shape::GHOST;
     //Color color = Color::LIGHTGREEN;
     int generate_random_dir() { return rand() % 4; }
 
@@ -43,6 +47,6 @@ public:
         else { direction++; }
     }
     Position move_ghost();
-    Entity::Direction smart(unsigned char grid[][25], Position target);
+    Entity::Direction smart(Position target);
         //bool is_collided_ghost(const Position pacman_pos, Ghosts ghosts[], int num_of_ghosts, Pacman pacman);
 };

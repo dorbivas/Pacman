@@ -124,7 +124,16 @@ void Game::handle_ghost_move() {
 	}
 }
 
-
+void Game::Menu::display_score_souls(int score, int souls, bool color_mode) const {
+	goto_xy(7, 23);
+	if (color_mode)
+		board.set_color((int)Board::Color::LIGHTGREEN);
+	cout << score;
+	goto_xy(7, 24);
+	if (color_mode)
+		board.set_color((int)Board::Color::RED);
+	cout << souls;
+}
 bool Game::is_collided_ghost(const Position& pacman_pos) {
 	int d1, d2, x_dif, y_dif;
 	for (int i = 0; i < NUM_OF_GHOSTS; i++)
@@ -150,9 +159,7 @@ bool Game::is_collided_ghost(const Position& pacman_pos) {
 
 
 //addition
-bool Game::is_my_teleporting(const Position& next_pos) {
-	return (board.get_cell(next_pos) == (unsigned char)Board::TELEPORT);
-}
+
 //addition
 Position& Game::my_teleport(Position& next_pos) {
 	int Pacman_x = next_pos.get_x();
@@ -298,7 +305,7 @@ void Game::win() {
 }
 
 void Game::reset_game() {
-	board.out_spacial_board();
+	board.our_spacial_board();
 	board.print_board(this->color_mode);
 	this->pacman = Pacman();
 	pause_flag = false;

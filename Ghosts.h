@@ -2,7 +2,7 @@
 #include "Position.h"
 #include "Entity.h"
 
-#include "Game.h"
+//#include "Game.h"
 #include <queue>
 
 #define INITAL_GHOST_X 17
@@ -48,5 +48,6 @@ public:
     }
     Position move_ghost();
     Entity::Direction smart(Position target);
+    Entity::Direction good_lvl_ghost(Position target);
         //bool is_collided_ghost(const Position pacman_pos, Ghosts ghosts[], int num_of_ghosts, Pacman pacman);
 };

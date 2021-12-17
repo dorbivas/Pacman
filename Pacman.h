@@ -1,6 +1,5 @@
 #pragma once
 #include "Position.h"
-
 #include "Utility.h"
 #include "Entity.h"
 

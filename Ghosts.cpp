@@ -23,8 +23,15 @@ Position Ghosts::move_ghost(){
 
 	return new_dir;
 }
-
-
+/*
+Entity::Direction Ghosts::good_lvl_ghost(Position target)
+{
+	if (steps >= 0 && steps <= 5)
+		return (Entity::Direction)generate_random_dir();
+	else
+		return smart(target);
+}*/
+/*
 //smart ghost using BFS
 Entity::Direction Ghosts::smart(Position target)
 {
@@ -61,14 +68,14 @@ Entity::Direction Ghosts::smart(Position target)
 				}
 			}
             new_pos.set_xy(curr_x + move_vector_x[i], curr_y + move_vector_y[i]);
-            if (!is_invalid_place(new_pos) && is_visted[new_pos.get_x()][new_pos.get_y()] == false)/*is_my_teleporting(new_pos) &&*/ 
+            if (!is_invalid_place(new_pos) && is_visted[new_pos.get_x()][new_pos.get_y()] == false)/*is_my_teleporting(new_pos) &&
             {
                 moving_queue.push(new_pos);
                 is_visted[new_pos.get_x()][new_pos.get_y()] = true;
             }
         }
     }
-}
+}*/
 
 //
 //void Ex01Logic::getInputFromUserForArr(int& sumInput)

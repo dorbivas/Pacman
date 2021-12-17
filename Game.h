@@ -1,15 +1,24 @@
 #pragma once
 #include "Pacman.h"
 #include "Ghosts.h"
-#include "Entity.h"
 
-#include <filesystem>
-#include <istream>
-#include <fstream>
-class Game :Entity{
-
+#define NUM_OF_GHOSTS 2
+//#include <filesystem>
+//#include <istream>
+//#include <fstream>
+class Game{
 private:
-    static const int MAX_POINTS = 30  , NUM_OF_GHOSTS = 4 , SPEED = 150,PAUSE_X=11,PAUSE_Y=24; //todo good sol ?
+    static const int MAX_POINTS = 30, SPEED = 150, PAUSE_X = 11, PAUSE_Y = 24; //todo good sol 
+    Pacman pacman;
+    Ghosts ghosts[NUM_OF_GHOSTS];
+    Board board;
+    
+
+    bool pause_flag = false;
+    bool color_mode = true;
+    bool loop_flag = false;
+
+    
     /*teleports order is sync with the board from left to right */
     enum teleports {
         TP_NORTH1_TOP_X = 21,
@@ -37,19 +46,12 @@ private:
         void handle_menu();
         void menu_display();
         void print_ruls() const;
-
-        void display_score_souls(int score, int souls, bool color_mode) const;
+        
+        
         friend class Game; //todo ?
     };
 
-    Pacman pacman;
-    Ghosts ghosts[NUM_OF_GHOSTS];
-    Board board;
     Menu menu;
-
-    bool pause_flag = false;
-    bool color_mode = true;
-    bool loop_flag = false;
 
     //--Data Members Fucns: --//
     void set_pacman(Pacman& pacman) { this->pacman = pacman; }
@@ -65,20 +67,23 @@ private:
     Position& my_teleport(Position& next_pos);
     void handle_collision();
     void handle_teleport(Position& pacman_pos);
-
+    void print_move(const Position pos, Entity::Shape shape);
     bool is_collided_ghost(const Position& pacman_pos);
+    bool is_invalid_place(const Position& next_pos);
+    bool is_my_teleporting(const Position& next_pos) {
+        return (board.get_cell(next_pos) == (unsigned char)Board::TELEPORT);
+    }
     //bool is_my_teleporting(const Position& next_pos);
     void reset_game();
     void pause();
     Position& handle_key_input(const unsigned char current_key);
     char**  create_board();
-
+    void display_score_souls() const;
 
     void win();
     void lose();
 
 public:
     Game();
-
     void run_menu() { menu.handle_menu(); } //TODO ?
 };

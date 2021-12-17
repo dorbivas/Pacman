@@ -55,7 +55,7 @@ void Game::game() {
 void Game::check_pacman_move(const Position& move_vector) {
 	if (is_my_teleporting(pacman.get_position()))
 	{
-		board.set_cell(pacman.get_position(), (unsigned char) Board::TELEPORT);
+		board.set_cell(pacman.get_position(), (unsigned char)Board::TELEPORT);
 		print_move(pacman.get_position(), Entity::Shape::T);
 	}
 	else
@@ -101,9 +101,9 @@ void Game::handle_ghost_move() {//TODO VIRTUAL
 	for (int i = 0; i < NUM_OF_GHOSTS; i++)
 	{
 		curr_pos = ghosts[i].get_position();
-		if(ghosts_level_mode==Smart)
+		if (ghosts_level_mode == Smart)
 			ghosts[i].smart(pacman.get_position());
-		else if(ghosts_level_mode == Novice)
+		else if (ghosts_level_mode == Novice)
 			ghosts[i].novice_lvl_ghost();
 		else
 			ghosts[i].good_lvl_ghost(pacman.get_position());
@@ -129,7 +129,7 @@ void Game::handle_ghost_move() {//TODO VIRTUAL
 			}
 			ghosts[i].set_position(next_pos);
 		}
-		
+
 
 		if (board.get_cell(curr_pos) == Entity::Shape::P)
 		{
@@ -138,7 +138,6 @@ void Game::handle_ghost_move() {//TODO VIRTUAL
 		}
 		else
 			print_move(curr_pos, Entity::Shape::S);//deletes the previous symbol
-		
 		print_move(next_pos, Entity::Shape::GHOST);
 	}
 }
@@ -159,7 +158,7 @@ void Game::print_move(const Position pos, Entity::Shape shape) {
 	if (shape != 0)
 		cout << char(shape);//TODO MAYBE SET CELL 
 }
-void Game::display_score_souls() const{
+void Game::display_score_souls() const {
 	goto_xy(7, 23);//TODO ENUM
 	if (color_mode)
 		board.set_color((int)Board::Color::LIGHTGREEN);
@@ -172,7 +171,7 @@ void Game::display_score_souls() const{
 bool Game::is_invalid_place(const Position& next_pos) {
 	return (board.get_cell(next_pos) == (unsigned char)Board::WALL);
 }
-bool Game::is_collided_ghost(const Position& pacman_pos) {
+bool Game::is_collided_ghost(const Position& next_pos) {
 	int d1, d2, x_dif, y_dif;
 	for (int i = 0; i < NUM_OF_GHOSTS; i++)
 	{
@@ -182,8 +181,8 @@ bool Game::is_collided_ghost(const Position& pacman_pos) {
 		//edge cases
 		d1 = ghosts[i].get_direction();
 		d2 = pacman.get_direction();
-		x_dif = pacman_pos.get_x() - ghosts[i].get_position().get_x();
-		y_dif = pacman_pos.get_y() - ghosts[i].get_position().get_y();
+		x_dif = next_pos.get_x() - ghosts[i].get_position().get_x();
+		y_dif = next_pos.get_y() - ghosts[i].get_position().get_y();
 		Position dif(x_dif, y_dif);
 
 		if ((d1 == (int)Entity::Direction::UP && d2 == (int)Entity::Direction::DOWN && dif == Position(0, 1) ||
@@ -194,13 +193,32 @@ bool Game::is_collided_ghost(const Position& pacman_pos) {
 	}
 	return false;
 }
+bool Game::is_collided_fruit(const Position& next_pos) {
+	int d1, d2, x_dif, y_dif;
 
+	if (fruit.get_position() == pacman.get_position())
+		return true;
+
+	//edge cases
+	d1 = fruit.get_direction();
+	d2 = pacman.get_direction();
+	x_dif = next_pos.get_x() - fruit.get_position().get_x();
+	y_dif = next_pos.get_y() - fruit.get_position().get_y();
+	Position dif(x_dif, y_dif);
+
+	if ((d1 == (int)Entity::Direction::UP && d2 == (int)Entity::Direction::DOWN && dif == Position(0, 1) ||
+		d1 == (int)Entity::Direction::DOWN && d2 == (int)Entity::Direction::UP && dif == Position(0, -1) ||
+		d1 == (int)Entity::Direction::LEFT && d2 == (int)Entity::Direction::RIGHT && dif == Position(-1, 0) ||
+		d1 == (int)Entity::Direction::RIGHT && d2 == (int)Entity::Direction::LEFT && dif == Position(1, 0)))
+		return true;
+	return false;
+}
 void Game::handle_teleport(Position& pacman_pos)//TODO
 {
 	int pacman_direction = pacman.get_direction();
-	int num_of_lines=25;
+	int num_of_lines = 25;
 	int num_of_cols = 70;
-	
+
 	if (board.get_cell(pacman_pos) == Entity::Shape::S)
 	{
 		if (pacman_direction == int(Entity::Direction::DOWN))
@@ -208,12 +226,12 @@ void Game::handle_teleport(Position& pacman_pos)//TODO
 		if (pacman_direction == int(Entity::Direction::UP))
 			pacman.set_position(pacman_pos.get_x(), pacman_pos.get_y() + num_of_lines);
 		if (pacman_direction == int(Entity::Direction::LEFT))
-			pacman.set_position(pacman_pos.get_x()+num_of_cols, pacman_pos.get_y());
+			pacman.set_position(pacman_pos.get_x() + num_of_cols, pacman_pos.get_y());
 		if (pacman_direction == int(Entity::Direction::RIGHT))
-			pacman.set_position(pacman_pos.get_x()%num_of_cols, pacman_pos.get_y());
+			pacman.set_position(pacman_pos.get_x() % num_of_cols, pacman_pos.get_y());
 	}
 }
-void Game::pause(){
+void Game::pause() {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (int)Board::Color::WHITE);
 	goto_xy(PAUSE_X, PAUSE_Y);  // location of "pause..." in the console
 	cout << "Pause . . .";
@@ -225,8 +243,8 @@ void Game::pause(){
 	cout << "           ";
 }
 
-void Game::handle_score(Position& pacman_pos) {
-	if (board.get_cell(pacman_pos) == Entity::Shape::P)
+void Game::handle_score(Position& next_pos) {
+	if (board.get_cell(next_pos) == Entity::Shape::P)
 	{
 		pacman.add_score();
 		if (pacman.get_score() == MAX_POINTS)
@@ -316,7 +334,7 @@ void Game::reset_game() {
 //----------- Menu Class: -----------//
 void Game::Menu::handle_menu() { //TODO number table for user choice?
 	Game run; // TODO ?
-	do	{
+	do {
 		cursor_visibility(false); //hiding console cursor
 
 		system("cls");
@@ -368,7 +386,7 @@ void Game::Menu::handle_menu() { //TODO number table for user choice?
 
 	} while (user_choice != Exit_Game);
 
-	
+
 
 	system("cls");
 	return;
@@ -383,7 +401,7 @@ void Game::Menu::handle_ghosts_level(Game run)
 	{
 		cin >> ghosts_level_choice;
 		if (ghosts_level_choice == BEST)
-			run.ghosts_level_mode =Smart;
+			run.ghosts_level_mode = Smart;
 		else if (ghosts_level_choice == GOOD)
 			run.ghosts_level_mode = Good;
 		else if (ghosts_level_choice == 'c')
@@ -398,7 +416,7 @@ void Game::Menu::handle_ghosts_level(Game run)
 			cout << "b ==> GOOD" << endl << endl;
 			cout << "c ==> NOVICE" << endl << endl;
 		}//TO DO FUNCTION WHILE
-	} while (ghosts_level_choice != Exit_Game && ghosts_level_choice != BEST &&ghosts_level_choice != GOOD &&ghosts_level_choice != NOVICE);
+	} while (ghosts_level_choice != Exit_Game && ghosts_level_choice != BEST && ghosts_level_choice != GOOD && ghosts_level_choice != NOVICE);
 }
 void Game::Menu::menu_display() {
 
@@ -432,7 +450,7 @@ char** create_board()
 	//set<fs::path> get_files();
 	//file1
 	//
-	
+
 	ifstream infile;
 	infile.open("test.txt");
 	if (!infile) {
@@ -450,12 +468,12 @@ char** create_board()
 		{
 			//symbol = getchar
 			board_matrix[i][j] = symbol;
-			
+
 			j++;
 		}
 		i++;
 	}
-	
+
 
 
 

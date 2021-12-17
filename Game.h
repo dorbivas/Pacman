@@ -1,6 +1,7 @@
 #pragma once
 #include "Pacman.h"
 #include "Ghosts.h"
+#include "Fruit.h"
 
 //#include <filesystem>
 //#include <istream>
@@ -10,6 +11,7 @@ private:
     static const int MAX_POINTS = 300, SPEED = 150, NUM_OF_GHOSTS=2, PAUSE_X = 11, PAUSE_Y = 24; //todo good sol 
     Pacman pacman;
     Ghosts ghosts[NUM_OF_GHOSTS];
+    Fruit fruit;
     Board board;
     Ghost_mode ghosts_level_mode= Ghost_mode::Novice;
 
@@ -65,12 +67,13 @@ private:
     void check_pacman_move(const Position& move_vector);
     void handle_ghost_move();
     void handle_move(Position& next_pos);
-    void handle_score(Position& pacman_pos);
+    void handle_score(Position& next_pos);
     Position& my_teleport(Position& next_pos);
     void handle_collision();
     void handle_teleport(Position& pacman_pos);
     void print_move(const Position pos, Entity::Shape shape);
-    bool is_collided_ghost(const Position& pacman_pos);
+    bool is_collided_ghost(const Position& next_pos);
+    bool is_collided_fruit(const Position& next_pos);
     bool is_invalid_place(const Position& next_pos);
     bool is_my_teleporting(const Position& next_pos) {
         return (board.get_cell(next_pos) == (unsigned char)Board::TELEPORT);

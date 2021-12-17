@@ -7,7 +7,8 @@ class Board {
 
 public:
 	enum board_signs { P = 250, W = 219, T = 176, S = 32 , POINT = 250, WALL = 219, TELEPORT = 176 };
-    enum class Color {
+    
+    enum class Color{
         BLACK,
         BLUE,
         GREEN,
@@ -25,7 +26,6 @@ public:
         YELLOW,
         WHITE
     };
-
 private:
 	enum board_size { WIDTH = 80, HEIGHT = 25, };
 	unsigned char board[HEIGHT][WIDTH];

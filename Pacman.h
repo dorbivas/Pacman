@@ -15,6 +15,8 @@ public:
 private:
 	int souls = STARTING_SOULS;
 	int direction = int(Direction::STAY);
+	Shape shape = Shape::PACMAN;
+	//Color color = Color::LIGHTGREEN;
 	Position pos{ INITIAL_X,INITIAL_Y };
 	int score = ZERO_POINTS;
 

@@ -18,7 +18,7 @@ bool is_valid_key(const unsigned char c) {
 	return (c == 'a' || c == 'd' || c == 'w' || c == 's' || c == 'x' 
          || c == 'A' || c == 'D' || c == 'W' || c == 'S' || c == 'X' || c == ESC);
 }   
-
+/*
 string get_path() {
 	string path_name;
 	getcwd(path_name, 256);
@@ -47,4 +47,20 @@ void print_files(set<fs::path> sorted_by_name)
 	// print the files sorted by filename
 	for (auto& filename : sorted_by_name)
 		cout << filename.string() << endl;
+}*/
+/*
+int get_num_of_lines(ifstream file)
+{
+	int sum=0;
+
+
+
+	return sum;
 }
+int get_num_of_cells(ifstream file)
+{
+	int sum = 0;
+
+
+	return sum;
+}*/

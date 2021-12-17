@@ -12,6 +12,8 @@ private:
     Position pos;
     int direction;
     int steps;
+    Shape shape = Shape::GHOST;
+    //Color color = Color::LIGHTGREEN;
     int generate_random_dir() { return rand() % 4; }
 
 public:
@@ -41,6 +43,6 @@ public:
         else { direction++; }
     }
     Position move_ghost();
-    Entity::Direction smart(unsigned char grid[][25], Position target)
+    Entity::Direction smart(unsigned char grid[][25], Position target);
         //bool is_collided_ghost(const Position pacman_pos, Ghosts ghosts[], int num_of_ghosts, Pacman pacman);
 };

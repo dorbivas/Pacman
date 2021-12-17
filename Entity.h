@@ -18,6 +18,16 @@ public:
         RIGHT,
         STAY
     };
+    
+
+    enum Shape {
+        PACMAN = 233,
+        GHOST = 36,
+        P = 250,
+        W = 219,
+        T = 176,
+        S = 32
+    };
     enum Color {
         BLACK,
         BLUE,
@@ -36,15 +46,6 @@ public:
         YELLOW,
         WHITE
     };
-
-    enum Shape {
-        PACMAN = 233,
-        GHOST = 36,
-        P = 250,
-        W = 219,
-        T = 176,
-        S = 32
-    };
     //int get_speed() { return speed; }
    // void set_speed(int speed) { this->speed = speed; }
     Position& get_position() { return curr; }
@@ -58,6 +59,7 @@ protected:
 private:
     int speed;
     Position curr;
+    
     //shape color  TODO
 
 

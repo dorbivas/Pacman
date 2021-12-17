@@ -77,6 +77,7 @@ void Board::print_board(const bool color_mode) {
 
 
 
+
 //const static unsigned char default_board[HEIGHT][WIDTH] =
 //{
 //	{S,  S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, W, W, W, S, S, S, S, S, S, S, S, S, S , S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, W, W, W, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S,},

@@ -78,7 +78,7 @@ Entity::Direction Ghosts::smart(unsigned char grid[][25], Position target)
     }
 }
 
-
+/*
 bool Ghosts::Entity::is_collided_ghost(const Position pacman_pos,Ghosts ghosts[],int num_of_ghosts,Pacman pacman) {
 	int d1, d2, x_dif, y_dif;
 	for (int i = 0; i < num_of_ghosts; i++)
@@ -149,4 +149,4 @@ bool Ghosts::Entity::is_collided_ghost(const Position pacman_pos,Ghosts ghosts[]
 //		throw "The array is empty!";
 //	}
 //
-//}
+//}*/

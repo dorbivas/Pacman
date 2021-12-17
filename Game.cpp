@@ -388,15 +388,44 @@ void Game::Menu::print_ruls() const {
 		<< "STAY --> s or S" << endl
 		<< "ESC --> Pause" << endl << endl;
 }
+/*
 char** create_board()
 {
 	char** board_matrix;
-	set<fs::path> get_files();
+	char symbol;
+	//set<fs::path> get_files();
 	//file1
 	//
+	
+	ifstream infile;
+	infile.open("test.txt");
+	if (!infile) {
+		cout  << "Error with infile" << endl;
+		exit(-1);
+	infile.getline(buf, 1024);
+	infile  >> x  >> y;
+	infile.close();
+	int i = 0, j = 0;
+	while (curr != EOF)
+	{
+		infile.getline(board[i], max);
+		i++;
+		while (curr != '\n')
+		{
+			//symbol = getchar
+			board_matrix[i][j] = symbol;
+			
+			j++;
+		}
+		i++;
+	}
+	
+
+
+
 
 
 
 	return board_matrix;
 }
-
+*/

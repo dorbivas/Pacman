@@ -2,7 +2,9 @@
 #include "Pacman.h"
 #include "Ghosts.h"
 #include "Entity.h"
-
+#include <filesystem>
+#include <istream>
+#include <fstream>
 class Game :Entity{
 
 private:

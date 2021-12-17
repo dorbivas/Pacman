@@ -48,6 +48,8 @@ public:
     }
     void novice_lvl_ghost();
     void smart(Position target);
+    bool is_valid_bfs(Position new_pos);
+
     void good_lvl_ghost(Position target);
         //bool is_collided_ghost(const Position pacman_pos, Ghosts ghosts[], int num_of_ghosts, Pacman pacman);
 };

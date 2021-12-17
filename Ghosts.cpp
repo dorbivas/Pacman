@@ -46,14 +46,15 @@ void Ghosts::smart(Position target)
 
     int target_x = target.get_x(), target_y = target.get_y();
     std::queue<Position> moving_queue;
-    bool is_visted[80][25] = { false }; //init all cells as unvisited cells. 
+    bool is_visted[Board::board_size::HEIGHT][Board::board_size::WIDTH] = { false }; //init all cells as unvisited cells. 
+
     Position new_pos;
 
     moving_queue.push(target);
     is_visted[target_x][target_y] = true;
 
     while (!moving_queue.empty()) {
-
+		
         Position curr = moving_queue.front();
 		moving_queue.pop();
 
@@ -67,13 +68,17 @@ void Ghosts::smart(Position target)
 			{
 				switch (i) {
 					case 0:	set_direction(Entity::Direction::LEFT);
+						break;
 					case 1: set_direction(Entity::Direction::UP);
+						break;
 					case 2:	set_direction(Entity::Direction::RIGHT);
+						break;
 					case 3:	set_direction(Entity::Direction::DOWN);
+						break;
 				}
 			}
             new_pos.set_xy(curr_x + move_vector_x[i], curr_y + move_vector_y[i]);
-            if (!is_invalid_place(new_pos) && is_visted[new_pos.get_x()][new_pos.get_y()] == false && is_my_teleporting(new_pos))
+            if (is_valid_bfs(new_pos) && is_visted[new_pos.get_x()][new_pos.get_y()] == false)
             {
                 moving_queue.push(new_pos);
                 is_visted[new_pos.get_x()][new_pos.get_y()] = true;
@@ -81,6 +86,19 @@ void Ghosts::smart(Position target)
         }
     }
 }
+
+bool Ghosts::is_valid_bfs(Position new_pos)
+{
+	if (new_pos.get_x() >= Board::board_size::WIDTH || new_pos.get_y() >= Board::board_size::HEIGHT)
+		return false;
+	if (is_invalid_place(new_pos))
+		return false;
+	if (is_my_teleporting(new_pos))
+		return false;
+	return true;
+
+}
+
 
 //
 //void Ex01Logic::getInputFromUserForArr(int& sumInput)

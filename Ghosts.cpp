@@ -68,13 +68,13 @@ void Ghosts::smart(Position target)
 			{
 				switch (i) {
 					case 0:	set_direction(Entity::Direction::LEFT);
-						break;
+						return;
 					case 1: set_direction(Entity::Direction::UP);
-						break;
+						return;
 					case 2:	set_direction(Entity::Direction::RIGHT);
-						break;
+						return;
 					case 3:	set_direction(Entity::Direction::DOWN);
-						break;
+						return;
 				}
 			}
             new_pos.set_xy(curr_x + move_vector_x[i], curr_y + move_vector_y[i]);

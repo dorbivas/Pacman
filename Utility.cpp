@@ -18,10 +18,15 @@ bool is_valid_key(const unsigned char c) {
 	return (c == 'a' || c == 'd' || c == 'w' || c == 's' || c == 'x' 
          || c == 'A' || c == 'D' || c == 'W' || c == 'S' || c == 'X' || c == ESC);
 }   
-/*
-void printfiles() {
+
+string get_path() {
 	string path_name;
 	getcwd(path_name, 256);
+	return path_name;
+}
+set<fs::path> get_files()
+{
+	string path_name = get_path();
 	//string path_name = "c:\users\user\source\repos\pacman";
 	int is_found = -1; //start as false
 	// filenames are unique so we can use a set
@@ -35,7 +40,11 @@ void printfiles() {
 			is_found = -1;
 		}
 	}
+	return sorted_by_name;
+}
+void print_files(set<fs::path> sorted_by_name)
+{
 	// print the files sorted by filename
 	for (auto& filename : sorted_by_name)
 		cout << filename.string() << endl;
-}*/
+}

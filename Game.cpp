@@ -298,7 +298,7 @@ void Game::win() {
 }
 
 void Game::reset_game() {
-	board.init_board();
+	board.out_spacial_board();
 	board.print_board(this->color_mode);
 	this->pacman = Pacman();
 	pause_flag = false;
@@ -387,5 +387,16 @@ void Game::Menu::print_ruls() const {
 		<< "RIGHT --> d or D" << endl
 		<< "STAY --> s or S" << endl
 		<< "ESC --> Pause" << endl << endl;
+}
+char** create_board()
+{
+	char** board_matrix;
+	set<fs::path> get_files();
+	//file1
+	//
+
+
+
+	return board_matrix;
 }
 

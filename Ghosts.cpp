@@ -1,5 +1,6 @@
 #include "Ghosts.h"
 #include <queue>
+
 Position Ghosts::move_ghost(){
 	Position new_dir;
 	set_direction();
@@ -23,10 +24,11 @@ Position Ghosts::move_ghost(){
 
 	return new_dir;
 }
+/*
 void Ghost::handle_smart_move()
 {
     Position curr_pos, next_pos;
-    for (int i = 0; i < 2/*NUM_OF_GHOSTS*/; i++)
+    for (int i = 0; i < 2NUM_OF_GHOSTS; i++)
     {
 
     }
@@ -102,7 +104,7 @@ void Ghosts::smart(int grid[][25], Position curr_pos)
     }
 }
 
-/*
+
 bool Ghosts::Entity::is_collided_ghost(const Position pacman_pos,Ghosts ghosts[],int num_of_ghosts,Pacman pacman) {
 	int d1, d2, x_dif, y_dif;
 	for (int i = 0; i < num_of_ghosts; i++)
@@ -127,7 +129,7 @@ bool Ghosts::Entity::is_collided_ghost(const Position pacman_pos,Ghosts ghosts[]
 }*/
 
 
-
+/*
 
 void Ex01Logic::getInputFromUserForArr(int& sumInput)
 {
@@ -173,4 +175,4 @@ void Ex01Logic::getInputFromUserForArr(int& sumInput)
 		throw "The array is empty!";
 	}
 
-}
+}*/

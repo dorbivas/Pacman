@@ -5,7 +5,7 @@
 #include <string.h>
 #include "Position.h"
 #include <filesystem>
-//#include <cunistd.h>
+#include <cunistd.h>
 
 
 #include<set>
@@ -16,7 +16,7 @@ using std::cin;
 using std::endl;
 using std::string;
 using std::srand;
-//using std::filesystem::current_path;
+using std::filesystem::current_path;
 
 enum Keys {
 	up_upper_case = 87		,
@@ -38,7 +38,10 @@ void goto_xy(const int x, const int y);
 bool is_valid_key(const unsigned char c);
 
 void cursor_visibility(bool showFlag);
-void printfiles();
+string get_path();
+set<fs::path> get_files();
+void print_files(set<fs::path> sorted_by_name);
+
 
 
 

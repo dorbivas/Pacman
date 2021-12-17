@@ -31,7 +31,7 @@ private:
 	unsigned char board[HEIGHT][WIDTH];
 
 public:
-	void init_board();
+	void out_spacial_board();
 	void print_board(const bool color_mode);
 
 	void set_color(int color_pick) const { SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color_pick); }

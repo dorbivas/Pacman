@@ -67,6 +67,7 @@ private:
     void reset_game();
     void pause();
     Position& handle_key_input(const unsigned char current_key);
+    char**  create_board();
     //--Display Fucns: --//
     void print_ruls() const;
    // void print_move(const Position pos, const unsigned char c) const;

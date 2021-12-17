@@ -1,6 +1,6 @@
 #include "Board.h"
 
-void Board::init_board() {
+void Board::out_spacial_board() {
 	unsigned char default_board[HEIGHT][WIDTH] =
 	{
 		{S,  S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, W, W, W, S, S, S, S, S, S, S, S, S, S , S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, W, W, W, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S,},
@@ -74,6 +74,7 @@ void Board::print_board(const bool color_mode) {
 	}
 	set_color((int)Color::WHITE);
 }
+
 
 
 //const static unsigned char default_board[HEIGHT][WIDTH] =

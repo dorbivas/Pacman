@@ -90,10 +90,10 @@ void Board::print_board(const bool color_mode) {
 
 
 
-void Board::load_board(const string& fileName)
+void Board::load_board(const string& file_name)
 {
 	ifstream file;
-	file.open(fileName);
+	file.open(file_name);
 
 	make_board_empty();
 	points_valid_positions.clear();
@@ -112,9 +112,8 @@ void Board::load_board(const string& fileName)
 
 void Board::board_from_file(ifstream& file_input)
 {
-	int char_counter = 0, curr_col = 0, legendAppeared = 0, size;
-	char lastChar = 'a'; // just a default, not important what
-	int beyondFirstLine = 0;
+	int char_counter = 0, curr_col = 0, legend_flag = 0, is_first_line = 0, size;
+	unsigned char prev_char = 'x'; 
 
 	size = file_input.tellg();
 	file_input.seekg(0, file_input.beg);
@@ -124,9 +123,8 @@ void Board::board_from_file(ifstream& file_input)
 		if (rows == 1)
 			curr_col = curr_col; // TODO what??
 		unsigned char curr_char = file_input.get();
-		if (beyondFirstLine != 0 && curr_col >= cols) // if the line is over the first line of the board
+		if (is_first_line != 0 && curr_col >= cols) // if the line is over the first line of the board
 		{
-
 			while (curr_char != '\n' && char_counter <= size) {
 				char_counter++;
 				curr_char = file_input.get();
@@ -149,16 +147,16 @@ void Board::board_from_file(ifstream& file_input)
 				inital_pacman_pos.set_xy(curr_col, rows);
 				board[rows][curr_col] = S; // pac start on empty space so he wont add score
 			}
+			else if (curr_char == '%')
+				board[rows][curr_col] = S;
+
 			else if (curr_char == '$')
 			{
 				inital_ghosts_pos[num_of_ghosts + 1].set_xy(curr_col, rows);
 				board[rows][curr_col] = S;
 				num_of_ghosts++;
 			}
-			else if (curr_char == '%')
-			{
-				board[rows][curr_col] = S;
-			}
+			
 			else if (curr_char == S)
 			{
 				max_score++;
@@ -169,25 +167,25 @@ void Board::board_from_file(ifstream& file_input)
 			{
 				legend_pos.set_xy(curr_col, rows);
 				board[rows][curr_col] = S;
-				legendAppeared = 1; // TODO
+				legend_flag = 1; // TODO
 			}
 			else if (curr_char == '\n')
 			{
-				if (beyondFirstLine == 0 && legendAppeared == 1) // if the legend appeared in the first line
+				if (is_first_line == 0 && legend_flag == 1) // if the legend appeared in the first line
 				{
 					if (legend_pos.get_x() + 19 > cols) // if the legend is in the end of the line
 					{
 						cols = legend_pos.get_x() + 19; //set the new line to be in the size of the legend
 					}
 				}
-				if (beyondFirstLine != 0 && curr_col < cols) // if the line is shorter then the first line
+				if (is_first_line != 0 && curr_col < cols) // if the line is shorter then the first line
 				{
 					insert_single_line(curr_col);
 					curr_col = 0;
 				}
 				else
 				{
-					beyondFirstLine = 1;
+					is_first_line = 1;
 					curr_col = 0;
 				}
 				char_counter++;
@@ -202,13 +200,13 @@ void Board::board_from_file(ifstream& file_input)
 			if (char_counter + 1 == size && curr_col + 1 < cols) // if we are in the last character buf the line is shorter then the first 
 				insert_single_line(curr_col + 1);
 
-			if (beyondFirstLine == 0)
+			if (is_first_line == 0)
 				cols++;
 
 			if (curr_char != '\n')
 			{
 				curr_col++;
-				lastChar = curr_char;
+				prev_char = curr_char;
 			}
 			char_counter++;
 		}

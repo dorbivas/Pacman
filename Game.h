@@ -52,7 +52,7 @@ private:
         void print_ruls() const;
         
         
-        friend class Game; //todo ?
+        friend class Game; 
     };
 
     Menu menu;
@@ -87,6 +87,7 @@ private:
     void win();
     void lose();
 
+    void load_new_board_to_play(const string& file_name);
 
 public:
     Game();

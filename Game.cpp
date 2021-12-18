@@ -186,7 +186,7 @@ void Game::display_score_souls() const {
 	if (color_mode)
 		board.set_color((int)Board::Color::LIGHTGREEN);
 	cout << pacman.get_score();
-	goto_xy(DISPLAY_S_X, DISPLAY_S_Y);
+	goto_xy(DISPLAY_S_X, DISPLAY_S_Y + 1);
 	if (color_mode)
 		board.set_color((int)Board::Color::RED);
 	cout << pacman.get_souls();
@@ -227,20 +227,24 @@ void Game::pause() {
 }
 
 void Game::handle_score(Position& next_pos) {
-	//if (board.get_cell(next_pos) == Entity::Shape::P)//TODO CHECK WAHT MORE GOOD
+	int to_add = 0;
+	if (board.get_cell(next_pos) == Entity::Shape::P)//TODO CHECK WAHT MORE GOOD
+		to_add = 1;
+
 	if(fruit.is_collided(next_pos,pacman.move_dir(),pacman.get_direction()))
 	{
 		board.set_cell(next_pos, Entity::Shape::S);
-		pacman.add_score(fruit.get_fruit_val());
+		to_add = fruit.get_fruit_val();
 		//TODO TIMER
 		fruit.generate_random_pos();
-		fruit.generate_random_fruit_val();
-		
-		if (pacman.get_score() == MAX_POINTS)
-		{
-			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (int)Board::Color::WHITE);
-			win();
-		}
+		fruit.generate_random_fruit_val();	
+	}
+
+	pacman.add_score(to_add);
+	if (pacman.get_score() >= MAX_POINTS)
+	{
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (int)Board::Color::WHITE);
+		win();
 	}
 }
 
@@ -295,7 +299,7 @@ void Game::win() {
 
 void Game::reset_game() {//TODO FIX 
 	board.our_spacial_board();
-
+	
 	board.print_board(this->color_mode);
 	this->pacman = Pacman();
 	this->fruit= Fruit();
@@ -311,10 +315,31 @@ void Game::reset_game() {//TODO FIX
 
 }
 
+void Game::load_new_board_to_play(const string& file_name) {
+	board.load_board(file_name);
+	board.print_board(this->color_mode);
+
+	pause_flag = false;
+	loop_flag = false;
+
+	pacman.set_board(board);
+	fruit.set_board(board);
+
+	pacman.set_position(board.get_inital_pacman_pos());
+
+	for (int i = 0; i < board.get_num_of_ghosts(); i++) {
+		ghosts[i].set_position(board.inital_ghosts_pos[i].get_x() , board.inital_ghosts_pos[i].get_y());
+		ghosts[i].set_board(board);
+		ghosts[i].set_mode(ghosts_level_mode);
+	}
+	
+}
+
+
 
 //----------- Menu Class: -----------//
 void Game::Menu::handle_menu() { //TODO number table for user choice?
-	Game run; // TODO ?
+	Game run; 
 	do {
 		cursor_visibility(false); //hiding console cursor
 
@@ -366,9 +391,6 @@ void Game::Menu::handle_menu() { //TODO number table for user choice?
 		}
 
 	} while (user_choice != Exit_Game);
-
-
-
 	system("cls");
 	return;
 }

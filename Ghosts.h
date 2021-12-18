@@ -40,7 +40,6 @@ public:
         this->mode = mode;
     }
     //--Game Logic Fucns: --//
-    Position move_dir();
     void rotate_direction() {
         if (direction == (int)Direction::RIGHT) { direction = (int)Direction::UP; }
         else { direction++; }

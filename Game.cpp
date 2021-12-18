@@ -22,7 +22,8 @@ void Game::game() {
 			current_key = _getch();
 		if (is_valid_key(current_key))
 		{
-			move_vector = handle_key_input(current_key);
+			handle_key_input(current_key);
+			move_vector = pacman.move_dir();
 			if (pause_flag)
 			{
 				current_key = temp;
@@ -98,6 +99,7 @@ void Game::handle_move(Position& next_pos) {
 
 void Game::handle_ghost_move() {//TODO VIRTUAL
 	Position curr_pos, next_pos;
+	
 	for (int i = 0; i < NUM_OF_GHOSTS; i++)
 	{
 		curr_pos = ghosts[i].get_position();
@@ -108,7 +110,10 @@ void Game::handle_ghost_move() {//TODO VIRTUAL
 		else
 			ghosts[i].good_lvl_ghost(pacman.get_position());
 
-		next_pos = ghosts[i].move_dir();
+		//next_pos =ghosts[i].get_position() + ghosts[i].move_dir();//TODO OPERATOR
+		int next_x = ghosts[i].get_position().get_x() + ghosts[i].move_dir().get_x();
+		int next_y = ghosts[i].get_position().get_y() + ghosts[i].move_dir().get_y();
+		next_pos.set_xy(next_x,next_y);
 		if (ghosts_level_mode != Smart)//TODO
 		{
 
@@ -125,7 +130,9 @@ void Game::handle_ghost_move() {//TODO VIRTUAL
 					ghosts[i].rotate_direction();
 					ghosts[i].good_lvl_ghost(pacman.get_position());
 				}
-				next_pos = ghosts[i].move_dir();
+				int next_x = ghosts[i].get_position().get_x() + ghosts[i].move_dir().get_x();
+				int next_y = ghosts[i].get_position().get_y() + ghosts[i].move_dir().get_y();
+				next_pos.set_xy(next_x, next_y);
 			}
 			ghosts[i].set_position(next_pos);
 		}
@@ -146,24 +153,24 @@ void Game::print_move(const Position pos, Entity::Shape shape) {
 	if (color_mode)
 	{
 		if (shape == Entity::Shape::P)
-			board.set_color((int)Board::Color::WHITE);
+			board.set_color((int)fruit.get_color());
 		else if (shape == Entity::Shape::T)
 			board.set_color((int)Board::Color::LIGHTBLUE);
 		else if (shape == Entity::Shape::PACMAN)
-			board.set_color((int)Board::Color::YELLOW);
+			board.set_color((int)pacman.get_color());
 		else // (c == GHOST_ICON)
-			board.set_color((int)Board::Color::RED);
+			board.set_color((int)ghosts[0].get_color());
 	}
 	goto_xy(pos.get_x(), pos.get_y());
 	if (shape != 0)
 		cout << char(shape);//TODO MAYBE SET CELL 
 }
 void Game::display_score_souls() const {
-	goto_xy(7, 23);//TODO ENUM
+	goto_xy(DISPLAY_S_X, DISPLAY_S_Y);
 	if (color_mode)
 		board.set_color((int)Board::Color::LIGHTGREEN);
 	cout << pacman.get_score();
-	goto_xy(7, 24);
+	goto_xy(DISPLAY_S_X, DISPLAY_S_Y);
 	if (color_mode)
 		board.set_color((int)Board::Color::RED);
 	cout << pacman.get_souls();
@@ -255,45 +262,31 @@ void Game::handle_score(Position& next_pos) {
 	}
 }
 
-Position& Game::handle_key_input(const unsigned char current_key) {  //return the direction vectors
-	int dir_x = 0, dir_y = 0;
-	Position pos(dir_x, dir_y);
-	int pacman_x = pacman.get_position().get_x();
-	int pacman_y = pacman.get_position().get_y();
+void Game::handle_key_input(const unsigned char current_key) {  //return the direction vectors
 	switch (current_key)
 	{
 	case right_upper_case:
 	case right_lower_case:
-		dir_x = 1;
-		dir_y = 0;
 		pacman.set_direction((int)Entity::Direction::RIGHT);
 		break;
 
 	case left_upper_case:
 	case left_lower_case:
-		dir_x = -1;
-		dir_y = 0;
 		pacman.set_direction((int)Entity::Direction::LEFT);
 		break;
 
 	case up_upper_case:
 	case up_lower_case:
-		dir_x = 0;
-		dir_y = -1;
 		pacman.set_direction((int)Entity::Direction::UP);
 		break;
 
 	case down_upper_case:
 	case down_lower_case:
-		dir_x = 0;
-		dir_y = 1;
 		pacman.set_direction((int)Entity::Direction::DOWN);
 		break;
 
 	case stay_upper_case:
 	case stay_lower_case:
-		dir_x = 0;
-		dir_y = 0;
 		pacman.set_direction((int)Entity::Direction::STAY);
 		break;
 
@@ -302,8 +295,6 @@ Position& Game::handle_key_input(const unsigned char current_key) {  //return th
 		pause_flag = true;
 		break;
 	}
-	pos.set_xy(dir_x, dir_y);
-	return pos;
 }
 
 //--Display Fucns: --//

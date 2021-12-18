@@ -18,6 +18,10 @@ public:
 
     //--Game Logic Fucns: --//
     bool operator==(const Position& pos){return((pos.get_x()==x)&&(pos.get_y()==y));}
+    Position& operator+(const Position& pos) {
+        this->x = x + pos.x;
+        this->y = y + pos.y;
+    }
 }; 
 
 /*
@@ -46,6 +50,7 @@ public:
 
       TODO yarden
    
+   - TODO OPERATOR +=
 
   ***done*** - (-2) objects (which are not locally created) should be returned by reference to avoid
     copy (Ghosts::get_position, Pacman::get_position); (-2) objects should be received by reference to avoid copy

@@ -1,25 +1,4 @@
 #include "Ghosts.h"
-Position Ghosts::move_dir() {
-	Position new_dir;
-	if (direction == (int)Direction::UP)
-	{
-		new_dir.set_xy(pos.get_x(), pos.get_y() + 1);
-	}
-	else if (direction == (int)Direction::DOWN)
-	{
-		new_dir.set_xy(pos.get_x(), pos.get_y() - 1);
-	}
-	else if (direction == (int)Direction::LEFT)
-	{
-		new_dir.set_xy(pos.get_x() - 1, pos.get_y());
-		
-	}
-	else //RIGHT
-	{
-		new_dir.set_xy(pos.get_x() + 1, pos.get_y());
-	}
-	return new_dir;
-}
 
 void Ghosts::novice_lvl_ghost(){
 	if (steps == MAX_STEPS) {

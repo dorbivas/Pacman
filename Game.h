@@ -8,7 +8,7 @@
 //#include <fstream>
 class Game{
 private:
-    static const int MAX_POINTS = 300, SPEED = 150, NUM_OF_GHOSTS=2, PAUSE_X = 11, PAUSE_Y = 24; //todo good sol 
+    static const int MAX_POINTS = 300, SPEED = 150, NUM_OF_GHOSTS = 2, PAUSE_X = 11, PAUSE_Y = 24, DISPLAY_S_X=7,DISPLAY_S_Y=23; //todo good sol 
     Pacman pacman;
     Ghosts ghosts[NUM_OF_GHOSTS];
     Fruit fruit;
@@ -81,7 +81,7 @@ private:
     //bool is_my_teleporting(const Position& next_pos);
     void reset_game();
     void pause();
-    Position& handle_key_input(const unsigned char current_key);
+    void handle_key_input(const unsigned char current_key);
     char**  create_board();
     void display_score_souls() const;
 

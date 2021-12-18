@@ -113,7 +113,7 @@ void Game::handle_ghost_move() {//TODO VIRTUAL
 	{
 		curr_pos = ghosts[i].get_position();
 		if (ghosts_level_mode == Smart)
-			smart(pacman.get_position(), ghosts[i]);
+			ghosts[i].smart(pacman.get_position());
 		else if (ghosts_level_mode == Novice)
 			ghosts[i].novice_lvl_ghost();
 		else
@@ -182,6 +182,7 @@ bool Game::is_collided_ghost(const Position& next_pos) {
 	int d1, d2, x_dif, y_dif;
 	for (int i = 0; i < NUM_OF_GHOSTS; i++)
 	{
+		ghosts[i].is_collided(pacman.get_position()
 		if (ghosts[i].get_position() == pacman.get_position())
 			return true;
 
@@ -509,76 +510,3 @@ Position& Game::my_teleport(Position& next_pos) {
 }
 
 
-
-//smart ghost using BFS
-void Game::smart(Position target, Ghosts& ghost)
-{
-	// Direction vectors
-	int move_vector_x[] = { -1, 0, 1, 0 };
-	int move_vector_y[] = { 0, 1, 0, -1 };
-
-	int target_x = target.get_x(), target_y = target.get_y();
-	std::queue<Position> moving_queue;
-	bool is_visted[Board::board_size::HEIGHT][Board::board_size::WIDTH] = { { false } }; //init all cells as unvisited cells. 
-	/*for (int i = 0; i < Board::board_size::HEIGHT; i++)
-		for (int j = 0; j < Board::board_size::WIDTH; j++)
-			is_visted[i][j] = false;*/
-
-	moving_queue.push(target);
-	is_visted[target_y][target_x] = true;
-
-	while (!moving_queue.empty()) {
-
-		Position curr = moving_queue.front();
-		moving_queue.pop();
-
-		int curr_x = curr.get_x();
-		int curr_y = curr.get_y();
-		// Go to the adjacent cells
-		for (int i = 0; i < 4; i++) {
-			Position new_pos;
-
-			new_pos.set_xy(curr_x + move_vector_x[i], curr_y + move_vector_y[i]);
-			/*   if (new_pos.get_x() == 38 && new_pos.get_y() == 12)
-				   cout << 'u';*/
-			if (is_valid_bfs(new_pos) && is_visted[new_pos.get_y()][new_pos.get_x()] == false)
-			{
-				moving_queue.push(new_pos);
-				is_visted[new_pos.get_y()][new_pos.get_x()] = true;
-
-				if (ghost.get_position().get_x() + move_vector_x[i] == curr_x &&
-					ghost.get_position().get_y() + move_vector_y[i] == curr_y)
-				{
-					switch (i) { // OPOSITE TODO FUNC OUT
-					case 0:    ghost.set_direction(Entity::Direction::RIGHT);
-						return;
-					case 1:    ghost.set_direction(Entity::Direction::DOWN);
-						return;
-					case 2:    ghost.set_direction(Entity::Direction::LEFT);
-						return;
-					case 3:    ghost.set_direction(Entity::Direction::UP);
-						return;
-					}
-				}
-			}
-
-		}/*
-		 for (int i = 0; i < Board::board_size::HEIGHT; i++) {
-			 for (int j = 0; j < Board::board_size::WIDTH; j++) {
-				 cout << is_visted[i][j];
-			 }
-
-			 cout << endl;*/
-	}
-}
-
-
-bool Game::is_valid_bfs(Position new_pos)
-{
-	if (new_pos.get_x() >= Board::board_size::WIDTH || new_pos.get_y() >= Board::board_size::HEIGHT)
-		return false;
-	if (ghosts[0].is_invalid_place(new_pos))
-		return false;
-	return true;
-
-}

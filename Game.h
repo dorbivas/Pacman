@@ -83,9 +83,6 @@ private:
     char**  create_board();
     void display_score_souls() const;
 
-    void smart(Position target, Ghosts& ghost);
-    bool is_valid_bfs(Position new_pos);
-
     void win();
     void lose();
 

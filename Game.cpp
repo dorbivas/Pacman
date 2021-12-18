@@ -577,9 +577,7 @@ bool Game::is_valid_bfs(Position new_pos)
 {
 	if (new_pos.get_x() >= Board::board_size::WIDTH || new_pos.get_y() >= Board::board_size::HEIGHT)
 		return false;
-	if (is_invalid_place(new_pos))
-		return false;
-	if (is_my_teleporting(new_pos))
+	if (ghosts[0].is_invalid_place(new_pos))
 		return false;
 	return true;
 

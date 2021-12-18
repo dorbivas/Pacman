@@ -4,14 +4,19 @@
 #include "Color.h"
 
 #include <fstream>
+#include <vector>
 
 using namespace std::filesystem;
+using std::vector;
+
+
 
 class Board {
 
 public:
 	enum board_signs { P = 250, W = 219, T = 176, S = 32 , POINT = 250, WALL = 219, TELEPORT = 176 };
     enum board_size { MAX_WIDTH = 80, MAX_HEIGHT = 25, };
+    enum { MAX_LEGEND_ROWS = 3, MAX_LEGEND_COLS = 20 };
 
     enum class Color{
         BLACK,
@@ -33,10 +38,22 @@ public:
     };
 private:
 	unsigned char board[MAX_HEIGHT][MAX_WIDTH];
-    int height, width;
+    int rows, cols, max_score, num_of_ghosts;
+
     Position inital_pacman_pos;
     Position inital_ghosts_pos[];
-    
+    Position legend_pos;
+    vector<Position> points_valid_positions;
+
+    /*ADDED to change ours*/
+    void board_from_file(ifstream& file_input);
+    void insert_single_line(int curr_col);
+    void insert_teleports();
+    void handle_legend(const Position& legend_pos);
+    void make_board_empty();
+    void search_points();
+    void load_board(const string& fileName);
+
 
 public:
 	void print_board(const bool color_mode);
@@ -49,8 +66,24 @@ public:
 	unsigned char get_cell(const Position& cell_pos) { return board[cell_pos.get_y()][cell_pos.get_x()]; }
 	void set_cell(Position& cell_pos, unsigned char c) { board[cell_pos.get_y()][cell_pos.get_x()] = c; }
     
-    void init_board_from_file(const char* file_name, bool& is_valid_file);
-    void handle_board_input(const unsigned char curr_char, int& curr_row, int& curr_col, int& countChars);
+    /*ADDED to change ours*/
+    bool is_valid_move(const Position new_pos);
+    int get_max_score() const { return max_score; }
+    int get_num_of_ghosts() const { return num_of_ghosts; }
+
+    int get_legend_x() const { return legend_pos.get_x(); }
+    int get_legend_y() const { return legend_pos.get_y(); }
+
+    unsigned int get_cols() const { return cols; }
+    unsigned int get_rows() const { return rows; }
+
+    int getOptionalIndex() const { return points_valid_positions.size(); } // TODO ?
+    const Position& getAPointForFruit(int num) const { return points_valid_positions[num]; }
+
+    void setTotalScore() { max_score--; } // TODO
+
+
+
 };
 
 

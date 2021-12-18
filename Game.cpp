@@ -314,7 +314,7 @@ void Game::win() {
 	loop_flag = true;
 }
 
-void Game::reset_game() {
+void Game::reset_game() {//TODO FIX 
 	board.our_spacial_board();
 	board.print_board(this->color_mode);
 	this->pacman = Pacman();
@@ -322,6 +322,7 @@ void Game::reset_game() {
 	loop_flag = false;
 	for (int i = 0; i < NUM_OF_GHOSTS; i++)
 		ghosts[i].set_position(INITAL_GHOST_X + (2 * i), INITAL_GHOST_Y);
+
 }
 
 
@@ -385,7 +386,7 @@ void Game::Menu::handle_menu() { //TODO number table for user choice?
 	system("cls");
 	return;
 }
-void Game::Menu::handle_ghosts_level(Game run)
+void Game::Menu::handle_ghosts_level(Game& run)
 {
 	cout << "Please select the level of ghosts" << endl;
 	cout << "a ==> BEST" << endl << endl;
@@ -398,7 +399,7 @@ void Game::Menu::handle_ghosts_level(Game run)
 			run.ghosts_level_mode = Smart;
 		else if (ghosts_level_choice == GOOD)
 			run.ghosts_level_mode = Good;
-		else if (ghosts_level_choice == 'c')
+		else if (ghosts_level_choice == NOVICE)
 			run.ghosts_level_mode = Novice;
 		else
 		{

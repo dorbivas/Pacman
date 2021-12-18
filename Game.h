@@ -47,7 +47,7 @@ private:
         enum user_options { Start_Game = 1, Change_Color_Mode , Show_Ruls = 8, Exit_Game = 9 };
         enum ghosts_level_options { BEST = 'a', GOOD = 'b', NOVICE = 'c' };
         void handle_menu();
-        void handle_ghosts_level(Game run);
+        void handle_ghosts_level(Game& run);
         void menu_display();
         void print_ruls() const;
         

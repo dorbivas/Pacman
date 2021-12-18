@@ -83,6 +83,18 @@ void Game::handle_collision() {
 		lose();
 	}
 }
+//TODO VIRT
+void Game::handle_collision() {
+	pacman.add_score();//decreases soul from the pacman
+	print_move(pacman.get_position(), fruit.get_shpae());
+	pacman.set_position((int)Pacman::INITIAL_X, (int)Pacman::INITIAL_Y); //returns the pacman to its original position
+	pacman.set_direction((int)Entity::Direction::STAY);
+	if (pacman.get_souls() == 0)
+	{
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (int)Board::Color::WHITE);
+		lose();
+	}
+}
 
 void Game::handle_move(Position& next_pos) {
 	if (is_invalid_place(next_pos))

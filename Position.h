@@ -15,7 +15,7 @@ public:
     void set_xy(int _x, int _y) {x = _x; y = _y;}
     int get_x() const { return this->x; }
     int get_y() const { return this->y; }
-
+     
     //--Game Logic Fucns: --//
     bool operator==(const Position& pos){return((pos.get_x()==x)&&(pos.get_y()==y));}
     Position& operator+(const Position& pos) {

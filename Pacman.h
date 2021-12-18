@@ -7,8 +7,6 @@
 
 class Pacman :public Entity
 {
-public:
-	enum pacman_table { STARTING_SOULS = 3, ZERO_POINTS = 0, INITIAL_X = 39, INITIAL_Y = 12 };
 
 private:
 	int souls = STARTING_SOULS;
@@ -16,7 +14,7 @@ private:
 	
 
 public:
-
+	enum pacman_table { STARTING_SOULS = 3, ZERO_POINTS = 0, INITIAL_X = 39, INITIAL_Y = 12 };
 	//--Constructor --//
 	Pacman() {
 		shape = Shape::PACMAN;
@@ -28,10 +26,11 @@ public:
 
 	//--Data Members Funcs: --//
 	void set_souls(int souls);
-	void set_score(int score);
+
 
 	int get_souls()const;
 	int get_score() const;
-	void add_score();
+	void add_score(int new_val);
 	void decrease_soul();
+	bool is_invalid_place(const Position& next_pos);
 };

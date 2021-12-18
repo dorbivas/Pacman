@@ -21,4 +21,24 @@ Position& Entity::move_dir() {
 	}//else ->stay
 	return new_dir;
 }
+bool Entity::is_collided(const Position& curr_pos, const Position& next_pos, int against_direction) {
+	int d1, d2, x_dif, y_dif;
+
+	if (get_position() == curr_pos)
+		return true;
+
+	//edge cases
+	d1 = get_direction();
+	d2 = against_direction;
+	x_dif = next_pos.get_x() - get_position().get_x();
+	y_dif = next_pos.get_y() - get_position().get_y();
+	Position dif(x_dif, y_dif);
+
+	if ((d1 == (int)Entity::Direction::UP && d2 == (int)Entity::Direction::DOWN && dif == Position(0, 1) ||
+		d1 == (int)Entity::Direction::DOWN && d2 == (int)Entity::Direction::UP && dif == Position(0, -1) ||
+		d1 == (int)Entity::Direction::LEFT && d2 == (int)Entity::Direction::RIGHT && dif == Position(-1, 0) ||
+		d1 == (int)Entity::Direction::RIGHT && d2 == (int)Entity::Direction::LEFT && dif == Position(1, 0)))
+		return true;
+	return false;
+}
 

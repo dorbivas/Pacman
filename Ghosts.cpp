@@ -87,13 +87,13 @@ bool Ghosts::is_valid_bfs(Position new_pos)
 		return false;
 	if (is_invalid_place(new_pos))
 		return false;
-	if (is_my_teleporting(new_pos))
-		return false;
 	return true;
 
 }
 
-
+bool Ghosts::is_invalid_place(const Position& next_pos) {
+    return ((board.get_cell(next_pos) == (unsigned char)Board::WALL)||(is_my_teleporting(next_pos)));
+}
 //
 //void Ex01Logic::getInputFromUserForArr(int& sumInput)
 //{

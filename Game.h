@@ -73,8 +73,6 @@ private:
     void handle_teleport(Position& pacman_pos);
     void print_move(const Position pos, Entity::Shape shape);
     bool is_collided_ghost(const Position& next_pos);
-    bool is_collided_fruit(const Position& next_pos);
-    bool is_invalid_place(const Position& next_pos);
     bool is_my_teleporting(const Position& next_pos) {
         return (board.get_cell(next_pos) == (unsigned char)Board::TELEPORT);
     }

@@ -29,5 +29,6 @@ public:
 	void fruit_interaction();
 
 	int get_fruit_val()const { return fruit_val; } 
+	bool is_invalid_place(const Position& next_pos);
 
 };

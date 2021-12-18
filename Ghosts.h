@@ -50,4 +50,5 @@ public:
 
     void good_lvl_ghost(Position target);
         //bool is_collided_ghost(const Position pacman_pos, Ghosts ghosts[], int num_of_ghosts, Pacman pacman);
+    bool is_invalid_place(const Position& next_pos);
 };

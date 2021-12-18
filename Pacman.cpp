@@ -15,12 +15,12 @@ void Pacman::set_souls(int souls) {
 void Pacman::decrease_soul() {
 	souls--;
 }
-void Pacman::set_score(int score) {
-	this->score = score;
-}
-void Pacman::add_score() {
-	score++;
+void Pacman::add_score(int new_val) {
+	score=score+new_val;
 }
 int Pacman::get_score() const {
 	return score;
+}
+bool Pacman::is_invalid_place(const Position& next_pos){
+	return (board.get_cell(next_pos) == (unsigned char)Board::WALL);
 }

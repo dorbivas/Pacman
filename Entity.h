@@ -39,13 +39,12 @@ public:
     bool is_my_teleporting(const Position& next_pos) {
         return (board.get_cell(next_pos) == (unsigned char)Board::TELEPORT);
     }
-    bool is_invalid_place(const Position& next_pos) {
-        return (board.get_cell(next_pos) == (unsigned char)Board::WALL);
-    }
+    virtual bool is_invalid_place(const Position& next_pos) = 0;
     void set_board(Board& board) { this->board = board; }
     //TODO MOVE
     Position& move_dir();
     //virtual void handle_move();
+    bool is_collided(const Position& curr_pos, const Position& next_pos, int against_direction);
 
     
 protected:
@@ -55,8 +54,9 @@ protected:
     int speed;
     Shape shape;
     Board::Color color;
+    Board board;
 
 private:
-    Board board;
+   
     
 };

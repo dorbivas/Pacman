@@ -64,7 +64,7 @@ private:
    
     //--Game Logic Fucns: --//
     void game();
-    void check_pacman_move(const Position& move_vector);
+    void check_pacman_move();
     void handle_ghost_move();
     void handle_move(Position& next_pos);
     void handle_score(Position& next_pos);
@@ -87,6 +87,7 @@ private:
 
     void win();
     void lose();
+
 
 public:
     Game();

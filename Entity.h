@@ -45,6 +45,8 @@ public:
     //TODO MOVE
     Position& move_dir();
     
+
+    
 protected:
     
     Position pos;

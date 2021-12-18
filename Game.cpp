@@ -6,7 +6,6 @@ Game::Game() {
 
 void Game::game() {
 	reset_game();
-	Position move_vector(0, 0);
 	unsigned char current_key, temp;
 	current_key = _kbhit();
 
@@ -23,7 +22,7 @@ void Game::game() {
 		if (is_valid_key(current_key))
 		{
 			handle_key_input(current_key);
-			move_vector = pacman.move_dir();
+			pacman.move_dir();
 			if (pause_flag)
 			{
 				current_key = temp;
@@ -36,7 +35,7 @@ void Game::game() {
 				current_key = stay_lower_case;
 				continue; // no need to cheeck other conditions.
 			}
-			check_pacman_move(move_vector);
+			check_pacman_move();
 			print_move(pacman.get_position(), Entity::Shape::PACMAN);
 			temp = current_key;
 		}
@@ -53,7 +52,8 @@ void Game::game() {
 }
 
 //--Game Logic Fucns: --//
-void Game::check_pacman_move(const Position& move_vector) {
+void Game::check_pacman_move() {
+	Position new_pos = pacman.move_dir();
 	if (is_my_teleporting(pacman.get_position()))
 	{
 		board.set_cell(pacman.get_position(), (unsigned char)Board::TELEPORT);
@@ -64,12 +64,7 @@ void Game::check_pacman_move(const Position& move_vector) {
 		board.set_cell(pacman.get_position(), Entity::Shape::S);
 		print_move(pacman.get_position(), Entity::Shape::S);
 	}
-
-	int next_x = pacman.get_position().get_x() + move_vector.get_x();
-	int next_y = pacman.get_position().get_y() + move_vector.get_y();
-	Position next_pos(next_x, next_y);
-
-	handle_move(next_pos);
+	handle_move(new_pos);
 }
 
 void Game::handle_collision() {
@@ -84,6 +79,7 @@ void Game::handle_collision() {
 	}
 }
 //TODO VIRT
+/*
 void Game::handle_collision() {
 	pacman.add_score();//decreases soul from the pacman
 	print_move(pacman.get_position(), fruit.get_shpae());
@@ -94,7 +90,7 @@ void Game::handle_collision() {
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (int)Board::Color::WHITE);
 		lose();
 	}
-}
+}*/
 
 void Game::handle_move(Position& next_pos) {
 	if (is_invalid_place(next_pos))
@@ -110,8 +106,8 @@ void Game::handle_move(Position& next_pos) {
 }
 
 void Game::handle_ghost_move() {//TODO VIRTUAL
-	Position curr_pos, next_pos;
-	
+	Position curr_pos,next_pos;
+	int next_x = 0 , next_y = 0;
 	for (int i = 0; i < NUM_OF_GHOSTS; i++)
 	{
 		curr_pos = ghosts[i].get_position();
@@ -122,10 +118,7 @@ void Game::handle_ghost_move() {//TODO VIRTUAL
 		else
 			ghosts[i].good_lvl_ghost(pacman.get_position());
 
-		//next_pos =ghosts[i].get_position() + ghosts[i].move_dir();//TODO OPERATOR
-		int next_x = ghosts[i].get_position().get_x() + ghosts[i].move_dir().get_x();
-		int next_y = ghosts[i].get_position().get_y() + ghosts[i].move_dir().get_y();
-		next_pos.set_xy(next_x,next_y);
+		next_pos= ghosts[i].move_dir();
 		if (ghosts_level_mode != Smart)//TODO
 		{
 
@@ -142,9 +135,7 @@ void Game::handle_ghost_move() {//TODO VIRTUAL
 					ghosts[i].rotate_direction();
 					ghosts[i].good_lvl_ghost(pacman.get_position());
 				}
-				int next_x = ghosts[i].get_position().get_x() + ghosts[i].move_dir().get_x();
-				int next_y = ghosts[i].get_position().get_y() + ghosts[i].move_dir().get_y();
-				next_pos.set_xy(next_x, next_y);
+				next_pos= ghosts[i].move_dir();
 			}
 			ghosts[i].set_position(next_pos);
 		}

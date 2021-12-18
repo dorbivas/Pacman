@@ -19,6 +19,7 @@ void Ghosts::good_lvl_ghost(Position target)
 
 //smart ghost using BFS
 //smart ghost using BFS
+//smart ghost using BFS
 void Ghosts::smart(Position target)
 {
     // Direction vectors
@@ -27,12 +28,10 @@ void Ghosts::smart(Position target)
 
     int target_x = target.get_x(), target_y = target.get_y();
     std::queue<Position> moving_queue;
-    bool is_visted[Board::board_size::HEIGHT][Board::board_size::WIDTH] = { {false} }; //init all cells as unvisited cells. 
+    bool is_visted[Board::board_size::HEIGHT][Board::board_size::WIDTH] = { false }; //init all cells as unvisited cells. 
     /*for (int i = 0; i < Board::board_size::HEIGHT; i++)
         for (int j = 0; j < Board::board_size::WIDTH; j++)
             is_visted[i][j] = false;*/
-
-    Position new_pos;
 
     moving_queue.push(target);
     is_visted[target_y][target_x] = true;
@@ -47,6 +46,7 @@ void Ghosts::smart(Position target)
         // Go to the adjacent cells
         for (int i = 0; i < 4; i++) {
 
+            Position new_pos;
             if (get_position().get_x() + move_vector_x[i] == curr_x &&
                 get_position().get_y() + move_vector_y[i] == curr_y)
             {
@@ -62,21 +62,22 @@ void Ghosts::smart(Position target)
                 }
             }
             new_pos.set_xy(curr_x + move_vector_x[i], curr_y + move_vector_y[i]);
+            if (new_pos.get_x() == 38 && new_pos.get_y() == 12)
+                cout << 'u';
             if (is_valid_bfs(new_pos) && is_visted[new_pos.get_y()][new_pos.get_x()] == false)
             {
                 moving_queue.push(new_pos);
                 is_visted[new_pos.get_y()][new_pos.get_x()] = true;
-
-                /*for (int i = 0; i < Board::board_size::HEIGHT; i++) {
-                    for (int j = 0; j < Board::board_size::WIDTH; j++) {
-                        cout << is_visted[i][j];
-                    }
-
-                    cout << endl;
-                }*/
-
             }
+
         }
+        /* for (int i = 0; i < Board::board_size::HEIGHT; i++) {
+             for (int j = 0; j < Board::board_size::WIDTH; j++) {
+                 cout << is_visted[i][j];
+             }
+
+             cout << endl;
+         }*/
     }
 }
 

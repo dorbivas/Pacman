@@ -1,12 +1,10 @@
 #pragma once
 #include "Utility.h"
-#include "Position.h"
-#include "Color.h"
-
 #include <fstream>
 #include <vector>
 
 using namespace std::filesystem;
+using std::ifstream;
 using std::vector;
 
 
@@ -14,11 +12,11 @@ using std::vector;
 class Board {
 
 public:
-	enum board_signs { P = 250, W = 219, T = 176, S = 32 , POINT = 250, WALL = 219, TELEPORT = 176 };
+    enum board_signs { P = 250, W = 219, T = 176, S = 32, POINT = 250, WALL = 219, TELEPORT = 176 };
     enum board_size { MAX_WIDTH = 80, MAX_HEIGHT = 25, };
-    enum { MAX_LEGEND_ROWS = 3, MAX_LEGEND_COLS = 20 };
+    enum legend_size{ MAX_LEGEND_ROWS = 3, MAX_LEGEND_COLS = 20 };
 
-    enum class Color{
+    enum class Color {
         BLACK,
         BLUE,
         GREEN,
@@ -37,11 +35,11 @@ public:
         WHITE
     };
 private:
-	unsigned char board[MAX_HEIGHT][MAX_WIDTH];
+    unsigned char board[MAX_HEIGHT][MAX_WIDTH];
     int rows, cols, max_score, num_of_ghosts;
 
     Position inital_pacman_pos;
-    Position inital_ghosts_pos[];
+    Position* inital_ghosts_pos;
     Position legend_pos;
     vector<Position> points_valid_positions;
 
@@ -56,16 +54,16 @@ private:
 
 
 public:
-	void print_board(const bool color_mode);
+    void print_board(const bool color_mode);
     void our_spacial_board();
 
-    Positon& get_inital_pacman_pos() { return inital_pacman_pos; }
-    Positon& get_ghost_pacman_pos() { return inital_ghosts_pos; }
+    Position& get_inital_pacman_pos() { return inital_pacman_pos; }
+    //Positon& get_ghost_pacman_pos() { return inital_ghosts_pos; }//TODO
 
-	void set_color(int color_pick) const { SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color_pick); }
-	unsigned char get_cell(const Position& cell_pos) { return board[cell_pos.get_y()][cell_pos.get_x()]; }
-	void set_cell(Position& cell_pos, unsigned char c) { board[cell_pos.get_y()][cell_pos.get_x()] = c; }
-    
+    void set_color(int color_pick) const { SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color_pick); }
+    unsigned char get_cell(const Position& cell_pos) { return board[cell_pos.get_y()][cell_pos.get_x()]; }
+    void set_cell(Position& cell_pos, unsigned char c) { board[cell_pos.get_y()][cell_pos.get_x()] = c; }
+
     /*ADDED to change ours*/
     bool is_valid_move(const Position new_pos);
     int get_max_score() const { return max_score; }

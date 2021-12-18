@@ -37,7 +37,7 @@ public:
     void set_position(int x, int y) { this->pos.set_xy(x, y); }
     void set_direction(Entity::Direction dir) { direction = (int)dir; } 
     void set_direction(int direction) { this->direction = direction; }
-    void set_color(Board::Color direction) { this->color = color; }
+    //void set_color(Board::Color direction) { this->color = color; }
     void set_shape(Shape direction) { this->shape = shape; }
 
     //TODO REMOVE THIS FUNCTIONS
@@ -59,6 +59,7 @@ protected:
     Shape shape;
     Board::Color color;
     Board board;
+    
 
 private:
     

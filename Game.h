@@ -66,7 +66,7 @@ private:
     void game();
     void check_pacman_move();
     void handle_ghost_move();
-    void handle_point_move();
+    void handle_fruit_move();
     void handle_move();
     void handle_score(Position& next_pos);
     Position& my_teleport(Position& next_pos);
@@ -81,7 +81,7 @@ private:
     void reset_game();
     void pause();
     void handle_key_input(const unsigned char current_key);
-    char**  create_board();
+    //char**  create_board();
     void display_score_souls() const;
 
     void win();

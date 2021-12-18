@@ -319,10 +319,6 @@ bool Board::is_valid_move(const Position new_pos)
 
 }
 
-bool Ghosts::is_invalid_place(const Position& next_pos) {
-	return ((board.get_cell(next_pos) == (unsigned char)Board::WALL) || (is_my_teleporting(next_pos)));
-}
-
 
 
 

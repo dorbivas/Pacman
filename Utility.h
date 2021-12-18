@@ -11,7 +11,7 @@
 
 #include<set>
 using std::set;
-using std::ifstream;
+//using std::ifstream;
 using std::ios;
 using std::cout;
 using std::cin;

@@ -17,7 +17,7 @@ void Game::game() {
 	{
 		Sleep(SPEED);
 		handle_ghost_move();
-		handle_point_move();
+		handle_fruit_move();
 		if (_kbhit())
 			current_key = _getch();
 		if (is_valid_key(current_key))
@@ -131,30 +131,30 @@ void Game::handle_ghost_move() {//TODO VIRTUAL
 		}
 		ghosts[i].set_position(next_pos);
 
-		if (board.get_cell(curr_pos) == Entity::Shape::P)//TODO-YARDEN
+		/*if (board.get_cell(curr_pos) == Entity::Shape::P)//TODO-YARDEN
 		{
 			fruit = Fruit();
 			//timer
-		}
+		}*/
 		print_move(curr_pos, Entity::Shape::S);//TODO-YRADEN
 		print_move(next_pos, Entity::Shape::GHOST);
 	}
 }
-void Game::handle_point_move() {//TODO VIRTUAL
+void Game::handle_fruit_move() {//TODO VIRTUAL
 	Position curr_pos, next_pos;
 	int next_x = 0, next_y = 0;
-	curr_pos = point.get_position();
-	point.set_dir();
-	next_pos = point.move_dir();
-	while (point.is_invalid_place(next_pos))
+	curr_pos = fruit.get_position();
+	fruit.set_dir();
+	next_pos = fruit.move_dir();
+	while (fruit.is_invalid_place(next_pos))
 	{
-		ghosts[i].rotate_direction();
-		point.set_dir();
-		next_pos = point.move_dir();
+		fruit.rotate_direction();
+		fruit.set_dir();
+		next_pos = fruit.move_dir();
 	}
-	point.set_position(next_pos);
-
-	/*if (board.get_cell(curr_pos) == Entity::Shape::GHOST)//TODO REMOVE AFTER RUNNING
+	fruit.set_position(next_pos);
+	/*
+	if (board.get_cell(curr_pos) == Entity::Shape::PACMAN)//TODO REMOVE AFTER RUNNING
 	{
 		board.set_cell(curr_pos, Entity::Shape::GHOST);
 		print_move(curr_pos, Entity::Shape::GHOST);
@@ -199,8 +199,8 @@ bool Game::is_collided_ghost(const Position& curr_pos,const Position& next_pos,i
 void Game::handle_teleport(Position& pacman_pos)//TODO
 {
 	int pacman_direction = pacman.get_direction();
-	int num_of_lines = board.height;
-	int num_of_cols = board.width;
+	int num_of_lines = board.get_cols();
+	int num_of_cols = board.get_rows();
 
 	if (board.get_cell(pacman_pos) == Entity::Shape::S)
 	{
@@ -230,9 +230,11 @@ void Game::handle_score(Position& next_pos) {
 	//if (board.get_cell(next_pos) == Entity::Shape::P)//TODO CHECK WAHT MORE GOOD
 	if(fruit.is_collided(next_pos,pacman.move_dir(),pacman.get_direction()))
 	{
+		board.set_cell(next_pos, Entity::Shape::S);
 		pacman.add_score(fruit.get_fruit_val());
 		//TODO TIMER
-		fruit = Fruit();
+		fruit.generate_random_pos();
+		fruit.generate_random_fruit_val();
 		
 		if (pacman.get_score() == MAX_POINTS)
 		{

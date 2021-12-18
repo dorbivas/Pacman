@@ -53,7 +53,6 @@ public:
 
     
 protected:
-    
     Position pos;
     int direction;
     int speed;
@@ -62,6 +61,5 @@ protected:
     Board board;
 
 private:
-   
     
 };

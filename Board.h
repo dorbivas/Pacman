@@ -35,7 +35,7 @@ private:
 	unsigned char board[MAX_HEIGHT][MAX_WIDTH];
     int height, width;
     Position inital_pacman_pos;
-    Position[] inital_ghosts_pos;
+    Position inital_ghosts_pos[];
     
 
 public:

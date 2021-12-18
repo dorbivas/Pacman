@@ -21,6 +21,7 @@ Position& Entity::move_dir() {
 	}//else ->stay
 	return new_dir;
 }
+
 bool Entity::is_collided(const Position& curr_pos, const Position& next_pos, int against_direction) {
 	int d1, d2, x_dif, y_dif;
 

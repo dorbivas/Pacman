@@ -21,6 +21,7 @@ public:
 		direction = generate_random_dir();
 		
 	}
+	
 	Position& generate_random_pos();
 	
 	void place_fruit();

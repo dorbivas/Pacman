@@ -3,8 +3,6 @@
 #include "Utility.h"
 #include "Entity.h"
 
-
-
 class Pacman :public Entity
 {
 

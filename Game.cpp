@@ -199,8 +199,8 @@ bool Game::is_collided_ghost(const Position& curr_pos,const Position& next_pos,i
 void Game::handle_teleport(Position& pacman_pos)//TODO
 {
 	int pacman_direction = pacman.get_direction();
-	int num_of_lines = board.get_height();
-	int num_of_cols = board.get_width();
+	int num_of_lines = board.get_cols();
+	int num_of_cols = board.get_rows();
 
 	if (board.get_cell(pacman_pos) == Entity::Shape::S)
 	{

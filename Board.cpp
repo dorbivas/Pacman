@@ -44,23 +44,23 @@ void Board::our_spacial_board() {
 void Board::print_board(const bool color_mode) {
 	for (int i = 0; i < MAX_HEIGHT; i++)
 	{
-		for (int j = 0; j < MAX_WIDTH; j++) 
+		for (int j = 0; j < MAX_WIDTH; j++)
 		{
-			if (board[i][j] == (unsigned char) WALL)
+			if (board[i][j] == (unsigned char)WALL)
 			{
 				if (color_mode)
 					set_color((int)Color::LIGHTCYAN);
 				cout << board[i][j];
 			}
-			else if (board[i][j] == (unsigned char) P) 
+			else if (board[i][j] == (unsigned char)P)
 			{
 				if (color_mode)
 					set_color((int)Color::LIGHTGREY);
 				cout << board[i][j];
-				
+
 			}
-			else if(board[i][j] == (unsigned char) TELEPORT)
-			{	
+			else if (board[i][j] == (unsigned char)TELEPORT)
+			{
 				if (color_mode)
 					set_color((int)Color::LIGHTBLUE);
 				cout << board[i][j];
@@ -76,10 +76,6 @@ void Board::print_board(const bool color_mode) {
 	set_color((int)Color::WHITE);
 }
 
-
-
-
-
 //----------Methods-----------//
 
 //Point Board::getRandomPoint() {
@@ -91,99 +87,238 @@ void Board::print_board(const bool color_mode) {
 //
 //	return res;
 //}
-/*
-void Board::init_board_from_file(const char* file_name, bool& is_valid_file)
+
+
+
+void Board::load_board(const string& fileName)
 {
-	// TODO: filename input check
+	ifstream file;
+	file.open(fileName);
 
-	int size ,col = 0, row = 0, countChars = 0;
-	char read;
-	ifstream in_file(file_name, ios::ate);
+	make_board_empty();
+	points_valid_positions.clear();
+	board_from_file(file);
 
-	if (in_file.is_open() == false) 
-	{
-		is_valid_file = false;
-		return;
+	file.close();
+	/*try { // TODO
+
 	}
-	else
-		is_valid_file = true;
-	size = in_file.tellg();
-	in_file.seekg(0, in_file.beg);
-
-	while ((countChars <= size) && (row <= MAX_HEIGHT) && (col <= MAX_WIDTH))
+	catch (const char* msg)
 	{
-		read = in_file.get();
-		handle_board_input(read, row, col, countChars);
-		col++;
-		countChars++;
-	}
-
-	height = row;
-	//initLegend();
-	in_file.close();
+		cout << "ERROR: " << msg << endl;
+	}*/
 }
-*/
-//void Board::initLegend() {
-//
-//	int row = legendPos.getY();
-//	int col = legendPos.getX();
-//
-//	/*if (row >= height - 1)
-//		height += 2;
-//	if (col == width - 1)
-//		width += 19;*/
-//
-//	for (int j = 0; j < 3; j++)
-//		for (int i = 0; i < 20; i++)
-//			board[row + j][col + i] = ' ';
-//}
-//
-//void Board::handle_board_input(const unsigned char curr_char, int& curr_row, int& curr_col, int& countChars) 
-//{
-//	switch (curr_char)
-//	{
-//	case '\n':
-//		if (curr_row == 0)
-//			width = curr_col;	  // first line sets the board's width	
-//		while (curr_col < width) { // handle case where current row length < first row
-//			board[curr_row][curr_col] = ' ';
-//			curr_col++;
-//		}
-//		curr_row++;
-//		curr_col = -1;
-//		countChars++;		  // '\n' weight as 2 chars when read from file
-//		break;
-//	case '@':
-//		
-//		pacmanPos.setPoint(curr_col, curr_row);
-//		board[curr_row][curr_col] = ' ';
-//		break;
-//	case '$':
-//		if (num_of_ghosts < 4) {
-//			ghostsPos[num_of_ghosts].setPoint(curr_col, curr_row);
-//			num_of_ghosts++;
-//		}
-//		board[curr_row][curr_col] = ' ';
-//		break;
-//	case '&':
-//		legendPos.setPoint(curr_col, curr_row);
-//		board[curr_row][curr_col] = ' ';
-//		break;
-//	case '%':
-//		board[curr_row][curr_col] = ' ';
-//		break;
-//	case '#':
-//		board[curr_row][curr_col] = WALL;
-//		break;
-//	case ' ':
-//		board[curr_row][curr_col] = BREAD;
-//		num_of_bread_crumbs++;
-//		break;
-//	default:
-//		board[curr_row][curr_col] = ' ';
-//		break;
-//	}
-//}
+
+
+void Board::board_from_file(ifstream& file_input)
+{
+	int char_counter = 0, curr_col = 0, legendAppeared = 0, size;
+	char lastChar = 'a'; // just a default, not important what
+	int beyondFirstLine = 0;
+
+	size = file_input.tellg();
+	file_input.seekg(0, file_input.beg);
+
+	while (char_counter < size)
+	{
+		if (rows == 1)
+			curr_col = curr_col; // TODO what??
+		unsigned char curr_char = file_input.get();
+		if (beyondFirstLine != 0 && curr_col >= cols) // if the line is over the first line of the board
+		{
+
+			while (curr_char != '\n' && char_counter <= size) {
+				char_counter++;
+				curr_char = file_input.get();
+			}
+			if (char_counter < size)
+			{
+				rows++;
+			}
+			char_counter += 2;
+			curr_col = 0;
+		}
+		else
+		{
+			if (curr_char == WALL)
+			{
+				board[rows][curr_col] = WALL;
+			}
+			else if (curr_char == '@')
+			{
+				inital_pacman_pos.set_xy(curr_col, rows);
+				board[rows][curr_col] = S; // pac start on empty space so he wont add score
+			}
+			else if (curr_char == '$')
+			{
+				inital_ghosts_pos[num_of_ghosts + 1].set_xy(curr_col, rows);
+				board[rows][curr_col] = S;
+				num_of_ghosts++;
+			}
+			else if (curr_char == '%')
+			{
+				board[rows][curr_col] = S;
+			}
+			else if (curr_char == S)
+			{
+				max_score++;
+				curr_char = POINT;
+				board[rows][curr_col] = curr_char;
+			}
+			else if (curr_char == '&')
+			{
+				legend_pos.set_xy(curr_col, rows);
+				board[rows][curr_col] = S;
+				legendAppeared = 1; // TODO
+			}
+			else if (curr_char == '\n')
+			{
+				if (beyondFirstLine == 0 && legendAppeared == 1) // if the legend appeared in the first line
+				{
+					if (legend_pos.get_x() + 19 > cols) // if the legend is in the end of the line
+					{
+						cols = legend_pos.get_x() + 19; //set the new line to be in the size of the legend
+					}
+				}
+				if (beyondFirstLine != 0 && curr_col < cols) // if the line is shorter then the first line
+				{
+					insert_single_line(curr_col);
+					curr_col = 0;
+				}
+				else
+				{
+					beyondFirstLine = 1;
+					curr_col = 0;
+				}
+				char_counter++;
+				rows++;
+			}
+			else // if its a non-valid key
+			{
+				board[rows][curr_col] = S; // as a default - we use it as %
+				char_counter++;
+			}
+
+			if (char_counter + 1 == size && curr_col + 1 < cols) // if we are in the last character buf the line is shorter then the first 
+				insert_single_line(curr_col + 1);
+
+			if (beyondFirstLine == 0)
+				cols++;
+
+			if (curr_char != '\n')
+			{
+				curr_col++;
+				lastChar = curr_char;
+			}
+			char_counter++;
+		}
+
+	}
+	insert_teleports();
+	handle_legend(legend_pos);
+	search_points();
+}
+
+
+void Board::insert_single_line(int curr_col)
+{
+	while (curr_col < cols)
+	{
+		board[rows][curr_col] = S;
+		curr_col++;
+	}
+	//TODO 		
+	//while (curr_col < cols)
+	//	board[rows][curr_col++] = S;
+}
+
+void Board::handle_legend(const Position& legend_pos)
+{
+	if (legend_pos.get_y() == rows) // if the legend is the last line
+		rows += 2;
+
+	for (int i = 0; i < MAX_LEGEND_ROWS; i++)
+	{
+		for (int j = 0; j < MAX_LEGEND_COLS; j++)
+		{
+			if (board[legend_pos.get_y() + i][legend_pos.get_x() + j] == POINT)
+				max_score--;
+
+			board[legend_pos.get_y() + i][legend_pos.get_x() + j] = ' '; // init the legend places into space	
+		}
+		if (legend_pos.get_y() + i > rows)
+			rows++;
+	}
+}
+
+void Board::make_board_empty() {
+	for (int i = 0; i < MAX_HEIGHT; i++) {
+		for (int j = 0; j < MAX_WIDTH; j++)
+			board[i][j] = ' ';
+	}
+	rows = 0; cols = 0; num_of_ghosts = 0; max_score = 0;
+}
+
+
+void Board::search_points() {
+	for (int i = 0; i <= rows; i++) {
+		for (int j = 0; j <= cols; j++)
+		{
+			if (board[i][j] == POINT)
+				points_valid_positions.push_back({ j, i });
+
+		}
+	}
+}
+
+void Board::insert_teleports()
+{
+	for (int i = 0; i <= rows; i++)
+	{
+		if (board[i][0] == POINT) // if there is a BREADSCRUMB on the frame
+		{
+			max_score -= 1;
+			board[i][0] = S;
+		}
+		if (board[i][cols - 1] == POINT)
+		{
+			board[i][cols - 1] = S;
+			max_score -= 1;
+		}
+	}
+	for (int i = 0; i <= cols; i++)
+	{
+		if (board[0][i] == POINT)
+		{
+			max_score -= 1;
+			board[0][i] = S;
+		}
+		if (board[rows][i] == POINT)
+		{
+			max_score -= 1;
+			board[rows][i] = S;
+		}
+	}
+
+}
+
+
+bool Board::is_valid_move(const Position new_pos)
+{
+	int x = new_pos.get_x();
+	int y = new_pos.get_y();
+	unsigned char curr = board[x][y];
+
+	if (x >= cols || y >= rows || x <= 0 || y <= 0)
+		return false;
+
+	if (curr == Board::WALL)
+		return false;
+
+	return true;
+
+}
+
 
 
 

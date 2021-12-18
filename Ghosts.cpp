@@ -14,84 +14,11 @@ void Ghosts::good_lvl_ghost(Position target)
 	if (steps >= 0 && steps <= 5)
 		novice_lvl_ghost();
 	else
-		smart(target);
+		novice_lvl_ghost();
+		//smart(target); TODO
 }
 
-//smart ghost using BFS
-//smart ghost using BFS
-//smart ghost using BFS
-void Ghosts::smart(Position target)
-{
-    // Direction vectors
-    int move_vector_x[] = { -1, 0, 1, 0 };
-    int move_vector_y[] = { 0, 1, 0, -1 };
 
-    int target_x = target.get_x(), target_y = target.get_y();
-    std::queue<Position> moving_queue;
-    bool is_visted[Board::board_size::HEIGHT][Board::board_size::WIDTH] = { false }; //init all cells as unvisited cells. 
-    /*for (int i = 0; i < Board::board_size::HEIGHT; i++)
-        for (int j = 0; j < Board::board_size::WIDTH; j++)
-            is_visted[i][j] = false;*/
-
-    moving_queue.push(target);
-    is_visted[target_y][target_x] = true;
-
-    while (!moving_queue.empty()) {
-
-        Position curr = moving_queue.front();
-        moving_queue.pop();
-
-        int curr_x = curr.get_x();
-        int curr_y = curr.get_y();
-        // Go to the adjacent cells
-        for (int i = 0; i < 4; i++) {
-
-            Position new_pos;
-            if (get_position().get_x() + move_vector_x[i] == curr_x &&
-                get_position().get_y() + move_vector_y[i] == curr_y)
-            {
-                switch (i) {
-                case 0:    set_direction(Entity::Direction::LEFT);
-                    return;
-                case 1: set_direction(Entity::Direction::UP);
-                    return;
-                case 2:    set_direction(Entity::Direction::RIGHT);
-                    return;
-                case 3:    set_direction(Entity::Direction::DOWN);
-                    return;
-                }
-            }
-            new_pos.set_xy(curr_x + move_vector_x[i], curr_y + move_vector_y[i]);
-            if (new_pos.get_x() == 38 && new_pos.get_y() == 12)
-                cout << 'u';
-            if (is_valid_bfs(new_pos) && is_visted[new_pos.get_y()][new_pos.get_x()] == false)
-            {
-                moving_queue.push(new_pos);
-                is_visted[new_pos.get_y()][new_pos.get_x()] = true;
-            }
-
-        }
-        /* for (int i = 0; i < Board::board_size::HEIGHT; i++) {
-             for (int j = 0; j < Board::board_size::WIDTH; j++) {
-                 cout << is_visted[i][j];
-             }
-
-             cout << endl;
-         }*/
-    }
-}
-
-bool Ghosts::is_valid_bfs(Position new_pos)
-{
-	if (new_pos.get_x() >= Board::board_size::WIDTH || new_pos.get_y() >= Board::board_size::HEIGHT)
-		return false;
-	if (is_invalid_place(new_pos))
-		return false;
-	if (is_my_teleporting(new_pos))
-		return false;
-	return true;
-
-}
 
 
 //

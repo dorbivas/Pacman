@@ -8,7 +8,7 @@
 class Pacman :public Entity
 {
 public:
-	enum pacman_table { STARTING_SOULS = 3, ZERO_POINTS = 0, INITIAL_X = 39, INITIAL_Y = 12 };
+	enum pacman_table { STARTING_SOULS = 3, ZERO_POINTS = 0, INITIAL_X = 17, INITIAL_Y = 4 };
 
 private:
 	int souls = STARTING_SOULS;

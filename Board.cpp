@@ -91,7 +91,7 @@ void Board::print_board(const bool color_mode) {
 //
 //	return res;
 //}
-
+/*
 void Board::init_board_from_file(const char* file_name, bool& is_valid_file)
 {
 	// TODO: filename input check
@@ -122,7 +122,7 @@ void Board::init_board_from_file(const char* file_name, bool& is_valid_file)
 	//initLegend();
 	in_file.close();
 }
-
+*/
 //void Board::initLegend() {
 //
 //	int row = legendPos.getY();

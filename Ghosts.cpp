@@ -11,11 +11,13 @@ void Ghosts::novice_lvl_ghost(){
 
 void Ghosts::good_lvl_ghost(Position target)
 {
-	if (steps >= 0 && steps <= 5)
+	if (steps >= 0 && steps <= 5) {
 		novice_lvl_ghost();
+		set_mode(Novice);
+	}
 	else
-		novice_lvl_ghost();
-		//smart(target); TODO
+		smart(target); 
+	set_mode(Smart);
 }
 
 
@@ -28,7 +30,7 @@ void Ghosts::smart(Position target)
 
 	int target_x = target.get_x(), target_y = target.get_y();
 	std::queue<Position> moving_queue;
-	bool is_visted[Board::board_size::HEIGHT][Board::board_size::WIDTH] = { { false } }; //init all cells as unvisited cells. 
+	bool is_visted[Board::board_size::MAX_HEIGHT][Board::board_size::MAX_WIDTH] = { { false } }; //init all cells as unvisited cells. 
 	/*for (int i = 0; i < Board::board_size::HEIGHT; i++)
 		for (int j = 0; j < Board::board_size::WIDTH; j++)
 			is_visted[i][j] = false;*/
@@ -55,8 +57,8 @@ void Ghosts::smart(Position target)
 				moving_queue.push(new_pos);
 				is_visted[new_pos.get_y()][new_pos.get_x()] = true;
 
-				if (get_position().get_x() + move_vector_x[i] == curr_x &&
-					get_position().get_y() + move_vector_y[i] == curr_y)
+				if (get_position().get_x() == curr_x + move_vector_x[i] &&
+					get_position().get_y() == curr_y + move_vector_y[i])
 				{
 					switch (i) { // OPOSITE TODO FUNC OUT
 					case 0:    set_direction(Entity::Direction::RIGHT);
@@ -84,7 +86,7 @@ void Ghosts::smart(Position target)
 
 bool Ghosts::is_valid_bfs(Position new_pos)
 {
-	if (new_pos.get_x() >= Board::board_size::WIDTH || new_pos.get_y() >= Board::board_size::HEIGHT)
+	if (new_pos.get_x() >= Board::board_size::MAX_WIDTH || new_pos.get_y() >= Board::board_size::MAX_HEIGHT)
 		return false;
 	if (is_invalid_place(new_pos))
 		return false;

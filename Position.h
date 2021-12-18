@@ -22,6 +22,18 @@ public:
 }; 
 /*
 
+    1. finish files + board
+    2. yarden-finish fruit(timer(0 or 1), virtual,)
+
+    3. more virtual functions
+    4. speed
+    5. smart
+    
+
+
+
+
+
     TODO dor
 
     - Speed

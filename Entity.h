@@ -18,7 +18,12 @@ public:
         P = 250,
         W = 219,
         T = 176,
-        S = 32
+        S = 32,
+        FIVE = '5',
+        SIX = '6',
+        SEVEN = '7',
+        EIGHT = '8',
+        NINE = '9'
     };
  
     int get_speed() { return speed; }

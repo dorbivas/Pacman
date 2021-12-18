@@ -17,19 +17,19 @@ void Game::game() {
 	{
 		Sleep(SPEED);
 		handle_ghost_move();
+		handle_point_move();
 		if (_kbhit())
 			current_key = _getch();
 		if (is_valid_key(current_key))
 		{
 			handle_key_input(current_key);
-			pacman.move_dir();
 			if (pause_flag)
 			{
 				current_key = temp;
 				pause_flag = false;
 			}
-
-			if (is_collided_ghost(pacman.move_dir()))
+			pacman.move_dir();
+			if (is_collided_ghost(pacman.get_position(),pacman.move_dir(),pacman.get_direction()))
 			{
 				handle_collision();
 				current_key = stay_lower_case;
@@ -64,7 +64,7 @@ void Game::check_pacman_move() {
 		board.set_cell(pacman.get_position(), Entity::Shape::S);
 		print_move(pacman.get_position(), Entity::Shape::S);
 	}
-	handle_move();
+	handle_move();//next position
 }
 
 void Game::handle_collision() {
@@ -112,44 +112,57 @@ void Game::handle_ghost_move() {//TODO VIRTUAL
 	for (int i = 0; i < NUM_OF_GHOSTS; i++)
 	{
 		curr_pos = ghosts[i].get_position();
-		if (ghosts_level_mode == Smart)
+		if (ghosts[i].get_mode() == Smart)
 			ghosts[i].smart(pacman.get_position());
-		else if (ghosts_level_mode == Novice)
+		else if (ghosts[i].get_mode() == Novice)
 			ghosts[i].novice_lvl_ghost();
 		else
 			ghosts[i].good_lvl_ghost(pacman.get_position());
 
-		next_pos = ghosts[i].move_dir();
-		if (ghosts_level_mode != Smart)//TODO
+		next_pos =  ghosts[i].move_dir();
+		if (ghosts[i].get_mode() == Novice)
 		{
-
 			while (ghosts[i].is_invalid_place(next_pos))
 			{
-				//novice mode
-				if (ghosts_level_mode == Novice)
-				{
-					ghosts[i].rotate_direction();
-					ghosts[i].novice_lvl_ghost();
-				}
-				else
-				{
-					ghosts[i].rotate_direction();
-					ghosts[i].good_lvl_ghost(pacman.get_position());
-				}
+				ghosts[i].rotate_direction();
+				ghosts[i].novice_lvl_ghost();
 				next_pos = ghosts[i].move_dir();
 			}
 		}
 		ghosts[i].set_position(next_pos);
 
-		if (board.get_cell(curr_pos) == Entity::Shape::P)
+		if (board.get_cell(curr_pos) == Entity::Shape::P)//TODO-YARDEN
 		{
-			board.set_cell(curr_pos, Entity::Shape::P);
-			print_move(curr_pos, Entity::Shape::P);
+			fruit = Fruit();
+			//timer
 		}
-		else
-			print_move(curr_pos, Entity::Shape::S);//deletes the previous symbol
+		print_move(curr_pos, Entity::Shape::S);//TODO-YRADEN
 		print_move(next_pos, Entity::Shape::GHOST);
 	}
+}
+void Game::handle_point_move() {//TODO VIRTUAL
+	Position curr_pos, next_pos;
+	int next_x = 0, next_y = 0;
+	curr_pos = point.get_position();
+	point.set_dir();
+	next_pos = point.move_dir();
+	while (point.is_invalid_place(next_pos))
+	{
+		ghosts[i].rotate_direction();
+		point.set_dir();
+		next_pos = point.move_dir();
+	}
+	point.set_position(next_pos);
+
+	/*if (board.get_cell(curr_pos) == Entity::Shape::GHOST)//TODO REMOVE AFTER RUNNING
+	{
+		board.set_cell(curr_pos, Entity::Shape::GHOST);
+		print_move(curr_pos, Entity::Shape::GHOST);
+	}
+	else
+		print_move(curr_pos, Entity::Shape::S);//deletes the previous symbol*/
+	print_move(curr_pos, Entity::Shape::S);
+	print_move(next_pos, Entity::Shape::P);
 }
 void Game::print_move(const Position pos, Entity::Shape shape) {
 	display_score_souls();
@@ -178,35 +191,16 @@ void Game::display_score_souls() const {
 		board.set_color((int)Board::Color::RED);
 	cout << pacman.get_souls();
 }
-bool Game::is_collided_ghost(const Position& next_pos) {
-	int d1, d2, x_dif, y_dif;
+bool Game::is_collided_ghost(const Position& curr_pos,const Position& next_pos,int direction) {
 	for (int i = 0; i < NUM_OF_GHOSTS; i++)
-	{
-		ghosts[i].is_collided(pacman.get_position()
-		if (ghosts[i].get_position() == pacman.get_position())
-			return true;
-
-		//edge cases
-		d1 = ghosts[i].get_direction();
-		d2 = pacman.get_direction();
-		x_dif = next_pos.get_x() - ghosts[i].get_position().get_x();
-		y_dif = next_pos.get_y() - ghosts[i].get_position().get_y();
-		Position dif(x_dif, y_dif);
-
-		if ((d1 == (int)Entity::Direction::UP && d2 == (int)Entity::Direction::DOWN && dif == Position(0, 1) ||
-			d1 == (int)Entity::Direction::DOWN && d2 == (int)Entity::Direction::UP && dif == Position(0, -1) ||
-			d1 == (int)Entity::Direction::LEFT && d2 == (int)Entity::Direction::RIGHT && dif == Position(-1, 0) ||
-			d1 == (int)Entity::Direction::RIGHT && d2 == (int)Entity::Direction::LEFT && dif == Position(1, 0)))
-			return true;
-	}
-	return false;
+		return ghosts[i].is_collided(curr_pos, next_pos, direction);
 }
 
 void Game::handle_teleport(Position& pacman_pos)//TODO
 {
 	int pacman_direction = pacman.get_direction();
-	int num_of_lines = 25;
-	int num_of_cols = 70;
+	int num_of_lines = board.height;
+	int num_of_cols = board.width;
 
 	if (board.get_cell(pacman_pos) == Entity::Shape::S)
 	{
@@ -237,8 +231,8 @@ void Game::handle_score(Position& next_pos) {
 	if(fruit.is_collided(next_pos,pacman.move_dir(),pacman.get_direction()))
 	{
 		pacman.add_score(fruit.get_fruit_val());
-		fruit.generate_random_pos();
-		fruit.generate_new_fruit();
+		//TODO TIMER
+		fruit = Fruit();
 		
 		if (pacman.get_score() == MAX_POINTS)
 		{
@@ -302,11 +296,13 @@ void Game::reset_game() {//TODO FIX
 
 	board.print_board(this->color_mode);
 	this->pacman = Pacman();
+	this->fruit= Fruit();
 	pause_flag = false;
 	loop_flag = false;
 	for (int i = 0; i < NUM_OF_GHOSTS; i++) {
 		ghosts[i].set_position(INITAL_GHOST_X + (2 * i), INITAL_GHOST_Y);
 		ghosts[i].set_board(board);
+		ghosts[i].set_mode(ghosts_level_mode);
 	}
 	pacman.set_board(board);
 	fruit.set_board(board);
@@ -425,47 +421,7 @@ void Game::Menu::print_ruls() const {
 		<< "STAY --> s or S" << endl
 		<< "ESC --> Pause" << endl << endl;
 }
-/*
-char** create_board()
-{
-	char** board_matrix;
-	char symbol;
-	//set<fs::path> get_files();
-	//file1
-	//
 
-	ifstream infile;
-	infile.open("test.txt");
-	if (!infile) {
-		cout  << "Error with infile" << endl;
-		exit(-1);
-	infile.getline(buf, 1024);
-	infile  >> x  >> y;
-	infile.close();
-	int i = 0, j = 0;
-	while (curr != EOF)
-	{
-		infile.getline(board[i], max);
-		i++;
-		while (curr != '\n')
-		{
-			//symbol = getchar
-			board_matrix[i][j] = symbol;
-
-			j++;
-		}
-		i++;
-	}
-
-
-
-
-
-
-
-	return board_matrix;
-}
-*/
 
 
 

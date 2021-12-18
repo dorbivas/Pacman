@@ -66,13 +66,14 @@ private:
     void game();
     void check_pacman_move();
     void handle_ghost_move();
+    void handle_point_move();
     void handle_move();
     void handle_score(Position& next_pos);
     Position& my_teleport(Position& next_pos);
     void handle_collision();
     void handle_teleport(Position& pacman_pos);
     void print_move(const Position pos, Entity::Shape shape);
-    bool is_collided_ghost(const Position& next_pos);
+    bool is_collided_ghost(const Position& curr_pos, const Position& next_pos, int direction);
     bool is_my_teleporting(const Position& next_pos) {
         return (board.get_cell(next_pos) == (unsigned char)Board::TELEPORT);
     }

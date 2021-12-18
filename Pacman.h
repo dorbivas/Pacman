@@ -20,7 +20,7 @@ public:
 		shape = Shape::PACMAN;
 		color = Board::Color::YELLOW;
 		direction = (int)Direction::STAY;
-		pos.set_xy( INITIAL_X,INITIAL_Y );
+		pos=board.get_inital_pacman_pos();
 	};
 	Pacman(int souls, int direction, Position& pos, int score);
 

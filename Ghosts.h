@@ -39,6 +39,9 @@ public:
     void set_mode(int mode) {
         this->mode = mode;
     }
+    void set_mode(Ghost_mode mode) {
+        this->mode = (int)mode;
+    }
     //--Game Logic Fucns: --//
     void rotate_direction() {
         if (direction == (int)Direction::RIGHT) { direction = (int)Direction::UP; }

@@ -66,7 +66,7 @@ private:
     void game();
     void check_pacman_move();
     void handle_ghost_move();
-    void handle_move(Position& next_pos);
+    void handle_move();
     void handle_score(Position& next_pos);
     Position& my_teleport(Position& next_pos);
     void handle_collision();

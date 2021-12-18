@@ -42,9 +42,10 @@ public:
     bool is_invalid_place(const Position& next_pos) {
         return (board.get_cell(next_pos) == (unsigned char)Board::WALL);
     }
+    void set_board(Board& board) { this->board = board; }
     //TODO MOVE
     Position& move_dir();
-    
+    //virtual void handle_move();
 
     
 protected:
@@ -56,6 +57,6 @@ protected:
     Board::Color color;
 
 private:
-    Board board;//maybe not //TODO
+    Board board;
     
 };

@@ -53,7 +53,7 @@ void Game::game() {
 
 //--Game Logic Fucns: --//
 void Game::check_pacman_move() {
-	Position new_pos = pacman.move_dir();
+
 	if (is_my_teleporting(pacman.get_position()))
 	{
 		board.set_cell(pacman.get_position(), (unsigned char)Board::TELEPORT);
@@ -64,7 +64,7 @@ void Game::check_pacman_move() {
 		board.set_cell(pacman.get_position(), Entity::Shape::S);
 		print_move(pacman.get_position(), Entity::Shape::S);
 	}
-	handle_move(new_pos);
+	handle_move();
 }
 
 void Game::handle_collision() {
@@ -92,7 +92,8 @@ void Game::handle_collision() {
 	}
 }*/
 
-void Game::handle_move(Position& next_pos) {
+void Game::handle_move() {
+	Position next_pos = pacman.move_dir();
 	if (is_invalid_place(next_pos))
 		return;
 	else
@@ -316,12 +317,15 @@ void Game::win() {
 
 void Game::reset_game() {//TODO FIX 
 	board.our_spacial_board();
+	
 	board.print_board(this->color_mode);
 	this->pacman = Pacman();
 	pause_flag = false;
 	loop_flag = false;
-	for (int i = 0; i < NUM_OF_GHOSTS; i++)
+	for (int i = 0; i < NUM_OF_GHOSTS; i++) {
 		ghosts[i].set_position(INITAL_GHOST_X + (2 * i), INITAL_GHOST_Y);
+		ghosts[i].set_board(board);
+	}
 
 }
 

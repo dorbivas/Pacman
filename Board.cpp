@@ -92,15 +92,9 @@ void Board::print_board(const bool color_mode) {
 void Board::load_board(const string& file_name)
 {
 	ifstream file(file_name, ios::ate);
-	//file.open(file_name);
-	//file.open("pacman_02.screen.txt");
+	
 	if (!file)
 		cout << "file empty"; //TODO
-
-	//std::ifstream f(file_name);
-
-	//if (f.is_open())
-	//	std::cout << f.rdbuf();
 
 	make_board_empty();
 	points_valid_positions.clear();
@@ -151,9 +145,8 @@ void Board::board_from_file(ifstream& file_input)
 
 			else if (curr_char == '$')
 			{
-				inital_ghosts_pos[num_of_ghosts + 1].set_xy(curr_col, rows);
+				inital_ghosts_pos[num_of_ghosts++].set_xy(curr_col, rows);
 				board[rows][curr_col] = S;
-				num_of_ghosts++;
 			}
 			
 			else if (curr_char == S)
@@ -214,16 +207,9 @@ void Board::board_from_file(ifstream& file_input)
 }
 
 
-void Board::insert_single_line(int curr_col)
-{
+void Board::insert_single_line(int curr_col){
 	while (curr_col < cols)
-	{
-		board[rows][curr_col] = S;
-		curr_col++;
-	}
-	//TODO 		
-	//while (curr_col < cols)
-	//	board[rows][curr_col++] = S;
+		board[rows][curr_col++] = S;
 }
 
 void Board::handle_legend(const Position& legend_pos)
@@ -346,3 +332,5 @@ bool Board::is_valid_move(const Position new_pos)
 //	{ S, 'S', 'c', 'o', 'r', 'e', ':', S , S, S, S, S, S, S, S, S,  S, S, S, S, W, W, W, S, S, S, S, S, S, S, S, S, S , S, S, S, S, S, S, S, S, S, S, S, S, S, S, S,  S, S, S, S, W, W, W, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S,   },
 //	{ S, 'S', 'o', 'u', 'l', 's', ':', S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S , S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S,   },
 //};
+
+

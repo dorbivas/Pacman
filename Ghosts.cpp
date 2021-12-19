@@ -1,4 +1,5 @@
 #include "Ghosts.h"
+using std::queue;
 
 void Ghosts::novice_lvl_ghost(){
 	if (steps == MAX_STEPS) {
@@ -22,24 +23,30 @@ void Ghosts::good_lvl_ghost(Position target)
 
 
 //smart ghost using BFS
-void Ghosts::smart(Position target)
+void Ghosts::smart(const Position& target)
 {
 	// Direction vectors
 	int move_vector_x[] = { -1, 0, 1, 0 };
 	int move_vector_y[] = { 0, 1, 0, -1 };
 
 	int target_x = target.get_x(), target_y = target.get_y();
-	std::queue<Position> moving_queue;
-	bool is_visted[Board::board_size::MAX_HEIGHT][Board::board_size::MAX_WIDTH] = { { false } }; //init all cells as unvisited cells. 
-	/*for (int i = 0; i < Board::board_size::HEIGHT; i++)
-		for (int j = 0; j < Board::board_size::WIDTH; j++)
-			is_visted[i][j] = false;*/
+	queue<Position> moving_queue;
+	bool is_visted[Board::MAX_SIZES::MAX_HEIGHT][Board::MAX_SIZES::MAX_WIDTH] = { { true } }; //init all cells as unvisited cells.
+	// TODO: new?
+	for (int i = 0; i < board.get_cols(); i++)
+		for (int j = 0; j < board.get_rows(); j++)
+			is_visted[i][j] = false;
 
-	moving_queue.push(target);
+	moving_queue.push(Position(1, 2));
+	moving_queue.push(Position(1, 2));
+	moving_queue.push(Position(1, 2));
 	is_visted[target_y][target_x] = true;
+	int max = 1000;
 
 	while (!moving_queue.empty()) {
-
+		if (max-- == 0)
+		{
+		}
 		Position curr = moving_queue.front();
 		moving_queue.pop();
 
@@ -50,10 +57,11 @@ void Ghosts::smart(Position target)
 			Position new_pos;
 
 			new_pos.set_xy(curr_x + move_vector_x[i], curr_y + move_vector_y[i]);
-			/*   if (new_pos.get_x() == 38 && new_pos.get_y() == 12)
-				   cout << 'u';*/
-			if (is_valid_bfs(new_pos) && is_visted[new_pos.get_y()][new_pos.get_x()] == false)
+			if (board.is_valid_move(new_pos) && is_visted[new_pos.get_y()][new_pos.get_x()] == false)
 			{
+				if (curr_x * curr_y < 0)
+				{
+				}
 				moving_queue.push(new_pos);
 				is_visted[new_pos.get_y()][new_pos.get_x()] = true;
 
@@ -81,17 +89,6 @@ void Ghosts::smart(Position target)
 
 			 cout << endl;*/
 	}
-}
-
-
-bool Ghosts::is_valid_bfs(Position new_pos)
-{
-	if (new_pos.get_x() >= Board::board_size::MAX_WIDTH || new_pos.get_y() >= Board::board_size::MAX_HEIGHT)
-		return false;
-	if (is_invalid_place(new_pos))
-		return false;
-	return true;
-
 }
 
 bool Ghosts::is_invalid_place(const Position& next_pos) {

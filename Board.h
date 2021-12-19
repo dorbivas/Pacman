@@ -37,7 +37,7 @@ private:
     unsigned char board[MAX_HEIGHT][MAX_WIDTH];
     int rows, cols, max_score, num_of_ghosts;
     Position inital_pacman_pos;
-    Position* inital_ghosts_pos;
+    Position inital_ghosts_pos[MAX_GHOSTS];
     Position legend_pos;
     vector<Position> points_valid_positions;
 

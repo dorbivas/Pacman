@@ -15,12 +15,12 @@ void Ghosts::good_lvl_ghost(Position target)
 {
 	if (steps >= 0 && steps <= 5) {
 		novice_lvl_ghost();
-		good_f_status = true;
+		novice_smart_switch = true;
 	}
 	else
 	{
 		smart(target);
-		good_f_status = false;
+		novice_smart_switch = false;
 	}
 		
 

@@ -3,12 +3,9 @@
 #include "Ghosts.h"
 #include "Fruit.h"
 
-//#include <filesystem>
-//#include <istream>
-//#include <fstream>
 class Game{
 private:
-    static const int MAX_POINTS = 300, SPEED = 150, PAUSE_X = 11, PAUSE_Y = 24, DISPLAY_S_X=7,DISPLAY_S_Y=23; //todo good sol CURR VALS
+    static const int MAX_POINTS = 300, SPEED = 150, PAUSE_X = 1, PAUSE_Y = 26, DISPLAY_S_X=7, DISPLAY_S_Y=23; //todo good sol CURR VALS
     Pacman pacman;
     Ghosts ghosts[Board::MAX_SIZES::MAX_GHOSTS];
     Fruit fruit;

@@ -19,7 +19,7 @@ void Game::game() {
 
 	while (!loop_flag)
 	{
-		Sleep(SPEED);//TODO
+		Sleep(SPEED);
 		handle_ghost_move();
 		handle_fruit_move();
 		if (_kbhit())
@@ -44,7 +44,7 @@ void Game::game() {
 			temp = current_key;
 		}
 		else
-		{		//exit yo menu 
+		{	
 			if (current_key != '9')
 				current_key = temp;
 			else
@@ -101,9 +101,9 @@ void Game::handle_ghost_move() {//TODO VIRTUAL
 			ghosts[i].novice_lvl_ghost();
 
 		next_pos = ghosts[i].move_dir();
-		if(ghosts[i].get_mode() == Novice|| ghosts[i].get_good_f_status())
+		if(ghosts[i].get_mode() == Novice|| ghosts[i].get_novice_smart_switch())
 		{
-			while (ghosts[i].is_invalid_place(next_pos))//TODO Entity
+			while (ghosts[i].is_invalid_place(next_pos))
 			{
 				ghosts[i].rotate_direction();
 				ghosts[i].novice_lvl_ghost();
@@ -122,7 +122,7 @@ void Game::handle_ghost_move() {//TODO VIRTUAL
 		//next position
 		if (ghosts[i].is_collided(fruit.get_position(),fruit.move_dir(),fruit.get_direction()))//TODO-YARDEN
 			fruit.fruit();
-		//board.set_cell(next_pos, Entity::Shape::GHOST);
+
 		print_move(next_pos, Entity::Shape::GHOST);
 		board.set_cell(next_pos, Entity::Shape::GHOST);
 	}
@@ -150,14 +150,6 @@ void Game::handle_fruit_move() {//TODO VIRTUAL
 	fruit.set_position(next_pos);
 	
 
-	//next position
-	/*if (fruit.is_collided(pacman.get_position(),pacman.move_dir(),pacman.get_direction()))
-	{
-		//board.set_cell(next_pos, Entity::Shape::GHOST);
-		//print_move(next_pos, pacman.set_shape());
-		fruit.fruit();
-	}
-	else*/
 	print_move(next_pos, fruit.get_shpae());
 	board.set_cell(next_pos, fruit.get_shpae());
 }

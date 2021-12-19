@@ -21,13 +21,13 @@ private:
     int mode;
     int steps;
     int generate_random_dir() { return rand() % 4; }
-    bool good_f_status;//if its true its refer to novice function(by steps)
+    bool novice_smart_switch;//if its true its refer to novice function(by steps)
 
 public:
    
     //--Constructor --//
     Ghosts(){
-        good_f_status = false;
+        novice_smart_switch = false;
         steps = 0;
         shape = Shape::GHOST;
         color = Board::Color::RED;
@@ -37,7 +37,7 @@ public:
      //--Data Members Fucns: --//
     int get_step() const { return steps; }
     int get_mode() { return mode; }
-    bool get_good_f_status() { return good_f_status; }
+    bool get_novice_smart_switch() { return novice_smart_switch; }
 
     void set_mode(int mode) {
         this->mode = mode;

@@ -13,8 +13,8 @@ public:
     };
     
     enum  Shape {
-        PACMAN = 233,
-        GHOST = 36,
+        PACMAN = '@',
+        GHOST = '$',
         P = '.',
         W = '#',
         T = 176,

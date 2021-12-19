@@ -58,7 +58,7 @@ public:
     void our_spacial_board();//EXTRA
 
     Position& get_inital_pacman_pos() { return inital_pacman_pos; }
-    Position* get_ghost_pacman_pos() { return inital_ghosts_pos; }
+    Position* get_ghost_pacman_pos() { return inital_ghosts_pos; }//EXTRA
 
     void set_color(int color_pick) const { SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color_pick); }
     unsigned char get_cell(const Position& cell_pos) { return board[cell_pos.get_y()][cell_pos.get_x()]; }
@@ -75,10 +75,10 @@ public:
     int get_cols() const { return cols; }
     int get_rows() const { return rows; }
 
-    int getOptionalIndex() const { return points_valid_positions.size(); } // TODO ?
+    int getOptionalIndex() const { return points_valid_positions.size(); } 
     const Position& getAPointForFruit(int num) const { return points_valid_positions[num]; }
 
-    void setTotalScore() { max_score--; } // TODO
+    void setTotalScore() { max_score--; } 
 
 
 

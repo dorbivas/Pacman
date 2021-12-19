@@ -89,7 +89,7 @@ void Game::handle_pacman_move() {
 	print_move(next_pos, Entity::Shape::PACMAN);//was in the game()
 	board.set_cell(next_pos, Entity::Shape::PACMAN);
 }
-void Game::handle_ghost_move() {//TODO VIRTUAL
+void Game::handle_ghost_move() {
 	Position curr_pos, next_pos;
 	int i;
 	for (i = 0; i < board.get_num_of_ghosts(); i++)
@@ -223,7 +223,7 @@ void Game::print_move(const Position pos, Entity::Shape shape) {
 	}
 	goto_xy(pos.get_x(), pos.get_y());
 	if (shape != 0)
-		cout << char(shape);//TODO MAYBE SET CELL 
+		cout << char(shape); 
 }
 void Game::display_score_souls() const {
 	goto_xy(board.get_legend_x(), board.get_legend_y());
@@ -302,9 +302,6 @@ void Game::win() {
 	load_game_from_files();
 }
 
-void Game::reset_game() {//TODO
-
-}
 
 void Game::load_new_board_to_play(const string& file_name) {
 
@@ -413,7 +410,7 @@ void Game::Menu::handle_ghosts_level(Game& run)
 			cout << "pick valid choice." << endl;
 			Sleep(250);
 			system("cls");
-			cout << "Please select the level of ghosts" << endl;//TODO PRINT MENU
+			cout << "Please select the level of ghosts" << endl;
 			cout << "a ==> BEST" << endl << endl;
 			cout << "b ==> GOOD" << endl << endl;
 			cout << "c ==> NOVICE" << endl << endl;
@@ -510,9 +507,9 @@ bool Game::find_files(){
 
 
 
-//addition
 
 //addition
+/*
 Position& Game::my_teleport(Position& next_pos) {
 	int Pacman_x = next_pos.get_x();
 	int Pacman_y = next_pos.get_y();
@@ -548,4 +545,4 @@ Position& Game::my_teleport(Position& next_pos) {
 		pacman.set_direction((int)Entity::Direction::LEFT);
 	}
 	return next_pos;
-}
+}*/

@@ -59,7 +59,7 @@ void Ghosts::smart(const Position& target)
 				if (get_position().get_x() == curr_x + move_vector_x[i] &&
 					get_position().get_y() == curr_y + move_vector_y[i])
 				{
-					switch (i) { // OPOSITE TODO FUNC OUT
+					switch (i) { // OPOSITE 
 					case 0:
 						set_direction(Entity::Direction::RIGHT);
 						return;

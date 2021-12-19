@@ -5,7 +5,7 @@
 
 class Game{
 private:
-    static const int MAX_POINTS = 300, SPEED = 150, PAUSE_X = 1, PAUSE_Y = 26, DISPLAY_S_X=7, DISPLAY_S_Y=23; //todo good sol CURR VALS
+    static const int MAX_POINTS = 300, SPEED = 150, PAUSE_X = 1, PAUSE_Y = 26; 
     Pacman pacman;
     Ghosts ghosts[Board::MAX_SIZES::MAX_GHOSTS];
     Fruit fruit;
@@ -19,23 +19,7 @@ private:
     bool first_run_done = false;
 
     
-    /*teleports order is sync with the board from left to right */
-    enum teleports {
-        TP_NORTH1_TOP_X = 21,
-        TP_NORTH1_TOP_Y = 1,
-        TP_NORTH2_TOP_X = 53,
-        TP_NORTH2_TOP_Y = 1,
 
-        TP_NORTH1_BOT_X = 21,
-        TP_NORTH1_BOT_Y = 22,
-        TP_NORTH2_BOT_X = 53,
-        TP_NORTH2_BOT_Y = 22,
-
-        TP_EAST_BOT_X = 79,
-        TP_EAST_BOT_Y = 21,
-        TP_WEST_TOP_X = 1,
-        TP_WEST_TOP_Y = 6
-    };
 
     class Menu {
     private:
@@ -75,8 +59,6 @@ private:
     bool is_my_teleporting(const Position& next_pos) {
         return (board.get_cell(next_pos) == (unsigned char)Board::TELEPORT);
     }
-    //bool is_my_teleporting(const Position& next_pos);
-    void reset_game();
     void pause();
     void handle_key_input(const unsigned char current_key);
     void display_score_souls() const;
@@ -91,5 +73,25 @@ private:
 
 public:
     Game();
-    void run_menu() { menu.handle_menu(); } //TODO ?
+    void run_menu() { menu.handle_menu(); } 
 };
+
+
+
+/*teleports order is sync with the board from left to right *///EXTRA
+/*enum teleports {//EXTRA
+    TP_NORTH1_TOP_X = 21,
+    TP_NORTH1_TOP_Y = 1,
+    TP_NORTH2_TOP_X = 53,
+    TP_NORTH2_TOP_Y = 1,
+
+    TP_NORTH1_BOT_X = 21,
+    TP_NORTH1_BOT_Y = 22,
+    TP_NORTH2_BOT_X = 53,
+    TP_NORTH2_BOT_Y = 22,
+
+    TP_EAST_BOT_X = 79,
+    TP_EAST_BOT_Y = 21,
+    TP_WEST_TOP_X = 1,
+    TP_WEST_TOP_Y = 6
+};*/

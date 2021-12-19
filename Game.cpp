@@ -6,7 +6,8 @@ Game::Game() {
 
 void Game::game() {
 	//reset_game();
-	load_new_board_to_play("pacman_02.screen.txt");
+	find_files();
+	load_game_from_files();
 
 	unsigned char current_key, temp;
 	current_key = _kbhit();
@@ -320,6 +321,9 @@ void Game::reset_game() {//TODO FIX
 
 void Game::load_new_board_to_play(const string& file_name) {
 
+	system("cls");
+	_flushall();
+
 	this->pacman = Pacman();
 	fruit = Fruit();
 	board.load_board(file_name);
@@ -452,6 +456,66 @@ void Game::Menu::print_ruls() const {
 		<< "ESC --> Pause" << endl << endl;
 }
 
+
+void Game::load_game_from_files()
+{
+	int i = 0;
+	string desired_board_name;
+	vector <string> tmp;
+
+	system("cls");
+	_flushall();
+
+	cout << "Please enter board name:" << endl;
+	cin >> desired_board_name;
+
+	while (i < file_names.size())
+	{
+		size_t parser = file_names[i].find("pacman_");
+		string curr_name = file_names[i].substr(parser);
+		tmp.push_back(curr_name);
+
+		if (desired_board_name != tmp[i])
+			i++;
+
+		else
+			load_new_board_to_play(desired_board_name);
+		
+		if (i == file_names.size())
+		{
+			Sleep(500);
+			system("cls");
+			cout << "enter a valid file name!" << endl;
+			cin >> desired_board_name;
+			i = 0;
+		}
+
+	}
+}
+
+bool Game::find_files(){
+	int isFound = -1; // -1 indicate find() is false
+	string curr_path = current_path().string();
+	set<path> paths_names;
+
+	int numFiles = 0;
+	for (auto& entry : directory_iterator(curr_path))
+	{
+		isFound = entry.path().string().find(".screen");
+		if (isFound != -1)
+		{
+			paths_names.insert(entry.path()); // sort the names coz its a set
+			isFound = -1;
+		}
+	}
+	for (auto& files : paths_names)
+		file_names.push_back(files.string()); //push names sorted
+	
+	if (file_names.empty())
+		return false;
+
+	return true;
+}
 
 
 

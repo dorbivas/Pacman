@@ -4,21 +4,26 @@
 #include <conio.h>
 #include <string.h>
 #include "Position.h"
-//#include <filesystem>
-//#include <istream>
-//#include <fstream>
+
+#include <filesystem>
+#include <istream>
+#include <fstream>
 //#include <cunistd.h>
 
 #include<set>
 using std::set;
-//using std::ifstream;
+using std::ifstream;
 using std::ios;
 using std::cout;
 using std::cin;
 using std::endl;
 using std::string;
+
 using std::srand;
-//using std::filesystem::current_path;
+using std::filesystem::path;
+using std::filesystem::directory_iterator;
+using std::filesystem::current_path;
+
 
 enum Keys {
 	up_upper_case = 87		,
@@ -44,11 +49,12 @@ bool is_valid_key(const unsigned char c);
 void cursor_visibility(bool showFlag);
 
 //string get_path();
-//set<fs::path> get_files();
+
 //void print_files(set<fs::path> sorted_by_name);
 //int get_num_of_lines(ifstream file);
 //int get_num_of_cells(ifstream file);
 
+set<path> get_files();
 
 
 

@@ -1,5 +1,4 @@
 #include "Board.h"
-
 void Board::our_spacial_board() {
 	unsigned char default_board[MAX_HEIGHT][MAX_WIDTH] =
 	{
@@ -9,7 +8,7 @@ void Board::our_spacial_board() {
 		{ W, W, P, P, W, W, W, P, P, W, P, P, W, W, W, W, W, W, W, W, W, W, P, P, W, P, P, W, W, W, P, P, W , P, P, W, W, W, P, P, W, P, P, W, W, W, W, W, W, W, W, W, W, P, P, W, P, P, W, W, W, P, P, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W,   },
 		{ W, W, P, P, W, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, W, P, P, W , P, P, W, P, P, P, P, P, P, P, W, W, S, W, W, W, W, S, W, W, P, P, P, P, P, P, P, W, P, P, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W,   },
 		{ W, W, P, P, W, P, P, W, W, W, P, P, W, S, S, S, S, S, S, S, S, S, S, S, S, W, W, P, P, W, P, P, W , P, P, W, P, P, W, W, W, P, P, W, W, W, W, W, W, W, W, W, W, P, P, W, W, W, P, P, W, P, P, W, W, W, W, W, W, W, W, W, W, S, W, W, W, S, W, W,   },
-		{ W, T, S, P ,P, P, P, P, P, P, P, P, W, S, S, S, S, S, S, S, S,  S, S, S,S, W, W, P, P, P, P, P, W , P, P ,P, P, P, P, P, P, P, P, W, W, S, S, S, S, S, S, W, W, P, P, P, P, P, P, P, P, P, P, W, W, W, W, W, W, W, W, W, W, W, W, W, W, S, W, W,   },
+		{ W, T, S, P ,P, P, P, P, P, P, P, P, W, S, S, S, S, S, S, S, S,  S, S,S ,S, W, W, P, P, P, P, P, W , P, P ,P, P, P, P, P, P, P, P, W, W, S, S, S, S, S, S, W, W, P, P, P, P, P, P, P, P, P, P, W, W, W, W, W, W, W, W, W, W, W, W, W, W, S, W, W,   },
 		{ W, W, W, W, W, P, P, W, W, W, P, P, W, W, W, W, W, W, W, S, W, W, W, W, W, W, W, P, P, W, P, P, W , P, P, W, P, P, W, W, W, P, P, W, W, W, W, W, W, W, W, W, W, P, P, W, W, W, P, P, W, P, P, W, W, W, W, W, W, W, W, W, W, W, W, W, W, S, W, W,   },
 		{ W, W, W, W, W, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, W, P, P, W , P, P, W, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, P, W, P, P, W, W, W, W, W, W, W, W, W, W, W, W, W, W, S, W, W,   },
 		{ W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, P, P, W, P, P, W, W, W, P, P, W , P, P, W, W, W, P, P, W, P, P, W, W, W, W, W, W, W, W, W, W, P, P, W, P, P, W, W, W, P, P, W, W, W, W, W, W, W, W, W, W, W, W, W, W, S, W, W,   },
@@ -92,32 +91,22 @@ void Board::print_board(const bool color_mode) {
 
 void Board::load_board(const string& file_name)
 {
-	ifstream file;
-	file.open(file_name);
+	ifstream file(file_name, ios::ate);
+	//file.open(file_name);
 	//file.open("pacman_02.screen.txt");
 	if (!file)
 		cout << "file empty"; //TODO
 
-	string STRING;
+	//std::ifstream f(file_name);
 
-	file >> STRING;
-	cout << STRING << endl;
-
-
-
+	//if (f.is_open())
+	//	std::cout << f.rdbuf();
 
 	make_board_empty();
 	points_valid_positions.clear();
 	board_from_file(file);
 
 	file.close();
-	/*try { // TODO
-
-	}
-	catch (const char* msg)
-	{
-		cout << "ERROR: " << msg << endl;
-	}*/
 }
 
 
@@ -149,8 +138,8 @@ void Board::board_from_file(ifstream& file_input)
 		}
 		else
 		{
-			if (curr_char == WALL)
-				board[rows][curr_col] = WALL;
+			if (curr_char == '#')
+				board[rows][curr_col] = '#';
 			
 			else if (curr_char == '@')
 			{

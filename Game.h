@@ -14,6 +14,7 @@ private:
     Fruit fruit;
     Board board;
     Ghost_mode ghosts_level_mode= Ghost_mode::Novice;
+    vector<string> file_names;
 
     bool pause_flag = false;
     bool color_mode = true;
@@ -81,13 +82,15 @@ private:
     void reset_game();
     void pause();
     void handle_key_input(const unsigned char current_key);
-    //char**  create_board();
     void display_score_souls() const;
 
     void win();
     void lose();
 
     void load_new_board_to_play(const string& file_name);
+
+    bool find_files();
+    void load_game_from_files();
 
 public:
     Game();

@@ -12,7 +12,7 @@ class Board {
 
 public:
     enum board_signs { P = '.', W = '#', T = 176, S = ' ', POINT = '.' , WALL = '#' , TELEPORT = 176 };
-    enum board_size { MAX_WIDTH = 80, MAX_HEIGHT = 25,MAX_GHOSTS = 2 };
+    enum MAX_SIZES { MAX_WIDTH = 80, MAX_HEIGHT = 25,MAX_GHOSTS = 2 };
     enum legend_size{ MAX_LEGEND_ROWS = 3, MAX_LEGEND_COLS = 20 };
 
     enum class Color {
@@ -72,8 +72,8 @@ public:
     int get_legend_x() const { return legend_pos.get_x(); }
     int get_legend_y() const { return legend_pos.get_y(); }
 
-    unsigned int get_cols() const { return cols; }
-    unsigned int get_rows() const { return rows; }
+    int get_cols() const { return cols; }
+    int get_rows() const { return rows; }
 
     int getOptionalIndex() const { return points_valid_positions.size(); } // TODO ?
     const Position& getAPointForFruit(int num) const { return points_valid_positions[num]; }

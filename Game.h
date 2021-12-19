@@ -8,9 +8,9 @@
 //#include <fstream>
 class Game{
 private:
-    static const int MAX_POINTS = 300, SPEED = 150, NUM_OF_GHOSTS = 1, PAUSE_X = 11, PAUSE_Y = 24, DISPLAY_S_X=7,DISPLAY_S_Y=23; //TODO- CHANGE TO BOARD ENUM 
+    static const int MAX_POINTS = 300, SPEED = 150, PAUSE_X = 11, PAUSE_Y = 24, DISPLAY_S_X=7,DISPLAY_S_Y=23; //todo good sol CURR VALS
     Pacman pacman;
-    Ghosts ghosts[NUM_OF_GHOSTS];
+    Ghosts ghosts[Board::MAX_SIZES::MAX_GHOSTS];
     Fruit fruit;
     Board board;
     Ghost_mode ghosts_level_mode= Ghost_mode::Novice;

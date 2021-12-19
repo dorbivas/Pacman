@@ -89,7 +89,8 @@ void Game::handle_pacman_move() {
 }
 void Game::handle_ghost_move() {//TODO VIRTUAL
 	Position curr_pos, next_pos;
-	for (int i = 0; i < NUM_OF_GHOSTS; i++)
+	int next_x = 0, next_y = 0;
+	for (int i = 0; i < board.get_num_of_ghosts(); i++)
 	{
 		curr_pos = ghosts[i].get_position();
 		if (ghosts[i].get_mode() == Smart) 
@@ -218,14 +219,14 @@ void Game::print_move(const Position pos, Entity::Shape shape) {
 		cout << char(shape);//TODO MAYBE SET CELL 
 }
 void Game::display_score_souls() const {
-	goto_xy(DISPLAY_S_X, DISPLAY_S_Y);
+	goto_xy(board.get_legend_x(), board.get_legend_y());
 	if (color_mode)
 		board.set_color((int)Board::Color::LIGHTGREEN);
-	cout << pacman.get_score();
-	goto_xy(DISPLAY_S_X, DISPLAY_S_Y + 1);
+	cout <<"score: " << pacman.get_score();
+	goto_xy(board.get_legend_x(), board.get_legend_y() + 1);
 	if (color_mode)
 		board.set_color((int)Board::Color::RED);
-	cout << pacman.get_souls();
+	cout <<"souls: " <<pacman.get_souls();
 }
 void Game::pause() {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (int)Board::Color::WHITE);
@@ -298,8 +299,7 @@ void Game::reset_game() {//TODO
 	//fruit.generate_random_pos();
 	pause_flag = false;
 	loop_flag = false;
-	first_run_done = false;
-	for (int i = 0; i < NUM_OF_GHOSTS; i++) {//TODO fix after the board class will finish, 
+	for (int i = 0; i < board.get_num_of_ghosts(); i++) {
 		ghosts[i].set_position(INITAL_GHOST_X + (2 * i), INITAL_GHOST_Y);
 		ghosts[i].set_board(board);
 		ghosts[i].set_mode(ghosts_level_mode);
@@ -470,8 +470,10 @@ void Game::load_game_from_files()
 			i++;
 
 		else
+		{
 			load_new_board_to_play(desired_board_name);
-		
+			break;
+		}
 		if (i == file_names.size())
 		{
 			Sleep(500);
@@ -549,5 +551,3 @@ Position& Game::my_teleport(Position& next_pos) {
 	}
 	return next_pos;
 }
-
-

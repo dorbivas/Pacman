@@ -14,7 +14,6 @@ public:
 	//--Constructor --//
 	Fruit() {
 		color = Board::Color::WHITE;
-		speed = 1;//TODO
 	}
 
 

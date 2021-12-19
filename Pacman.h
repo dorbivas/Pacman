@@ -5,23 +5,18 @@
 
 class Pacman :public Entity
 {
-
 private:
 	int souls = STARTING_SOULS;
 	int score = ZERO_POINTS;
 	
 
 public:
-	enum pacman_table { STARTING_SOULS = 3, ZERO_POINTS = 0, INITIAL_X = 39, INITIAL_Y = 12 };
+	enum pacman_table { STARTING_SOULS = 3, ZERO_POINTS = 0};
 	//--Constructor --//
 	Pacman() {
 		shape = Shape::PACMAN;
 		color = Board::Color::YELLOW;
-		direction = (int)Direction::STAY;
-		//pos=board.get_inital_pacman_pos();//todo
-		pos = Position(INITIAL_X, INITIAL_Y);
-		speed = 2;//TODO
-		
+		direction = (int)Direction::STAY;		
 	};
 	Pacman(int souls, int direction, Position& pos, int score);
 

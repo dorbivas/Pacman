@@ -6,9 +6,9 @@ Game::Game() {
 
 void Game::game() {
 	//reset_game();
-	//find_files();
+	find_files();
+	load_game_from_files();
 	load_new_board_to_play("pacman_05.screen.txt");
-	//load_game_from_files();
 
 	unsigned char current_key, temp;
 	current_key = _kbhit();
@@ -71,8 +71,7 @@ void Game::handle_pacman_move() {
 	}
 		
 
-	if (pacman.is_my_teleporting(next_pos))
-		next_pos = handle_teleport(next_pos);
+	next_pos = handle_teleport(next_pos);
 
 	if (board.get_cell(next_pos) == Entity::Shape::P)
 		to_add = 1;
@@ -291,12 +290,16 @@ void Game::lose() {
 	cout << "you lost." << endl;
 	system("pause");
 	loop_flag = true;
+	find_files();
+	load_game_from_files();
 }
 void Game::win() {
 	system("cls");
 	cout << "you won." << endl;
 	system("pause");
 	loop_flag = true;
+	find_files();
+	load_game_from_files();
 }
 
 void Game::reset_game() {//TODO
@@ -309,6 +312,7 @@ void Game::load_new_board_to_play(const string& file_name) {
 	_flushall();
 	board.load_board(file_name);
 	this->pacman = Pacman();
+	pacman.set_position(board.get_inital_pacman_pos());
 	pacman.set_board(board);
 
 	fruit = Fruit();
@@ -319,8 +323,6 @@ void Game::load_new_board_to_play(const string& file_name) {
 	loop_flag = false;
 	first_run_done = false;
 	
-	
-
 	pacman.set_position(board.get_inital_pacman_pos());
 
 	for (int i = 0; i < board.get_num_of_ghosts(); i++) {
@@ -335,10 +337,10 @@ void Game::load_new_board_to_play(const string& file_name) {
 
 
 //----------- Menu Class: -----------//
-void Game::Menu::handle_menu() { //TODO number table for user choice?
+void Game::Menu::handle_menu() { 
 	Game run; 
 	do {
-		cursor_visibility(false); //hiding console cursor
+		cursor_visibility(false);
 
 		system("cls");
 		menu_display();

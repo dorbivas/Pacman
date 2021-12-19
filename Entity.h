@@ -37,20 +37,13 @@ public:
     void set_position(int x, int y) { this->pos.set_xy(x, y); }
     void set_direction(Entity::Direction dir) { direction = (int)dir; } 
     void set_direction(int direction) { this->direction = direction; }
-    //void set_color(Board::Color direction) { this->color = color; }
     void set_shape(Shape direction) { this->shape = shape; }
     void set_board(Board& board) { this->board = board; }
 
     //--Game Logic Fucns: --//
-    //TODO REMOVE THIS FUNCTIONS
-    bool is_my_teleporting(const Position& next_pos) {
-        return (board.get_cell(next_pos) == (unsigned char)Board::TELEPORT);
-    }
     virtual bool is_invalid_place(const Position& next_pos) = 0;
-    
-    //TODO MOVE
+   
     Position& move_dir();
-    //virtual void handle_move();
     bool is_collided(const Position& curr_pos, const Position& next_pos, int against_direction);
 
     

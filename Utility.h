@@ -8,7 +8,6 @@
 #include <filesystem>
 #include <istream>
 #include <fstream>
-//#include <cunistd.h>
 
 #include<set>
 using std::set;
@@ -47,13 +46,6 @@ void goto_xy(const int x, const int y);
 bool is_valid_key(const unsigned char c);
 
 void cursor_visibility(bool showFlag);
-
-//string get_path();
-
-//void print_files(set<fs::path> sorted_by_name);
-//int get_num_of_lines(ifstream file);
-//int get_num_of_cells(ifstream file);
-
 set<path> get_files();
 
 

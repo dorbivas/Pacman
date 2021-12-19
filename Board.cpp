@@ -75,20 +75,6 @@ void Board::print_board(const bool color_mode) {
 	set_color((int)Color::WHITE);
 }
 
-//----------Methods-----------//
-
-//Point Board::getRandomPoint() {
-//	Point res;
-//	res.setPoint(rand() % (width - 3), rand() % (height - 3));
-//
-//	while (getCell(res) == (char)WALL || getCell(res) == (char)PACMAN)
-//		res.setPoint(rand() % (width - 3), rand() % (height - 3));
-//
-//	return res;
-//}
-
-
-
 void Board::load_board(const string& file_name)
 {
 	ifstream file(file_name, ios::ate);
@@ -103,7 +89,6 @@ void Board::load_board(const string& file_name)
 	file.close();
 }
 
-
 void Board::board_from_file(ifstream& file_input)
 {
 	int char_counter = 0, curr_col = 0, legend_flag = 0, is_first_line = 0, size;
@@ -114,8 +99,6 @@ void Board::board_from_file(ifstream& file_input)
 
 	while (char_counter < size)
 	{
-		if (rows == 1)
-			curr_col = curr_col; // TODO what??
 		unsigned char curr_char = file_input.get();
 		if (is_first_line != 0 && curr_col >= cols) // if the line is over the first line of the board
 		{
@@ -159,7 +142,7 @@ void Board::board_from_file(ifstream& file_input)
 			{
 				legend_pos.set_xy(curr_col, rows);
 				board[rows][curr_col] = S;
-				legend_flag = 1; // TODO
+				legend_flag = 1;
 			}
 			else if (curr_char == '\n')
 			{
@@ -201,6 +184,7 @@ void Board::board_from_file(ifstream& file_input)
 			char_counter++;
 		}
 	}
+	rows++;
 	insert_teleports();
 	handle_legend(legend_pos);
 	search_points();

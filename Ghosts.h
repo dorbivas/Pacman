@@ -2,11 +2,10 @@
 #include "Position.h"
 #include "Entity.h"
 
-//#include "Game.h"
 #include <queue>
 #define MAX_STEPS 20
 
-enum Ghost_mode {//TODO
+enum Ghost_mode {
     Smart,
     Good,
     Novice
@@ -29,7 +28,6 @@ public:
         shape = Shape::GHOST;
         color = Board::Color::RED;
         direction = generate_random_dir();
-        speed = 1;//TODO
     }
      //--Data Members Fucns: --//
     int get_step() const { return steps; }
@@ -51,7 +49,6 @@ public:
     void smart(const Position& target);
 
     void good_lvl_ghost(Position target);
-        //bool is_collided_ghost(const Position pacman_pos, Ghosts ghosts[], int num_of_ghosts, Pacman pacman);
     bool is_invalid_place(const Position& next_pos);
 
 

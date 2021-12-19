@@ -414,7 +414,7 @@ void Game::Menu::handle_ghosts_level(Game& run)
 			cout << "a ==> BEST" << endl << endl;
 			cout << "b ==> GOOD" << endl << endl;
 			cout << "c ==> NOVICE" << endl << endl;
-		}//TO DO FUNCTION WHILE
+		}
 	} while (ghosts_level_choice != Exit_Game && ghosts_level_choice != BEST && ghosts_level_choice != GOOD && ghosts_level_choice != NOVICE);
 }
 void Game::Menu::menu_display() {

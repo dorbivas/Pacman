@@ -93,8 +93,10 @@ void Board::print_board(const bool color_mode) {
 void Board::load_board(const string& file_name)
 {
 	ifstream file;
-	file.open(file_name);
-
+	file.open("C:\\Users\\USER\\source\\repos\\Pacman\\pacman_02.screen.txt", ios::in);
+	//file.open("pacman_02.screen.txt");
+	if (!file)
+		cout << "file empty"; //TODO
 	make_board_empty();
 	points_valid_positions.clear();
 	board_from_file(file);
@@ -139,9 +141,8 @@ void Board::board_from_file(ifstream& file_input)
 		else
 		{
 			if (curr_char == WALL)
-			{
 				board[rows][curr_col] = WALL;
-			}
+			
 			else if (curr_char == '@')
 			{
 				inital_pacman_pos.set_xy(curr_col, rows);
@@ -171,14 +172,12 @@ void Board::board_from_file(ifstream& file_input)
 			}
 			else if (curr_char == '\n')
 			{
-				if (is_first_line == 0 && legend_flag == 1) // if the legend appeared in the first line
+				if (is_first_line == 0 && legend_flag == 1) 
 				{
-					if (legend_pos.get_x() + 19 > cols) // if the legend is in the end of the line
-					{
-						cols = legend_pos.get_x() + 19; //set the new line to be in the size of the legend
-					}
+					if (legend_pos.get_x() + 19 > cols) 
+						cols = legend_pos.get_x() + 19; 
 				}
-				if (is_first_line != 0 && curr_col < cols) // if the line is shorter then the first line
+				if (is_first_line != 0 && curr_col < cols) 
 				{
 					insert_single_line(curr_col);
 					curr_col = 0;
@@ -191,13 +190,13 @@ void Board::board_from_file(ifstream& file_input)
 				char_counter++;
 				rows++;
 			}
-			else // if its a non-valid key
+			else // if its unvalid char
 			{
-				board[rows][curr_col] = S; // as a default - we use it as %
+				board[rows][curr_col] = S; 
 				char_counter++;
 			}
 
-			if (char_counter + 1 == size && curr_col + 1 < cols) // if we are in the last character buf the line is shorter then the first 
+			if (char_counter + 1 == size && curr_col + 1 < cols) 
 				insert_single_line(curr_col + 1);
 
 			if (is_first_line == 0)
@@ -210,7 +209,6 @@ void Board::board_from_file(ifstream& file_input)
 			}
 			char_counter++;
 		}
-
 	}
 	insert_teleports();
 	handle_legend(legend_pos);
@@ -242,7 +240,7 @@ void Board::handle_legend(const Position& legend_pos)
 			if (board[legend_pos.get_y() + i][legend_pos.get_x() + j] == POINT)
 				max_score--;
 
-			board[legend_pos.get_y() + i][legend_pos.get_x() + j] = ' '; // init the legend places into space	
+			board[legend_pos.get_y() + i][legend_pos.get_x() + j] = S; // clear the legend space.	
 		}
 		if (legend_pos.get_y() + i > rows)
 			rows++;
@@ -252,7 +250,7 @@ void Board::handle_legend(const Position& legend_pos)
 void Board::make_board_empty() {
 	for (int i = 0; i < MAX_HEIGHT; i++) {
 		for (int j = 0; j < MAX_WIDTH; j++)
-			board[i][j] = ' ';
+			board[i][j] = S;
 	}
 	rows = 0; cols = 0; num_of_ghosts = 0; max_score = 0;
 }
@@ -273,27 +271,27 @@ void Board::insert_teleports()
 {
 	for (int i = 0; i <= rows; i++)
 	{
-		if (board[i][0] == POINT) // if there is a BREADSCRUMB on the frame
+		if (board[i][0] == POINT) 
 		{
-			max_score -= 1;
+			max_score--;
 			board[i][0] = S;
 		}
 		if (board[i][cols - 1] == POINT)
 		{
 			board[i][cols - 1] = S;
-			max_score -= 1;
+			max_score--;
 		}
 	}
 	for (int i = 0; i <= cols; i++)
 	{
 		if (board[0][i] == POINT)
 		{
-			max_score -= 1;
+			max_score--;
 			board[0][i] = S;
 		}
 		if (board[rows][i] == POINT)
 		{
-			max_score -= 1;
+			max_score--;
 			board[rows][i] = S;
 		}
 	}

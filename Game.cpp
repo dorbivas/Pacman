@@ -5,7 +5,9 @@ Game::Game() {
 }
 
 void Game::game() {
-	reset_game();
+	//reset_game();
+	load_new_board_to_play("pacman_02.screen.txt");
+
 	unsigned char current_key, temp;
 	current_key = _kbhit();
 
@@ -300,7 +302,6 @@ void Game::win() {
 void Game::reset_game() {//TODO FIX 
 	board.our_spacial_board();
 	
-	board.print_board(this->color_mode);
 	this->pacman = Pacman();
 	fruit= Fruit();
 	fruit.generate_random_pos();
@@ -313,12 +314,16 @@ void Game::reset_game() {//TODO FIX
 	}
 	pacman.set_board(board);
 	fruit.set_board(board);
+	board.print_board(this->color_mode);
 
 }
 
 void Game::load_new_board_to_play(const string& file_name) {
+
+	this->pacman = Pacman();
+	fruit = Fruit();
+
 	board.load_board(file_name);
-	board.print_board(this->color_mode);
 
 	pause_flag = false;
 	loop_flag = false;
@@ -333,6 +338,7 @@ void Game::load_new_board_to_play(const string& file_name) {
 		ghosts[i].set_board(board);
 		ghosts[i].set_mode(ghosts_level_mode);
 	}
+	board.print_board(this->color_mode);
 	
 }
 

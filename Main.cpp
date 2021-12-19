@@ -1,2 +1,6 @@
 #include "Game.h"
-int main() { Game game;		game.run_menu();	return 0; }
+int main(/*int argc, char** argv*/) {
+	Game game;	
+	game.run_menu();
+	return 0; 
+}

@@ -15,10 +15,10 @@ public:
     enum  Shape {
         PACMAN = 233,
         GHOST = 36,
-        P = 250,
-        W = 219,
+        P = '.',
+        W = '#',
         T = 176,
-        S = 32,
+        S = ' ',
         FIVE = '5',
         SIX = '6',
         SEVEN = '7',

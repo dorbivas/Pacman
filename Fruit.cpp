@@ -1,13 +1,9 @@
 #include "Fruit.h"
 
-/*void Fruit::generate_random_pos() {
-	Position new_fruit_pos(15,4); // TODO board size
-	pos = new_fruit_pos;
-}*/
-
 void Fruit::generate_random_pos() {
-	int random_index_number = (1 + rand() % (board.getOptionalIndex()));
-	Position new_fruit_pos(board.getAPointForFruit(random_index_number)); 
+	int valid_position_size = board.getOptionalIndex();
+	int random_index_number = (1 + rand() % valid_position_size);
+	Position new_fruit_pos(board.getAPointForFruit(random_index_number));
 	pos = new_fruit_pos;
 }
 void Fruit::fruit() {
@@ -20,7 +16,7 @@ void Fruit::fruit() {
 bool Fruit::is_invalid_place(const Position& next_pos) {
 	return ((board.get_cell(next_pos) == (unsigned char)Board::WALL) || (is_my_teleporting(next_pos)));
 }
-void Fruit::set_dir(){
+void Fruit::set_dir() {
 	if (steps == MAX_STEPS) {
 		steps = 0;
 		direction = generate_random_dir();

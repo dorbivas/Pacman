@@ -287,7 +287,7 @@ bool Board::is_valid_move(const Position new_pos)
 {
 	int x = new_pos.get_x();
 	int y = new_pos.get_y();
-	unsigned char curr = board[x][y];
+	unsigned char curr = board[y][x];
 
 	if (x >= cols || y >= rows || x <= 0 || y <= 0)
 		return false;

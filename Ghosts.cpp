@@ -30,137 +30,55 @@ void Ghosts::good_lvl_ghost(Position target)
 
 void Ghosts::smart(const Position& target)
 {
-	list<Position> q;
-	q.push_back(Position(1,1));
-	q.pop_back();
-
 	// Direction vectors
 	int move_vector_x[] = { -1, 0, 1, 0 };
 	int move_vector_y[] = { 0, 1, 0, -1 };
 
 	int target_x = target.get_x(), target_y = target.get_y();
-	list<Position> moving_queue;
+	queue<Position> moving_queue;
 
-
-	//Position pos = Position(target.get_x(), target.get_x());
-	Position pos = Position(1,2);
-	moving_queue.push_back(pos);
-
-	bool is_visted[Board::MAX_SIZES::MAX_HEIGHT][Board::MAX_SIZES::MAX_WIDTH] = { { true } }; //init all cells as unvisited cells.
-// TODO: new?
-	for (int i = 0; i < board.get_cols(); i++)
-		for (int j = 0; j < board.get_rows(); j++)
-			is_visted[i][j] = false;
+	vector<vector<bool>> is_visted(board.get_rows(), vector<bool>(board.get_cols(), false));
 	is_visted[target_y][target_x] = true;
 
+	moving_queue.push(target);
+
 	while (!moving_queue.empty()) {
-		Position curr = moving_queue.back();
-		moving_queue.pop_back();
+		Position curr = moving_queue.front();
+		moving_queue.pop();
 
 		int curr_x = curr.get_x();
 		int curr_y = curr.get_y();
+
 		// Go to the adjacent cells
 		for (int i = 0; i < 4; i++) {
-			Position new_pos;
-
-			new_pos.set_xy(curr_x + move_vector_x[i], curr_y + move_vector_y[i]);
+			Position new_pos(curr_x + move_vector_x[i], curr_y + move_vector_y[i]);
 			if (board.is_valid_move(new_pos) && is_visted[new_pos.get_y()][new_pos.get_x()] == false)
 			{
-				if (curr_x * curr_y < 0)
-				{
-				}
-				moving_queue.push_back(new_pos);
 				is_visted[new_pos.get_y()][new_pos.get_x()] = true;
 
 				if (get_position().get_x() == curr_x + move_vector_x[i] &&
 					get_position().get_y() == curr_y + move_vector_y[i])
 				{
 					switch (i) { // OPOSITE TODO FUNC OUT
-					case 0:    set_direction(Entity::Direction::RIGHT);
+					case 0:
+						set_direction(Entity::Direction::RIGHT);
 						return;
-					case 1:    set_direction(Entity::Direction::DOWN);
+					case 1:
+						set_direction(Entity::Direction::UP);
 						return;
-					case 2:    set_direction(Entity::Direction::LEFT);
+					case 2:
+						set_direction(Entity::Direction::LEFT);
 						return;
-					case 3:    set_direction(Entity::Direction::UP);
+					case 3:
+						set_direction(Entity::Direction::DOWN);
 						return;
 					}
 				}
+				moving_queue.push(new_pos);
 			}
-
-		}/*
-		 for (int i = 0; i < Board::board_size::HEIGHT; i++) {
-			 for (int j = 0; j < Board::board_size::WIDTH; j++) {
-				 cout << is_visted[i][j];
-			 }
-
-			 cout << endl;*/
+		}
 	}
 }
-
-//smart ghost using BFS
-//void Ghosts::smart11(const Position& target)
-//{
-//	// Direction vectors
-//	int move_vector_x[] = { -1, 0, 1, 0 };
-//	int move_vector_y[] = { 0, 1, 0, -1 };
-//
-//	int target_x = target.get_x(), target_y = target.get_y();
-//	queue<Position> moving_queue;
-//	bool is_visted[Board::MAX_SIZES::MAX_HEIGHT][Board::MAX_SIZES::MAX_WIDTH] = { { true } }; //init all cells as unvisited cells.
-//	// TODO: new?
-//	for (int i = 0; i < board.get_cols(); i++)
-//		for (int j = 0; j < board.get_rows(); j++)
-//			is_visted[i][j] = false;
-//
-//	moving_queue.push(target);
-//	is_visted[target_y][target_x] = true;
-//	
-//	while (!moving_queue.empty()) {
-//		Position curr = moving_queue.front();
-//		moving_queue.pop();
-//
-//		int curr_x = curr.get_x();
-//		int curr_y = curr.get_y();
-//		// Go to the adjacent cells
-//		for (int i = 0; i < 4; i++) {
-//			Position new_pos;
-//
-//			new_pos.set_xy(curr_x + move_vector_x[i], curr_y + move_vector_y[i]);
-//			if (board.is_valid_move(new_pos) && is_visted[new_pos.get_y()][new_pos.get_x()] == false)
-//			{
-//				if (curr_x * curr_y < 0)
-//				{
-//				}
-//				moving_queue.push(new_pos);
-//				is_visted[new_pos.get_y()][new_pos.get_x()] = true;
-//
-//				if (get_position().get_x() == curr_x + move_vector_x[i] &&
-//					get_position().get_y() == curr_y + move_vector_y[i])
-//				{
-//					switch (i) { // OPOSITE TODO FUNC OUT
-//					case 0:    set_direction(Entity::Direction::RIGHT);
-//						return;
-//					case 1:    set_direction(Entity::Direction::DOWN);
-//						return;
-//					case 2:    set_direction(Entity::Direction::LEFT);
-//						return;
-//					case 3:    set_direction(Entity::Direction::UP);
-//						return;
-//					}
-//				}
-//			}
-//
-//		}/*
-//		 for (int i = 0; i < Board::board_size::HEIGHT; i++) {
-//			 for (int j = 0; j < Board::board_size::WIDTH; j++) {
-//				 cout << is_visted[i][j];
-//			 }
-//
-//			 cout << endl;*/
-//	}
-//}
-
 bool Ghosts::is_invalid_place(const Position& next_pos) {
     return ((board.get_cell(next_pos) == (unsigned char)Board::WALL)||(is_my_teleporting(next_pos)));
 }

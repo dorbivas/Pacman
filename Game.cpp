@@ -141,7 +141,7 @@ void Game::handle_fruit_move() {//TODO VIRTUAL
 
 	fruit.set_dir();
 	next_pos = fruit.move_dir();
-	while (fruit.is_invalid_place(next_pos))
+	while (!board.is_valid_move(next_pos))
 	{
 		fruit.rotate_direction();
 		fruit.set_dir();
@@ -168,7 +168,7 @@ bool Game::is_collided_ghost(const Position& curr_pos,const Position& next_pos,i
 void Game::handle_collision() {
 	pacman.decrease_soul();//decreases soul from the pacman
 	print_move(pacman.get_position(), Entity::Shape::GHOST);
-	pacman.set_position((int)Pacman::INITIAL_X, (int)Pacman::INITIAL_Y); //returns the pacman to its original position
+	pacman.set_position((int)board.get_inital_pacman_pos().get_x(), (int)board.get_inital_pacman_pos().get_y()); //returns the pacman to its original position
 	pacman.set_direction((int)Entity::Direction::STAY);
 	if (pacman.get_souls() == 0)
 	{
@@ -316,14 +316,17 @@ void Game::load_new_board_to_play(const string& file_name) {
 	_flushall();
 	board.load_board(file_name);
 	this->pacman = Pacman();
+	pacman.set_board(board);
+
 	fruit = Fruit();
+	fruit.set_board(board);
 	fruit.fruit();
 	
 	pause_flag = false;
 	loop_flag = false;
 	first_run_done = false;
-	pacman.set_board(board);
-	fruit.set_board(board);
+	
+	
 
 	pacman.set_position(board.get_inital_pacman_pos());
 

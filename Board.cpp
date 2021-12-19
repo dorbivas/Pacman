@@ -93,10 +93,19 @@ void Board::print_board(const bool color_mode) {
 void Board::load_board(const string& file_name)
 {
 	ifstream file;
-	file.open("C:\\Users\\USER\\source\\repos\\Pacman\\pacman_02.screen.txt", ios::in);
+	file.open(file_name);
 	//file.open("pacman_02.screen.txt");
 	if (!file)
 		cout << "file empty"; //TODO
+
+	string STRING;
+
+	file >> STRING;
+	cout << STRING << endl;
+
+
+
+
 	make_board_empty();
 	points_valid_positions.clear();
 	board_from_file(file);

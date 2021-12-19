@@ -322,7 +322,6 @@ void Game::load_new_board_to_play(const string& file_name) {
 
 	this->pacman = Pacman();
 	fruit = Fruit();
-
 	board.load_board(file_name);
 
 	pause_flag = false;

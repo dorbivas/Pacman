@@ -37,7 +37,10 @@ public:
 private:
     unsigned char board[MAX_HEIGHT][MAX_WIDTH];
     int rows, cols, max_score, num_of_ghosts;
-
+    Position inital_pacman_pos;
+    Position* inital_ghosts_pos;
+    Position legend_pos;
+    vector<Position> points_valid_positions;
 
 
     /*ADDED to change ours*/
@@ -51,18 +54,12 @@ private:
 
 
 public:
-    //todo MAYBE private ?
-    Position inital_pacman_pos;
-    Position* inital_ghosts_pos;
-    Position legend_pos;
-    vector<Position> points_valid_positions;
-
     void load_board(const string& file_name);
     void print_board(const bool color_mode);
-    void our_spacial_board();
+    void our_spacial_board();//EXTRA
 
     Position& get_inital_pacman_pos() { return inital_pacman_pos; }
-    //Positon& get_ghost_pacman_pos() { return inital_ghosts_pos; }//TODO
+    Position* get_ghost_pacman_pos() { return inital_ghosts_pos; }
 
     void set_color(int color_pick) const { SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color_pick); }
     unsigned char get_cell(const Position& cell_pos) { return board[cell_pos.get_y()][cell_pos.get_x()]; }

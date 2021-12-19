@@ -8,7 +8,7 @@
 //#include <fstream>
 class Game{
 private:
-    static const int MAX_POINTS = 300, SPEED = 150, NUM_OF_GHOSTS = 1, PAUSE_X = 11, PAUSE_Y = 24, DISPLAY_S_X=7,DISPLAY_S_Y=23; //todo good sol 
+    static const int MAX_POINTS = 300, SPEED = 150, NUM_OF_GHOSTS = 1, PAUSE_X = 11, PAUSE_Y = 24, DISPLAY_S_X=7,DISPLAY_S_Y=23; //TODO- CHANGE TO BOARD ENUM 
     Pacman pacman;
     Ghosts ghosts[NUM_OF_GHOSTS];
     Fruit fruit;
@@ -18,6 +18,7 @@ private:
     bool pause_flag = false;
     bool color_mode = true;
     bool loop_flag = false;
+    bool first_run_done = false;
 
     
     /*teleports order is sync with the board from left to right */
@@ -64,10 +65,9 @@ private:
    
     //--Game Logic Fucns: --//
     void game();
-    void check_pacman_move();
+    void handle_pacman_move();
     void handle_ghost_move();
     void handle_fruit_move();
-    void handle_move();
     void handle_score(Position& next_pos);
     Position& my_teleport(Position& next_pos);
     void handle_collision();

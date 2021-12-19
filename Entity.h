@@ -25,7 +25,7 @@ public:
         EIGHT = '8',
         NINE = '9'
     };
- 
+    //--Data Members Funcs: --//
     int get_speed() { return speed; }
     Position& get_position() { return pos; }
     int get_direction() const { return direction; }
@@ -39,13 +39,15 @@ public:
     void set_direction(int direction) { this->direction = direction; }
     //void set_color(Board::Color direction) { this->color = color; }
     void set_shape(Shape direction) { this->shape = shape; }
+    void set_board(Board& board) { this->board = board; }
 
+    //--Game Logic Fucns: --//
     //TODO REMOVE THIS FUNCTIONS
     bool is_my_teleporting(const Position& next_pos) {
         return (board.get_cell(next_pos) == (unsigned char)Board::TELEPORT);
     }
     virtual bool is_invalid_place(const Position& next_pos) = 0;
-    void set_board(Board& board) { this->board = board; }
+    
     //TODO MOVE
     Position& move_dir();
     //virtual void handle_move();

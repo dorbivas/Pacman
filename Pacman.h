@@ -20,6 +20,7 @@ public:
 		direction = (int)Direction::STAY;
 		//pos=board.get_inital_pacman_pos();//todo
 		pos = Position(INITIAL_X, INITIAL_Y);
+		speed = 2;//TODO
 		
 	};
 	Pacman(int souls, int direction, Position& pos, int score);

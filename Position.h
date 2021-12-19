@@ -22,12 +22,14 @@ public:
 }; 
 /*
 
-    1. finish files + board
-    2. yarden-finish fruit(timer(0 or 1), virtual,)
-
-    3. more virtual functions
-    4. speed
-    5. smart
+    1. dor-finish files + board
+    2. yarden-finish fruit(timer(0 or 1), virtual,)+ valid position(depend of board class)
+    3.yarden-heritage
+    4. dor-speed
+    5. dor-bfs
+    6/yarden-menu file choose
+    7.reset game-ghosts initaial pos-fix
+    8. des ctor
     
 
 

@@ -21,20 +21,24 @@ private:
     int mode;
     int steps;
     int generate_random_dir() { return rand() % 4; }
+    bool good_f_status;//if its true its refer to novice function(by steps)
 
 public:
    
     //--Constructor --//
     Ghosts(){
+        good_f_status = false;
         steps = 0;
         shape = Shape::GHOST;
         color = Board::Color::RED;
         direction = generate_random_dir();
         pos.set_xy(INITAL_GHOST_X, INITAL_GHOST_Y);
+        speed = 1;//TODO
     }
      //--Data Members Fucns: --//
     int get_step() const { return steps; }
     int get_mode() { return mode; }
+    bool get_good_f_status() { return good_f_status; }
 
     void set_mode(int mode) {
         this->mode = mode;

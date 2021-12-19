@@ -12,8 +12,8 @@ using std::vector;
 class Board {
 
 public:
-    enum board_signs { P = 250, W = 219, T = 176, S = 32, POINT = 250, WALL = 219, TELEPORT = 176 };
-    enum board_size { MAX_WIDTH = 80, MAX_HEIGHT = 25, };
+    enum board_signs { P = '.', W = '#', T = 176, S = ' ', POINT = '.' , WALL = '#' , TELEPORT = 176 };
+    enum board_size { MAX_WIDTH = 80, MAX_HEIGHT = 25,MAX_GHOSTS = 2 };
     enum legend_size{ MAX_LEGEND_ROWS = 3, MAX_LEGEND_COLS = 20 };
 
     enum class Color {

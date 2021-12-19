@@ -302,7 +302,8 @@ void Game::reset_game() {//TODO FIX
 	
 	board.print_board(this->color_mode);
 	this->pacman = Pacman();
-	this->fruit= Fruit();
+	fruit= Fruit();
+	fruit.generate_random_pos();
 	pause_flag = false;
 	loop_flag = false;
 	for (int i = 0; i < NUM_OF_GHOSTS; i++) {

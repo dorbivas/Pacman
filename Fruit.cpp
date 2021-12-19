@@ -1,7 +1,7 @@
 #include "Fruit.h"
 
 Position& Fruit::generate_random_pos() {
-	Position new_fruit_pos((1 + rand() % board.MAX_WIDTH), (1 + rand() % board.MAX_HEIGHT)); // TODO board size
+	Position new_fruit_pos((1 + rand() % (board.MAX_WIDTH-20)), (1 + rand() % (board.MAX_HEIGHT-20))); // TODO board size
 	while(is_invalid_place(new_fruit_pos))
 		new_fruit_pos.set_xy((1 + rand() % board.MAX_WIDTH), (1 + rand() % board.MAX_HEIGHT)); // TODO board size
 	pos = new_fruit_pos;

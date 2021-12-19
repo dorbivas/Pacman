@@ -13,9 +13,8 @@ private:
 
 public:
 	Fruit() {
-		shape = Shape::NINE;
+		shape = Shape::P;
 		color = Board::Color::WHITE;
-		pos = generate_random_pos();
 		fruit_val = generate_random_fruit_val();
 		direction = generate_random_dir();
 		steps = 0;

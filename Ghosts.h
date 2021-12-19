@@ -4,9 +4,6 @@
 
 //#include "Game.h"
 #include <queue>
-
-#define INITAL_GHOST_X 17
-#define INITAL_GHOST_Y 6
 #define MAX_STEPS 20
 
 enum Ghost_mode {//TODO

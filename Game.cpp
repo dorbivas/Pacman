@@ -7,7 +7,7 @@ Game::Game() {
 void Game::game() {
 	//reset_game();
 	//find_files();
-	load_new_board_to_play("pacman_03.screen.txt");
+	load_new_board_to_play("pacman_05.screen.txt");
 	//load_game_from_files();
 
 	unsigned char current_key, temp;
@@ -33,7 +33,7 @@ void Game::game() {
 				pause_flag = false;
 			}
 			pacman.move_dir();//makes direction
-			if (is_collided_ghost(pacman.get_position(),pacman.move_dir(),pacman.get_direction()))
+			if (is_collided_ghost(pacman.get_position(), pacman.move_dir(), pacman.get_direction()))
 			{
 				handle_collision();
 				current_key = stay_lower_case;
@@ -59,8 +59,7 @@ void Game::game() {
 void Game::handle_pacman_move() {
 	Position curr_pos = pacman.get_position();
 	int to_add = 0;
-	board.set_cell(curr_pos, Entity::Shape::S);
-	print_move(curr_pos, Entity::Shape::S);
+	
 	
 	Position next_pos = pacman.move_dir();
 
@@ -73,15 +72,19 @@ void Game::handle_pacman_move() {
 		
 
 	if (pacman.is_my_teleporting(next_pos))
-		next_pos = my_teleport(next_pos);
+		next_pos = handle_teleport(next_pos);
 
 	if (board.get_cell(next_pos) == Entity::Shape::P)
 		to_add = 1;
-	if (pacman.is_collided(fruit.get_position(), fruit.move_dir(), fruit.get_direction()))
+	if (pacman.is_collided(fruit.get_position(), fruit.move_dir(), fruit.get_direction())||
+		board.get_cell(curr_pos) == fruit.get_shpae()||
+		board.get_cell(next_pos) == fruit.get_shpae())
 	{
-		fruit.fruit();
 		to_add += fruit.get_fruit_val();
+		fruit.fruit();	
 	}
+	board.set_cell(curr_pos, Entity::Shape::S);
+	print_move(curr_pos, Entity::Shape::S);
 	pacman.add_score(to_add);
 	pacman.set_position(next_pos);
 	print_move(next_pos, Entity::Shape::PACMAN);//was in the game()
@@ -89,8 +92,8 @@ void Game::handle_pacman_move() {
 }
 void Game::handle_ghost_move() {//TODO VIRTUAL
 	Position curr_pos, next_pos;
-	int next_x = 0, next_y = 0;
-	for (int i = 0; i < board.get_num_of_ghosts(); i++)
+	int i;
+	for (i = 0; i < board.get_num_of_ghosts(); i++)
 	{
 		curr_pos = ghosts[i].get_position();
 		if (ghosts[i].get_mode() == Smart) 
@@ -110,7 +113,10 @@ void Game::handle_ghost_move() {//TODO VIRTUAL
 				next_pos = ghosts[i].move_dir();
 			}
 		}
-		ghosts[i].set_position(next_pos);
+		if (ghosts[i].is_collided(fruit.get_position(), fruit.move_dir(), fruit.get_direction()) ||
+			board.get_cell(curr_pos) == fruit.get_shpae()||
+			board.get_cell(next_pos) == fruit.get_shpae())
+			fruit.fruit();
 		if (board.get_cell(curr_pos) == Entity::Shape::P)
 			print_move(curr_pos, Entity::Shape::P);
 		else
@@ -118,16 +124,13 @@ void Game::handle_ghost_move() {//TODO VIRTUAL
 			print_move(curr_pos, Entity::Shape::S);
 			board.set_cell(curr_pos, Entity::Shape::S);
 		}
-
 		//next position
-		if (ghosts[i].is_collided(fruit.get_position(),fruit.move_dir(),fruit.get_direction()))//TODO-YARDEN
-			fruit.fruit();
-
+		
+		ghosts[i].set_position(next_pos);
 		print_move(next_pos, Entity::Shape::GHOST);
-		board.set_cell(next_pos, Entity::Shape::GHOST);
 	}
 }
-void Game::handle_fruit_move() {//TODO VIRTUAL
+void Game::handle_fruit_move() {
 	Position curr_pos, next_pos;
 	curr_pos = fruit.get_position();
 
@@ -151,11 +154,14 @@ void Game::handle_fruit_move() {//TODO VIRTUAL
 	
 
 	print_move(next_pos, fruit.get_shpae());
-	board.set_cell(next_pos, fruit.get_shpae());
 }
 bool Game::is_collided_ghost(const Position& curr_pos,const Position& next_pos,int direction) {
 	for (int i = 0; i < board.get_num_of_ghosts(); i++)
-		return ghosts[i].is_collided(curr_pos, next_pos, direction);
+	{
+		if (ghosts[i].is_collided(curr_pos, next_pos, direction)|| board.get_cell(pacman.get_position()) == Entity::Shape::GHOST)
+			return true;	
+	}
+	return false;
 }
 void Game::handle_collision() {
 	pacman.decrease_soul();//decreases soul from the pacman
@@ -175,23 +181,33 @@ void Game::handle_score(Position& next_pos) {
 		win();
 	}
 }
-void Game::handle_teleport(Position& pacman_pos)//TODO
+Position& Game::handle_teleport(Position& next_pos)
 {
 	int pacman_direction = pacman.get_direction();
-	int num_of_lines = board.get_cols();
-	int num_of_cols = board.get_rows();
+	int last_col = board.get_cols();
+	int last_row = board.get_rows();
 
-	if (board.get_cell(pacman_pos) == Entity::Shape::S)
+	if (next_pos.get_x() == last_col - 1 && pacman_direction == 3)
 	{
-		if (pacman_direction == int(Entity::Direction::DOWN))
-			pacman.set_position(pacman_pos.get_x(), pacman_pos.get_y() % num_of_lines);
-		if (pacman_direction == int(Entity::Direction::UP))
-			pacman.set_position(pacman_pos.get_x(), pacman_pos.get_y() + num_of_lines);
-		if (pacman_direction == int(Entity::Direction::LEFT))
-			pacman.set_position(pacman_pos.get_x() + num_of_cols, pacman_pos.get_y());
-		if (pacman_direction == int(Entity::Direction::RIGHT))
-			pacman.set_position(pacman_pos.get_x() % num_of_cols, pacman_pos.get_y());
+		next_pos.set_xy(0, next_pos.get_y());
+		pacman.set_direction((int)Entity::Direction::RIGHT);
 	}
+	if (next_pos.get_x() == 0 && pacman_direction == 2)
+	{
+		next_pos.set_xy(last_col - 1, next_pos.get_y());
+		pacman.set_direction((int)Entity::Direction::LEFT);
+	}
+	if (next_pos.get_y() == last_row - 1 && pacman_direction == 1)
+	{
+		next_pos.set_xy(next_pos.get_x(), 0);
+		pacman.set_direction((int)Entity::Direction::DOWN);
+	}
+	if (next_pos.get_y() == 0 && pacman_direction == 0)
+	{
+		next_pos.set_xy(next_pos.get_x(), last_row - 1);
+		pacman.set_direction((int)Entity::Direction::UP);
+	}
+	return next_pos;
 }
 void Game::print_move(const Position pos, Entity::Shape shape) {
 	display_score_souls();
@@ -284,21 +300,6 @@ void Game::win() {
 }
 
 void Game::reset_game() {//TODO
-	board.our_spacial_board();//TODO change 
-	//load_new_board_to_play(STRING)//TODO GET FILE HERE AND REMOVE THE REST BELOW+ MENU OPTION CHOOSE FILE(DATA MEMBER)
-	this->pacman = Pacman();
-	fruit= Fruit();
-	//fruit.generate_random_pos();
-	pause_flag = false;
-	loop_flag = false;
-	for (int i = 0; i < board.get_num_of_ghosts(); i++) {
-		ghosts[i].set_position(INITAL_GHOST_X + (2 * i), INITAL_GHOST_Y);
-		ghosts[i].set_board(board);
-		ghosts[i].set_mode(ghosts_level_mode);
-	}
-	pacman.set_board(board);
-	fruit.set_board(board);
-	board.print_board(this->color_mode);
 
 }
 

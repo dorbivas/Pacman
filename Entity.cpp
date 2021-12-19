@@ -27,7 +27,6 @@ bool Entity::is_collided(const Position& curr_pos, const Position& next_pos, int
 
 	if (get_position() == curr_pos|| get_position() == next_pos)
 		return true;
-
 	//edge cases
 	d1 = get_direction();
 	d2 = against_direction;

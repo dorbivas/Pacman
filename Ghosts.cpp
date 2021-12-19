@@ -80,5 +80,9 @@ void Ghosts::smart(const Position& target)
 	}
 }
 bool Ghosts::is_invalid_place(const Position& next_pos) {
-    return ((board.get_cell(next_pos) == (unsigned char)Board::WALL)||(is_my_teleporting(next_pos)));
+    return ((board.get_cell(next_pos) == (unsigned char)Board::WALL)||
+		(next_pos.get_x()>=board.get_cols()-1) ||
+			(next_pos.get_y()>= board.get_rows()-1)||
+		(next_pos.get_x() <=0)||
+		(next_pos.get_x() <=0));
 }

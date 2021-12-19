@@ -2,7 +2,7 @@
 
 void Fruit::generate_random_pos() {
 	int valid_position_size = board.getOptionalIndex();
-	int random_index_number = (1 + rand() % valid_position_size);
+	int random_index_number = (0 + rand() % valid_position_size);
 	Position new_fruit_pos(board.getAPointForFruit(random_index_number));
 	pos = new_fruit_pos;
 }
@@ -14,7 +14,11 @@ void Fruit::fruit() {
 	generate_random_pos();
 }
 bool Fruit::is_invalid_place(const Position& next_pos) {
-	return ((board.get_cell(next_pos) == (unsigned char)Board::WALL) || (is_my_teleporting(next_pos)));
+	return ((board.get_cell(next_pos) == (unsigned char)Board::WALL) ||
+		(next_pos.get_x() >= board.get_cols() - 1) ||
+		(next_pos.get_y() >= board.get_rows() - 1) ||
+		(next_pos.get_x() <= 0) ||
+		(next_pos.get_x() <= 0));
 }
 void Fruit::set_dir() {
 	if (steps == MAX_STEPS) {

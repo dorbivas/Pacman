@@ -15,7 +15,6 @@ public:
 	Fruit() {
 		color = Board::Color::WHITE;
 		speed = 1;//TODO
-		fruit();
 	}
 
 

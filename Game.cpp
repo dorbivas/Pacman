@@ -6,8 +6,9 @@ Game::Game() {
 
 void Game::game() {
 	//reset_game();
-	find_files();
-	load_game_from_files();
+	//find_files();
+	load_new_board_to_play("pacman_01.screen.txt");
+	//load_game_from_files();
 
 	unsigned char current_key, temp;
 	current_key = _kbhit();
@@ -313,11 +314,11 @@ void Game::load_new_board_to_play(const string& file_name) {
 
 	system("cls");
 	_flushall();
-
+	board.load_board(file_name);
 	this->pacman = Pacman();
 	fruit = Fruit();
-	board.load_board(file_name);
-
+	fruit.fruit();
+	
 	pause_flag = false;
 	loop_flag = false;
 	first_run_done = false;

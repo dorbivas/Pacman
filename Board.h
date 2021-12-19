@@ -8,7 +8,6 @@ using std::ifstream;
 using std::vector;
 
 
-
 class Board {
 
 public:

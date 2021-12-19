@@ -1,15 +1,15 @@
 #include "Fruit.h"
 
-void Fruit::generate_random_pos() {
+/*void Fruit::generate_random_pos() {
 	Position new_fruit_pos(15,4); // TODO board size
 	pos = new_fruit_pos;
-}
-/*
+}*/
+
 void Fruit::generate_random_pos() {
 	int random_index_number = (1 + rand() % (board.getOptionalIndex()));
 	Position new_fruit_pos(board.getAPointForFruit(random_index_number)); 
 	pos = new_fruit_pos;
-}*/
+}
 void Fruit::fruit() {
 	fruit_val = generate_random_fruit_val();
 	shape = num_to_shape(fruit_val);

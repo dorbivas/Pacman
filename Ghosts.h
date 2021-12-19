@@ -32,7 +32,6 @@ public:
         shape = Shape::GHOST;
         color = Board::Color::RED;
         direction = generate_random_dir();
-        pos.set_xy(INITAL_GHOST_X, INITAL_GHOST_Y);
         speed = 1;//TODO
     }
      //--Data Members Fucns: --//

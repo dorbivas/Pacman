@@ -7,7 +7,7 @@ Game::Game() {
 void Game::game() {
 	//reset_game();
 	//find_files();
-	load_new_board_to_play("pacman_01.screen.txt");
+	load_new_board_to_play("pacman_03.screen.txt");
 	//load_game_from_files();
 
 	unsigned char current_key, temp;
@@ -162,7 +162,7 @@ void Game::handle_fruit_move() {//TODO VIRTUAL
 	board.set_cell(next_pos, fruit.get_shpae());
 }
 bool Game::is_collided_ghost(const Position& curr_pos,const Position& next_pos,int direction) {
-	for (int i = 0; i < NUM_OF_GHOSTS; i++)
+	for (int i = 0; i < board.get_num_of_ghosts(); i++)
 		return ghosts[i].is_collided(curr_pos, next_pos, direction);
 }
 void Game::handle_collision() {

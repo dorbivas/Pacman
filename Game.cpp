@@ -5,9 +5,15 @@ Game::Game() {
 }
 
 void Game::game() {
-	find_files();
+	
+	//for yarden:(TODO- fix_dir_yarden)
+	file_names.push_back("pacman_01.screen");
+	file_names.push_back("pacman_02.screen");
+	file_names.push_back("pacman_03.screen");
+	//for dor:
+	//find_files();
 	load_game_from_files();
-
+	
 
 	unsigned char current_key, temp;
 	current_key = _kbhit();
@@ -444,6 +450,7 @@ void Game::Menu::print_ruls() const {
 
 void Game::load_game_from_files()
 {
+
 	int i = 0;
 	string desired_board_name;
 	vector <string> tmp;
@@ -484,7 +491,6 @@ bool Game::find_files(){
 	int isFound = -1; // -1 indicate find() is false
 	string curr_path = current_path().string();
 	set<path> paths_names;
-
 	int numFiles = 0;
 	for (auto& entry : directory_iterator(curr_path))
 	{

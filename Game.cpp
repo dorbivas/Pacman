@@ -5,10 +5,9 @@ Game::Game() {
 }
 
 void Game::game() {
-	//reset_game();
 	find_files();
 	load_game_from_files();
-	load_new_board_to_play("pacman_05.screen.txt");
+
 
 	unsigned char current_key, temp;
 	current_key = _kbhit();

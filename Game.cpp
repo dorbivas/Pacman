@@ -14,7 +14,7 @@ void Game::game() {
 	//find_files();
 	load_game_from_files();
 	
-
+	Position next_pos;
 	unsigned char temp;
 	current_key = _kbhit();
 
@@ -38,22 +38,25 @@ void Game::game() {
 			//pacman.move_dir();//makes direction
 			handle_ghost_move();
 			handle_fruit_move();
-			handle_pacman_move();
+			next_pos = pacman.move_dir();
 			if (pacman.is_collided(fruit.get_position(), fruit.move_dir(), fruit.get_direction())
 				|| board.get_cell(fruit.get_position()) == Entity::Shape::PACMAN
-				|| board.get_cell(pacman.get_position()) == fruit.get_shpae())
+				|| board.get_cell(pacman.get_position()) == fruit.get_shpae()
+				|| board.get_cell(next_pos) == fruit.get_shpae())
 			{
 				pacman.add_score(fruit.get_fruit_val());
 				fruit.fruit();
 			}
+			
 			if (is_collided_ghost() 
-				|| board.get_cell(pacman.get_position()) == Entity::Shape::GHOST)
+				|| board.get_cell(pacman.get_position()) == Entity::Shape::GHOST
+				|| board.get_cell(next_pos) == Entity::Shape::GHOST)
 			{
 				handle_collision();
 				current_key = stay_lower_case;
 				continue;
 			}
-			
+			handle_pacman_move();
 			handle_score(pacman.get_position());
 			temp = current_key;
 		

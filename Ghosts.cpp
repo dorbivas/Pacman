@@ -13,21 +13,31 @@ void Ghosts::novice_lvl_ghost(){
 
 void Ghosts::good_lvl_ghost(Position target)
 {
-	if (steps >= 0 && steps <= 5) {
+	if ((steps >= 0 && steps <= 5) && novice_smart_switch) {
 		novice_lvl_ghost();
+		novice_smart_switch = true;
+	}
+	else if (steps == 6 && novice_smart_switch)
+	{
+		novice_smart_switch = false;
+		steps = 0;
+		random_steps = generate_random_steps();
+	}
+	else if ((steps == random_steps)&&!novice_smart_switch)
+	{
+		direction = generate_random_dir();
+		steps = 0;
 		novice_smart_switch = true;
 	}
 	else
 	{
 		smart(target);
-		novice_smart_switch = false;
+		steps++;
 	}
 		
 
 
 }
-
-
 void Ghosts::smart(const Position& target)
 {
 	// Direction vectors
@@ -96,7 +106,7 @@ Position& Ghosts::handle_move()
 	next_pos = move_dir();
 	if (get_mode() == Novice || get_novice_smart_switch())
 	{
-		while (is_invalid_place(next_pos))
+		while (is_invalid_place(next_pos)||!board.is_valid_move(next_pos))
 		{
 			rotate_direction(next_pos);
 			novice_lvl_ghost();

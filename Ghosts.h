@@ -17,6 +17,10 @@ private:
     int mode;
     int steps;
     int generate_random_dir() { return rand() % 4; }
+    int random_steps;//TODO -CHANGE NAME
+    int generate_random_steps() {
+        return 1 + rand() % 15;
+    }
     bool novice_smart_switch;//if its true its refer to novice function(by steps)
     Position pacman_pos;
 public:
@@ -25,6 +29,7 @@ public:
     Ghosts(){
         novice_smart_switch = false;
         steps = 0;
+        random_steps = generate_random_steps();
         shape = Shape::GHOST;
         color = Board::Color::RED;
         direction = generate_random_dir();

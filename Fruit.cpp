@@ -43,7 +43,8 @@ Position& Fruit::handle_move()
 	set_dir();
 	Position next_pos = move_dir();
 	//while (!board.is_valid_move(next_pos))//TODO-YAREN-CHECK WHAT BETTER
-	while(is_invalid_place(next_pos))
+	while(is_invalid_place(next_pos)
+		|| !board.is_valid_move(next_pos))
 	{
 		rotate_direction();
 		set_dir();

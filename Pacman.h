@@ -11,7 +11,7 @@ private:
 	
 
 public:
-	enum pacman_table { STARTING_SOULS = 3, ZERO_POINTS = 0};
+	enum pacman_table { STARTING_SOULS = 30, ZERO_POINTS = 0};
 	//--Constructor --//
 	Pacman() {
 		shape = Shape::PACMAN;
@@ -29,5 +29,5 @@ public:
 	void add_score(int new_val);
 	void decrease_soul();
 	bool is_invalid_place(const Position& next_pos);
-	virtual Position& handle_move() { return move_dir(); };
+	Position& handle_move() { return move_dir(); };
 };

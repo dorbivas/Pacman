@@ -20,3 +20,23 @@ public:
     bool operator==(const Position& pos){return((pos.get_x()==x)&&(pos.get_y()==y));}
 
 }; 
+
+/*
+    TODO:
+
+    1. SPEED
+    2. IMMEDIATE SYNCHRONIZATION OF THE BOARD WITH THE OTHER CLASSES
+       ALLOWS OPTIMAL UTILIZATION OF POLYMOPHISM AND INGERITANCE-DISCUSS IT
+    3. COLLISION
+    4. FURIT- TIMER FOR DISAPPPERED
+    5. RECORD
+    6. TRY CATCH-DOR
+    7.
+    8.
+    9.
+    10.
+    11.
+    12.
+
+
+*/

@@ -29,4 +29,5 @@ public:
 	void add_score(int new_val);
 	void decrease_soul();
 	bool is_invalid_place(const Position& next_pos);
+	virtual Position& handle_move() { return move_dir(); };
 };

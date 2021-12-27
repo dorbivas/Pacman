@@ -80,9 +80,28 @@ void Ghosts::smart(const Position& target)
 	}
 }
 bool Ghosts::is_invalid_place(const Position& next_pos) {
-    return ((board.get_cell(next_pos) == (unsigned char)Board::WALL)||
-		(next_pos.get_x()>=board.get_cols()-1) ||
-			(next_pos.get_y()>= board.get_rows()-1)||
-		(next_pos.get_x() <=0)||
-		(next_pos.get_x() <=0));
+	return invalid_place(next_pos);
+}
+Position& Ghosts::handle_move()
+{
+	Position curr_pos = get_position();
+	Position next_pos;
+	if (get_mode() == Smart)
+		smart(pacman_pos);
+	else if (get_mode() == Good)
+		good_lvl_ghost(pacman_pos);
+	else
+		novice_lvl_ghost();
+
+	next_pos = move_dir();
+	if (get_mode() == Novice || get_novice_smart_switch())
+	{
+		while (is_invalid_place(next_pos))
+		{
+			rotate_direction(next_pos);
+			novice_lvl_ghost();
+			next_pos = move_dir();
+		}
+	}
+	return next_pos;
 }

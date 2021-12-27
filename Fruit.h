@@ -30,7 +30,7 @@ public:
 	}
 	bool is_invalid_place(const Position& next_pos);
 	void set_dir();
-
+	Position& handle_move();
 	//--Data Members Funcs: --//
 
 	int get_fruit_val()const{ return fruit_val; } 

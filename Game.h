@@ -17,6 +17,7 @@ private:
     bool color_mode = true;
     bool loop_flag = false;
     bool first_run_done = false;
+    unsigned char current_key;
 
     
 
@@ -55,7 +56,6 @@ private:
     void handle_collision();
     Position& handle_teleport(Position& pacman_pos);
     void print_move(const Position pos, Entity::Shape shape);
-    bool is_collided_ghost(const Position& curr_pos, const Position& next_pos, int direction);
     bool is_my_teleporting(const Position& next_pos) {
         return (board.get_cell(next_pos) == (unsigned char)Board::TELEPORT);
     }

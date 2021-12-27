@@ -15,7 +15,7 @@ void Game::game() {
 	load_game_from_files();
 	
 
-	unsigned char current_key, temp;
+	unsigned char temp;
 	current_key = _kbhit();
 
 	while (!is_valid_key(current_key) || current_key == ESC)
@@ -25,8 +25,6 @@ void Game::game() {
 	while (!loop_flag)
 	{
 		Sleep(SPEED);
-		handle_ghost_move();
-		handle_fruit_move();
 		if (_kbhit())
 			current_key = _getch();
 		if (is_valid_key(current_key))
@@ -38,15 +36,14 @@ void Game::game() {
 				pause_flag = false;
 			}
 			pacman.move_dir();//makes direction
-			if (is_collided_ghost(pacman.get_position(), pacman.move_dir(), pacman.get_direction()))
+			handle_ghost_move();
+			if(!loop_flag) 
 			{
-				handle_collision();
-				current_key = stay_lower_case;
-				continue; // no need to cheeck other conditions.
+				handle_fruit_move();
+				handle_pacman_move();
+				handle_score(pacman.get_position());
+				temp = current_key;
 			}
-			handle_pacman_move();
-			handle_score(pacman.get_position());
-			temp = current_key;
 		}
 		else
 		{	
@@ -65,9 +62,7 @@ void Game::handle_pacman_move() {
 	Position curr_pos = pacman.get_position();
 	int to_add = 0;
 	
-	
-	Position next_pos = pacman.move_dir();
-
+	Position next_pos = pacman.handle_move();
 	//next position
 	if (pacman.is_invalid_place(next_pos))
 	{
@@ -75,14 +70,14 @@ void Game::handle_pacman_move() {
 		return;
 	}
 		
-
 	next_pos = handle_teleport(next_pos);
 
 	if (board.get_cell(next_pos) == Entity::Shape::P)
 		to_add = 1;
-	if (pacman.is_collided(fruit.get_position(), fruit.move_dir(), fruit.get_direction())||
-		board.get_cell(curr_pos) == fruit.get_shpae()||
-		board.get_cell(next_pos) == fruit.get_shpae())
+	if (pacman.is_collided(fruit.get_position(), fruit.move_dir(), fruit.get_direction())
+		|| board.get_cell(fruit.get_position()) == Entity::Shape::PACMAN
+		||board.get_cell(curr_pos) == fruit.get_shpae()
+		||board.get_cell(next_pos) == fruit.get_shpae())
 	{
 		to_add += fruit.get_fruit_val();
 		fruit.fruit();	
@@ -99,28 +94,22 @@ void Game::handle_ghost_move() {
 	int i;
 	for (i = 0; i < board.get_num_of_ghosts(); i++)
 	{
+		ghosts[i].set_pacman_pos(pacman.get_position());
 		curr_pos = ghosts[i].get_position();
-		if (ghosts[i].get_mode() == Smart) 
-			ghosts[i].smart(pacman.get_position());
-		else if (ghosts[i].get_mode() == Good)
-			ghosts[i].good_lvl_ghost(pacman.get_position());
-		else
-			ghosts[i].novice_lvl_ghost();
-
-		next_pos = ghosts[i].move_dir();
-		if(ghosts[i].get_mode() == Novice|| ghosts[i].get_novice_smart_switch())
-		{
-			while (ghosts[i].is_invalid_place(next_pos))
-			{
-				ghosts[i].rotate_direction();
-				ghosts[i].novice_lvl_ghost();
-				next_pos = ghosts[i].move_dir();
-			}
-		}
-		if (ghosts[i].is_collided(fruit.get_position(), fruit.move_dir(), fruit.get_direction()) ||
-			board.get_cell(curr_pos) == fruit.get_shpae()||
-			board.get_cell(next_pos) == fruit.get_shpae())
+		next_pos = ghosts[i].handle_move();
+		if (ghosts[i].is_collided(fruit.get_position(), fruit.move_dir(), fruit.get_direction())
+			|| board.get_cell(fruit.get_position()) == Entity::Shape::GHOST
+			||board.get_cell(curr_pos) == fruit.get_shpae()
+			||board.get_cell(next_pos) == fruit.get_shpae())
 			fruit.fruit();
+		if (ghosts[i].is_collided(pacman.get_position(), pacman.move_dir(), pacman.get_direction())
+			|| board.get_cell(pacman.get_position()) == Entity::Shape::GHOST
+			|| board.get_cell(ghosts[i].get_position()) == Entity::Shape::PACMAN
+			/*|| board.get_cell(next_pos) == Entity::Shape::PACMAN*/)
+		{
+			handle_collision();
+			current_key = stay_lower_case;
+		}
 		if (board.get_cell(curr_pos) == Entity::Shape::P)
 			print_move(curr_pos, Entity::Shape::P);
 		else
@@ -128,8 +117,8 @@ void Game::handle_ghost_move() {
 			print_move(curr_pos, Entity::Shape::S);
 			board.set_cell(curr_pos, Entity::Shape::S);
 		}
+
 		//next position
-		
 		ghosts[i].set_position(next_pos);
 		print_move(next_pos, Entity::Shape::GHOST);
 	}
@@ -146,32 +135,17 @@ void Game::handle_fruit_move() {
 		board.set_cell(curr_pos, Entity::Shape::S);
 	}
 
-	fruit.set_dir();
-	next_pos = fruit.move_dir();
-	while (!board.is_valid_move(next_pos))
-	{
-		fruit.rotate_direction();
-		fruit.set_dir();
-		next_pos = fruit.move_dir();
-	}
+	next_pos = fruit.handle_move();
 	fruit.set_position(next_pos);
 	
-
 	print_move(next_pos, fruit.get_shpae());
-}
-bool Game::is_collided_ghost(const Position& curr_pos,const Position& next_pos,int direction) {
-	for (int i = 0; i < board.get_num_of_ghosts(); i++)
-	{
-		if (ghosts[i].is_collided(curr_pos, next_pos, direction)|| board.get_cell(pacman.get_position()) == Entity::Shape::GHOST)
-			return true;	
-	}
-	return false;
 }
 void Game::handle_collision() {
 	pacman.decrease_soul();//decreases soul from the pacman
 	print_move(pacman.get_position(), Entity::Shape::GHOST);
 	pacman.set_position((int)board.get_inital_pacman_pos().get_x(), (int)board.get_inital_pacman_pos().get_y()); //returns the pacman to its original position
 	pacman.set_direction((int)Entity::Direction::STAY);
+	//pacman.move_dir();
 	if (pacman.get_souls() == 0)
 	{
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (int)Board::Color::WHITE);
@@ -295,16 +269,16 @@ void Game::lose() {
 	cout << "you lost." << endl;
 	system("pause");
 	loop_flag = true;
-	find_files();
-	load_game_from_files();
+	//find_files();//TODO WHY HERE?
+	//load_game_from_files();
 }
 void Game::win() {
 	system("cls");
 	cout << "you won." << endl;
 	system("pause");
 	loop_flag = true;
-	find_files();
-	load_game_from_files();
+	//find_files();//TODO WHY HERE?
+	//load_game_from_files();
 }
 
 
@@ -511,43 +485,3 @@ bool Game::find_files(){
 }
 
 
-
-
-//addition
-/*
-Position& Game::my_teleport(Position& next_pos) {
-	int Pacman_x = next_pos.get_x();
-	int Pacman_y = next_pos.get_y();
-
-	if (Pacman_x == TP_NORTH1_TOP_X && Pacman_y == TP_NORTH1_TOP_Y)
-	{
-		next_pos.set_xy(TP_NORTH1_BOT_X, TP_NORTH1_BOT_Y);
-		pacman.set_direction((int)Entity::Direction::UP);
-	}
-	else if (Pacman_x == TP_NORTH2_TOP_X && Pacman_y == TP_NORTH2_TOP_Y)
-	{
-		next_pos.set_xy(TP_NORTH2_BOT_X, TP_NORTH2_BOT_Y);
-		pacman.set_direction((int)Entity::Direction::UP);
-	}
-	else if (Pacman_x == TP_NORTH1_BOT_X && Pacman_y == TP_NORTH1_BOT_Y)
-	{
-		next_pos.set_xy(TP_NORTH1_TOP_X, TP_NORTH1_TOP_Y);
-		pacman.set_direction((int)Entity::Direction::DOWN);
-	}
-	else if (Pacman_x == TP_NORTH2_BOT_X && Pacman_y == TP_NORTH2_BOT_Y)
-	{
-		next_pos.set_xy(TP_NORTH2_TOP_X, TP_NORTH2_TOP_Y);
-		pacman.set_direction((int)Entity::Direction::DOWN);
-	}
-	else if (Pacman_x == TP_EAST_BOT_X && Pacman_y == TP_EAST_BOT_Y)
-	{
-		next_pos.set_xy(TP_WEST_TOP_X, TP_WEST_TOP_Y);
-		pacman.set_direction((int)Entity::Direction::RIGHT);
-	}
-	else if (Pacman_x == TP_WEST_TOP_X && Pacman_y == TP_WEST_TOP_Y)
-	{
-		next_pos.set_xy(TP_EAST_BOT_X, TP_EAST_BOT_Y);
-		pacman.set_direction((int)Entity::Direction::LEFT);
-	}
-	return next_pos;
-}*/

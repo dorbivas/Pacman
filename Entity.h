@@ -42,10 +42,10 @@ public:
 
     //--Game Logic Fucns: --//
     virtual bool is_invalid_place(const Position& next_pos) = 0;
-   
+    bool invalid_place(const Position& next_pos);//the smae for ghost and fruit but not for pacman
     Position& move_dir();
     bool is_collided(const Position& curr_pos, const Position& next_pos, int against_direction);
-
+    virtual Position& handle_move() = 0;
     
 protected:
     Position pos;

@@ -14,11 +14,7 @@ void Fruit::fruit() {
 	generate_random_pos();
 }
 bool Fruit::is_invalid_place(const Position& next_pos) {
-	return ((board.get_cell(next_pos) == (unsigned char)Board::WALL) ||
-		(next_pos.get_x() >= board.get_cols() - 1) ||
-		(next_pos.get_y() >= board.get_rows() - 1) ||
-		(next_pos.get_x() <= 0) ||
-		(next_pos.get_x() <= 0));
+	return invalid_place(next_pos);
 }
 void Fruit::set_dir() {
 	if (steps == MAX_STEPS) {
@@ -41,4 +37,17 @@ Entity::Shape Fruit::num_to_shape(int val)
 	else//9
 		return Entity::Shape::NINE;
 
+}
+Position& Fruit::handle_move()
+{
+	set_dir();
+	Position next_pos = move_dir();
+	//while (!board.is_valid_move(next_pos))//TODO-YAREN-CHECK WHAT BETTER
+	while(is_invalid_place(next_pos))
+	{
+		rotate_direction();
+		set_dir();
+		next_pos = move_dir();
+	}
+	return next_pos;
 }

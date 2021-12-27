@@ -41,4 +41,12 @@ bool Entity::is_collided(const Position& curr_pos, const Position& next_pos, int
 		return true;
 	return false;
 }
+bool Entity::invalid_place(const Position& next_pos)
+{
+	return ((board.get_cell(next_pos) == (unsigned char)Board::WALL) ||
+		(next_pos.get_x() >= board.get_cols() - 1) ||
+		(next_pos.get_y() >= board.get_rows() - 1) ||
+		(next_pos.get_x() <= 0) ||
+		(next_pos.get_x() <= 0));
+}
 

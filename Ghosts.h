@@ -18,7 +18,7 @@ private:
     int steps;
     int generate_random_dir() { return rand() % 4; }
     bool novice_smart_switch;//if its true its refer to novice function(by steps)
-
+    Position pacman_pos;
 public:
    
     //--Constructor --//
@@ -40,8 +40,11 @@ public:
     void set_mode(Ghost_mode mode) {
         this->mode = (int)mode;
     }
+    void set_pacman_pos(const Position& _pacman_pos) {
+        pacman_pos = _pacman_pos;
+    }
     //--Game Logic Fucns: --//
-    void rotate_direction() {
+    void rotate_direction(const Position & next_pos) {
         if (direction == (int)Direction::RIGHT) { direction = (int)Direction::UP; }
         else { direction++; }
     }
@@ -50,6 +53,6 @@ public:
 
     void good_lvl_ghost(Position target);
     bool is_invalid_place(const Position& next_pos);
-
+    Position& handle_move();
 
 };

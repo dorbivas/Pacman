@@ -16,14 +16,6 @@ void Fruit::fruit() {
 bool Fruit::is_invalid_place(const Position& next_pos) {
 	return invalid_place(next_pos);
 }
-void Fruit::set_dir() {
-	if (steps == MAX_STEPS) {
-		steps = 0;
-		direction = generate_random_dir();
-	}
-	else
-		steps++;
-}
 Entity::Shape Fruit::num_to_shape(int val)
 {
 	if (val == 5)
@@ -40,14 +32,14 @@ Entity::Shape Fruit::num_to_shape(int val)
 }
 Position& Fruit::handle_move()
 {
-	set_dir();
+	novice_lvl();
 	Position next_pos = move_dir();
 	//while (!board.is_valid_move(next_pos))//TODO-YAREN-CHECK WHAT BETTER
 	while(is_invalid_place(next_pos)
 		|| !board.is_valid_move(next_pos))
 	{
 		rotate_direction();
-		set_dir();
+		novice_lvl();
 		next_pos = move_dir();
 	}
 	return next_pos;

@@ -1,5 +1,6 @@
 #pragma once
 #include "Board.h"
+#define MAX_STEPS 20//for ghosts and fruit
 class Entity {
     
 
@@ -47,6 +48,7 @@ public:
     bool is_collided(const Position& curr_pos, const Position& next_pos, int against_direction);
     virtual Position& handle_move() = 0;
     
+    
 protected:
     Position pos;
     int direction;
@@ -54,7 +56,14 @@ protected:
     Shape shape;
     Board::Color color;
     Board board;
-    
+
+    //only for ghosts and fruit:
+    int generate_random_dir() { return rand() % 4; }
+    int steps = 0;
+    void rotate_direction() {
+        if (direction == (int)Direction::RIGHT) { direction = (int)Direction::UP; }
+        else { direction++; }}
+    void novice_lvl();
 
 private:
     

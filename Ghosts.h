@@ -3,7 +3,6 @@
 #include "Entity.h"
 
 #include <queue>
-#define MAX_STEPS 20
 
 enum Ghost_mode {
     Smart,
@@ -15,8 +14,6 @@ class Ghosts:public Entity
 
 private:
     int mode;
-    int steps;
-    int generate_random_dir() { return rand() % 4; }
     int random_steps;//TODO -CHANGE NAME
     int generate_random_steps() {
         return 1 + rand() % 15;
@@ -49,14 +46,9 @@ public:
         pacman_pos = _pacman_pos;
     }
     //--Game Logic Fucns: --//
-    void rotate_direction(const Position & next_pos) {
-        if (direction == (int)Direction::RIGHT) { direction = (int)Direction::UP; }
-        else { direction++; }
-    }
-    void novice_lvl_ghost();
     void smart(const Position& target);
 
-    void good_lvl_ghost(Position target);
+    void good_lvl(Position target);
     bool is_invalid_place(const Position& next_pos);
     Position& handle_move();
 

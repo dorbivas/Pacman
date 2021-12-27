@@ -2,19 +2,10 @@
 using std::queue;
 using std::list;
 
-void Ghosts::novice_lvl_ghost(){
-	if (steps == MAX_STEPS) {
-		steps = 0;
-		direction = generate_random_dir();
-	}
-	else
-		steps++;
-}
-
-void Ghosts::good_lvl_ghost(Position target)
+void Ghosts::good_lvl(Position target)
 {
 	if ((steps >= 0 && steps <= 5) && novice_smart_switch) {
-		novice_lvl_ghost();
+		novice_lvl();
 		novice_smart_switch = true;
 	}
 	else if (steps == 6 && novice_smart_switch)
@@ -99,17 +90,17 @@ Position& Ghosts::handle_move()
 	if (get_mode() == Smart)
 		smart(pacman_pos);
 	else if (get_mode() == Good)
-		good_lvl_ghost(pacman_pos);
+		good_lvl(pacman_pos);
 	else
-		novice_lvl_ghost();
+		novice_lvl();
 
 	next_pos = move_dir();
 	if (get_mode() == Novice || get_novice_smart_switch())
 	{
 		while (is_invalid_place(next_pos)||!board.is_valid_move(next_pos))
 		{
-			rotate_direction(next_pos);
-			novice_lvl_ghost();
+			rotate_direction();
+			novice_lvl();
 			next_pos = move_dir();
 		}
 	}

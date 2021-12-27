@@ -51,4 +51,12 @@ bool Entity::invalid_place(const Position& next_pos)
 		(next_pos.get_x() <= 0) ||
 		(next_pos.get_x() <= 0));
 }
+void Entity::novice_lvl() {
+	if (steps == MAX_STEPS) {
+		steps = 0;
+		direction = generate_random_dir();
+	}
+	else
+		steps++;
+}
 

@@ -51,321 +51,151 @@ void Board::load_board(const string& file_name)
 
 void Board::board_from_file(ifstream& file_input)
 {
-	int char_counter = 0, curr_col = 0, legend_flag = 0, is_first_line = 0, size;
-	unsigned char prev_char = 'x'; 
+	int char_counter = 0, curr_col = 0, legend_flag = 0, file_size;
+	bool is_first_line = false;
+	unsigned char prev_char = 32;
 
-	size = file_input.tellg();
+	file_input.seekg(0, ios::end);
+	file_size = file_input.tellg(); 
 	file_input.seekg(0, file_input.beg);
 
-
-
-	while (char_counter < size)
+	while (char_counter < file_size)
 	{
-	
 		unsigned char curr_char = file_input.get();
-		if (is_first_line != 0 && curr_col >= cols) // if the line is over the first line of the board
+		if (is_first_line == true && curr_col >= cols)
 		{
-
-			while (curr_char != '\n' && char_counter <= size)
+			while (curr_char != '\n' && char_counter <= file_size)
 			{
 				char_counter++;
 				curr_char = file_input.get();
 			}
-			if (char_counter < size)
-			{
+			if (char_counter <= file_size)
 				rows++;
-			}
-			char_counter += 2;
+			
+			char_counter = char_counter + 2;
 			curr_col = 0;
 		}
 		else
 		{
 			if (curr_char == '#')
-			{
 				board[rows][curr_col] = WALL;
+
+			else if (curr_char == '@')
+			{
+				inital_pacman_pos.set_xy(curr_col, rows);
+				board[rows][curr_col] = S; // pac start on empty space so he wont add score
+				how_many_pacmans++;
 			}
+
 			else if (curr_char == '$')
 			{
 				inital_ghosts_pos[num_of_ghosts++].set_xy(curr_col, rows);
 				board[rows][curr_col] = S;
 			}
-			else if (curr_char == '@')
-			{
-				inital_pacman_pos.set_xy(curr_col, rows);
-				board[rows][curr_col] = S;
-			}
+		
 			else if (curr_char == '%')
-			{
 				board[rows][curr_col] = S;
-			}
+
 			else if (curr_char == S)
 			{
 				max_score++;
 				curr_char = POINT;
 				board[rows][curr_col] = curr_char;
 			}
+
 			else if (curr_char == '&')
 			{
-
+				if (is_first_line &&  MAX_LEGEND_COLS + curr_col > cols) // the legend_pos is out of bound
+				{
+					//exceptionBoard.setMessage("The legend is out of bounds.");
+				}
 				legend_pos.set_xy(curr_col, rows);
 				board[rows][curr_col] = S;
 				legend_flag = 1;
+				how_many_legends++;
 			}
-			else if (curr_char == '\n')
+			else if (char_counter + 1 == file_size || curr_char == '\n')
 			{
-				if (is_first_line == 0 && legend_flag == 1) // if the legend_pos appeared in the first line
+				if (!is_first_line) // if we in the first line
 				{
-					if (legend_pos.get_x() + 19 > cols) // if the legend_pos is in the size of the line
+					if (curr_col >= MAX_WIDTH)
 					{
-						cols = legend_pos.get_x() + 19; //set the new line to be in the size of the legend_pos
+						//exceptionBoard.setMessage("The first line is out of bounds.");
+					}
+					else if (legend_flag == 1 && MAX_WIDTH - legend_pos.get_x() < 20) // if the legend_pos appeared && no enough space for the legend_pos
+					{
+						//exceptionBoard.setMessage("The legend is out of bounds.");
+					}
+					if (legend_flag == 1 && legend_pos.get_x() + 19 > cols) 
+					{
+						cols = legend_pos.get_x() + 19; 
 					}
 				}
-				if (is_first_line != 0 && curr_col < cols) // if the line is shorter then the first line
+				if (is_first_line && curr_col < cols) 
 				{
 					insert_single_line(curr_col);
 					curr_col = 0;
 				}
 				else
 				{
-					is_first_line = 1;
+					is_first_line = true;
 					curr_col = 0;
 				}
 				char_counter++;
 				rows++;
+
 			}
-			else // if its a non-valid key
+			else 
 			{
-				board[rows][curr_col] = S; // as a default - we use it as %
+				board[rows][curr_col] = S; 
 				char_counter++;
-
 			}
 
-			if (char_counter + 1 == size && curr_col + 1 < cols) // if we are in the last curr_char buf the line is shorter then the first 
-			{
-				insert_single_line(curr_col + 1);
-			}
-			if (is_first_line == 0)
-			{
+			if (!is_first_line)
 				cols++;
-			}
+
+			if (file_size == char_counter + 1 && curr_col + 1 < cols)
+				insert_single_line(curr_col + 1);
+			
 			if (curr_char != '\n')
 			{
 				curr_col++;
 				prev_char = curr_char;
 			}
 			char_counter++;
-
 		}
-
 	}
-
-
-	//while (char_counter < size)
-	//{
-	//	unsigned char curr_char = file_input.get();
-	//	if (is_first_line != 0 && curr_col >= cols) // if the line is over the first line of the board
-	//	{
-	//		while (curr_char != '\n' && char_counter <= size) {
-	//			char_counter++;
-	//			curr_char = file_input.get();
-	//		}
-	//		if (char_counter < size)
-	//			rows++;
-	//		
-	//		char_counter += 2;
-	//		curr_col = 0;
-	//	}
-	//	else
-	//	{
-	//		if (curr_char == '#')
-	//			board[rows][curr_col] = WALL;
-	//		
-	//		else if (curr_char == '@')
-	//		{
-	//			inital_pacman_pos.set_xy(curr_col, rows);
-	//			board[rows][curr_col] = S; // pac start on empty space so he wont add score
-	//		}
-	//		else if (curr_char == '%')
-	//			board[rows][curr_col] = S;
-
-	//		else if (curr_char == '$')
-	//		{
-	//			inital_ghosts_pos[num_of_ghosts++].set_xy(curr_col, rows);
-	//			board[rows][curr_col] = S;
-	//		}
-	//		
-	//		else if (curr_char == S)
-	//		{
-	//			max_score++;
-	//			curr_char = POINT;
-	//			board[rows][curr_col] = curr_char;
-	//		}
-	//		else if (curr_char == '&')
-	//		{
-	//			legend_pos.set_xy(curr_col, rows);
-	//			board[rows][curr_col] = S;
-	//			legend_flag = 1;
-	//		}
-	//		else if (curr_char == '\n')
-	//		{
-	//			if (is_first_line == 0 && legend_flag == 1) 
-	//			{
-	//				if (legend_pos.get_x() + 19 > cols) 
-	//					cols = legend_pos.get_x() + 19; 
-	//			}
-	//			if (is_first_line != 0 && curr_col < cols) 
-	//			{
-	//				insert_single_line(curr_col);
-	//				curr_col = 0;
-	//			}
-	//			else
-	//			{
-	//				is_first_line = 1;
-	//				curr_col = 0;
-	//			}
-	//			char_counter++;
-	//			rows++;
-	//		}
-	//		else // if its unvalid char
-	//		{
-	//			board[rows][curr_col] = S; 
-	//			char_counter++;
-	//		}
-
-	//		if (char_counter + 1 == size && curr_col + 1 < cols) 
-	//			insert_single_line(curr_col + 1);
-
-	//		if (is_first_line == 0)
-	//			cols++;
-
-	//		if (curr_char != '\n')
-	//		{
-	//			curr_col++;
-	//			prev_char = curr_char;
-	//		}
-	//		char_counter++;
-	//	}
-	//}
-	rows++;
-
 	insert_teleports();
 	handle_legend();
 	search_points();
 }
-
-
-//
-//
-//void Board::handleRead(const char read, int& row, int& col, int& countChars) {
-//	switch (read)
-//	{
-//	case '\n':
-//		if (row == 0)
-//			cols = col;	  // first line sets the board's width	
-//		while (col < cols) { // handle case where current row length < first row
-//			board[row][col] = ' ';
-//			col++;
-//		}
-//		row++;
-//		col = -1;
-//		countChars++;		  // '\n' weight as 2 chars when read from file
-//		break;
-//	case '@':
-//		inital_pacman_pos.set_xy(col, row);
-//		board[row][col] = S;
-//		break;
-//	case '$':
-//		if (num_of_ghosts < 4) {
-//
-//			inital_ghosts_pos[num_of_ghosts++].set_xy(col, row);
-//			board[row][col] = S;
-//		}
-//		board[row][col] = ' ';
-//		break;
-//	case '&':
-//		legend_pos.set_xy(col, row);
-//		board[row][col] = S;
-//
-//		break;
-//	case '%':
-//		board[row][col] = ' ';
-//		break;
-//	case '#':
-//		board[row][col] = WALL;
-//		break;
-//	case ' ':
-//		max_score++;
-//		board[row][col] = POINT;
-//
-//		break;
-//	default:
-//		board[row][col] = ' ';
-//		break;
-//	}
-//}
-
-//
-//void Board::board_from_file(ifstream& file_input)
-//{
-//	int char_counter = 0, curr_col = 0, curr_row= 0,  legend_flag = 0, is_first_line = 0, size;
-//	unsigned char prev_char = 'x';
-//
-//	size = file_input.tellg();
-//	file_input.seekg(0, file_input.beg);
-//
-//	while ((char_counter <= size) && (curr_row <= MAX_HEIGHT) && (curr_col <= MAX_WIDTH))
-//	{
-//		unsigned char curr_char = file_input.get();
-//		handleRead(curr_char, curr_row, curr_col, char_counter);
-//
-//		curr_col++;
-//		char_counter++;
-//	}
-//	rows = curr_row - 1;
-//
-//	insert_teleports();
-//	handle_legend();
-//	search_points();
-//}
-
-
 
 void Board::insert_single_line(int curr_col){
 	while (curr_col < cols)
 		board[rows][curr_col++] = S;
 }
 
+void Board::handle_legend()
+{
+	if (legend_pos.get_y() + 1 == rows)
+		rows = rows + 2;
+	else
+		rows++;
 
+	for (int i = 0; i < MAX_LEGEND_ROWS; i++)
+	{
+		for (int j = 0; j < MAX_LEGEND_COLS; j++)
+		{
+			if (board[legend_pos.get_y() + i][legend_pos.get_x() + j] == POINT)
+				max_score--;
 
-void Board::handle_legend() {
+			board[legend_pos.get_y() + i][legend_pos.get_x() + j] = S; 
+		}
 
-	int row = legend_pos.get_y();
-	int col = legend_pos.get_x();
-
-	for (int j = 0; j < 3; j++)
-		for (int i = 0; i < 20; i++)
-			board[row + j][col + i] = ' ';
+		if (legend_pos.get_y() + i >= rows)
+			rows++;
+	}
 }
-
-
-//void Board::handle_legend(const Position& legend_pos)
-//{
-//	if (legend_pos.get_y() == rows) // if the legend_pos is the last line
-//		rows += 2;
-//
-//	for (int i = 0; i < MAX_LEGEND_ROWS; i++)
-//	{
-//		for (int j = 0; j < MAX_LEGEND_COLS; j++)
-//		{
-//			if (board[legend_pos.get_y() + i][legend_pos.get_x() + j] == POINT)
-//				max_score--;
-//
-//			board[legend_pos.get_y() + i][legend_pos.get_x() + j] = S; // clear the legend_pos space.	
-//		}
-//		if (legend_pos.get_y() + i > rows)
-//			rows++;
-//	}
-//}
 
 void Board::make_board_empty() {
 	for (int i = 0; i < MAX_HEIGHT; i++) {
@@ -377,32 +207,18 @@ void Board::make_board_empty() {
 
 
 void Board::search_points() {
-	for (int i = 0; i <= rows; i++) {
-		for (int j = 0; j <= cols; j++)
-		{
+	for (int i = 0; i < rows; i++)
+	{
+		for (int j = 0; j < cols; j++)
 			if (board[i][j] == POINT)
 				points_valid_positions.push_back({ j, i });
-
-		}
 	}
 }
 
 void Board::insert_teleports()
 {
-	for (int i = 0; i <= rows; i++)
-	{
-		if (board[i][0] == POINT) 
-		{
-			max_score--;
-			board[i][0] = S;
-		}
-		if (board[i][cols - 1] == POINT)
-		{
-			board[i][cols - 1] = S;
-			max_score--;
-		}
-	}
-	for (int i = 0; i <= cols; i++)
+
+	for (int i = 0; i < cols; i++)
 	{
 		if (board[0][i] == POINT)
 		{
@@ -416,8 +232,20 @@ void Board::insert_teleports()
 		}
 	}
 
+	for (int i = 0; i < rows; i++)
+	{
+		if (board[i][0] == POINT)
+		{
+			max_score--;
+			board[i][0] = S;
+		}
+		if (board[i][cols - 1] == POINT)
+		{
+			board[i][cols - 1] = S;
+			max_score--;
+		}
+	}
 }
-
 
 bool Board::is_valid_move(const Position new_pos)
 {
@@ -434,7 +262,6 @@ bool Board::is_valid_move(const Position new_pos)
 	return true;
 
 }
-
 
 void Board::our_spacial_board() {//EXTRA
 
@@ -472,7 +299,9 @@ void Board::our_spacial_board() {//EXTRA
 	{
 		for (int j = 0; j < MAX_WIDTH; j++)
 		{
+
 			this->board[i][j] = default_board[i][j];
 		}
 	}
 }
+

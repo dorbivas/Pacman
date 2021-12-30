@@ -5,7 +5,7 @@
 
 class Game{
 private:
-    static const int MAX_POINTS = 300, SPEED = 150, PAUSE_X = 1, PAUSE_Y = 26; 
+    static const int MAX_POINTS = 100, SPEED = 150, PAUSE_X = 1, PAUSE_Y = 26; 
     Pacman pacman;
     Ghosts ghosts[Board::MAX_SIZES::MAX_GHOSTS];
     Fruit fruit;

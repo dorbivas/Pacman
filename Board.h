@@ -35,7 +35,8 @@ public:
     };
 private:
     unsigned char board[MAX_HEIGHT][MAX_WIDTH];
-    int rows, cols, max_score, num_of_ghosts;
+    int rows, cols, max_score, num_of_ghosts, how_many_pacmans=0, how_many_legends = 0 ;
+
     Position inital_pacman_pos;
     Position inital_ghosts_pos[MAX_GHOSTS];
     Position legend_pos;
@@ -46,8 +47,8 @@ private:
     void board_from_file(ifstream& file_input);
     void insert_single_line(int curr_col);
     void insert_teleports();
-    //void handle_legend(const Position& legend_pos);
     void handle_legend();
+
     void make_board_empty();
     void search_points();
    

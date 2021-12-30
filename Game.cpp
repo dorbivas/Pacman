@@ -195,22 +195,22 @@ Position& Game::handle_teleport(Position& next_pos)
 
 	if (next_pos.get_x() == last_col - 1 && pacman_direction == 3)
 	{
-		next_pos.set_xy(0, next_pos.get_y());
+		next_pos.set_xy(1, next_pos.get_y());
 		pacman.set_direction((int)Entity::Direction::RIGHT);
 	}
-	if (next_pos.get_x() == 0 && pacman_direction == 2)
+	if (next_pos.get_x() == 0 && pacman_direction == 2 )
 	{
-		next_pos.set_xy(last_col - 1, next_pos.get_y());
+		next_pos.set_xy(last_col - 2, next_pos.get_y());
 		pacman.set_direction((int)Entity::Direction::LEFT);
 	}
 	if (next_pos.get_y() == last_row - 1 && pacman_direction == 1)
 	{
-		next_pos.set_xy(next_pos.get_x(), 0);
+		next_pos.set_xy(next_pos.get_x(), 1);
 		pacman.set_direction((int)Entity::Direction::DOWN);
 	}
 	if (next_pos.get_y() == 0 && pacman_direction == 0)
 	{
-		next_pos.set_xy(next_pos.get_x(), last_row - 1);
+		next_pos.set_xy(next_pos.get_x(), last_row - 2);
 		pacman.set_direction((int)Entity::Direction::UP);
 	}
 	return next_pos;

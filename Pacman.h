@@ -9,7 +9,6 @@ private:
 	int souls = STARTING_SOULS;
 	int score = ZERO_POINTS;
 	
-
 public:
 	enum pacman_table { STARTING_SOULS = 30, ZERO_POINTS = 0};
 	//--Constructor --//
@@ -22,7 +21,6 @@ public:
 
 	//--Data Members Funcs: --//
 	void set_souls(int souls);
-
 
 	int get_souls()const;
 	int get_score() const;

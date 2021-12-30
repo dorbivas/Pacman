@@ -57,12 +57,17 @@ void Board::board_from_file(ifstream& file_input)
 	size = file_input.tellg();
 	file_input.seekg(0, file_input.beg);
 
+
+
 	while (char_counter < size)
 	{
+	
 		unsigned char curr_char = file_input.get();
 		if (is_first_line != 0 && curr_col >= cols) // if the line is over the first line of the board
 		{
-			while (curr_char != '\n' && char_counter <= size) {
+
+			while (curr_char != '\n' && char_counter <= size)
+			{
 				char_counter++;
 				curr_char = file_input.get();
 			}
@@ -76,22 +81,23 @@ void Board::board_from_file(ifstream& file_input)
 		else
 		{
 			if (curr_char == '#')
-				board[rows][curr_col] = '#';
-			
-			else if (curr_char == '@')
 			{
-				inital_pacman_pos.set_xy(curr_col, rows);
-				board[rows][curr_col] = S; // pac start on empty space so he wont add score
+				board[rows][curr_col] = WALL;
 			}
-			else if (curr_char == '%')
-				board[rows][curr_col] = S;
-
 			else if (curr_char == '$')
 			{
 				inital_ghosts_pos[num_of_ghosts++].set_xy(curr_col, rows);
 				board[rows][curr_col] = S;
 			}
-			
+			else if (curr_char == '@')
+			{
+				inital_pacman_pos.set_xy(curr_col, rows);
+				board[rows][curr_col] = S;
+			}
+			else if (curr_char == '%')
+			{
+				board[rows][curr_col] = S;
+			}
 			else if (curr_char == S)
 			{
 				max_score++;
@@ -100,18 +106,21 @@ void Board::board_from_file(ifstream& file_input)
 			}
 			else if (curr_char == '&')
 			{
+
 				legend_pos.set_xy(curr_col, rows);
 				board[rows][curr_col] = S;
 				legend_flag = 1;
 			}
 			else if (curr_char == '\n')
 			{
-				if (is_first_line == 0 && legend_flag == 1) 
+				if (is_first_line == 0 && legend_flag == 1) // if the legend_pos appeared in the first line
 				{
-					if (legend_pos.get_x() + 19 > cols) 
-						cols = legend_pos.get_x() + 19; 
+					if (legend_pos.get_x() + 19 > cols) // if the legend_pos is in the size of the line
+					{
+						cols = legend_pos.get_x() + 19; //set the new line to be in the size of the legend_pos
+					}
 				}
-				if (is_first_line != 0 && curr_col < cols) 
+				if (is_first_line != 0 && curr_col < cols) // if the line is shorter then the first line
 				{
 					insert_single_line(curr_col);
 					curr_col = 0;
@@ -124,31 +133,201 @@ void Board::board_from_file(ifstream& file_input)
 				char_counter++;
 				rows++;
 			}
-			else // if its unvalid char
+			else // if its a non-valid key
 			{
-				board[rows][curr_col] = S; 
+				board[rows][curr_col] = S; // as a default - we use it as %
 				char_counter++;
+
 			}
 
-			if (char_counter + 1 == size && curr_col + 1 < cols) 
+			if (char_counter + 1 == size && curr_col + 1 < cols) // if we are in the last curr_char buf the line is shorter then the first 
+			{
 				insert_single_line(curr_col + 1);
-
+			}
 			if (is_first_line == 0)
+			{
 				cols++;
-
+			}
 			if (curr_char != '\n')
 			{
 				curr_col++;
 				prev_char = curr_char;
 			}
 			char_counter++;
+
 		}
+
 	}
+
+
+	//while (char_counter < size)
+	//{
+	//	unsigned char curr_char = file_input.get();
+	//	if (is_first_line != 0 && curr_col >= cols) // if the line is over the first line of the board
+	//	{
+	//		while (curr_char != '\n' && char_counter <= size) {
+	//			char_counter++;
+	//			curr_char = file_input.get();
+	//		}
+	//		if (char_counter < size)
+	//			rows++;
+	//		
+	//		char_counter += 2;
+	//		curr_col = 0;
+	//	}
+	//	else
+	//	{
+	//		if (curr_char == '#')
+	//			board[rows][curr_col] = WALL;
+	//		
+	//		else if (curr_char == '@')
+	//		{
+	//			inital_pacman_pos.set_xy(curr_col, rows);
+	//			board[rows][curr_col] = S; // pac start on empty space so he wont add score
+	//		}
+	//		else if (curr_char == '%')
+	//			board[rows][curr_col] = S;
+
+	//		else if (curr_char == '$')
+	//		{
+	//			inital_ghosts_pos[num_of_ghosts++].set_xy(curr_col, rows);
+	//			board[rows][curr_col] = S;
+	//		}
+	//		
+	//		else if (curr_char == S)
+	//		{
+	//			max_score++;
+	//			curr_char = POINT;
+	//			board[rows][curr_col] = curr_char;
+	//		}
+	//		else if (curr_char == '&')
+	//		{
+	//			legend_pos.set_xy(curr_col, rows);
+	//			board[rows][curr_col] = S;
+	//			legend_flag = 1;
+	//		}
+	//		else if (curr_char == '\n')
+	//		{
+	//			if (is_first_line == 0 && legend_flag == 1) 
+	//			{
+	//				if (legend_pos.get_x() + 19 > cols) 
+	//					cols = legend_pos.get_x() + 19; 
+	//			}
+	//			if (is_first_line != 0 && curr_col < cols) 
+	//			{
+	//				insert_single_line(curr_col);
+	//				curr_col = 0;
+	//			}
+	//			else
+	//			{
+	//				is_first_line = 1;
+	//				curr_col = 0;
+	//			}
+	//			char_counter++;
+	//			rows++;
+	//		}
+	//		else // if its unvalid char
+	//		{
+	//			board[rows][curr_col] = S; 
+	//			char_counter++;
+	//		}
+
+	//		if (char_counter + 1 == size && curr_col + 1 < cols) 
+	//			insert_single_line(curr_col + 1);
+
+	//		if (is_first_line == 0)
+	//			cols++;
+
+	//		if (curr_char != '\n')
+	//		{
+	//			curr_col++;
+	//			prev_char = curr_char;
+	//		}
+	//		char_counter++;
+	//	}
+	//}
 	rows++;
+
 	insert_teleports();
-	handle_legend(legend_pos);
+	handle_legend();
 	search_points();
 }
+
+
+//
+//
+//void Board::handleRead(const char read, int& row, int& col, int& countChars) {
+//	switch (read)
+//	{
+//	case '\n':
+//		if (row == 0)
+//			cols = col;	  // first line sets the board's width	
+//		while (col < cols) { // handle case where current row length < first row
+//			board[row][col] = ' ';
+//			col++;
+//		}
+//		row++;
+//		col = -1;
+//		countChars++;		  // '\n' weight as 2 chars when read from file
+//		break;
+//	case '@':
+//		inital_pacman_pos.set_xy(col, row);
+//		board[row][col] = S;
+//		break;
+//	case '$':
+//		if (num_of_ghosts < 4) {
+//
+//			inital_ghosts_pos[num_of_ghosts++].set_xy(col, row);
+//			board[row][col] = S;
+//		}
+//		board[row][col] = ' ';
+//		break;
+//	case '&':
+//		legend_pos.set_xy(col, row);
+//		board[row][col] = S;
+//
+//		break;
+//	case '%':
+//		board[row][col] = ' ';
+//		break;
+//	case '#':
+//		board[row][col] = WALL;
+//		break;
+//	case ' ':
+//		max_score++;
+//		board[row][col] = POINT;
+//
+//		break;
+//	default:
+//		board[row][col] = ' ';
+//		break;
+//	}
+//}
+
+//
+//void Board::board_from_file(ifstream& file_input)
+//{
+//	int char_counter = 0, curr_col = 0, curr_row= 0,  legend_flag = 0, is_first_line = 0, size;
+//	unsigned char prev_char = 'x';
+//
+//	size = file_input.tellg();
+//	file_input.seekg(0, file_input.beg);
+//
+//	while ((char_counter <= size) && (curr_row <= MAX_HEIGHT) && (curr_col <= MAX_WIDTH))
+//	{
+//		unsigned char curr_char = file_input.get();
+//		handleRead(curr_char, curr_row, curr_col, char_counter);
+//
+//		curr_col++;
+//		char_counter++;
+//	}
+//	rows = curr_row - 1;
+//
+//	insert_teleports();
+//	handle_legend();
+//	search_points();
+//}
+
 
 
 void Board::insert_single_line(int curr_col){
@@ -156,24 +335,37 @@ void Board::insert_single_line(int curr_col){
 		board[rows][curr_col++] = S;
 }
 
-void Board::handle_legend(const Position& legend_pos)
-{
-	if (legend_pos.get_y() == rows) // if the legend is the last line
-		rows += 2;
 
-	for (int i = 0; i < MAX_LEGEND_ROWS; i++)
-	{
-		for (int j = 0; j < MAX_LEGEND_COLS; j++)
-		{
-			if (board[legend_pos.get_y() + i][legend_pos.get_x() + j] == POINT)
-				max_score--;
 
-			board[legend_pos.get_y() + i][legend_pos.get_x() + j] = S; // clear the legend space.	
-		}
-		if (legend_pos.get_y() + i > rows)
-			rows++;
-	}
+void Board::handle_legend() {
+
+	int row = legend_pos.get_y();
+	int col = legend_pos.get_x();
+
+	for (int j = 0; j < 3; j++)
+		for (int i = 0; i < 20; i++)
+			board[row + j][col + i] = ' ';
 }
+
+
+//void Board::handle_legend(const Position& legend_pos)
+//{
+//	if (legend_pos.get_y() == rows) // if the legend_pos is the last line
+//		rows += 2;
+//
+//	for (int i = 0; i < MAX_LEGEND_ROWS; i++)
+//	{
+//		for (int j = 0; j < MAX_LEGEND_COLS; j++)
+//		{
+//			if (board[legend_pos.get_y() + i][legend_pos.get_x() + j] == POINT)
+//				max_score--;
+//
+//			board[legend_pos.get_y() + i][legend_pos.get_x() + j] = S; // clear the legend_pos space.	
+//		}
+//		if (legend_pos.get_y() + i > rows)
+//			rows++;
+//	}
+//}
 
 void Board::make_board_empty() {
 	for (int i = 0; i < MAX_HEIGHT; i++) {

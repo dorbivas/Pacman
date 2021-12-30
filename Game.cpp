@@ -7,12 +7,15 @@ Game::Game() {
 void Game::game() {
 	
 	//for yarden:(TODO- fix_dir_yarden)
-	file_names.push_back("pacman_01.screen");
-	file_names.push_back("pacman_02.screen");
-	file_names.push_back("pacman_03.screen");
+	//file_names.push_back("pacman_01.screen");
+	//file_names.push_back("pacman_02.screen");
+	//file_names.push_back("pacman_03.screen");
 	//for dor:
+	// 
 	//find_files();
-	load_game_from_files();
+	//load_game_from_files();
+	load_new_board_to_play("pacman_03.screen");
+
 	
 	Position next_pos;
 	unsigned char temp;
@@ -152,6 +155,12 @@ void Game::handle_collision() {
 	print_move(pacman.get_position(), Entity::Shape::GHOST);
 	pacman.set_position((int)board.get_inital_pacman_pos().get_x(), (int)board.get_inital_pacman_pos().get_y()); //returns the pacman to its original position
 	pacman.set_direction((int)Entity::Direction::STAY);
+
+	//for (int i = 0; i < board.get_num_of_ghosts(); i++) { //TODO plaster func+
+	//	ghosts[i].set_position(board.get_ghost_pacman_pos()[i].get_x(), board.get_ghost_pacman_pos()[i].get_y());
+	//	print_move(pacman.get_position(), Entity::Shape::GHOST);
+	//}
+
 	if (pacman.get_souls() == 0)
 	{
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (int)Board::Color::WHITE);

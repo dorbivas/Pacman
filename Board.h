@@ -11,7 +11,7 @@ using std::vector;
 class Board {
 
 public:
-    enum board_signs { P = '.', W = '#', T = 176, S = ' ', POINT = '.' , WALL = '#' , TELEPORT = 176 };
+    enum board_signs { P = '.', W = '#', T = 176, S = ' ', POINT = '.' , WALL = 219 , TELEPORT = 176 };
     enum MAX_SIZES { MAX_WIDTH = 80, MAX_HEIGHT = 25,MAX_GHOSTS = 2 };
     enum legend_size{ MAX_LEGEND_ROWS = 3, MAX_LEGEND_COLS = 20 };
 
@@ -46,7 +46,8 @@ private:
     void board_from_file(ifstream& file_input);
     void insert_single_line(int curr_col);
     void insert_teleports();
-    void handle_legend(const Position& legend_pos);
+    //void handle_legend(const Position& legend_pos);
+    void handle_legend();
     void make_board_empty();
     void search_points();
    
@@ -80,6 +81,7 @@ public:
 
     void setTotalScore() { max_score--; } 
 
+    //void handleRead(const char read, int& row, int& col, int& countChars);// TEST TODO
 
 
 };

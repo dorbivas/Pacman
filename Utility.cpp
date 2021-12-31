@@ -1,5 +1,7 @@
 #include "Utility.h"
 
+bool IS_SILENT = false; // TODO: comment
+
 void goto_xy(const int x,const int y){
     cout.flush();      //clean the buffer before printing in this coordinate                          
     COORD pos{ (short)x, (short)y };
@@ -19,3 +21,14 @@ bool is_valid_key(const unsigned char c) {
          || c == 'A' || c == 'D' || c == 'W' || c == 'S' || c == 'X' || c == ESC);
 }   
 
+void my_print(string str)
+{
+    if (!IS_SILENT)
+        cout << str;
+}
+
+void my_print(unsigned char c)
+{
+    if (!IS_SILENT)
+        cout << c;
+}

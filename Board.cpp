@@ -9,25 +9,29 @@ void Board::print_board(const bool color_mode) {
 			{
 				if (color_mode)
 					set_color((int)Color::LIGHTCYAN);
-				cout << board[i][j];
+				//cout << board[i][j];
+				my_print(board[i][j]);
 			}
 			else if (board[i][j] == (unsigned char)P)
 			{
 				if (color_mode)
 					set_color((int)Color::LIGHTGREY);
-				cout << board[i][j];
+				//cout << board[i][j];
+				my_print(board[i][j]);
 
 			}
 			else if (board[i][j] == (unsigned char)TELEPORT)
 			{
 				if (color_mode)
 					set_color((int)Color::LIGHTBLUE);
-				cout << board[i][j];
+				//cout << board[i][j];
+				my_print(board[i][j]);
 			}
 			else {
 				if (color_mode)
 					set_color((int)Color::WHITE);
-				cout << board[i][j];
+				//cout << board[i][j];
+				my_print(board[i][j]);
 			}
 		}
 		cout << endl;

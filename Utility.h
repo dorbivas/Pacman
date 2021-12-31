@@ -38,17 +38,10 @@ enum Keys {
 	ESC = 27
 };
 
-
-
-
 	//--Game Logic Fucns: --//
 void goto_xy(const int x, const int y);
 bool is_valid_key(const unsigned char c);
 
 void cursor_visibility(bool showFlag);
-
-
-
-
-
-
+void my_print(string str);
+void my_print(unsigned char c);

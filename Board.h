@@ -78,7 +78,7 @@ public:
     int get_rows() const { return rows; }
 
     int getOptionalIndex() const { return points_valid_positions.size(); } 
-    const Position& getAPointForFruit(int num) const { return points_valid_positions[num]; }
+    const Position& getAPointForFruit(int num) const { return points_valid_positions[num]; } //TODO
 
     void setTotalScore() { max_score--; } 
 

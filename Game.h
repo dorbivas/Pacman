@@ -5,7 +5,7 @@
 #include "save.h"
 #include "load.h"
 
-class Game{
+class Game {
 private:
     static const int MAX_POINTS = 100, SPEED = 150, PAUSE_X = 1, PAUSE_Y = 26; 
     Pacman pacman;
@@ -79,7 +79,9 @@ private:
 
 public:
     Game();
-    void run_menu() { menu.handle_menu(); } 
+    void run_menu() { menu.handle_menu(); }
+    void run_load() { } // TODO
+    void run_silent() { } // TODO silent = true
 };
 
 

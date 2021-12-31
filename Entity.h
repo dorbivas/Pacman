@@ -32,6 +32,7 @@ public:
     int get_direction() const { return direction; }
     Board::Color get_color() const { return color; }
     Shape get_shpae() const { return shape; }
+    int get_total_steps() { return counter_of_steps; }//TODO-BETTER NAME
 
     void set_speed(int speed) { this->speed = speed; }
     void set_position(Position& pos) { this->pos = pos; }
@@ -40,6 +41,7 @@ public:
     void set_direction(int direction) { this->direction = direction; }
     void set_shape(Shape direction) { this->shape = shape; }
     void set_board(Board& board) { this->board = board; }
+    void add_step(int step) { counter_of_steps += step; }//TODO-BETTER NAME
 
     //--Game Logic Fucns: --//
     virtual bool is_invalid_place(const Position& next_pos) = 0;
@@ -56,7 +58,7 @@ protected:
     Shape shape;
     Board::Color color;
     Board board;
-
+    int counter_of_steps = 0;//TODO-BETTER NAME
     //only for ghosts and fruit:
     int generate_random_dir() { return rand() % 4; }
     int steps = 0;

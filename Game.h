@@ -2,6 +2,8 @@
 #include "Pacman.h"
 #include "Ghosts.h"
 #include "Fruit.h"
+#include "save.h"
+#include "load.h"
 
 class Game{
 private:
@@ -10,6 +12,9 @@ private:
     Ghosts ghosts[Board::MAX_SIZES::MAX_GHOSTS];
     Fruit fruit;
     Board board;
+    Load load;
+    Save save;
+
     Ghost_mode ghosts_level_mode= Ghost_mode::Novice;
     vector<string> file_names;
 
@@ -17,6 +22,7 @@ private:
     bool color_mode = true;
     bool loop_flag = false;
     bool first_run_done = false;
+    bool fruit_is_dead = false;
     unsigned char current_key;
 
     
@@ -52,11 +58,10 @@ private:
     void handle_ghost_move();
     void handle_fruit_move();
     void handle_score(Position& next_pos);
-    Position& my_teleport(Position& next_pos);
     void handle_collision();
     Position& handle_teleport(Position& pacman_pos);
     void print_move(const Position pos, Entity::Shape shape);
-    bool is_collided_ghost();
+    void init_ghosts();
     bool is_my_teleporting(const Position& next_pos) {
         return (board.get_cell(next_pos) == (unsigned char)Board::TELEPORT);
     }

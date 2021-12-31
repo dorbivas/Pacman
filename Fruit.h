@@ -10,6 +10,7 @@ public:
 	Fruit() {
 		color = Board::Color::WHITE;
 	}
+	~Fruit(){}
 
 
 	//--Game Logic Fucns: --//

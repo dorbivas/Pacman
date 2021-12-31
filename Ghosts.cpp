@@ -29,6 +29,7 @@ void Ghosts::good_lvl(Position target)
 
 
 }
+
 void Ghosts::smart(const Position& target)
 {
 	// Direction vectors
@@ -80,9 +81,11 @@ void Ghosts::smart(const Position& target)
 		}
 	}
 }
+
 bool Ghosts::is_invalid_place(const Position& next_pos) {
 	return invalid_place(next_pos);
 }
+
 Position& Ghosts::handle_move()
 {
 	Position curr_pos = get_position();

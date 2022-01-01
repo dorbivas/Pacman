@@ -63,8 +63,11 @@ void Game::game() {
 
 	system("cls");
 
-	if(save_mode)
+	if (save_mode)
+	{
 		save.finish();
+		save.Write_to_file(pacman.get_total_steps());
+	}
 	return;
 }
 
@@ -610,14 +613,15 @@ void Game::run_load()
 {
 	update_values_from_file();
 	
-	load_new_board_to_play("pacman_03.screen");
+	load_new_board_to_play("pacman_03.screen");//TODO
 
 	Position next_pos;
 	unsigned char temp;
 	
 	while (!loop_flag)
 	{
-		Sleep(SPEED);
+		if(!IS_SILENT)
+			Sleep(SPEED);
 		if (is_valid_key(current_key))
 		{
 			handle_key_input(current_key);

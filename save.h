@@ -8,29 +8,23 @@
 class Save {
 
 public:
-    void init()
-    {
+    void init() {
         myfile.open("yarden_test.txt");
     }
-    void Write_to_file(const char buffer)
-    {
+    void Write_to_file(const char buffer) {
         myfile << buffer;
-
     }
 
-    void Write_to_file(const char* buffer)
-    {
+    void Write_to_file(const char* buffer) {
         myfile << buffer;
-
-    }
-    void Write_to_file(const int buffer)
-    {
-        myfile << buffer;
-
     }
 
-    void finish()
-    {
+    void Write_to_file(const int buffer) {
+        myfile << buffer;
+    }
+
+
+    void finish() {
         myfile.close();
     }
 

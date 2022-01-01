@@ -186,8 +186,8 @@ void Game::handle_fruit_move() {
 	if (pacman.get_total_steps() == 20)//fruit disappeard
 	{
 		fruit_is_dead = true;
-		
 		save.Write_to_file((const char)fruit.get_shape());
+		//save last position
 		save.Write_to_file(":");
 		save.Write_to_file("(");
 		save.Write_to_file(fruit.get_position().get_x());

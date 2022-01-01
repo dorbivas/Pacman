@@ -7,7 +7,7 @@ Game::Game() {
 }
 
 void Game::game() {
-	//find_files();
+	//find_files();//TODO
 	//load_game_from_files();
 	if(save_mode)
 		save.init();
@@ -28,6 +28,7 @@ void Game::game() {
 		Sleep(SPEED);
 		if (_kbhit())
 			current_key = _getch();
+
 		if (is_valid_key(current_key))
 		{
 			handle_key_input(current_key);
@@ -115,7 +116,6 @@ void Game::handle_pacman_move() {
 	board.set_cell(next_pos, Entity::Shape::PACMAN);
 
 	pacman.add_step(1);
-	//set to file
 }
 
 void Game::handle_ghost_move() {
@@ -203,7 +203,6 @@ void Game::handle_collision() {
 	pacman.set_position((int)board.get_inital_pacman_pos().get_x(), (int)board.get_inital_pacman_pos().get_y()); //returns the pacman to its original position
 	pacman.set_direction((int)Entity::Direction::STAY);
 
-	//init_ghosts();
 
 	if (pacman.get_souls() == 0)
 	{
@@ -271,11 +270,14 @@ void Game::display_score_souls() const {
 	goto_xy(board.get_legend_x(), board.get_legend_y());
 	if (color_mode)
 		board.set_color((int)Board::Color::LIGHTGREEN);
-	cout << "score: " << pacman.get_score();
+	my_print("score: ");
+	my_print(pacman.get_score());
+
 	goto_xy(board.get_legend_x(), board.get_legend_y() + 1);
 	if (color_mode)
 		board.set_color((int)Board::Color::RED);
-	cout << "souls: " << pacman.get_souls();
+	my_print("souls: ");
+	my_print(pacman.get_souls());
 }
 
 void Game::pause() {
@@ -332,13 +334,15 @@ void Game::handle_key_input(const unsigned char current_key) {  //return the dir
 //--Display Fucns: --//
 void Game::lose() {
 	system("cls");
-	cout << "you lost." << endl;
+	my_print("you lost.");
+	my_print("\n");
 	system("pause");
 	loop_flag = true;
 }
 void Game::win() {
 	system("cls");
-	cout << "you won." << endl;
+	my_print("you won.");
+	my_print("\n");
 	system("pause");
 	loop_flag = true;
 }
@@ -395,8 +399,6 @@ void Game::load_new_board_to_play(const string& file_name) {
 void Game::Menu::handle_menu() {
 	Game run;
 	do {
-		cursor_visibility(false);
-
 		system("cls");
 		menu_display();
 		cin >> user_choice;
@@ -582,9 +584,9 @@ void Game::save_steps()
 
 	//Ghosts
 
-	for (int i = 0; i < Board::MAX_GHOSTS; i++)
+	for (int i = 0; i < board.get_num_of_ghosts(); i++)
 	{
-		save.Write_to_file(",G");
+		save.Write_to_file(":G");
 		save.Write_to_file(i);
 		save.Write_to_file(":");
 		save.Write_to_file(ghosts[i].get_direction());
@@ -592,7 +594,7 @@ void Game::save_steps()
 		
 	//Fruit
 
-	save.Write_to_file(",F:");
+	save.Write_to_file(":F:");
 	if(fruit_is_dead)
 		save.Write_to_file("0");
 	else
@@ -602,7 +604,7 @@ void Game::save_steps()
 		save.Write_to_file(fruit.get_direction());
 		save.Write_to_file(":");
 		save.Write_to_file(fruit.get_position().get_x());
-		save.Write_to_file(",");
+		save.Write_to_file(":");
 		save.Write_to_file(fruit.get_position().get_y());
 	}
 	save.Write_to_file('\n');
@@ -618,9 +620,10 @@ void Game::update_values_from_file()
 	fruit_is_dead = load.get_fruit_is_dead();
 	fruit.set_direction(load.get_fruit_direction());
 
-	for (int i = 0; i < Board::MAX_GHOSTS; i++)
+	for (int i = 0; i < board.get_num_of_ghosts(); i++)
 		ghosts[i].set_direction(load.get_ghost_direction()[i]);
 }
+
 void Game::run_load()
 {
 	load.read_from_file();

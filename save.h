@@ -9,7 +9,9 @@ class Save {
 
 public:
     void init() {
-        myfile.open("steps.txt");
+        string file_name = "pacman_03.txt";
+        string file_name=
+        myfile.open(file_name);
     }
     void Write_to_file(const char buffer) {
         myfile << buffer;

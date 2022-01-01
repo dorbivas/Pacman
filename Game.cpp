@@ -493,7 +493,7 @@ void Game::Menu::menu_display() {
 	cout << "1 ==> Start a new game" << endl << endl;
 	cout << "2 ==> switch color mode ON\\\OFF" << endl << endl;
 	cout << "8 ==> Present instructions and keys" << endl << endl;
-	cout << "9 ==> Exit and reset" << endl;
+	cout << "9 ==> Exit and reset (you will get new souls)" << endl;
 }
 
 void Game::Menu::print_ruls() const {
@@ -623,6 +623,7 @@ void Game::update_values_from_file()
 }
 void Game::run_load()
 {
+	load.read_from_file();
 	update_values_from_file();
 	
 	load_new_board_to_play("pacman_03.screen");//TODO

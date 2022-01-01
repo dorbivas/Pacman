@@ -83,7 +83,7 @@ void Game::handle_pacman_move() {
 	Position next_pos = pacman.handle_move();
 
 	//next position
-	if (pacman.is_invalid_place(next_pos))
+	if(pacman.is_invalid_place(next_pos))
 	{
 		print_move(curr_pos, pacman.get_shape());
 		pacman.add_step(1);
@@ -284,7 +284,7 @@ void Game::display_score_souls() const {
 
 void Game::pause() {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (int)Board::Color::WHITE);
-	unsigned char c = _getch();
+	unsigned char c = _getch();//TODO in load mode
 	goto_xy(PAUSE_X, PAUSE_Y);  // location of "pause..." in the console
 	my_print("Pause . . .");
 	while (c != ESC)
@@ -366,9 +366,6 @@ void Game::load_new_board_to_play(const string& file_name) {
 	_flushall();
 	board.load_board(file_name);
 
-	pacman.set_position(board.get_inital_pacman_pos());
-	pacman.set_board(board);
-
 	fruit = Fruit();
 	fruit.set_board(board);
 	fruit.fruit();
@@ -384,9 +381,10 @@ void Game::load_new_board_to_play(const string& file_name) {
 	}
 	else
 		pacman.init_score();
-		
 
 	pacman.set_position(board.get_inital_pacman_pos());
+	pacman.set_board(board);
+		
 
 	init_ghosts();
 

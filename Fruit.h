@@ -19,6 +19,7 @@ public:
 	int generate_random_fruit_val() { return  5 + (rand() % 5); } //5-9 
 	bool is_invalid_place(const Position& next_pos);
 	Position& handle_move();
+
 	//--Data Members Funcs: --//
 
 	int get_fruit_val()const{ return fruit_val; } 

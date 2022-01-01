@@ -9,7 +9,7 @@ class Save {
 
 public:
     void init() {
-        myfile.open("yarden_test.txt");
+        myfile.open("steps.txt");
     }
     void Write_to_file(const char buffer) {
         myfile << buffer;

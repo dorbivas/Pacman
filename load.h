@@ -30,5 +30,5 @@ private:
     bool* fruit_is_dead;
     Position* fruit_pos;
     int i = 0;
-    //ifstream
+    ifstream steps_file;
 };

@@ -44,6 +44,8 @@ void Game::game() {
 			save.Write_to_file(" fruit:");
 			if (!fruit_is_dead)
 				handle_fruit_move();
+			else
+				save.Write_to_file("0");//is dead
 
 			handle_pacman_move();
 
@@ -575,6 +577,11 @@ bool Game::find_files() {
 		return false;
 
 	return true;
+}
+
+void Game::run_load()
+{
+
 }
 
 

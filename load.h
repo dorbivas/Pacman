@@ -10,7 +10,7 @@ class Load {
     int get_i() { return i; }
     
     void set_i(int new_i) { i = new_i; }
-    void read_from_file() {}//TODO
+    void read_from_file() {}//TODO-dor
     /*
     every read_line: from i=0 to eof
         READ CURRENT KEY[i]

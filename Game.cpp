@@ -36,11 +36,12 @@ void Game::game() {
 				pause_flag = false;
 			}
 			save.Write_to_file(" pacman:");
-			save.Write_to_file(current_key);
+			save.Write_to_file((const char)current_key);
 			next_pos = pacman.move_dir();
 
 			handle_ghost_move();
 
+			save.Write_to_file(" fruit:");
 			if (!fruit_is_dead)
 				handle_fruit_move();
 
@@ -63,8 +64,6 @@ void Game::game() {
 	}
 
 	system("cls");
-	//YARDEN-TESTING
-	//outfile.close();
 	save.finish();
 	return;
 }
@@ -80,7 +79,7 @@ void Game::handle_pacman_move() {
 
 	if (pacman.is_invalid_place(next_pos))
 	{
-		print_move(curr_pos, pacman.get_shpae());
+		print_move(curr_pos, pacman.get_shape());
 		pacman.add_step(1);
 		return;
 	}
@@ -96,8 +95,8 @@ void Game::handle_pacman_move() {
 	if (!fruit_is_dead)
 		if (!fruit_is_dead && (pacman.is_collided(fruit.get_position(), next_fruit_pos, fruit.get_direction())
 			|| board.get_cell(fruit.get_position()) == Entity::Shape::PACMAN
-			|| board.get_cell(curr_pos) == fruit.get_shpae()
-			|| board.get_cell(next_pos) == fruit.get_shpae()))
+			|| board.get_cell(curr_pos) == fruit.get_shape()
+			|| board.get_cell(next_pos) == fruit.get_shape()))
 		{
 			to_add += fruit.get_fruit_val();
 			fruit.fruit();
@@ -164,10 +163,10 @@ void Game::handle_ghost_move() {
 			print_move(next_pos, Entity::Shape::GHOST);
 
 			//set to file
-			save.Write_to_file(" ghosts:");
-			save.Write_to_file((const char)i);
-			save.Write_to_file((const char)ghosts[i].get_direction());
-			save.Write_to_file(current_key);
+			save.Write_to_file(" ghosts");
+			save.Write_to_file(i);
+			save.Write_to_file(":");
+			save.Write_to_file(ghosts[i].get_direction());
 		}
 	}
 }
@@ -184,9 +183,17 @@ void Game::handle_fruit_move() {
 		board.set_cell(curr_pos, Entity::Shape::S);
 	}
 
-	if (pacman.get_total_steps() == 100)//fruit disappeard
+	if (pacman.get_total_steps() == 20)//fruit disappeard
 	{
 		fruit_is_dead = true;
+		
+		save.Write_to_file((const char)fruit.get_shape());
+		save.Write_to_file(":");
+		save.Write_to_file("(");
+		save.Write_to_file(fruit.get_position().get_x());
+		save.Write_to_file(",");
+		save.Write_to_file(fruit.get_position().get_y());
+		save.Write_to_file(")");
 		fruit.~Fruit();
 	}
 	else
@@ -194,16 +201,11 @@ void Game::handle_fruit_move() {
 		next_pos = fruit.handle_move();
 		fruit.set_position(next_pos);
 
-		print_move(next_pos, fruit.get_shpae());
+		print_move(next_pos, fruit.get_shape());
 
-		//fruit.add_step(1);
-		//set to file
-		save.Write_to_file(" fruit:");
-		save.Write_to_file((char)fruit_is_dead);
-		save.Write_to_file((const char)fruit.get_position().get_x());
-		save.Write_to_file((const char)fruit.get_position().get_y());
-
-
+		save.Write_to_file((const char)fruit.get_shape());
+		save.Write_to_file(":");
+		save.Write_to_file(fruit.get_direction());
 	}
 }
 

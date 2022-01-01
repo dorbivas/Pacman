@@ -31,7 +31,7 @@ public:
     Position& get_position() { return pos; }
     int get_direction() const { return direction; }
     Board::Color get_color() const { return color; }
-    Shape get_shpae() const { return shape; }
+    Shape get_shape() const { return shape; }
     int get_total_steps() { return counter_of_steps; }//TODO-BETTER NAME
 
     void set_speed(int speed) { this->speed = speed; }

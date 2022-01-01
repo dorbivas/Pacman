@@ -77,6 +77,7 @@ private:
     bool find_files();
     void load_game_from_files();
 
+
 public:
     Game();
     void run_menu() { menu.handle_menu(); }

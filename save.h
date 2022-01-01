@@ -23,6 +23,11 @@ public:
         myfile << buffer;
 
     }
+    void Write_to_file(const int buffer)
+    {
+        myfile << buffer;
+
+    }
 
     void finish()
     {

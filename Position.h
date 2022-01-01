@@ -24,19 +24,23 @@ public:
 /*
     TODO:
 
-    1. SPEED
-    2. IMMEDIATE SYNCHRONIZATION OF THE BOARD WITH THE OTHER CLASSES
-       ALLOWS OPTIMAL UTILIZATION OF POLYMOPHISM AND INGERITANCE-DISCUSS IT
-    3. COLLISION
-    4. FURIT- TIMER FOR DISAPPPERED
-    5. RECORD
-    6. TRY CATCH-DOR
-    7. good boards
-    8.
-    9.
-    10.
-    11.
-    12.
+    1. SPEED(DOR)
+    2. in the function win(): 
+        - move to the next board:
+        load_game_from_files()(Does this happen automatically?)-TODO
+        - reset score witout souls- DONE
+    3. load - in process(DOR)
+    4. save:
+        - Save the file to the name of the current board plus .result(strcat)- (find_file?)-TODO
+        - Save the data to the file according to the format
+    5. Collision between the wind and the fruit(YARDEN)-BUG- TODO
+    6. run_silent()-TODO
+    7. MAIN WITH CMD-TODO-DONE
+    8. get curr_board_file_name-TODO
+    9. NUM OF GHOSTS-LOAD resize- TEST
+    10. pause in load_run- test
+  
+        
 
 
 */

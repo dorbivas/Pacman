@@ -22,9 +22,9 @@ private:
     bool color_mode = true;
     bool loop_flag = false;
     bool first_run_done = false;
-    bool fruit_is_dead = false;
+    bool is_fruit_dead = false;
     unsigned char current_key;
-    bool save_mode = true;
+    bool save_mode = false;
     bool load_mode = false;
 
     
@@ -80,13 +80,13 @@ private:
     void load_game_from_files();
 
     void update_values_from_file();
-
+    void save_steps();
 
 public:
     Game();
     void run_menu() { menu.handle_menu(); }
     void run_load(); 
     void run_silent() { } // TODO silent = true
-    void save_steps();
+    void set_save_mode(bool mode) { save_mode = mode; }
 };
 

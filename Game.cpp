@@ -358,6 +358,18 @@ void Game::load_new_board_to_play(const string& file_name) {
 	system("cls");
 	_flushall();
 	board.load_board(file_name);
+
+	/*
+	* save souls:
+	* if won
+	* if we moved to the next board
+		
+		else
+			this->pacman = Pacman();
+			
+
+		
+	*/
 	this->pacman = Pacman();
 	pacman.set_position(board.get_inital_pacman_pos());
 	pacman.set_board(board);
@@ -481,7 +493,7 @@ void Game::Menu::menu_display() {
 	cout << "1 ==> Start a new game" << endl << endl;
 	cout << "2 ==> switch color mode ON\\\OFF" << endl << endl;
 	cout << "8 ==> Present instructions and keys" << endl << endl;
-	cout << "9 ==> Exit" << endl;
+	cout << "9 ==> Exit and reset" << endl;
 }
 
 void Game::Menu::print_ruls() const {

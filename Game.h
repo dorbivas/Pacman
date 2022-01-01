@@ -34,6 +34,7 @@ private:
     private:
         int user_choice = 0;
         char ghosts_level_choice;
+        bool save_mode = false;
 
     public:
         enum user_options { Start_Game = 1, Change_Color_Mode , Show_Ruls = 8, Exit_Game = 9 };
@@ -42,6 +43,7 @@ private:
         void handle_ghosts_level(Game& run);
         void menu_display();
         void print_ruls() const;
+        void set_save_mode(bool mode) { save_mode = mode; }
         
         
         friend class Game; 
@@ -84,7 +86,9 @@ private:
 
 public:
     Game();
-    void run_menu() { menu.handle_menu(); }
+    void run_menu() {
+        menu.set_save_mode(save_mode);
+        menu.handle_menu(); }
     void run_load(); 
     void run_silent() { } // TODO silent = true
     void set_save_mode(bool mode) { save_mode = mode; }

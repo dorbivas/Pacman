@@ -38,8 +38,8 @@ public:
     void set_position(int x, int y) { this->pos.set_xy(x, y); }
     void set_direction(Entity::Direction dir) { direction = (int)dir; } 
     void set_direction(int direction) { this->direction = direction; }
-    void set_shape(Shape direction) { this->shape = shape; }
     void set_board(Board& board) { this->board = board; }
+    void set_shape(Entity::Shape shape) { this->shape = shape; }
  
 
     //--Game Logic Fucns: --//

@@ -5,7 +5,7 @@ class Load {
 
 public:
 	Position& get_fruit_position() { return fruit_pos; }
-	Entity::Shape get_fruit_shape() { return fruit_shape; }
+	int get_fruit_shape() { return fruit_shape; }
 	Entity::Direction* get_ghost_direction() { return ghosts_directions; }
 	Entity::Direction get_fruit_direction() { return fruit_direction; }
 
@@ -28,7 +28,7 @@ private:
 
 	Entity::Direction ghosts_directions[Board::MAX_GHOSTS];//TODO
 	Entity::Direction fruit_direction;
-	Entity::Shape fruit_shape;
+	int fruit_shape;
 
 	Position fruit_pos;
 	ifstream steps_file;

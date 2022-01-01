@@ -39,6 +39,7 @@ public:
     8. get curr_board_file_name-TODO
     9. NUM OF GHOSTS-LOAD resize- TEST
     10. pause in load_run- test
+    11. load print not clear- todo(yarden)
   
         
 

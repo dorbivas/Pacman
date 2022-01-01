@@ -12,7 +12,7 @@ void Load::read_params_from_line(string line) {
     while (line[0] == 'G') 
     {
         line.erase(0, 3); // "Gi:" **0<=i<=3**
-        ghosts_directions[i++] = Entity::Direction(line[0]);
+        ghosts_directions[i++] = Entity::Direction(line[0] - '0');
         line.erase(0, 2); // "0":
     }
 
@@ -21,7 +21,12 @@ void Load::read_params_from_line(string line) {
         is_fruit_dead = true;
 
     else {
-        cout << (line[0] - '0') << endl;
+        fruit_shape = (line[0] - '0');
+
+        line.erase(0, 2);
+
+        fruit_direction = (Entity::Direction)(line[0] - '0');
+
         line.erase(0, 2); // "5:"
         if (line[1] == ':')
         {
@@ -33,8 +38,7 @@ void Load::read_params_from_line(string line) {
             fruit_x = ((line[0] - '0') * 10) + (line[1] - '0');
             line.erase(0, 3); // "fruit_x 10-max length"
         }
-
-        if (line[1] == '\n') // end or fruit_y is 10 - max length
+        if (line[1] == '\0') // end or fruit_y is 10 - max length
             fruit_y = line[0] - '0';
 
         else

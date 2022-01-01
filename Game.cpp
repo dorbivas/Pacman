@@ -104,7 +104,8 @@ void Game::handle_pacman_move() {
 		|| board.get_cell(next_pos) == fruit.get_shape()))
 	{
 		to_add += fruit.get_fruit_val();
-		fruit.fruit();
+		if(!load_mode)
+			fruit.fruit();
 	}
 
 	board.set_cell(curr_pos, Entity::Shape::S);
@@ -143,7 +144,7 @@ void Game::handle_ghost_move() {
 			board.set_cell(curr_pos, Entity::Shape::S);
 		}
 
-		if (!is_fruit_dead)
+		if (!is_fruit_dead && !load_mode)
 		{
 			next_fruit_pos = fruit.move_dir();
 			if (ghosts[i].is_collided(fruit.get_position(), next_fruit_pos, fruit.get_direction()))
@@ -162,9 +163,12 @@ void Game::handle_ghost_move() {
 		else
 		{
 			//next position
-			ghosts[i].set_position(next_pos);
-			print_move(next_pos, Entity::Shape::GHOST);
-	
+			if (!ghosts[i].is_invalid_place(next_pos))
+			{
+				ghosts[i].set_position(next_pos);
+				print_move(next_pos, Entity::Shape::GHOST);
+			}
+			
 		}
 	}
 }
@@ -193,9 +197,12 @@ void Game::handle_fruit_move() {
 			next_pos = fruit.move_dir();
 		else
 			next_pos = fruit.handle_move();
-
-		fruit.set_position(next_pos);
-		print_move(next_pos, fruit.get_shape());
+		if (!fruit.is_invalid_place(next_pos))//for load-TODO
+		{
+			fruit.set_position(next_pos);
+			print_move(next_pos, fruit.get_shape());
+		}
+		
 	}
 }
 
@@ -368,7 +375,8 @@ void Game::load_new_board_to_play(const string& file_name) {
 
 	fruit = Fruit();
 	fruit.set_board(board);
-	fruit.fruit();
+	if(!load_mode)
+		fruit.fruit();
 
 	pause_flag = false;
 	loop_flag = false;
@@ -411,6 +419,7 @@ void Game::Menu::handle_menu() {
 			system("cls");
 			handle_ghosts_level(run);
 			system("cls");
+			run.set_save_mode(save_mode);
 			run.game();
 		}
 		else if (user_choice == 11)
@@ -613,14 +622,16 @@ void Game::update_values_from_file()
 	fruit.set_position(load.get_fruit_position());
 	is_fruit_dead = load.get_fruit_is_dead();
 	fruit.set_direction(load.get_fruit_direction());
-	fruit.set_shape(load.get_fruit_shape());
-
+	fruit.set_fruit_val(load.get_fruit_shape());
+	fruit.set_shape(fruit.num_to_shape(fruit.get_fruit_val()));
 	for (int i = 0; i < board.get_num_of_ghosts(); i++)
 		ghosts[i].set_direction(load.get_ghost_direction()[i]);
 }
 
 void Game::run_load()
 {
+	load_mode = true;
+
 	Position next_pos;
 	unsigned char temp;
 

@@ -24,5 +24,6 @@ public:
 
 	int get_fruit_val()const{ return fruit_val; } 
 	Shape num_to_shape(int val);
+	void set_fruit_val(int val) { fruit_val = val; }
 
 };

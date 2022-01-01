@@ -62,6 +62,7 @@ void Load::load_line()
     string line;
     if (!steps_file.eof())
     {
+        
         getline(steps_file, line);
         read_params_from_line(line);
     }

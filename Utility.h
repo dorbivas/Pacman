@@ -8,6 +8,7 @@
 #include <istream>
 #include <fstream>
 #include <charconv>
+#include <sstream>
 #include<set>
 using std::set;
 using std::ifstream;

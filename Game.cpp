@@ -83,7 +83,6 @@ void Game::handle_pacman_move() {
 	Position next_pos = pacman.handle_move();
 
 	//next position
-
 	if (pacman.is_invalid_place(next_pos))
 	{
 		print_move(curr_pos, pacman.get_shape());
@@ -129,11 +128,11 @@ void Game::handle_ghost_move() {
 		ghosts[i].set_pacman_pos(pacman.get_position());
 		curr_pos = ghosts[i].get_position();
 
-		if (!load_mode && !IS_SILENT)
-			next_pos = ghosts[i].handle_move();
-		else
+		if (load_mode || IS_SILENT)
 			next_pos = ghosts[i].move_dir();
-
+		else
+			next_pos = ghosts[i].handle_move();
+		
 		//curr positon 
 		if (board.get_cell(curr_pos) == Entity::Shape::P)
 			print_move(curr_pos, Entity::Shape::P);
@@ -190,10 +189,10 @@ void Game::handle_fruit_move() {
 	else
 	{
 
-		if (!load_mode && !IS_SILENT)
-			next_pos = fruit.handle_move();
-		else
+		if (load_mode || IS_SILENT)
 			next_pos = fruit.move_dir();
+		else
+			next_pos = fruit.handle_move();
 
 		fruit.set_position(next_pos);
 		print_move(next_pos, fruit.get_shape());

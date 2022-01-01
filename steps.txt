@@ -2,3 +2,5 @@ pacman:s\d\w\a\x ghost0]:down\up\right\left fruit:dead-5\6\7\8\9-(x,y)
 pacman:s\d\w\a\x ghost0]:down\up\right\left fruit:start-5\6\7\8\9-(x,y)
 pacman:s\d\w\a\x ghost0]:down\up\right\left fruit:live-5\6\7\8\9-(x,y)
 pacman:s\d\w\a\x ghost0]:down\up\right\left fruit:dead-5\6\7\8\9-(x,y)
+
+P:s,G0:u,F:s\v\x:5:xy

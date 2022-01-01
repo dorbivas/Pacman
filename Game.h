@@ -24,6 +24,8 @@ private:
     bool first_run_done = false;
     bool fruit_is_dead = false;
     unsigned char current_key;
+    bool save_mode = true;
+    bool load_mode = false;
 
     
 
@@ -77,30 +79,14 @@ private:
     bool find_files();
     void load_game_from_files();
 
+    void update_values_from_file();
+
 
 public:
     Game();
     void run_menu() { menu.handle_menu(); }
-    void run_load() { } // TODO
+    void run_load(); 
     void run_silent() { } // TODO silent = true
+    void save_steps();
 };
 
-
-
-/*teleports order is sync with the board from left to right *///EXTRA
-/*enum teleports {//EXTRA
-    TP_NORTH1_TOP_X = 21,
-    TP_NORTH1_TOP_Y = 1,
-    TP_NORTH2_TOP_X = 53,
-    TP_NORTH2_TOP_Y = 1,
-
-    TP_NORTH1_BOT_X = 21,
-    TP_NORTH1_BOT_Y = 22,
-    TP_NORTH2_BOT_X = 53,
-    TP_NORTH2_BOT_Y = 22,
-
-    TP_EAST_BOT_X = 79,
-    TP_EAST_BOT_Y = 21,
-    TP_WEST_TOP_X = 1,
-    TP_WEST_TOP_Y = 6
-};*/

@@ -7,10 +7,11 @@ Game::Game() {
 }
 
 void Game::game() {
-	int line_number = 0;
 	//find_files();
 	//load_game_from_files();
-	save.init();
+	if(save_mode)
+		save.init();
+
 	load_new_board_to_play("pacman_03.screen");
 
 
@@ -35,17 +36,16 @@ void Game::game() {
 				current_key = temp;
 				pause_flag = false;
 			}
-			save.Write_to_file(" pacman:");
-			save.Write_to_file((const char)current_key);
 			next_pos = pacman.move_dir();
+
+			if(save_mode)
+				save_steps();
 
 			handle_ghost_move();
 
-			save.Write_to_file(" fruit:");
+			
 			if (!fruit_is_dead)
 				handle_fruit_move();
-			else
-				save.Write_to_file("0");//is dead
 
 			handle_pacman_move();
 
@@ -59,14 +59,12 @@ void Game::game() {
 			else
 				loop_flag = true;//stop the loop
 		}
-		save.Write_to_file('\n');
-		line_number++;
-
-
 	}
 
 	system("cls");
-	save.finish();
+
+	if(save_mode)
+		save.finish();
 	return;
 }
 
@@ -110,7 +108,7 @@ void Game::handle_pacman_move() {
 	pacman.add_score(to_add);
 
 	pacman.set_position(next_pos);
-	print_move(next_pos, Entity::Shape::PACMAN);//was in the game()
+	print_move(next_pos, Entity::Shape::PACMAN);
 	board.set_cell(next_pos, Entity::Shape::PACMAN);
 
 	pacman.add_step(1);
@@ -126,14 +124,15 @@ void Game::handle_ghost_move() {
 		ghosts[i].set_pacman_pos(pacman.get_position());
 		curr_pos = ghosts[i].get_position();
 
-		//if not load
-		next_pos = ghosts[i].handle_move();
-		//else
-		//read direction 
+		if (!load_mode)
+			next_pos = ghosts[i].handle_move();
+		else
+			next_pos = ghosts[i].move_dir();
 
 		//curr positon 
 		if (board.get_cell(curr_pos) == Entity::Shape::P)
 			print_move(curr_pos, Entity::Shape::P);
+
 		else
 		{
 			print_move(curr_pos, Entity::Shape::S);
@@ -154,21 +153,13 @@ void Game::handle_ghost_move() {
 			current_key = stay_lower_case;
 
 			ghosts[i].set_position(board.get_ghost_pacman_pos()[i].get_x(), board.get_ghost_pacman_pos()[i].get_y());
-			//TODO-YARDEN- CHECK FOR COUNTER-STEPS LATER
 		}
 		else
 		{
-
-
 			//next position
 			ghosts[i].set_position(next_pos);
 			print_move(next_pos, Entity::Shape::GHOST);
-
-			//set to file
-			save.Write_to_file(" ghosts");
-			save.Write_to_file(i);
-			save.Write_to_file(":");
-			save.Write_to_file(ghosts[i].get_direction());
+	
 		}
 	}
 }
@@ -185,29 +176,21 @@ void Game::handle_fruit_move() {
 		board.set_cell(curr_pos, Entity::Shape::S);
 	}
 
-	if (pacman.get_total_steps() == 20)//fruit disappeard
+	if (pacman.get_total_steps() == 100)//fruit disappeard
 	{
 		fruit_is_dead = true;
-		save.Write_to_file((const char)fruit.get_shape());
-		//save last position
-		save.Write_to_file(":");
-		save.Write_to_file("(");
-		save.Write_to_file(fruit.get_position().get_x());
-		save.Write_to_file(",");
-		save.Write_to_file(fruit.get_position().get_y());
-		save.Write_to_file(")");
 		fruit.~Fruit();
 	}
 	else
 	{
-		next_pos = fruit.handle_move();
+
+		if (!load_mode)
+			next_pos = fruit.handle_move();
+		else
+			next_pos = fruit.move_dir();
+
 		fruit.set_position(next_pos);
-
 		print_move(next_pos, fruit.get_shape());
-
-		save.Write_to_file((const char)fruit.get_shape());
-		save.Write_to_file(":");
-		save.Write_to_file(fruit.get_direction());
 	}
 }
 
@@ -278,7 +261,7 @@ void Game::print_move(const Position pos, Entity::Shape shape) {
 	}
 	goto_xy(pos.get_x(), pos.get_y());
 	if (shape != 0)
-		cout << char(shape);
+		my_print(char(shape));
 }
 
 void Game::display_score_souls() const {
@@ -302,7 +285,7 @@ void Game::pause() {
 		c = _getch();
 
 	goto_xy(PAUSE_X, PAUSE_Y);
-	cout << "           ";
+	my_print("           ");
 }
 
 
@@ -349,16 +332,12 @@ void Game::lose() {
 	cout << "you lost." << endl;
 	system("pause");
 	loop_flag = true;
-	//find_files();//TODO WHY HERE?
-	//load_game_from_files();
 }
 void Game::win() {
 	system("cls");
 	cout << "you won." << endl;
 	system("pause");
 	loop_flag = true;
-	//find_files();//TODO WHY HERE?
-	//load_game_from_files();
 }
 
 void Game::init_ghosts()
@@ -579,9 +558,99 @@ bool Game::find_files() {
 	return true;
 }
 
+void Game::save_steps()
+{
+	//pacman
+
+	save.Write_to_file("P:");
+	save.Write_to_file((const char)current_key);
+
+	//Ghosts
+
+	for (int i = 0; i < Board::MAX_GHOSTS; i++)
+	{
+		save.Write_to_file(",G");
+		save.Write_to_file(i);
+		save.Write_to_file(":");
+		save.Write_to_file(ghosts[i].get_direction());
+	}
+		
+	//Fruit
+
+	save.Write_to_file(",F:");
+	if(fruit_is_dead)
+		save.Write_to_file("0");
+	else
+	{
+		save.Write_to_file((const char)fruit.get_shape());
+		save.Write_to_file(":");
+		save.Write_to_file(fruit.get_direction());
+		save.Write_to_file(":");
+		save.Write_to_file(fruit.get_position().get_x());
+		save.Write_to_file(",");
+		save.Write_to_file(fruit.get_position().get_y());
+	}
+	save.Write_to_file('\n');
+
+}
+
+void Game::update_values_from_file()
+{
+	//get_values
+	current_key = load.get_current_key();
+
+	fruit.set_position(load.get_fruit_position());
+	fruit_is_dead = load.get_fruit_is_dead();
+	fruit.set_direction(load.get_fruit_direction());
+
+	for (int i = 0; i < Board::MAX_GHOSTS; i++)
+		ghosts[i].set_direction(load.get_ghost_direction()[i]);
+}
 void Game::run_load()
 {
+	update_values_from_file();
+	
+	load_new_board_to_play("pacman_03.screen");
 
+	Position next_pos;
+	unsigned char temp;
+	
+	while (!loop_flag)
+	{
+		Sleep(SPEED);
+		if (is_valid_key(current_key))
+		{
+			handle_key_input(current_key);
+			if (pause_flag)
+			{
+				current_key = temp;
+				pause_flag = false;
+			}
+			next_pos = pacman.move_dir();
+
+			handle_ghost_move();
+
+
+			if (!fruit_is_dead)
+				handle_fruit_move();
+
+			handle_pacman_move();
+
+			handle_score(pacman.get_position());
+			temp = current_key;
+		}
+		else
+		{
+			if (current_key != '9')
+				current_key = temp;
+			else
+				loop_flag = true;//stop the loop
+		}
+
+	}
+
+	system("cls");
+	return;
 }
 
 

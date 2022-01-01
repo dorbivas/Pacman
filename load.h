@@ -3,10 +3,13 @@
 
 class Load {
 
-    Position& get_fruit_position() { return fruit_pos[i]; }
-    Entity::Direction* get_ghost_direction() { return ghosts_directions[i]; }
-    unsigned char get_current_key() const { return current_key[i]; }
-    bool get_fruit_is_dead() { return fruit_is_dead[i]; }
+
+public:
+    Position& get_fruit_position() { return fruit_pos; }
+    Entity::Direction* get_ghost_direction() { return ghosts_directions; }
+    unsigned char get_current_key() const { return current_key; }
+    bool get_fruit_is_dead() { return fruit_is_dead; }
+    Entity::Direction get_fruit_direction() { return fruit_direction; }
     int get_i() { return i; }
     
     void set_i(int new_i) { i = new_i; }
@@ -25,10 +28,11 @@ class Load {
 
 
 private:
-    unsigned char* current_key;
-    Entity::Direction* ghosts_directions[Board::MAX_GHOSTS];
-    bool* fruit_is_dead;
-    Position* fruit_pos;
+    unsigned char current_key;
+    Entity::Direction ghosts_directions[Board::MAX_GHOSTS];
+    bool fruit_is_dead;
+    Position fruit_pos;
+    Entity::Direction fruit_direction;
     int i = 0;
     ifstream steps_file;
 };

@@ -98,7 +98,9 @@ void Game::handle_pacman_move() {
 		|| board.get_cell(next_pos) == fruit.get_shape()))
 	{
 		to_add += fruit.get_fruit_val();
-		if(!load_mode)
+		print_move(fruit.get_position(), Entity::Shape::S);
+
+		if(!load_mode && !IS_SILENT)
 			fruit.fruit();
 	}
 
@@ -138,15 +140,17 @@ void Game::handle_ghost_move() {
 			board.set_cell(curr_pos, Entity::Shape::S);
 		}
 
-		if (!is_fruit_dead && !load_mode)
+		if (!is_fruit_dead && !load_mode && !IS_SILENT)
 		{
 			next_fruit_pos = fruit.move_dir();
 			if (ghosts[i].is_collided(fruit.get_position(), next_fruit_pos, fruit.get_direction()))
+			{
 				fruit.fruit();
+				print_move(fruit.get_position(), Entity::Shape::S);
+			}
 		}
 
 		next_pacman_pos = pacman.move_dir();
-
 		if (ghosts[i].is_collided(pacman.get_position(), next_pacman_pos, pacman.get_direction()))
 		{
 			handle_collision();
@@ -184,7 +188,7 @@ void Game::handle_fruit_move() {
 		is_fruit_dead = true;
 		fruit.~Fruit();
 	}
-	else if (pacman.get_total_steps() == 200)
+	else if (pacman.get_total_steps() == 150)
 	{
 		is_fruit_dead = false;
 		fruit = Fruit();
@@ -193,15 +197,22 @@ void Game::handle_fruit_move() {
 	{
 
 		if (load_mode || IS_SILENT)
-			next_pos = fruit.move_dir();
-		else
-			next_pos = fruit.handle_move();
-		if (!fruit.is_invalid_place(next_pos))//for load-TODO
 		{
+			next_pos = fruit.move_dir();
+
+			if (!fruit.is_invalid_place(next_pos))
+			{
+				fruit.set_position(next_pos);
+				print_move(next_pos, fruit.get_shape());
+			}
+		}
+			
+		else
+		{
+			next_pos = fruit.handle_move();
 			fruit.set_position(next_pos);
 			print_move(next_pos, fruit.get_shape());
 		}
-		
 	}
 }
 

@@ -25,24 +25,36 @@ public:
     TODO:
 
     1.DONE SPEED(DOR)
+
     2. in the function win(): 
         - move to the next board:
-        load_game_from_files()(Does this happen automatically?)-TODO
-        - reset score witout souls- DONE
+        - find_files()(Does this happen automatically?)-TODO
 
-    3.DONE load - in process(DOR)
-    4. save:
-        - Save the file to the name of the current board plus .result(strcat)- (find_file?)-TODO
-        - Save the data to the file according to the format
-    5. Collision between the wind and the fruit(YARDEN)-BUG- TODO
-    6. run_silent()-TODO
-    7. MAIN WITH CMD-TODO-DONE
-    8. get curr_board_file_name-TODO
-    9. NUM OF GHOSTS-LOAD resize- TEST
-    10. pause in load_run- test
+    3.load -almost done
+        TODO- get the name of file 
+        TODO- get num of ghosts
 
-    11. load print not clear- todo(yarden)
+    4. save: almost done
+        TODO- curr_board_file(vector)-  if the board name is pacman_01.screen
+        so the steps file will be pacman_01.result
+
+    5. BUG- Collision between the GHOSTS and the fruit
+
+    6. run_silent()-TODO (almost done)
+
+    7. MAIN WITH CMD
+
+    8. get curr_board_file_name-TODO (its will solve  3. and 4.)
+
+    9. pause in the load mode- check
+
+    11. print_move in load_mode
+
     12. NEW BOARDS DOR
+
+    13. exceptions
+
+    14. readme
         
 
 

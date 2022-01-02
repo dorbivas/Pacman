@@ -2,7 +2,7 @@
 
 void Load::read_params_from_line(string line) {
 
-    /*--- format example:"P:w:G0:0:G1:1:G2:2:G3:0:F:0 or 5:30:20" --- */
+    /*--- format example:"P:w:G0:0:G1:1:G2:2:G3:0:F:0 or F:5:2:30:20" --- */
     int i = 0, fruit_x, fruit_y;
 
     line.erase(0, 2); // "P:"
@@ -17,15 +17,15 @@ void Load::read_params_from_line(string line) {
     }
 
     line.erase(0, 2); // "F:"
-    if (line[0] == '0') 
+    if (line[0] == '0') // "0"
         is_fruit_dead = true;
 
     else {
-        fruit_shape = (line[0] - '0');
+        fruit_shape = (line[0] - '0');// "5"
 
         line.erase(0, 2);
 
-        fruit_direction = (Entity::Direction)(line[0] - '0');
+        fruit_direction = (Entity::Direction)(line[0] - '0');// "2"
 
         line.erase(0, 2); // "5:"
         if (line[1] == ':')

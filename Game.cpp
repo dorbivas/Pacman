@@ -7,8 +7,8 @@ Game::Game() {
 }
 
 void Game::game() {
-	//find_files();//TODO
-	//load_game_from_files();
+	find_files();
+	load_game_from_files();
 
 	string curr_board = "pacman_05.screen";//file_names[curr]-TODO
 	if(save_mode)
@@ -192,6 +192,11 @@ void Game::handle_fruit_move() {
 	{
 		is_fruit_dead = true;
 		fruit.~Fruit();
+	}
+	else if (pacman.get_total_steps() == 200)
+	{
+		is_fruit_dead = false;
+		fruit = Fruit();
 	}
 	else
 	{

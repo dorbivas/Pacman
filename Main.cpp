@@ -11,11 +11,11 @@ int main(int argc, char** argv) {
 	else if (argc == 2)
 	{
 		string str = argv[1];
-		if (str.compare("-load"))
+		if (str.compare("-load")==0)
 			game.run_load();
-		else if (str.compare("-silent"))
+		else if (str.compare("-silent")==0)
 			game.run_silent();
-		else if (str.compare("-save"))
+		else if (str.compare("-save")==0)
 		{
 			game.set_save_mode(true);
 			game.run_menu();

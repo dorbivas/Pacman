@@ -375,7 +375,7 @@ void Game::win() {
 	system("cls");
 	int selection;
 	board_level++;
-	if (board_level < file_names.size() - 1)
+	if (board_level < file_names.size())
 	{
 		if (load_mode)
 		{
@@ -787,6 +787,18 @@ void Game::run_load()
 void Game::run_silent()
 {
 	IS_SILENT = true;
+	run_load();
+	bool test_is_good = false;
+
+
+	/*
+		conditon for good test:TODO
+	*/
+
+	if (test_is_good)
+		cout << "passed" << endl;
+	else
+		cout << "test falied" << endl;
 
 }
 

@@ -786,6 +786,7 @@ void Game::run_load()
 }
 void Game::run_silent()
 {
+	IS_SILENT = true;
 
 }
 

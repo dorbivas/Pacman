@@ -152,6 +152,8 @@
   <ItemGroup>
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="Exeptions.cpp" />
+    <ClCompile Include="Exceptions.h" />
     <ClCompile Include="Fruit.cpp" />
     <ClCompile Include="Ghosts.cpp" />
     <ClCompile Include="load.cpp" />

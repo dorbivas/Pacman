@@ -1,5 +1,7 @@
 #pragma once
 #include "Utility.h"
+#include "Exceptions.h"
+
 #include <fstream>
 #include <vector>
 
@@ -41,7 +43,7 @@ private:
     Position inital_ghosts_pos[MAX_GHOSTS];
     Position legend_pos;
     vector<Position> points_valid_positions;
-
+    Exceptions board_errors;
 
     /*ADDED to change ours*/
     void board_from_file(ifstream& file_input);
@@ -75,8 +77,8 @@ public:
     int get_cols() const { return cols; }
     int get_rows() const { return rows; }
 
-    int getOptionalIndex() const { return points_valid_positions.size(); } 
-    const Position& getAPointForFruit(int num) const { return points_valid_positions[num]; } //TODO
+    int get_valid_index() const { return points_valid_positions.size(); } 
+    const Position& get_rand_point(int num) const { return points_valid_positions[num]; } //TODO
 
     void setTotalScore() { max_score--; } 
 

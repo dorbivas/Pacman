@@ -86,6 +86,15 @@ void Board::board_from_file(ifstream& file_input)
 
 			else if (curr_char == '@')
 			{
+				/*if (how_many_pacmans >= 1)
+				{
+					board_errors.set_msg(" more than one pacman exception ");
+					board[rows][curr_col] = S;
+					if (!is_first_line)
+						cols++;
+					continue;
+				}*/
+
 				inital_pacman_pos.set_xy(curr_col, rows);
 				board[rows][curr_col] = S; // pac start on empty space so he wont add score
 				how_many_pacmans++;
@@ -93,6 +102,15 @@ void Board::board_from_file(ifstream& file_input)
 
 			else if (curr_char == '$')
 			{
+			/*	if (num_of_ghosts >= 3)
+				{
+					board_errors.set_msg(" more than four ghost exception ");
+					board[rows][curr_col] = S;
+					if (!is_first_line)
+						cols++;
+					continue;
+				}*/
+
 				inital_ghosts_pos[num_of_ghosts++].set_xy(curr_col, rows);
 				board[rows][curr_col] = S;
 			}
@@ -109,10 +127,18 @@ void Board::board_from_file(ifstream& file_input)
 
 			else if (curr_char == '&')
 			{
-				if (is_first_line &&  MAX_LEGEND_COLS + curr_col > cols) // the legend_pos is out of bound
+			/*	if (how_many_legends >= 1)
 				{
-					//exceptionBoard.setMessage("The legend is out of bounds.");
-				}
+					board_errors.set_msg(" more than one legend exception ");
+				    board[rows][curr_col] = S;
+					if (!is_first_line)
+						cols++;
+					continue;
+				}*/
+
+				if (is_first_line &&  MAX_LEGEND_COLS + curr_col > cols) // the legend_pos is out of bound
+					board_errors.set_msg(" out of bound exception: legend");
+				
 				legend_pos.set_xy(curr_col, rows);
 				board[rows][curr_col] = S;
 				legend_flag = 1;
@@ -120,20 +146,17 @@ void Board::board_from_file(ifstream& file_input)
 			}
 			else if (char_counter + 1 == file_size || curr_char == '\n')
 			{
-				if (!is_first_line) // if we in the first line
+				if (!is_first_line) 
 				{
-					if (curr_col >= MAX_WIDTH)
-					{
-						//exceptionBoard.setMessage("The first line is out of bounds.");
-					}
-					else if (legend_flag == 1 && MAX_WIDTH - legend_pos.get_x() < 20) // if the legend_pos appeared && no enough space for the legend_pos
-					{
-						//exceptionBoard.setMessage("The legend is out of bounds.");
-					}
+					if (curr_col > MAX_WIDTH)
+						board_errors.set_msg(" out of bound exception: first col ");
+					
+					else if (legend_flag == 1 && MAX_WIDTH - legend_pos.get_x() < 20) // no space for legend_pos
+						board_errors.set_msg(" out of bound exception: legend");
+					
 					if (legend_flag == 1 && legend_pos.get_x() + 19 > cols) 
-					{
 						cols = legend_pos.get_x() + 19; 
-					}
+					
 				}
 				if (is_first_line && curr_col < cols) 
 				{
@@ -169,9 +192,17 @@ void Board::board_from_file(ifstream& file_input)
 			char_counter++;
 		}
 	}
+	//TODO
+	//system("cls");
+	//board_errors.print_exceptions();
+	//system("PAUSE");
+	//system("cls");
+
 	insert_teleports();
 	handle_legend();
 	search_points();
+
+	
 }
 
 void Board::insert_single_line(int curr_col){

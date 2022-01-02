@@ -3,8 +3,6 @@ int main(int argc, char** argv) {
 	cursor_visibility(false);
 	Game game;
 
-	//string str = argv[0];
-
 	if (argc == 1)
 		game.run_menu();
 

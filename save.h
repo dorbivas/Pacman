@@ -9,9 +9,12 @@ public:
         board_name = _board_name;
     }
     void init_save_file() {
-        string file_name = "pacman_03.result";
-        //string file_name = strcat(board_name, ".result");TODO-yarden-with board name
-        steps_file.open(file_name);//TODO THORW
+        string file_name = board_name.substr(0, board_name.find('.'));
+        file_name += ".result";
+        steps_file.open(file_name);
+        if (!steps_file) {
+            //throw; TODO
+        }
     }
     void write_to_file(const char buffer) {
         steps_file << buffer;

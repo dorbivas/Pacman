@@ -10,15 +10,6 @@ void Game::game() {
 	find_files();
 	load_game_from_files();
 
-	string curr_board = "pacman_05.screen";//file_names[curr]-TODO
-	if(save_mode)
-	{
-		save.init_save_file();
-		save.set_board_name(curr_board); //only the name witout 
-	}
-
-	load_new_board_to_play(curr_board);
-
 	Position next_pos;
 	unsigned char temp;
 	current_key = _kbhit();
@@ -355,15 +346,32 @@ void Game::lose() {
 	my_print("\n");
 	system("pause");
 	loop_flag = true;
+	board_level = 0;
 }
 
 void Game::win() {
 	system("cls");
-	my_print("you won.");
-	my_print("\n");
-	system("pause");
-	//load_game_from_files();//TODO FIX
-	load_new_board_to_play("pacman_03.screen");
+	board_level++;
+	if (board_level < file_names.size() - 1)
+	{
+		if (load_mode)
+			load.finish_loading();
+		if (save_mode)
+			save.finish_saving();
+
+		load_new_board_to_play(file_names[board_level]);//load new board
+	}
+		
+	else
+	{
+		my_print("you won.");
+		my_print("\n");
+		system("pause");
+		board_level = 0;
+		loop_flag = true;
+	}
+	
+	
 }
 
 void Game::init_ghosts()
@@ -393,19 +401,42 @@ void Game::load_new_board_to_play(const string& file_name) {
 
 	if(!first_run_done)
 	{
+		board_level = 0;
 		first_run_done = true;
 		this->pacman = Pacman();
 	}
 	else
+	{
 		pacman.init_score();
+		pacman.init_total_steps();
+	}
+		
 	current_key = 's'; 
 	pacman.set_position(board.get_inital_pacman_pos());
 	pacman.set_direction(Entity::Direction::STAY);
 	pacman.set_board(board);
-		
-	init_ghosts();
 
+	init_ghosts();
 	board.print_board(this->color_mode);
+
+	if (save_mode)
+	{
+		save.init_save_file();
+		save.set_board_name(file_names[board_level]);
+	}
+
+	if (load_mode)
+	{
+		load.set_board_name(file_names[board_level]);
+		load.set_num_of_ghosts(board.get_num_of_ghosts());
+		load.init_load_file();
+	}
+
+	if (IS_SILENT)
+	{
+		//TODO
+	}
+
 
 }
 
@@ -532,14 +563,31 @@ void Game::Menu::print_ruls() const {
 
 void Game::load_game_from_files()
 {
-	int i = 0;
-	string desired_board_name;
-	vector <string> tmp;
 
 	system("cls");
 	_flushall();
+	
+	if (file_names.size() >= 1)
+		load_new_board_to_play(file_names[board_level]);
+	else
+	{
+		//TODO EXCEPTION
+		cout << "error";
+	}
 
-	cout << "Please enter board name:" << endl;
+	//load_board_from_user();//TODO(ASK DOR) -GET BOARD NAME FROM THE USER, its necessary?	
+}
+
+void Game::load_board_from_user()
+{
+	system("cls");
+	_flushall();
+	
+	int i = 0;
+	string desired_board_name;
+
+	vector <string> tmp;
+	cout << "Please enter board name:" << endl;// TODO EXCEPTION
 	cin >> desired_board_name;
 
 	while (i < file_names.size())
@@ -640,16 +688,15 @@ void Game::update_values_from_file()
 void Game::run_load()
 {
 	load_mode = true;
+	save_mode = false;
 
 	Position next_pos;
 	unsigned char temp;
 
 	int counter_steps = 0;
 
-	load.init_load_file();
-	load_new_board_to_play("pacman_03.screen");//TODO- find curr board
-
-	load.set_num_of_ghosts(board.get_num_of_ghosts());
+	find_files();
+	load_game_from_files();
 	
 	while (!loop_flag)
 	{
@@ -692,6 +739,10 @@ void Game::run_load()
 
 	system("cls");
 	return;
+}
+void Game::run_silent()
+{
+
 }
 
 

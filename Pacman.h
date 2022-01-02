@@ -8,10 +8,10 @@ class Pacman :public Entity
 private:
 	int souls = STARTING_SOULS;
 	int score = ZERO_POINTS;
-	int total_steps = 0;
+	int total_steps = ZERO_STEPS;
 	
 public:
-	enum pacman_table { STARTING_SOULS = 30, ZERO_POINTS = 0};
+	enum pacman_table { STARTING_SOULS = 30, ZERO_POINTS = 0, ZERO_STEPS=0};
 	//--Constructor --//
 	Pacman() {
 		shape = Shape::PACMAN;
@@ -30,6 +30,7 @@ public:
 
 	void add_score(int new_val);
 	void init_score(){score = ZERO_POINTS;}
+	void init_total_steps() { total_steps = ZERO_STEPS; }
 	void decrease_soul();
 	bool is_invalid_place(const Position& next_pos);
 	Position& handle_move() { return move_dir(); };

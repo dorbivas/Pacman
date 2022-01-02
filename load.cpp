@@ -49,8 +49,8 @@ void Load::read_params_from_line(string line) {
 }
 
 void Load::init_load_file() {
-    string file_name = "pacman_03.result";
-    //string file_name = strcat(find_file(last file), ".result");TODO
+    string file_name = board_name.substr(0,board_name.find('.'));
+    file_name += ".result";
     steps_file.open(file_name);
     if (!steps_file) {
         //throw; TODO
@@ -75,8 +75,3 @@ void Load::load_line()
     
        
 }
-/*yarden solution:
-    the last line in the step_file is the numbers of pacman steps
-    so the num of lines should be as total_pacman_steps+1
-    global counter fo num of lines shoud be equal to pacman_steps+1
-*/

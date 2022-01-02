@@ -31,20 +31,15 @@ public:
         - find_files()(Does this happen automatically?)-TODO
 
     3.load -almost done
-        TODO- get the name of file 
         TODO- get num of ghosts
 
-    4. save: almost done
-        TODO- curr_board_file(vector)-  if the board name is pacman_01.screen
-        so the steps file will be pacman_01.result
+    4. BUG- AFTER 3 SCREEN 
 
     5. BUG- Collision between the GHOSTS and the fruit
 
     6. run_silent()-TODO (almost done)
 
     7. MAIN WITH CMD
-
-    8. get curr_board_file_name-TODO (its will solve  3. and 4.)
 
     9. pause in the load mode- check
 
@@ -55,6 +50,8 @@ public:
     13. exceptions
 
     14. readme
+
+
         
 
 

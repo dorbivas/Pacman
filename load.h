@@ -15,6 +15,9 @@ public:
 	void set_num_of_ghosts(int _num_of_ghsots) {
 		num_of_ghosts = _num_of_ghsots;
 	}
+	void set_board_name(string _board_name) {
+		board_name = _board_name;
+	}
 
 	void load_line();//TODO-dor
 	void init_load_file();

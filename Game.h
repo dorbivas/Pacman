@@ -16,7 +16,9 @@ private:
     Save save;
 
     Ghost_mode ghosts_level_mode= Ghost_mode::Novice;
+
     vector<string> file_names;
+    int board_level = 0;
 
     bool pause_flag = false;
     bool color_mode = true;
@@ -80,6 +82,7 @@ private:
 
     bool find_files();
     void load_game_from_files();
+    void load_board_from_user();
 
     void update_values_from_file();
     void save_steps();
@@ -90,7 +93,7 @@ public:
         menu.set_save_mode(save_mode);
         menu.handle_menu(); }
     void run_load(); 
-    void run_silent() { } // TODO silent = true
+    void run_silent(); 
     void set_save_mode(bool mode) { save_mode = mode; }
 };
 

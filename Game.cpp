@@ -378,22 +378,30 @@ void Game::win() {
 	if (board_level < file_names.size() - 1)
 	{
 		if (load_mode)
-			load.finish_loading();
-		if (save_mode)
-			save.finish_saving();
-
-
-		cout << "next level-(1), back to menu-(0): ";
-		cin >> selection;
-		while (selection != 0 && selection != 1)//TODO EXCEPTION
 		{
-			cout << "ext level-(1), back to menu-(0):";
-			cin >> selection;
-		}
-		if (selection == 0)
-			loop_flag = true;
-		else
+			load.finish_loading();
 			load_new_board_to_play(file_names[board_level]);//load new board
+		}
+		else if (save_mode)
+		{
+			save.finish_saving();
+			load_new_board_to_play(file_names[board_level]);//load new board
+		}
+		else
+		{
+			cout << "next level-(1), back to menu-(0): ";
+			cin >> selection;
+			while (selection != 0 && selection != 1)//TODO EXCEPTION
+			{
+				cout << "ext level-(1), back to menu-(0):";
+				cin >> selection;
+			}
+			if (selection == 0)
+				loop_flag = true;
+			else
+				load_new_board_to_play(file_names[board_level]);//load new board
+		}
+
 	}
 		
 	else
@@ -404,8 +412,6 @@ void Game::win() {
 		loop_flag = true;
 
 	}
-	
-	
 }
 
 void Game::init_ghosts()

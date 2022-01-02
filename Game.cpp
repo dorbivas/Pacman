@@ -477,6 +477,7 @@ void Game::load_new_board_to_play(const string& file_name) {
 //----------- Menu Class: -----------//
 void Game::Menu::handle_menu() {
 	Game run;
+	run.set_save_mode(true);
 	do {
 		system("cls");
 		menu_display();

@@ -14,11 +14,9 @@ public:
     };
     
     enum  Shape {
-        PACMAN = '@',
-        GHOST = '$',
+        PACMAN = 233,
+        GHOST = 234,
         P = '.',
-        W = '#',
-        T = 176,
         S = ' ',
         FIVE = '5',
         SIX = '6',

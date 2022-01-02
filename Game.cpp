@@ -9,7 +9,8 @@ Game::Game() {
 void Game::game() {
 	//find_files();//TODO
 	//load_game_from_files();
-	string curr_board = "pacman_03.screen";//file_names[curr]-TODO
+
+	string curr_board = "pacman_05.screen";//file_names[curr]-TODO
 	if(save_mode)
 	{
 		save.init_save_file();
@@ -45,12 +46,13 @@ void Game::game() {
 			if(save_mode)
 				save_steps();
 
-			handle_ghost_move();
-
-			
-			if (!is_fruit_dead)
-				handle_fruit_move();
-
+			if (hold_move % 2 == 0)
+			{
+				handle_ghost_move();
+				if (!is_fruit_dead)
+					handle_fruit_move();
+			}
+		
 			handle_pacman_move();
 
 			handle_score(pacman.get_position());
@@ -63,6 +65,7 @@ void Game::game() {
 			else
 				loop_flag = true;//stop the loop
 		}
+		hold_move++;
 	}
 
 	system("cls");
@@ -262,11 +265,12 @@ void Game::print_move(const Position pos, Entity::Shape shape) {
 	if (color_mode)
 	{
 		if (shape == Entity::Shape::P)
-			board.set_color((int)fruit.get_color());
-		else if (shape == Entity::Shape::T)
-			board.set_color((int)Board::Color::LIGHTBLUE);
+			board.set_color((int)Board::Color::WHITE);
 		else if (shape == Entity::Shape::PACMAN)
 			board.set_color((int)pacman.get_color());
+		else if (shape == Entity::FIVE || shape == Entity::SIX || 
+				 shape == Entity::SEVEN || shape == Entity::EIGHT || shape == Entity::NINE)
+			board.set_color((int)Board::Color::MAGENTA);
 		else // (c == GHOST_ICON)
 			board.set_color((int)ghosts[0].get_color());
 	}
@@ -389,11 +393,11 @@ void Game::load_new_board_to_play(const string& file_name) {
 	}
 	else
 		pacman.init_score();
-
+	current_key = 's'; 
 	pacman.set_position(board.get_inital_pacman_pos());
+	pacman.set_direction(Entity::Direction::STAY);
 	pacman.set_board(board);
 		
-
 	init_ghosts();
 
 	board.print_board(this->color_mode);

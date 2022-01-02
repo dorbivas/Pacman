@@ -7,7 +7,7 @@
 
 class Game {
 private:
-    static const int MAX_POINTS = 100, SPEED = 150, PAUSE_X = 1, PAUSE_Y = 26; 
+    static const int MAX_POINTS = 100, SPEED = 100, PAUSE_X = 1, PAUSE_Y = 26; 
     Pacman pacman;
     Ghosts ghosts[Board::MAX_SIZES::MAX_GHOSTS];
     Fruit fruit;
@@ -23,12 +23,12 @@ private:
     bool loop_flag = false;
     bool first_run_done = false;
     bool is_fruit_dead = false;
-    unsigned char current_key;
     bool save_mode = false;
     bool load_mode = false;
+    int hold_move = 0;
+    unsigned char current_key;
 
-    
-
+   
 
     class Menu {
     private:

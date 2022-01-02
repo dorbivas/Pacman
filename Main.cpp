@@ -6,7 +6,7 @@ int main(int argc, char** argv) {
 	//string str = argv[0];
 
 	if (argc == 1)
-		game.run_load();
+		game.run_menu();
 
 	else if (argc == 2)
 	{
@@ -27,7 +27,7 @@ int main(int argc, char** argv) {
 		}
 	}
 	else
-		//game.run_menu();//for testing without cmd
+		game.run_menu();//for testing without cmd
 		//throw(dor)-todo
 		cout << "ERROR" << endl;
 

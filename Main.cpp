@@ -26,7 +26,7 @@ int main(int argc, char** argv) {
 	else if (argc == 3)
 	{
 		str = argv[1];
-		if (str.compare("-load") == 0 /*|| str.compare("-save") == 0*/)
+		if (str.compare("-load") == 0)
 		{
 			str = argv[2];
 			if (str.compare("-silent") == 0)

@@ -7,6 +7,8 @@ Game::Game() {
 }
 
 void Game::game() {
+
+	//save_mode = true;//TODO DELATE- JUST FOR TESTING
 	find_files();
 	load_game_from_files();
 
@@ -34,17 +36,29 @@ void Game::game() {
 			}
 			next_pos = pacman.move_dir();
 
-			if(save_mode)
-				save_steps();
+			/*if(save_mode)
+				save_steps();*/
 
 			if (hold_move % 2 == 0)
 			{
 				handle_ghost_move();
 				if (!is_fruit_dead)
 					handle_fruit_move();
+				else
+				{
+					if (pacman.get_total_steps() == 150)
+					{
+						is_fruit_dead = false;
+						fruit = Fruit();
+						fruit.fruit();
+					}
+				}
 			}
 		
 			handle_pacman_move();
+
+			if (save_mode)
+				save_steps();
 
 			handle_score(pacman.get_position());
 			temp = current_key;
@@ -187,11 +201,6 @@ void Game::handle_fruit_move() {
 	{
 		is_fruit_dead = true;
 		fruit.~Fruit();
-	}
-	else if (pacman.get_total_steps() == 150)
-	{
-		is_fruit_dead = false;
-		fruit = Fruit();
 	}
 	else
 	{
@@ -483,7 +492,6 @@ void Game::load_new_board_to_play(const string& file_name) {
 //----------- Menu Class: -----------//
 void Game::Menu::handle_menu() {
 	Game run;
-	run.set_save_mode(true);
 	do {
 		system("cls");
 		menu_display();
@@ -763,6 +771,14 @@ void Game::run_load()
 
 			if (!is_fruit_dead)
 				handle_fruit_move();
+			else
+			{
+				if (pacman.get_total_steps() == 150)
+				{
+					is_fruit_dead = false;
+					fruit = Fruit();
+				}
+			}
 
 			handle_pacman_move();
 			handle_score(pacman.get_position());

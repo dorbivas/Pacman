@@ -54,6 +54,7 @@ void Load::init_load_file() {
     steps_file.open(file_name);
     if (!steps_file) {
         //throw; TODO
+        //and if we saved only 2 wall we need to load only 2 fines- todo 
     }
 }
 

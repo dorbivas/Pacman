@@ -355,13 +355,25 @@ void Game::lose() {
 	system("cls");
 	my_print("you lost.");
 	my_print("\n");
-	system("pause");
-	loop_flag = true;
-	board_level = 0;
+	my_print("retry ? (1) back to menu(0):");
+	//system("pause");
+	int selection;
+	cin >> selection;
+	while (selection != 0 && selection != 1)//TODO EXCEPTION
+	{
+		cout << "wrong input,retry?-(1), back to menu-(0):";
+		cin >> selection;
+	}
+	if (selection == 0)
+		loop_flag = true;
+	else
+		load_new_board_to_play(file_names[board_level]);//retry
+	
 }
 
 void Game::win() {
 	system("cls");
+	int selection;
 	board_level++;
 	if (board_level < file_names.size() - 1)
 	{
@@ -370,7 +382,18 @@ void Game::win() {
 		if (save_mode)
 			save.finish_saving();
 
-		load_new_board_to_play(file_names[board_level]);//load new board
+
+		cout << "next level-(1), back to menu-(0): ";
+		cin >> selection;
+		while (selection != 0 && selection != 1)//TODO EXCEPTION
+		{
+			cout << "ext level-(1), back to menu-(0):";
+			cin >> selection;
+		}
+		if (selection == 0)
+			loop_flag = true;
+		else
+			load_new_board_to_play(file_names[board_level]);//load new board
 	}
 		
 	else
@@ -378,8 +401,8 @@ void Game::win() {
 		my_print("you won.");
 		my_print("\n");
 		system("pause");
-		board_level = 0;
 		loop_flag = true;
+
 	}
 	
 	
@@ -472,15 +495,18 @@ void Game::Menu::handle_menu() {
 			system("cls");
 			run.set_save_mode(save_mode);
 			run.game();
+			run.first_run_done = false;
 		}
-		else if (user_choice == 11)
+		else if (user_choice == 11)//saved game
 		{
 			//IS_SILENT = true;
 			IS_SILENT = !IS_SILENT;
 			cout << "SILENT!" << endl << endl;
 			Sleep(200);
 			system("cls");
-			menu_display();
+			run.first_run_done = true;
+			run.run_silent();
+			//menu_display();
 		}
 		else if (user_choice == Change_Color_Mode)
 		{

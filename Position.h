@@ -24,12 +24,13 @@ public:
 /*
     TODO:
 
-    1. SPEED(DOR)
+    1.DONE SPEED(DOR)
     2. in the function win(): 
         - move to the next board:
         load_game_from_files()(Does this happen automatically?)-TODO
         - reset score witout souls- DONE
-    3. load - in process(DOR)
+
+    3.DONE load - in process(DOR)
     4. save:
         - Save the file to the name of the current board plus .result(strcat)- (find_file?)-TODO
         - Save the data to the file according to the format
@@ -39,8 +40,9 @@ public:
     8. get curr_board_file_name-TODO
     9. NUM OF GHOSTS-LOAD resize- TEST
     10. pause in load_run- test
+
     11. load print not clear- todo(yarden)
-  
+    12. NEW BOARDS DOR
         
 
 

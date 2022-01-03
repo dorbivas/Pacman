@@ -5,17 +5,21 @@ int main(int argc, char** argv) {
 	string str;
 	try
 	{
-		str = argv[0];
-		if (argc == 1) 	{
-			if (str.compare("Pacman.exe") == 0) {
-				game.run_menu();
-				//game.run_load(); // cd C:\Users\USER\source\repos\Pacman
-			}
-			else
-			{
-				throw " unvalid .exe name ";
-			}
-		}
+
+		if (argc == 1) 
+			game.run_menu();
+
+		//str = argv[0];
+		//if (argc == 1) 	{
+		//	if (str.compare("Pacman.exe") == 0) {
+		//		game.run_menu();
+		//		//game.run_load(); // cd C:\Users\USER\source\repos\Pacman Pacman.exe -load 
+		//	}
+		//	else
+		//	{
+		//		throw " unvalid .exe name ";
+		//	}
+		//}
 		
 		else if (argc == 2)
 		{
@@ -59,7 +63,7 @@ int main(int argc, char** argv) {
 	catch (const char* error_msg)
 	{
 		system("cls");
-		cout << " ERROR1: " << error_msg << endl;
+		cout << "ERROR1: " << error_msg << endl;
 		system("PAUSE");
 		system("cls");
 		return 0;

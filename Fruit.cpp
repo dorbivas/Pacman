@@ -1,9 +1,9 @@
 #include "Fruit.h"
 
 void Fruit::generate_random_pos() {
-	int valid_position_size = board.getOptionalIndex();
+	int valid_position_size = board.get_valid_index();
 	int random_index_number = (0 + rand() % valid_position_size);
-	Position new_fruit_pos(board.getAPointForFruit(random_index_number));
+	Position new_fruit_pos(board.get_rand_point(random_index_number));
 	pos = new_fruit_pos;
 }
 void Fruit::fruit() {

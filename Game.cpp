@@ -770,7 +770,7 @@ void Game::run_load()
 		update_values_from_file();
 
 		if(!IS_SILENT)
-			Sleep(SPEED*2);
+			Sleep(SPEED/2);
 		if (is_valid_key(current_key))
 		{
 			handle_key_input(current_key);

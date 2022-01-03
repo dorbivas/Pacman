@@ -11,26 +11,6 @@ void Game::game() {
 	//save_mode = true;//TODO DELATE- JUST FOR TESTING
 	find_files();
 	load_game_from_files();
-	//try
-	//{
-	//	if (find_files() == false)
-	//	{
-	//		throw " no valid board files "; // TODO done??
-	//	}
-
-	//	load_game_from_files();
-	//}
-	//catch (const char* exp_msg)
-	//{
-	//	cout << "ERROR: " << exp_msg << endl;
-	//	if (exp_msg[0] == 'B')
-	//	{
-	//		board_level++;
-	//		//how_many_pacmans = how_many_legends = num_of_ghosts = 0;
-	//		load_game_from_files();
-	//	}
-	//}
-	//
 
 	Position next_pos;
 	unsigned char temp;
@@ -483,57 +463,76 @@ void Game::init_ghosts()
 
 void Game::load_new_board_to_play(const string& file_name) {
 
+
 	system("cls");
 	_flushall();
-	//board.how_many_pacmans = board.how_many_legends = board.num_of_ghosts = 0;
 
-	board.load_board(file_name);
-
-	fruit = Fruit();
-	fruit.set_board(board);
-	if(!load_mode && !IS_SILENT)
-		fruit.fruit();
-
-	pause_flag = false;
-	loop_flag = false;
-	is_fruit_dead = false;
-
-	if(!first_run_done)
+	try
 	{
-		board_level = 0;
-		first_run_done = true;
-		this->pacman = Pacman();
+		board.how_many_pacmans = board.how_many_legends = board.num_of_ghosts = 0;
+		board.load_board(file_name);
+
+		fruit = Fruit();
+		fruit.set_board(board);
+		if (!load_mode && !IS_SILENT)
+			fruit.fruit();
+
+		pause_flag = false;
+		loop_flag = false;
+		is_fruit_dead = false;
+
+		if (!first_run_done)
+		{
+			board_level = 0;
+			first_run_done = true;
+			this->pacman = Pacman();
+		}
+		else
+		{
+			pacman.init_score();
+			pacman.init_total_steps();
+		}
+
+		current_key = 's';
+		pacman.set_position(board.get_inital_pacman_pos());
+		pacman.set_direction(Entity::Direction::STAY);
+		pacman.set_board(board);
+
+		init_ghosts();
+		board.print_board(this->color_mode);
+
+		if (save_mode)
+		{
+			save.set_board_name(file_names[board_level]);
+			save.init_save_file();
+		}
+
+		if (load_mode || IS_SILENT)
+		{
+			load.set_board_name(file_names[board_level]);
+			load.set_num_of_ghosts(board.get_num_of_ghosts());
+			load.init_load_file();
+		}
+
+		if (IS_SILENT)
+		{
+			//TODO
+		}
+
 	}
-	else
+	catch (const char* error_msg)
 	{
-		pacman.init_score();
-		pacman.init_total_steps();
-	}
+
+		system("cls");
+		cout << "board number: " << board_level + 1 << " ERROR1: "<< error_msg << " skipping the board" << endl;
+		system("PAUSE");
+		system("cls");
+		if (error_msg[0] == 'B')
+		{
+			board_level++;
+			load_game_from_files();
+		}
 		
-	current_key = 's'; 
-	pacman.set_position(board.get_inital_pacman_pos());
-	pacman.set_direction(Entity::Direction::STAY);
-	pacman.set_board(board);
-
-	init_ghosts();
-	board.print_board(this->color_mode);
-
-	if (save_mode)
-	{
-		save.set_board_name(file_names[board_level]);
-		save.init_save_file();
-	}
-
-	if (load_mode || IS_SILENT)
-	{
-		load.set_board_name(file_names[board_level]);
-		load.set_num_of_ghosts(board.get_num_of_ghosts());
-		load.init_load_file();
-	}
-
-	if (IS_SILENT)
-	{
-		//TODO
 	}
 
 

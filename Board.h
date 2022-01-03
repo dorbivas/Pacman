@@ -37,7 +37,6 @@ public:
     };
 private:
     unsigned char board[MAX_HEIGHT][MAX_WIDTH];
-    int rows, cols, max_score, num_of_ghosts, how_many_pacmans = 0, how_many_legends = 0;
 
     Position inital_pacman_pos;
     Position inital_ghosts_pos[MAX_GHOSTS];
@@ -55,6 +54,7 @@ private:
     void search_points();
   
 public:
+    int rows, cols, max_score, num_of_ghosts, how_many_pacmans = 0, how_many_legends = 0;
 
     void load_board(const string& file_name);
     void print_board(const bool color_mode);

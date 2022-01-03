@@ -45,7 +45,7 @@ void Board::load_board(const string& file_name)
 			board_from_file(file);
 	}
 	else
-		throw "B: unable to open file "; 
+		//throw "B: unable to open file "; 
 	
 	file.close();
 }
@@ -86,7 +86,7 @@ void Board::board_from_file(ifstream& file_input)
 			{
 				if (how_many_pacmans >= 1)
 				{
-					throw ("B: more than one pacman exception ");
+					//throw ("B: more than one pacman exception ");
 					
 				}
 
@@ -99,7 +99,7 @@ void Board::board_from_file(ifstream& file_input)
 			{
 				if (num_of_ghosts >= 3)
 				{
-					throw ("B: more than four ghost exception ");
+					//throw ("B: more than four ghost exception ");
 			
 				}
 
@@ -121,12 +121,15 @@ void Board::board_from_file(ifstream& file_input)
 			{
 				if (how_many_legends >= 1)
 				{
-					throw ("B: more than one legend exception ");
+					//throw ("B: more than one legend exception ");
 				 
 				}
 
-				if (is_first_line &&  MAX_LEGEND_COLS + curr_col > cols) // the legend_pos is out of bound
-					throw ("B: out of bound exception: legend");
+				if (is_first_line && MAX_LEGEND_COLS + curr_col > cols) // the legend_pos is out of bound
+				{
+					//throw ("B: out of bound exception: legend");
+
+				}
 				
 				legend_pos.set_xy(curr_col, rows);
 				board[rows][curr_col] = S;
@@ -138,10 +141,16 @@ void Board::board_from_file(ifstream& file_input)
 				if (!is_first_line) 
 				{
 					if (curr_col > MAX_WIDTH)
-						throw ("B: out of bound exception: first col ");
+					{
+						//throw ("B: out of bound exception: first col ");
+
+					}
 					
 					else if (legend_flag == 1 && MAX_WIDTH - legend_pos.get_x() < 20) // no space for legend_pos
-						throw ("B: out of bound exception: legend");
+					{
+						//throw ("B: out of bound exception: legend");
+
+					}
 					
 					if (legend_flag == 1 && legend_pos.get_x() + 19 > cols) 
 						cols = legend_pos.get_x() + 19; 

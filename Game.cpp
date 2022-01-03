@@ -823,8 +823,8 @@ void Game::run_silent()
 		conditon for good test:TODO*(dor)
 	*/
 	if (test_is_good)
-		cout << "passed" << endl;
+		throw " Test Passed ";
 	else
-		cout << "test falied" << endl;
+		throw " Test Failed " ;
 
 }

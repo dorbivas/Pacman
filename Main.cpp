@@ -2,24 +2,12 @@
 int main(int argc, char** argv) {
 	cursor_visibility(false);
 	Game game;
-	string str;
+	string str, error_main = " unvalid load mode params ";
+
 	try
 	{
-
 		if (argc == 1) 
 			game.run_menu();
-
-		//str = argv[0];
-		//if (argc == 1) 	{
-		//	if (str.compare("Pacman.exe") == 0) {
-		//		game.run_menu();
-		//		//game.run_load(); // cd C:\Users\USER\source\repos\Pacman Pacman.exe -load 
-		//	}
-		//	else
-		//	{
-		//		throw " unvalid .exe name ";
-		//	}
-		//}
 		
 		else if (argc == 2)
 		{
@@ -32,9 +20,8 @@ int main(int argc, char** argv) {
 				game.run_menu();
 			}
 			else
-			{
-				throw " unvalid game mode params ";
-			}
+				throw error_main;
+			
 		}
 		else if (argc == 3)
 		{
@@ -45,20 +32,14 @@ int main(int argc, char** argv) {
 				if (str.compare("-silent") == 0)
 					game.run_silent();
 				else
-					throw " unvalid load mode params ";
+					throw error_main;
 			}
 			else
-			{
-				throw " unvalid game mode params ";
-			}
-
+				throw error_main;
 		}
 		else
-		{
-			//game.run_menu();//for testing without cmd 
-			
-			throw "ya ";
-		}
+			throw " Main unexpected behavior ";
+		
 	}
 	catch (const char* error_msg)
 	{

@@ -5,8 +5,8 @@ int main(int argc, char** argv) {
 	string str;
 
 	if (argc == 1)
-		//game.run_menu();
-		game.run_load();
+		game.run_menu();
+		//game.run_load();
 
 	else if (argc == 2)
 	{

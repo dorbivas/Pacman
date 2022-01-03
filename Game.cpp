@@ -61,6 +61,14 @@ void Game::game() {
 					}
 				}
 			}
+			else
+			{
+				for (int i = 0; i < board.get_num_of_ghosts(); i++)
+				{
+					if (ghosts[i].is_collided(pacman.get_position(), next_pos, pacman.get_direction()))
+						handle_collision();
+				}
+			}
 		
 			handle_pacman_move();
 			handle_score();

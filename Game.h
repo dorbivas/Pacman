@@ -15,7 +15,7 @@ private:
     Load load;
     Save save;
 
-    Ghost_mode ghosts_level_mode= Ghost_mode::Novice;
+    Ghost_mode ghosts_level_mode = Ghost_mode::Novice;
 
     vector<string> file_names;
     int board_level = 0;

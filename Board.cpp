@@ -9,14 +9,12 @@ void Board::print_board(const bool color_mode) {
 			{
 				if (color_mode)
 					set_color((int)Color::LIGHTCYAN);
-				//cout << board[i][j];
 				my_print(board[i][j]);
 			}
 			else if (board[i][j] == (unsigned char)P)
 			{
 				if (color_mode)
 					set_color((int)Color::LIGHTGREY);
-				//cout << board[i][j];
 				my_print(board[i][j]);
 
 			}
@@ -24,13 +22,11 @@ void Board::print_board(const bool color_mode) {
 			{
 				if (color_mode)
 					set_color((int)Color::LIGHTBLUE);
-				//cout << board[i][j];
 				my_print(board[i][j]);
 			}
 			else {
 				if (color_mode)
 					set_color((int)Color::WHITE);
-				//cout << board[i][j];
 				my_print(board[i][j]);
 			}
 		}
@@ -42,20 +38,22 @@ void Board::print_board(const bool color_mode) {
 void Board::load_board(const string& file_name)
 {
 	ifstream file(file_name, ios::ate);
+	if (file.is_open())
+	{
+			make_board_empty();
+			points_valid_positions.clear();
+			board_from_file(file);
+	}
+	else
+		throw "B: unable to open file "; 
 	
-	if (!file)
-		cout << "file empty"; 
-
-	make_board_empty();
-	points_valid_positions.clear();
-	board_from_file(file);
-
 	file.close();
 }
 
 void Board::board_from_file(ifstream& file_input)
 {
 	int char_counter = 0, curr_col = 0, legend_flag = 0, file_size;
+
 	bool is_first_line = false;
 	unsigned char prev_char = 32;
 
@@ -86,14 +84,11 @@ void Board::board_from_file(ifstream& file_input)
 
 			else if (curr_char == '@')
 			{
-				/*if (how_many_pacmans >= 1)
+				if (how_many_pacmans >= 1)
 				{
-					board_errors.set_msg(" more than one pacman exception ");
-					board[rows][curr_col] = S;
-					if (!is_first_line)
-						cols++;
-					continue;
-				}*/
+					throw ("B: more than one pacman exception ");
+					
+				}
 
 				inital_pacman_pos.set_xy(curr_col, rows);
 				board[rows][curr_col] = S; // pac start on empty space so he wont add score
@@ -102,14 +97,11 @@ void Board::board_from_file(ifstream& file_input)
 
 			else if (curr_char == '$')
 			{
-			/*	if (num_of_ghosts >= 3)
+				if (num_of_ghosts >= 3)
 				{
-					board_errors.set_msg(" more than four ghost exception ");
-					board[rows][curr_col] = S;
-					if (!is_first_line)
-						cols++;
-					continue;
-				}*/
+					throw ("B: more than four ghost exception ");
+			
+				}
 
 				inital_ghosts_pos[num_of_ghosts++].set_xy(curr_col, rows);
 				board[rows][curr_col] = S;
@@ -127,17 +119,14 @@ void Board::board_from_file(ifstream& file_input)
 
 			else if (curr_char == '&')
 			{
-			/*	if (how_many_legends >= 1)
+				if (how_many_legends >= 1)
 				{
-					board_errors.set_msg(" more than one legend exception ");
-				    board[rows][curr_col] = S;
-					if (!is_first_line)
-						cols++;
-					continue;
-				}*/
+					throw ("B: more than one legend exception ");
+				 
+				}
 
 				if (is_first_line &&  MAX_LEGEND_COLS + curr_col > cols) // the legend_pos is out of bound
-					board_errors.set_msg(" out of bound exception: legend");
+					throw ("B: out of bound exception: legend");
 				
 				legend_pos.set_xy(curr_col, rows);
 				board[rows][curr_col] = S;
@@ -149,10 +138,10 @@ void Board::board_from_file(ifstream& file_input)
 				if (!is_first_line) 
 				{
 					if (curr_col > MAX_WIDTH)
-						board_errors.set_msg(" out of bound exception: first col ");
+						throw ("B: out of bound exception: first col ");
 					
 					else if (legend_flag == 1 && MAX_WIDTH - legend_pos.get_x() < 20) // no space for legend_pos
-						board_errors.set_msg(" out of bound exception: legend");
+						throw ("B: out of bound exception: legend");
 					
 					if (legend_flag == 1 && legend_pos.get_x() + 19 > cols) 
 						cols = legend_pos.get_x() + 19; 

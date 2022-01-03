@@ -11,6 +11,26 @@ void Game::game() {
 	//save_mode = true;//TODO DELATE- JUST FOR TESTING
 	find_files();
 	load_game_from_files();
+	//try
+	//{
+	//	if (find_files() == false)
+	//	{
+	//		throw " no valid board files "; // TODO done??
+	//	}
+
+	//	load_game_from_files();
+	//}
+	//catch (const char* exp_msg)
+	//{
+	//	cout << "ERROR: " << exp_msg << endl;
+	//	if (exp_msg[0] == 'B')
+	//	{
+	//		board_level++;
+	//		//how_many_pacmans = how_many_legends = num_of_ghosts = 0;
+	//		load_game_from_files();
+	//	}
+	//}
+	//
 
 	Position next_pos;
 	unsigned char temp;
@@ -457,6 +477,8 @@ void Game::load_new_board_to_play(const string& file_name) {
 
 	system("cls");
 	_flushall();
+	//board.how_many_pacmans = board.how_many_legends = board.num_of_ghosts = 0;
+
 	board.load_board(file_name);
 
 	fruit = Fruit();
@@ -635,18 +657,14 @@ void Game::Menu::print_ruls() const {
 
 void Game::load_game_from_files()
 {
-
 	system("cls");
 	_flushall();
-	
 	if (file_names.size() >= 1)
 		load_new_board_to_play(file_names[board_level]);
-	else
-	{
-		//TODO EXCEPTION
-		cout << "error";
-	}
 
+	else
+		throw " no valid board files ";
+	
 	//load_board_from_user();//TODO(ASK DOR) -GET BOARD NAME FROM THE USER, its necessary?	
 }
 
@@ -794,16 +812,12 @@ void Game::run_silent()
 	run_load();
 	bool test_is_good = false;
 
-
 	/*
 		conditon for good test:TODO*(dor)
 	*/
-
 	if (test_is_good)
 		cout << "passed" << endl;
 	else
 		cout << "test falied" << endl;
 
 }
-
-

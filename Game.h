@@ -94,5 +94,6 @@ public:
     void run_load(); 
     void run_silent(); 
     void set_save_mode(bool mode) { save_mode = mode; }
+    void set_level_board(int val) { board_level = val; }
 };
 

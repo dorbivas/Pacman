@@ -395,13 +395,13 @@ void Game::lose() {
 		cout << "wrong input,retry?-y/n:";
 		cin >> selection;
 	}
-	if (selection == 'y')
+	if (selection == 'n')
 		loop_flag = true;
 	else
 	{
 		if (save_mode)
 			save.finish_saving();
-		load_new_board_to_play(file_names[board_level]);//retry
+		load_game_from_files();//retry
 	}
 }
 
@@ -414,7 +414,7 @@ void Game::win() {
 		if (load_mode || IS_SILENT)
 		{
 			load.finish_loading();
-			load_new_board_to_play(file_names[board_level]);//load new board
+			load_game_from_files();//load new board
 		}
 		else
 		{
@@ -425,7 +425,7 @@ void Game::win() {
 				cout << "wrong input, next level-y/n:";
 				cin >> selection;
 			}
-			if (selection == 'y')
+			if (selection == 'n')
 				loop_flag = true;	
 			else
 			{
@@ -435,7 +435,7 @@ void Game::win() {
 					save.finish_saving();
 				}
 				is_fruit_dead = false;
-				load_new_board_to_play(file_names[board_level]);//load new board
+				load_game_from_files();//load new board
 			}
 		}
 	}
@@ -460,7 +460,7 @@ void Game::init_ghosts()
 	}
 }
 
-void Game::load_new_board_to_play(const string& file_name) {
+void Game::load_new_board_to_play(const string& file_name) {//reset
 
 
 	system("cls");
@@ -471,7 +471,6 @@ void Game::load_new_board_to_play(const string& file_name) {
 		board.set_how_many_legends(0);
 		board.set_how_many_pacmans(0);
 		board.set_num_of_ghosts(0);
-
 		board.load_board(file_name);
 
 		fruit = Fruit();
@@ -529,7 +528,7 @@ void Game::load_new_board_to_play(const string& file_name) {
 		cout << "board number: " << board_level + 1 << " ERROR1: "<< error_msg << " skipping the board" << endl;
 		system("PAUSE");
 		system("cls");
-		if (error_msg[0] == 'B')
+		if (error_msg[0] == 'B' && (board_level < file_names.size()))
 		{
 			board_level++;
 			load_game_from_files();
@@ -562,6 +561,7 @@ void Game::Menu::handle_menu() {
 			run.set_save_mode(save_mode);
 			run.game();
 			run.first_run_done = false;
+			run.set_level_board(0);
 		}
 		else if (user_choice == 11)//saved game
 		{
@@ -674,10 +674,9 @@ void Game::load_game_from_files()
 	else
 		throw " no valid board files ";
 	
-	//load_board_from_user();//TODO(ASK DOR) -GET BOARD NAME FROM THE USER, its necessary?	
 }
 
-void Game::load_board_from_user()
+void Game::load_board_from_user()//TODO -DELEATE
 {
 	system("cls");
 	_flushall();
@@ -771,7 +770,7 @@ void Game::run_load()
 		update_values_from_file();
 
 		if(!IS_SILENT)
-			Sleep(SPEED/4);
+			Sleep(SPEED*2);
 		if (is_valid_key(current_key))
 		{
 			handle_key_input(current_key);

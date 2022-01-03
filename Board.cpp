@@ -105,7 +105,6 @@ void Board::board_from_file(ifstream& file_input)
 
 				inital_ghosts_pos.push_back(Position(curr_col, rows));
 				board[rows][curr_col] = S;
-				num_of_ghosts = inital_ghosts_pos.size();
 			}
 		
 			else if (curr_char == '%')
@@ -191,6 +190,7 @@ void Board::board_from_file(ifstream& file_input)
 			char_counter++;
 		}
 	}
+	num_of_ghosts = inital_ghosts_pos.size();
 	//TODO
 	//system("cls");
 	//board_errors.print_exceptions();
@@ -237,6 +237,7 @@ void Board::make_board_empty() {
 			board[i][j] = S;
 	}
 	rows = 0; cols = 0; num_of_ghosts = 0; max_score = 0;
+	inital_ghosts_pos.clear();
 }
 
 

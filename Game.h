@@ -63,7 +63,7 @@ private:
     void handle_pacman_move();
     void handle_ghost_move();
     void handle_fruit_move();
-    void handle_score(Position& next_pos);
+    void handle_score();
     void handle_collision();
     Position& handle_teleport(Position& pacman_pos);
     void print_move(const Position pos, Entity::Shape shape);
@@ -85,7 +85,6 @@ private:
     void load_board_from_user();
 
     void update_values_from_file();
-    void save_steps();
 
 public:
     Game();

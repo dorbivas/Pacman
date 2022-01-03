@@ -254,7 +254,7 @@ void Game::handle_collision() {
 	pacman.set_direction((int)Entity::Direction::STAY);
 
 
-	if (pacman.get_souls() == 0)
+	if (pacman.get_souls() <= 0)
 	{
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (int)Board::Color::WHITE);
 		lose();
@@ -399,6 +399,7 @@ void Game::lose() {
 		loop_flag = true;
 	else
 	{
+		pacman.set_souls(3);
 		if (save_mode)
 			save.finish_saving();
 		load_game_from_files();//retry

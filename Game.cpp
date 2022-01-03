@@ -8,7 +8,7 @@ Game::Game() {
 
 void Game::game() {
 
-	save_mode = true;//TODO DELATE- JUST FOR TESTING
+	//save_mode = true;//TODO DELATE- JUST FOR TESTING
 	find_files();
 	load_game_from_files();
 
@@ -187,9 +187,11 @@ void Game::handle_ghost_move() {
 		else
 		{
 		//next position
-			ghosts[i].set_position(next_pos);
-			print_move(next_pos, Entity::Shape::GHOST);
-			
+			if (!ghosts[i].is_invalid_place(next_pos))
+			{
+				ghosts[i].set_position(next_pos);
+				print_move(next_pos, Entity::Shape::GHOST);
+			}
 		}
 	}
 }
@@ -197,7 +199,7 @@ void Game::handle_ghost_move() {
 void Game::handle_fruit_move() {
 	Position curr_pos, next_pos;
 	curr_pos = fruit.get_position();
-
+	next_pos = fruit.move_dir();
 	if (board.get_cell(curr_pos) == Entity::Shape::P)
 		print_move(curr_pos, Entity::Shape::P);
 	else
@@ -206,8 +208,15 @@ void Game::handle_fruit_move() {
 		board.set_cell(curr_pos, Entity::Shape::S);
 	}
 
-	if ((pacman.get_total_steps() == 100 && !load_mode) || (pacman.get_total_steps() == 99 && (load_mode||IS_SILENT)))//fruit disappeard
+	if ((pacman.get_total_steps() == 100 && (!load_mode || !IS_SILENT)) || (pacman.get_total_steps() >= 99 && (load_mode||IS_SILENT)))//fruit disappeard
 	{
+		if (board.get_cell(next_pos) == Entity::Shape::P)
+			print_move(next_pos, Entity::Shape::P);
+		else
+		{
+			print_move(next_pos, Entity::Shape::S);
+			board.set_cell(curr_pos, Entity::Shape::S);
+		}
 		is_fruit_dead = true;
 		fruit.~Fruit();
 	}
@@ -221,7 +230,7 @@ void Game::handle_fruit_move() {
 		fruit.set_position(next_pos);
 		print_move(fruit.get_position(), fruit.get_shape());
 			
-		if (save_mode)//TOcheck
+		if (save_mode)
 		{
 			save.set_fruit_shape(fruit.get_shape());
 			save.set_fruit_direction(fruit.get_direction());
@@ -246,7 +255,7 @@ void Game::handle_collision() {
 }
 
 void Game::handle_score() {
-	if (pacman.get_score() >= MAX_POINTS)
+	if (pacman.get_score() >= MAX_POINTS ||((load_mode || IS_SILENT) && pacman.get_score()>= MAX_POINTS-1))
 	{
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (int)Board::Color::WHITE);
 		win();
@@ -395,7 +404,7 @@ void Game::win() {
 	board_level++;
 	if (board_level < file_names.size())
 	{
-		if (load_mode)
+		if (load_mode || IS_SILENT)
 		{
 			load.finish_loading();
 			load_new_board_to_play(file_names[board_level]);//load new board
@@ -418,7 +427,7 @@ void Game::win() {
 					save.write_to_file(pacman.get_total_steps());
 					save.finish_saving();
 				}
-					
+				is_fruit_dead = false;
 				load_new_board_to_play(file_names[board_level]);//load new board
 			}
 		}
@@ -452,7 +461,7 @@ void Game::load_new_board_to_play(const string& file_name) {
 
 	fruit = Fruit();
 	fruit.set_board(board);
-	if(!load_mode)
+	if(!load_mode && !IS_SILENT)
 		fruit.fruit();
 
 	pause_flag = false;
@@ -485,7 +494,7 @@ void Game::load_new_board_to_play(const string& file_name) {
 		save.init_save_file();
 	}
 
-	if (load_mode)
+	if (load_mode || IS_SILENT)
 	{
 		load.set_board_name(file_names[board_level]);
 		load.set_num_of_ghosts(board.get_num_of_ghosts());
@@ -707,7 +716,7 @@ void Game::update_values_from_file()
 {
 	current_key = load.get_current_key();
 	fruit.set_position(load.get_fruit_position());
-	is_fruit_dead = load.get_fruit_is_dead();
+	//is_fruit_dead = load.get_fruit_is_dead();
 	fruit.set_direction(load.get_fruit_direction());
 	fruit.set_fruit_val(load.get_fruit_shape());
 	fruit.set_shape(fruit.num_to_shape(fruit.get_fruit_val()));
@@ -752,6 +761,7 @@ void Game::run_load()
 					handle_fruit_move();
 				else
 				{
+					is_fruit_dead = true;
 					if (pacman.get_total_steps() == 150)//alive again
 					{
 						is_fruit_dead = false;
@@ -772,9 +782,6 @@ void Game::run_load()
 			else
 				loop_flag = true;//stop the loop
 		}
-		if (counter_steps==load.get_num_of_steps())
-			loop_flag = true;//stop the loop
-
 		counter_steps++;
 	}
 
@@ -789,7 +796,7 @@ void Game::run_silent()
 
 
 	/*
-		conditon for good test:TODO
+		conditon for good test:TODO*(dor)
 	*/
 
 	if (test_is_good)

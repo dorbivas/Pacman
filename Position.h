@@ -25,31 +25,23 @@ public:
     TODO:
 
     1.DONE SPEED(DOR)
-
-    2. in the function win(): 
-        - move to the next board:
-        - find_files()(Does this happen automatically?)-TODO
+        BUG in collision sometimes(yarden+dor)
 
     3.load -almost done
-        TODO- get num of ghosts
-
-    4. BUG- AFTER 3 SCREEN 
-
-    5. BUG- Collision between the GHOSTS and the fruit
+        TODO- get num of ghosts(yarden +dor)
 
     6. run_silent()-TODO (almost done)
 
-    7. MAIN WITH CMD
+    9. pause in the load mode- check -yarden //no
 
-    9. pause in the load mode- check
 
-    11. print_move in load_mode
-
-    12. NEW BOARDS DOR
-
-    13. exceptions
+    13. exceptions -almost done
 
     14. readme
+
+    15. win - wrong input to fix
+
+    16. in the board 2  - fruit print not good(tiny problem- yarden will fix it later);
 
 
         

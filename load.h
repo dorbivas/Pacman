@@ -12,6 +12,8 @@ public:
 	unsigned char get_current_key() const { return current_key; }
 	bool get_fruit_is_dead() { return is_fruit_dead; }
 
+	int get_num_of_steps() { return num_of_steps; }
+
 	void set_num_of_ghosts(int _num_of_ghsots) {
 		num_of_ghosts = _num_of_ghsots;
 	}
@@ -28,6 +30,7 @@ private:
 	unsigned char current_key;
 	bool is_fruit_dead;
 	int num_of_ghosts;
+	int num_of_steps=3000;
 
 	Entity::Direction ghosts_directions[Board::MAX_GHOSTS];//TODO
 	Entity::Direction fruit_direction;

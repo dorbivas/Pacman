@@ -50,6 +50,7 @@ void Game::game() {
 					{
 						is_fruit_dead = false;
 						fruit = Fruit();
+						fruit.set_board(board);
 						fruit.fruit();
 					}
 				}
@@ -77,8 +78,8 @@ void Game::game() {
 
 	if (save_mode)
 	{
-		save.finish_saving();
 		save.write_to_file(pacman.get_total_steps());
+		save.finish_saving();
 	}
 	return;
 }
@@ -197,7 +198,7 @@ void Game::handle_fruit_move() {
 		board.set_cell(curr_pos, Entity::Shape::S);
 	}
 
-	if (pacman.get_total_steps() == 100)//fruit disappeard
+	if ((pacman.get_total_steps() == 100 && !load_mode) || (pacman.get_total_steps() == 99 && load_mode))//fruit disappeard
 	{
 		is_fruit_dead = true;
 		fruit.~Fruit();
@@ -376,8 +377,11 @@ void Game::lose() {
 	if (selection == 0)
 		loop_flag = true;
 	else
+	{
+		if (save_mode)
+			save.finish_saving();
 		load_new_board_to_play(file_names[board_level]);//retry
-	
+	}
 }
 
 void Game::win() {
@@ -391,11 +395,6 @@ void Game::win() {
 			load.finish_loading();
 			load_new_board_to_play(file_names[board_level]);//load new board
 		}
-		else if (save_mode)
-		{
-			save.finish_saving();
-			load_new_board_to_play(file_names[board_level]);//load new board
-		}
 		else
 		{
 			cout << "next level-(1), back to menu-(0): ";
@@ -406,11 +405,18 @@ void Game::win() {
 				cin >> selection;
 			}
 			if (selection == 0)
-				loop_flag = true;
+				loop_flag = true;	
 			else
+			{
+				if (save_mode)
+				{
+					save.write_to_file(pacman.get_total_steps());
+					save.finish_saving();
+				}
+					
 				load_new_board_to_play(file_names[board_level]);//load new board
+			}
 		}
-
 	}
 		
 	else
@@ -470,8 +476,8 @@ void Game::load_new_board_to_play(const string& file_name) {
 
 	if (save_mode)
 	{
-		save.init_save_file();
 		save.set_board_name(file_names[board_level]);
+		save.init_save_file();
 	}
 
 	if (load_mode)
@@ -733,6 +739,7 @@ void Game::update_values_from_file()
 	fruit.set_direction(load.get_fruit_direction());
 	fruit.set_fruit_val(load.get_fruit_shape());
 	fruit.set_shape(fruit.num_to_shape(fruit.get_fruit_val()));
+
 	for (int i = 0; i < board.get_num_of_ghosts(); i++)
 		ghosts[i].set_direction(load.get_ghost_direction()[i]);
 }
@@ -773,10 +780,11 @@ void Game::run_load()
 				handle_fruit_move();
 			else
 			{
-				if (pacman.get_total_steps() == 150)
+				if (pacman.get_total_steps() == 149)//alive again
 				{
 					is_fruit_dead = false;
 					fruit = Fruit();
+					fruit.set_board(board);
 				}
 			}
 
@@ -791,7 +799,7 @@ void Game::run_load()
 			else
 				loop_flag = true;//stop the loop
 		}
-		if (counter_steps==pacman.get_total_steps())
+		if (counter_steps==load.get_num_of_steps())
 			loop_flag = true;//stop the loop
 
 		counter_steps++;

@@ -4,47 +4,59 @@ void Load::read_params_from_line(string line) {
 
     /*--- format example:"P:w:G0:0:G1:1:G2:2:G3:0:F:0 or F:5:2:30:20" --- */
     int i = 0, fruit_x, fruit_y;
-
-    line.erase(0, 2); // "P:"
-    current_key = unsigned char(line[0]);
-    line.erase(0, 2); // "w:"
-
-    while (line[0] == 'G') 
+    if (line[0] == 'P')
     {
-        line.erase(0, 3); // "Gi:" **0<=i<=3**
-        ghosts_directions[i++] = Entity::Direction(line[0] - '0');
-        line.erase(0, 2); // "0":
+        line.erase(0, 2); // "P:"
+        current_key = unsigned char(line[0]);
+        line.erase(0, 2); // "w:"
+
+        while (line[0] == 'G')
+        {
+            line.erase(0, 3); // "Gi:" **0<=i<=3**
+            ghosts_directions[i++] = Entity::Direction(line[0] - '0');
+            line.erase(0, 2); // "0":
+        }
+
+        line.erase(0, 2); // "F:"
+        if (line[0] == '0') // "0"
+            is_fruit_dead = true;
+
+        else {
+            is_fruit_dead = false;
+
+            fruit_shape = (line[0] - '0');// "5"
+
+            line.erase(0, 2);
+
+            fruit_direction = (Entity::Direction)(line[0] - '0');// "2"
+
+            line.erase(0, 2); // "5:"
+            if (line[1] == ':')
+            {
+                fruit_x = line[0] - '0';
+                line.erase(0, 2); // "fruit_x 0-9"
+            }
+            else
+            {
+                fruit_x = ((line[0] - '0') * 10) + (line[1] - '0');
+                line.erase(0, 3); // "fruit_x 10-max length"
+            }
+            if (line[1] == '\0') // end or fruit_y is 10 - max length
+                fruit_y = line[0] - '0';
+            else
+                fruit_y = ((line[0] - '0') * 10) + (line[1] - '0');
+
+            fruit_pos.set_xy(fruit_x, fruit_y);
+        }
     }
-
-    line.erase(0, 2); // "F:"
-    if (line[0] == '0') // "0"
-        is_fruit_dead = true;
-
-    else {
-        fruit_shape = (line[0] - '0');// "5"
-
-        line.erase(0, 2);
-
-        fruit_direction = (Entity::Direction)(line[0] - '0');// "2"
-
-        line.erase(0, 2); // "5:"
-        if (line[1] == ':')
-        {
-            fruit_x = line[0] - '0';
-            line.erase(0, 2); // "fruit_x 0-9"
-        }
-        else
-        {
-            fruit_x = ((line[0] - '0') * 10) + (line[1] - '0');
-            line.erase(0, 3); // "fruit_x 10-max length"
-        }
-        if (line[1] == '\0') // end or fruit_y is 10 - max length
-            fruit_y = line[0] - '0';
-
-        else
-            fruit_y = ((line[0] - '0') * 10) + (line[1] - '0');
-
-        fruit_pos.set_xy(fruit_x, fruit_y);
+    else // num of steps
+    {
+        if (line[1] == '\0')
+            num_of_steps = line[0] - '0';
+        else if (line[1] && line[2] == '\0')
+            num_of_steps = ((line[0] - '0') * 10) + (line[1] - '0');
+        else if (line[1] && line[2])
+            num_of_steps = ((line[0] - '0') * 100) + (line[1] - '0') * 10 + (line[2] - '0');
     }
 }
 

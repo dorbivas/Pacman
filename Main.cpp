@@ -3,7 +3,6 @@ int main(int argc, char** argv) {
 	cursor_visibility(false);
 	Game game;
 	string str, error_main = " unvalid load mode params ";
-
 	try
 	{
 		if (argc == 1) 
@@ -34,6 +33,18 @@ int main(int argc, char** argv) {
 				else
 					throw error_main;
 			}
+			else if (str.compare("-save") == 0)
+			{
+				str = argv[2];
+				if (str.compare("-silent") == 0)
+				{
+					game.set_save_mode(true);
+					game.run_menu();
+				}
+				else
+					throw error_main;
+			}
+
 			else
 				throw error_main;
 		}

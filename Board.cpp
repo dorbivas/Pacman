@@ -103,8 +103,9 @@ void Board::board_from_file(ifstream& file_input)
 			
 				}
 
-				inital_ghosts_pos[num_of_ghosts++].set_xy(curr_col, rows);
+				inital_ghosts_pos.push_back(Position(curr_col, rows));
 				board[rows][curr_col] = S;
+				num_of_ghosts = inital_ghosts_pos.size();
 			}
 		
 			else if (curr_char == '%')

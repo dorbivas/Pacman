@@ -14,7 +14,7 @@ class Board {
 
 public:
     enum board_signs { P = '.', W = 219, T = 176, S = ' ', POINT = '.' , WALL = 219 , TELEPORT = 176 };
-    enum MAX_SIZES { MAX_WIDTH = 80, MAX_HEIGHT = 25,MAX_GHOSTS = 2 };
+    enum MAX_SIZES { MAX_WIDTH = 80, MAX_HEIGHT = 25,MAX_GHOSTS = 4 };
     enum legend_size{ MAX_LEGEND_ROWS = 3, MAX_LEGEND_COLS = 20 };
 
     enum class Color {
@@ -38,8 +38,11 @@ public:
 private:
     unsigned char board[MAX_HEIGHT][MAX_WIDTH];
 
+    int num_of_ghosts=0;
+    int how_many_pacmans = 0;
+    int how_many_legends = 0;
     Position inital_pacman_pos;
-    Position inital_ghosts_pos[MAX_GHOSTS];
+    vector<Position> inital_ghosts_pos;
     Position legend_pos;
     vector<Position> points_valid_positions;
     Exceptions board_errors;
@@ -54,14 +57,14 @@ private:
     void search_points();
   
 public:
-    int rows, cols, max_score, num_of_ghosts, how_many_pacmans = 0, how_many_legends = 0;
+    int rows, cols, max_score;
 
     void load_board(const string& file_name);
     void print_board(const bool color_mode);
     void our_spacial_board();//EXTRA
 
     Position& get_inital_pacman_pos() { return inital_pacman_pos; }
-    Position* get_ghost_pacman_pos() { return inital_ghosts_pos; }//EXTRA
+    vector<Position> get_ghost_pacman_pos() { return inital_ghosts_pos; }//EXTRA
 
     void set_color(int color_pick) const { SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color_pick); }
     unsigned char get_cell(const Position& cell_pos) { return board[cell_pos.get_y()][cell_pos.get_x()]; }
@@ -71,6 +74,8 @@ public:
     bool is_valid_move(const Position new_pos);
     int get_max_score() const { return max_score; }
     int get_num_of_ghosts() const { return num_of_ghosts; }
+    int get_how_many_legends() const{ return how_many_legends; }
+    int get_how_many_pacmans() const { return how_many_pacmans; }
 
     int get_legend_x() const { return legend_pos.get_x(); }
     int get_legend_y() const { return legend_pos.get_y(); }
@@ -82,7 +87,9 @@ public:
     const Position& get_rand_point(int num) const { return points_valid_positions[num]; } //TODO
 
     void setTotalScore() { max_score--; } 
-
+    void set_num_of_ghosts(int val) { num_of_ghosts = val; }
+    void set_how_many_legends(int val) { how_many_legends = val; }
+    void set_how_many_pacmans(int val) { how_many_pacmans = val; }
     //void handleRead(const char read, int& row, int& col, int& countChars);// TEST TODO
 
 

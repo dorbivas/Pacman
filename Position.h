@@ -23,25 +23,16 @@ public:
 
 /*
     TODO:
-
-    1.DONE SPEED(DOR)
-        BUG in collision sometimes(yarden+dor)
-
-    3.load -almost done
-        TODO- get num of ghosts(yarden +dor)
-
     6. run_silent()-TODO (almost done)
 
-    9. pause in the load mode- check -yarden //no
 
-
-    13. exceptions -almost done
+    13. exceptions -SILENT-DOR
 
     14. readme
 
-    15. win - wrong input to fix
-
     16. in the board 2  - fruit print not good(tiny problem- yarden will fix it later);
+
+    - CONST
 
 
         

@@ -13,7 +13,7 @@ void Load::read_params_from_line(string line) {
         while (line[0] == 'G')
         {
             line.erase(0, 3); // "Gi:" **0<=i<=3**
-            ghosts_directions[i++] = Entity::Direction(line[0] - '0');
+            ghosts_directions[i++] = int(line[0] - '0');
             line.erase(0, 2); // "0":
         }
 
@@ -61,6 +61,7 @@ void Load::read_params_from_line(string line) {
 }
 
 void Load::init_load_file() {
+    ghosts_directions.resize(num_of_ghosts);
     string file_name = board_name.substr(0,board_name.find('.'));
     file_name += ".result";
     steps_file.open(file_name);
@@ -71,6 +72,7 @@ void Load::init_load_file() {
 }
 
 void Load::finish_loading() {
+    ghosts_directions.clear();
     steps_file.close();
 }
 

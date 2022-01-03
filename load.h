@@ -6,7 +6,7 @@ class Load {
 public:
 	Position& get_fruit_position() { return fruit_pos; }
 	int get_fruit_shape() { return fruit_shape; }
-	Entity::Direction* get_ghost_direction() { return ghosts_directions; }
+	vector<int> get_ghost_direction() { return ghosts_directions; }
 	Entity::Direction get_fruit_direction() { return fruit_direction; }
 
 	unsigned char get_current_key() const { return current_key; }
@@ -29,10 +29,10 @@ public:
 private:
 	unsigned char current_key;
 	bool is_fruit_dead;
-	int num_of_ghosts;
+	int num_of_ghosts=4;
 	int num_of_steps=3000;
 
-	Entity::Direction ghosts_directions[Board::MAX_GHOSTS];//TODO
+	vector<int> ghosts_directions;
 	Entity::Direction fruit_direction;
 	int fruit_shape;
 

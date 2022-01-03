@@ -8,7 +8,6 @@ Game::Game() {
 
 void Game::game() {
 
-	//save_mode = true;//TODO DELATE- JUST FOR TESTING
 	find_files();
 	load_game_from_files();
 
@@ -334,7 +333,7 @@ void Game::display_score_souls() const {
 
 void Game::pause() {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (int)Board::Color::WHITE);
-	unsigned char c = _getch();//TODO in load mode
+	unsigned char c = _getch();
 	goto_xy(PAUSE_X, PAUSE_Y);  // location of "pause..." in the console
 	my_print("Pause . . .");
 	while (c != ESC)
@@ -376,7 +375,8 @@ void Game::handle_key_input(const unsigned char current_key) {  //return the dir
 		break;
 
 	case ESC:
-		pause();
+		if(!load_mode && !IS_SILENT)
+			pause();
 		pause_flag = true;
 		break;
 	}
@@ -387,16 +387,15 @@ void Game::lose() {
 	system("cls");
 	my_print("you lost.");
 	my_print("\n");
-	my_print("retry ? (1) back to menu(0):");
-	//system("pause");
-	int selection;
+	my_print("retry ?y/n:");
+	char selection;
 	cin >> selection;
-	while (selection != 0 && selection != 1)//TODO EXCEPTION
+	while (selection != 'y' && selection != 'n')//TODO EXCEPTION
 	{
-		cout << "wrong input,retry?-(1), back to menu-(0):";
+		cout << "wrong input,retry?-y/n:";
 		cin >> selection;
 	}
-	if (selection == 0)
+	if (selection == 'y')
 		loop_flag = true;
 	else
 	{
@@ -408,7 +407,7 @@ void Game::lose() {
 
 void Game::win() {
 	system("cls");
-	int selection;
+	char selection;
 	board_level++;
 	if (board_level < file_names.size())
 	{
@@ -419,14 +418,14 @@ void Game::win() {
 		}
 		else
 		{
-			cout << "next level-(1), back to menu-(0): ";
+			cout << "next level-y/n: ";
 			cin >> selection;
-			while (selection != 0 && selection != 1)//TODO EXCEPTION
+			while (selection != 'y' && selection != 'n')//TODO EXCEPTION
 			{
-				cout << "ext level-(1), back to menu-(0):";
+				cout << "wrong input, next level-y/n:";
 				cin >> selection;
 			}
-			if (selection == 0)
+			if (selection == 'y')
 				loop_flag = true;	
 			else
 			{
@@ -447,12 +446,12 @@ void Game::win() {
 		my_print("\n");
 		system("pause");
 		loop_flag = true;
-
 	}
 }
 
 void Game::init_ghosts()
 {
+	ghosts.resize(board.get_num_of_ghosts());
 	for (int i = 0; i < board.get_num_of_ghosts(); i++)
 	{
 		ghosts[i].set_position(board.get_ghost_pacman_pos()[i].get_x(), board.get_ghost_pacman_pos()[i].get_y());
@@ -469,7 +468,10 @@ void Game::load_new_board_to_play(const string& file_name) {
 
 	try
 	{
-		board.how_many_pacmans = board.how_many_legends = board.num_of_ghosts = 0;
+		board.set_how_many_legends(0);
+		board.set_how_many_pacmans(0);
+		board.set_num_of_ghosts(0);
+
 		board.load_board(file_name);
 
 		fruit = Fruit();
@@ -510,13 +512,13 @@ void Game::load_new_board_to_play(const string& file_name) {
 		if (load_mode || IS_SILENT)
 		{
 			load.set_board_name(file_names[board_level]);
-			load.set_num_of_ghosts(board.get_num_of_ghosts());
+			load.set_num_of_ghosts(ghosts.size());
 			load.init_load_file();
 		}
 
 		if (IS_SILENT)
 		{
-			//TODO
+			//TODO-DOR
 		}
 
 	}
@@ -769,7 +771,7 @@ void Game::run_load()
 		update_values_from_file();
 
 		if(!IS_SILENT)
-			Sleep(SPEED);
+			Sleep(SPEED/4);
 		if (is_valid_key(current_key))
 		{
 			handle_key_input(current_key);

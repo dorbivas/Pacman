@@ -5,6 +5,8 @@ class Save {
 
 public:
 
+    void init_save_files();
+
     void set_board_name(string _board_name){
         board_name = _board_name;
     }
@@ -34,34 +36,37 @@ public:
         is_fruit_dead = _is_dead;
     }
 
-    void init_save_file() {
-        string file_name = board_name.substr(0, board_name.find('.'));
-        file_name += ".result";
-        steps_file.open(file_name);
-        if (!steps_file) {
-            //throw; TODO
-        }
-    }
-    void write_to_file(const char buffer) {
-        steps_file << buffer;
+    void write_to_file(const char buffer, int select) {
+        if (select == 0)
+            steps_file << buffer;
+        else
+            result_file << buffer;
     }
 
-    void write_to_file(const char* buffer) {
-        steps_file << buffer;
+    void write_to_file(const char* buffer, int select) {
+        if (select == 0)
+            steps_file << buffer;
+        else
+            result_file << buffer;
     }
 
-    void write_to_file(const int buffer) {
-        steps_file << buffer;
+    void write_to_file(const int buffer, int select) {
+        if (select == 0)
+            steps_file << buffer;
+        else
+            result_file << buffer;
     }
 
     void finish_saving() {
         steps_file.close();
+        result_file.close();
     }
 
     void save_steps();
 
 private:
     ofstream steps_file;
+    ofstream result_file;
     string board_name;
     unsigned char current_key;
     vector<int> ghosts_directions;//TODO

@@ -30,8 +30,6 @@ public:
 
     14. readme
 
-    16. in the board 2  - fruit print not good(tiny problem- yarden will fix it later);
-
     - CONST
 
     - TODO PRINT SOULS PRINT *10 WHEN UNDER 10

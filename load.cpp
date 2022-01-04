@@ -1,6 +1,6 @@
 #include "load.h"
 
-void Load::read_params_from_line(string line) {
+void Load::read_params_from_steps(string line) {
 
     /*--- format example:"P:w:G0:0:G1:1:G2:2:G3:0:F:0 or F:5:2:30:20" --- */
     int i = 0, fruit_x, fruit_y;
@@ -60,33 +60,73 @@ void Load::read_params_from_line(string line) {
     }
 }
 
-void Load::init_load_file() {
-    ghosts_directions.resize(num_of_ghosts);
-    string file_name = board_name.substr(0,board_name.find('.'));
-    file_name += ".result";
-    steps_file.open(file_name);
-    if (!steps_file) {
-        //throw; TODO
-        //and if we saved only 2 wall we need to load only 2 fines- todo 
+void Load::read_line_from_result(string line) { // format xxx:0\1 any other format will be throwed
+
+    if (line[1] == ':')
+    {
+        result_steps = line[0] - '0';
+        pacman_status = line[2] - '0';
     }
+    else if (line[2] == ':')
+    {
+        result_steps = ((line[0] - '0') * 10) + (line[1] - '0');
+        pacman_status = line[3] - '0';
+    }
+    else if (line[3] == ':')
+    {
+        result_steps = ((line[0] - '0') * 100) + (line[1] - '0') * 10 + (line[2] - '0');
+        pacman_status = line[4] - '0';
+    }
+    else
+        throw " unvalid result file no steps! ";
+}
+
+void Load::init_load_files() {
+    ghosts_directions.resize(num_of_ghosts);
+
+    string result_file_name, steps_file_name;
+    result_file_name = steps_file_name = board_name = board_name.substr(0, board_name.find('.'));
+
+    steps_file_name += ".steps";
+    result_file_name += ".result";
+    steps_file.open(steps_file_name);
+
+    if (!steps_file) {
+        throw " unable to open file. ";
+    }
+    result_file.open(result_file_name);
+    if (!result_file) {
+        throw " unable to open file. ";
+    }
+
 }
 
 void Load::finish_loading() {
     ghosts_directions.clear();
     steps_file.close();
+    result_file.close();
 }
 
-void Load::load_line() 
+void Load::load_line(int select) 
 {
     string line;
-    if (!steps_file.eof())
+    if (select == 0)
     {
-        
-        getline(steps_file, line);
-        read_params_from_line(line);
+        if (!steps_file.eof())
+        {
+            getline(steps_file, line);
+            read_params_from_steps(line);
+        }
     }
-    else
-        finish_loading();
+    if (select == 1)
+    {
+        if (!result_file.eof())
+        {
+            getline(result_file, line);
+            read_params_from_steps(line);
+        }
+    }
     
-       
+    else
+        finish_loading(); 
 }

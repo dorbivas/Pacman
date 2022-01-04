@@ -451,7 +451,14 @@ void Game::win() {
 	{
 		if (load_mode || IS_SILENT)
 		{
-			load.load_line(1);
+			/*load.load_line(1);
+			string tmp;
+			while (tmp[0] != 'P')
+			{
+				tmp = load.load_line(0);
+			}
+			load.load_line(0);
+			load.get_num_of_steps();*/
 			if ((pacman.get_total_steps() != load.get_result_steps()))
 				throw " steps does not correspond to the steps file  ";
 

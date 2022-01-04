@@ -34,7 +34,7 @@ private:
 	unsigned char current_key;
 	bool is_fruit_dead;
 	int num_of_ghosts = Board::MAX_GHOSTS;
-	int num_of_steps = Board::MAX_WIDTH * Board::MAX_HEIGHT;
+	int num_of_steps = 30;
 
 	int result_steps = 0;
 	int pacman_status = 0;

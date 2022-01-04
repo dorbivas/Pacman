@@ -215,7 +215,7 @@ void Game::handle_fruit_move() {
 		board.set_cell(curr_pos, Entity::Shape::S);
 	}
 
-	if ((pacman.get_total_steps() == 100 && (!load_mode || !IS_SILENT)) || (pacman.get_total_steps() >= 99 && (load_mode||IS_SILENT)))//fruit disappeard
+	if (pacman.get_total_steps() == 100)//fruit disappeard
 	{
 		if (board.get_cell(next_pos) == Entity::Shape::P)
 			print_move(next_pos, Entity::Shape::P);
@@ -252,7 +252,6 @@ void Game::handle_collision() {
 	print_move(pacman.get_position(), Entity::Shape::S);
 	pacman.set_position((int)board.get_inital_pacman_pos().get_x(), (int)board.get_inital_pacman_pos().get_y()); //returns the pacman to its original position
 	pacman.set_direction((int)Entity::Direction::STAY);
-
 
 	if (pacman.get_souls() <= 0)
 	{
@@ -328,7 +327,7 @@ void Game::display_score_souls() const {
 	if (color_mode)
 		board.set_color((int)Board::Color::RED);
 	my_print("souls: ");
-	my_print(std::to_string(pacman.get_souls()));
+	my_print(std::to_string(pacman.get_souls()));//bug - when sould below 10
 }
 
 void Game::pause() {
@@ -435,6 +434,7 @@ void Game::win() {
 					save.write_to_file(pacman.get_total_steps());
 					save.finish_saving();
 				}
+				print_move(fruit.get_position(), Entity::Shape::S);
 				fruit.~fruit();
 				is_fruit_dead = false;
 				load_game_from_files();//load new board

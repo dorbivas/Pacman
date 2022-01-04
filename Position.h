@@ -34,6 +34,8 @@ public:
 
     - CONST
 
+    - TODO PRINT SOULS PRINT *10 WHEN UNDER 10
+
 
         
 

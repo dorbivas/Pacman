@@ -58,7 +58,6 @@ private:
   
 public:
     int rows, cols, max_score;
-
     void load_board(const string& file_name);
     void print_board(const bool color_mode);
     void our_spacial_board();//EXTRA

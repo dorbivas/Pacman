@@ -413,11 +413,19 @@ void Game::win() {
 	{
 		if (load_mode || IS_SILENT)
 		{
+			fruit.~fruit();
+			is_fruit_dead = false;
 			load.finish_loading();
 			load_game_from_files();//load new board
 		}
 		else
 		{
+			if (save_mode)
+			{
+				save.write_to_file(pacman.get_total_steps());
+				save.finish_saving();
+			}
+
 			cout << "next level-y/n: ";
 			cin >> selection;
 			while (selection != 'y' && selection != 'n')//TODO EXCEPTION
@@ -429,12 +437,6 @@ void Game::win() {
 				loop_flag = true;	
 			else
 			{
-				if (save_mode)
-				{
-					save.write_to_file(pacman.get_total_steps());
-					save.finish_saving();
-				}
-				print_move(fruit.get_position(), Entity::Shape::S);
 				fruit.~fruit();
 				is_fruit_dead = false;
 				load_game_from_files();//load new board
@@ -782,7 +784,7 @@ void Game::run_load()
 				pause_flag = false;
 			}
 			next_pos = pacman.move_dir();
-			if (counter_steps % 2 == 0)
+			if (pacman.get_total_steps() % 2 == 0)
 			{
 				handle_ghost_move();
 				if (!is_fruit_dead)

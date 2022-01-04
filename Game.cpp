@@ -435,6 +435,7 @@ void Game::win() {
 					save.write_to_file(pacman.get_total_steps());
 					save.finish_saving();
 				}
+				fruit.~fruit();
 				is_fruit_dead = false;
 				load_game_from_files();//load new board
 			}

@@ -7,6 +7,12 @@ public:
 
     void init_save_files();
 
+    void init_data()
+    {
+        is_fruit_dead = false;
+        fruit_pos.set_xy(0, 0);
+    }
+
     void set_board_name(string _board_name){
         board_name = _board_name;
     }

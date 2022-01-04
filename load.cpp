@@ -118,15 +118,12 @@ void Load::load_line(int select)
             read_params_from_steps(line);
         }
     }
-    if (select == 1)
+    else if (select == 1)
     {
         if (!result_file.eof())
         {
             getline(result_file, line);
-            read_params_from_steps(line);
+            read_line_from_result(line);
         }
     }
-    
-    else
-        finish_loading(); 
 }

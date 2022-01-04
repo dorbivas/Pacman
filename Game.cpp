@@ -98,9 +98,17 @@ void Game::game() {
 
 		save.finish_saving();
 	}
+	if (load_mode || IS_SILENT)
+	{
+		load.load_line(1);
+		if ((pacman.get_total_steps() != load.get_result_steps()))
+			throw " steps does not correspond to the steps file  ";
+
+		if (load.get_pacman_status() == 0)
+			throw " pacman is alive the result file does not match to steps file ";
+	}
 	system("cls");
 
-	
 	return;
 }
 
@@ -287,7 +295,7 @@ void Game::handle_collision() {
 }
 
 void Game::handle_score() {
-	if (pacman.get_score() >= MAX_POINTS || ((load_mode || IS_SILENT) && pacman.get_score() >= MAX_POINTS - 1))
+	if (pacman.get_score() >= MAX_POINTS)
 	{
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (int)Board::Color::WHITE);
 		win();
@@ -443,6 +451,13 @@ void Game::win() {
 	{
 		if (load_mode || IS_SILENT)
 		{
+			load.load_line(1);
+			if ((pacman.get_total_steps() != load.get_result_steps()))
+				throw " steps does not correspond to the steps file  ";
+
+			if (load.get_pacman_status() == 0)
+				throw " pacman is alive the result file does not match to steps file ";
+
 			load.finish_loading();
 			load_game_from_files();//load new board
 		}
@@ -462,7 +477,7 @@ void Game::win() {
 			{
 				if (save_mode)
 				{
-					if (board_level != (file_names.size() - 1))
+					if (board_level != (file_names.size()))
 					{
 						save.write_to_file(pacman.get_total_steps(), 0);
 
@@ -472,6 +487,7 @@ void Game::win() {
 						save.write_to_file('\n', 1);
 
 						save.finish_saving();
+						save.init_data();
 					}
 				}
 				load_game_from_files();//load new board
@@ -541,6 +557,7 @@ void Game::load_new_board_to_play(const string& file_name) {//reset
 
 		if (save_mode)
 		{
+			save.init_data();
 			save.set_board_name(file_names[board_level]);
 			save.init_save_files();
 		}
@@ -548,7 +565,7 @@ void Game::load_new_board_to_play(const string& file_name) {//reset
 		if (load_mode || IS_SILENT)
 		{
 			load.set_board_name(file_names[board_level]);
-			load.set_num_of_ghosts(ghosts.size());
+			load.set_num_of_ghosts(board.get_num_of_ghosts());
 			load.init_load_files();
 		}
 
@@ -724,7 +741,6 @@ void Game::load_board_from_user()//TODO -DELEATE
 	vector <string> tmp;
 	cout << "Please enter board name:" << endl;// TODO EXCEPTION
 	cin >> desired_board_name;
-
 	while (i < file_names.size())
 	{
 		size_t parser = file_names[i].find("pacman_");

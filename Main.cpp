@@ -6,8 +6,9 @@ int main(int argc, char** argv) {
 	try
 	{
 		if (argc == 1)
-			game.run_menu();
-		
+			//game.run_menu();
+			game.run_silent();
+
 		else if (argc == 2)
 		{
 			str = argv[1];

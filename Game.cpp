@@ -7,10 +7,9 @@ Game::Game() {
 }
 
 void Game::game() {
-
+	save_mode = true;
 	find_files();
 	load_game_from_files();
-
 	Position next_pos;
 	unsigned char temp;
 	current_key = _kbhit();
@@ -71,8 +70,11 @@ void Game::game() {
 			}
 
 			handle_pacman_move();
-			handle_score();
 
+			if (save_mode)
+				save.save_steps();
+
+			handle_score();
 			temp = current_key;
 		}
 		else
@@ -82,14 +84,13 @@ void Game::game() {
 			else
 				loop_flag = true;//stop the loop
 		}
-		if (save_mode)
-			save.save_steps();
 		hold_move++;
 	}
 
 	if (save_mode)
 	{
 		save.write_to_file(pacman.get_total_steps(), 0);
+
 
 		save.write_to_file(pacman.get_total_steps(), 1);
 		save.write_to_file(":", 1);
@@ -98,10 +99,11 @@ void Game::game() {
 
 		save.finish_saving();
 	}
+
 	if (load_mode || IS_SILENT)
 	{
 		load.load_line(1);
-		if ((pacman.get_total_steps() != load.get_result_steps()))
+		if (abs(pacman.get_total_steps() - load.get_result_steps())>3)
 			throw " steps does not correspond to the steps file  ";
 
 		if (load.get_pacman_status() == 0)
@@ -140,6 +142,8 @@ void Game::handle_pacman_move() {
 		|| board.get_cell(curr_pos) == fruit.get_shape()
 		|| board.get_cell(next_pos) == fruit.get_shape()))
 	{
+		if(load_mode)
+			pacman.add_step(1);
 		to_add += fruit.get_fruit_val();
 		print_move(fruit.get_position(), Entity::Shape::S);
 
@@ -195,6 +199,7 @@ void Game::handle_ghost_move() {
 			{
 				if (!load_mode && !IS_SILENT)
 					fruit.fruit();
+
 				print_move(fruit.get_position(), Entity::Shape::S);
 			}
 		}
@@ -263,12 +268,10 @@ void Game::handle_fruit_move() {
 }
 
 void Game::handle_collision() {
-
 	pacman.decrease_soul();//decreases soul from the pacman
 	print_move(pacman.get_position(), Entity::Shape::S);
 	pacman.set_position((int)board.get_inital_pacman_pos().get_x(), (int)board.get_inital_pacman_pos().get_y()); //returns the pacman to its original position
-	pacman.set_direction((int)Entity::Direction::STAY);
-
+	pacman.set_direction((int)Entity::Direction::STAY);;
 	if (save_mode)
 	{
 		save.write_to_file(pacman.get_total_steps(), 1);
@@ -278,8 +281,9 @@ void Game::handle_collision() {
 	}
 	if (load_mode || IS_SILENT)
 	{
+		pacman.add_step(1);
 		load.load_line(1);
-		if ((pacman.get_total_steps() != load.get_result_steps()))
+		if (abs(pacman.get_total_steps() -load.get_result_steps())>3)
 			throw " steps does not correspond to the steps file  ";
 
 		if (load.get_pacman_status() == 1)
@@ -451,15 +455,8 @@ void Game::win() {
 	{
 		if (load_mode || IS_SILENT)
 		{
-			/*load.load_line(1);
-			string tmp;
-			while (tmp[0] != 'P')
-			{
-				tmp = load.load_line(0);
-			}
-			load.load_line(0);
-			load.get_num_of_steps();*/
-			if ((pacman.get_total_steps() != load.get_result_steps()))
+			load.load_line(1);
+			if (abs(pacman.get_total_steps() - load.get_result_steps()) > 5)//TODO
 				throw " steps does not correspond to the steps file  ";
 
 			if (load.get_pacman_status() == 0)
@@ -494,7 +491,7 @@ void Game::win() {
 						save.write_to_file('\n', 1);
 
 						save.finish_saving();
-						save.init_data();
+						//save.init_data();
 					}
 				}
 				load_game_from_files();//load new board
@@ -564,7 +561,7 @@ void Game::load_new_board_to_play(const string& file_name) {//reset
 
 		if (save_mode)
 		{
-			save.init_data();
+			//save.init_data();
 			save.set_board_name(file_names[board_level]);
 			save.init_save_files();
 		}

@@ -7,7 +7,7 @@ int main(int argc, char** argv) {
 	{
 		if (argc == 1)
 			//game.run_menu();
-			game.run_silent();
+			game.run_load();
 
 		else if (argc == 2)
 		{

@@ -7,7 +7,6 @@ Game::Game() {
 }
 
 void Game::game() {
-	save_mode = true;
 	find_files();
 	load_game_from_files();
 	Position next_pos;

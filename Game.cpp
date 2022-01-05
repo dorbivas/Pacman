@@ -101,16 +101,6 @@ void Game::game() {
 		save.finish_saving();
 	}
 
-	if (load_mode || IS_SILENT)
-	{
-		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (int)Board::Color::WHITE);
-		load.load_line(1);
-		if (pacman.get_total_steps() != load.get_result_steps())
-			throw " steps does not correspond to the steps file  ";
-
-		if (load.get_pacman_status() != 1)
-			throw " pacman is alive the result file does not match to steps file ";
-	}
 	system("cls");
 
 	return;
@@ -306,6 +296,18 @@ void Game::handle_collision() {
 		save.write_to_file(0, 1);
 		save.write_to_file('\n', 1);
 	}
+	if (load_mode || IS_SILENT)
+	{
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (int)Board::Color::WHITE);
+		load.load_line(1);
+		if (pacman.get_total_steps() != load.get_result_steps())
+			throw " steps does not correspond to the steps file  ";
+
+		if (load.get_pacman_status() != 0)
+			throw " pacman is alive the result file does not match to steps file ";
+
+	}
+	
 
 
 	if (pacman.get_souls() <= 0)

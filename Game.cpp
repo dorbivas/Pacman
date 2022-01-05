@@ -6,7 +6,6 @@ Game::Game() {
 }
 
 void Game::game() {
-	save_mode = true;
 	find_files();
 	load_game_from_files();
 	Position next_pos;
@@ -75,7 +74,7 @@ void Game::game() {
 
 			if (save_mode)
 				save.save_steps();
-
+			hold_move++;
 			handle_score();
 			temp = current_key;
 		}
@@ -86,7 +85,7 @@ void Game::game() {
 			else
 				loop_flag = true;//stop the loop
 		}
-		hold_move++;
+
 	}
 
 	if (save_mode)
@@ -147,6 +146,7 @@ void Game::handle_pacman_move() {
 		
 		if((pacman.get_total_steps()- last_step_fruit_collision !=1) || last_step_fruit_collision ==0)
 			to_add += fruit.get_fruit_val();
+
 		last_step_fruit_collision = pacman.get_total_steps();
 		print_move(fruit.get_position(), Entity::Shape::S);
 
@@ -447,6 +447,7 @@ void Game::lose() {
 		if (save_mode)
 			save.finish_saving();
 		load_game_from_files();
+		loop_flag = true;
 	}
 }
 
@@ -463,6 +464,7 @@ void Game::win() {
 		{
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (int)Board::Color::WHITE);
 			load.load_line(1);
+
 			if (pacman.get_total_steps() != load.get_result_steps())
 				throw " steps does not correspond to the steps file  ";
 
@@ -498,10 +500,9 @@ void Game::win() {
 						save.write_to_file('\n', 1);
 
 						save.finish_saving();
-						//save.init_data();
 					}
 				}
-				load_game_from_files();//load new board
+				load_game_from_files();//load new board		
 			}
 		}
 	}
@@ -532,6 +533,7 @@ void Game::load_new_board_to_play(const string& file_name) {//reset
 
 	try
 	{
+		hold_move = 0;
 		board.set_how_many_legends(0);
 		board.set_how_many_pacmans(0);
 		board.set_num_of_ghosts(0);
@@ -569,6 +571,7 @@ void Game::load_new_board_to_play(const string& file_name) {//reset
 
 		if (save_mode)
 		{
+			save.clear_direction_stuck();
 			save.set_board_name(file_names[board_level]);
 			save.init_save_files();
 		}
@@ -835,16 +838,14 @@ void Game::run_load()
 
 	Position next_pos;
 	unsigned char temp='s';
-	int counter_steps = 0;
-	int yarden = 0;
 
 	find_files();
 	load_game_from_files();
 
+	hold_move = 0;
 	while (!loop_flag)
 	{
-		if (pacman.get_score() == 41)
-			yarden = 1;
+		
 		load.load_line(0);
 		update_values_from_file();
 
@@ -859,7 +860,7 @@ void Game::run_load()
 				pause_flag = false;
 			}
 			next_pos = pacman.move_dir();
-			if (counter_steps % 2 == 0)
+			if (hold_move % 2 == 0)
 			{
 				handle_ghost_move();
 				if (!is_fruit_dead)
@@ -888,6 +889,7 @@ void Game::run_load()
 			}
 
 			handle_pacman_move();
+			hold_move++;
 			handle_score();
 			temp = current_key;
 		}
@@ -898,7 +900,6 @@ void Game::run_load()
 			else
 				loop_flag = true; //stop the loop
 		}
-		counter_steps++;
 	}
 
 	system("cls");

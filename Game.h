@@ -7,7 +7,7 @@
 
 class Game {
 private:
-    static const int MAX_POINTS = 50, SPEED = 100, PAUSE_X = 1, PAUSE_Y = 26; 
+    static const int MAX_POINTS = 100, SPEED = 100, PAUSE_X = 1, PAUSE_Y = 26; 
     Pacman pacman;
     vector<Ghosts> ghosts;
     Fruit fruit;

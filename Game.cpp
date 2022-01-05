@@ -835,12 +835,15 @@ void Game::run_load()
 	Position next_pos;
 	unsigned char temp='s';
 	int counter_steps = 0;
+	int yarden = 0;
 
 	find_files();
 	load_game_from_files();
 
 	while (!loop_flag)
 	{
+		if (pacman.get_score() == 42)
+			yarden = 1;
 		load.load_line(0);
 		update_values_from_file();
 

@@ -1,6 +1,6 @@
 #include "load.h"
 
-void Load::read_params_from_steps(string line) {
+void Load::read_params_from_steps(string line) { // 
 
     /*--- format example:"P:w:G0:0:G1:1:G2:2:G3:0:F:0 or F:5:2:30:20" --- */
     int i = 0, fruit_x, fruit_y;
@@ -49,7 +49,7 @@ void Load::read_params_from_steps(string line) {
             fruit_pos.set_xy(fruit_x, fruit_y);
         }
     }
-    else // num of steps
+    else // last line
     {
         if (line[1] == '\0')
             num_of_steps = line[0] - '0';
@@ -60,7 +60,9 @@ void Load::read_params_from_steps(string line) {
     }
 }
 
-void Load::read_line_from_result(string line) { // format xxx:0\1 any other format will be throwed
+void Load::read_line_from_result(string line) { 
+
+    /*--format xxx:0\1 any other format will be throwed--*/
 
     if (line[1] == ':')
     {
@@ -112,18 +114,29 @@ void Load::load_line(int select)
     string line;
     if (select == 0)
     {
-        if (!steps_file.eof())
+        if (steps_file.is_open())
         {
-            getline(steps_file, line);
-            read_params_from_steps(line);
+            if (!steps_file.eof())
+            {
+                getline(steps_file, line);
+                read_params_from_steps(line);
+            }
         }
+        else
+            throw " steps_file is closed ";
+        
     }
     else if (select == 1)
     {
-        if (!result_file.eof())
+        if (result_file.is_open())
         {
-            getline(result_file, line);
-            read_line_from_result(line);
+            if (!result_file.eof())
+            {
+                getline(result_file, line);
+                read_line_from_result(line);
+            }
         }
+        else
+            throw " result_file is closed ";
     }
 }

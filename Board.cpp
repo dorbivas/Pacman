@@ -85,10 +85,7 @@ void Board::board_from_file(ifstream& file_input)
 			else if (curr_char == '@')
 			{
 				if (how_many_pacmans >= 1)
-				{
 					throw "B: more than one pacman exception ";
-					
-				}
 
 				inital_pacman_pos.set_xy(curr_col, rows);
 				board[rows][curr_col] = S; // pac start on empty space so he wont add score
@@ -97,14 +94,12 @@ void Board::board_from_file(ifstream& file_input)
 
 			else if (curr_char == '$')
 			{
-				if (num_of_ghosts >= 4)
-				{
+				if (num_of_ghosts > 3)
 					throw "B: more than four ghost exception ";
-			
-				}
 
 				inital_ghosts_pos.push_back(Position(curr_col, rows));
 				board[rows][curr_col] = S;
+				num_of_ghosts++;
 			}
 		
 			else if (curr_char == '%')
@@ -120,17 +115,11 @@ void Board::board_from_file(ifstream& file_input)
 			else if (curr_char == '&')
 			{
 				if (how_many_legends >= 1)
-				{
 					throw "B: more than one legend exception ";
-				 
-				}
 
 				if (is_first_line && MAX_LEGEND_COLS + curr_col > cols) // the legend_pos is out of bound
-				{
 					throw "B: out of bound exception: legend";
 
-				}
-				
 				legend_pos.set_xy(curr_col, rows);
 				board[rows][curr_col] = S;
 				legend_flag = 1;
@@ -141,17 +130,11 @@ void Board::board_from_file(ifstream& file_input)
 				if (!is_first_line) 
 				{
 					if (curr_col > MAX_WIDTH)
-					{
 						throw "B: out of bound exception: first col ";
-
-					}
 					
 					else if (legend_flag == 1 && MAX_WIDTH - legend_pos.get_x() < 20) // no space for legend_pos
-					{
 						throw "B: out of bound exception: legend";
 
-					}
-					
 					if (legend_flag == 1 && legend_pos.get_x() + 19 > cols) 
 						cols = legend_pos.get_x() + 19; 
 					
@@ -190,18 +173,13 @@ void Board::board_from_file(ifstream& file_input)
 			char_counter++;
 		}
 	}
-	num_of_ghosts = inital_ghosts_pos.size();
-	//TODO
-	//system("cls");
-	//board_errors.print_exceptions();
-	//system("PAUSE");
-	//system("cls");
+	if (max_score <= 1)
+		throw " no POINTS in board  ";
 
+	num_of_ghosts = inital_ghosts_pos.size();
 	insert_teleports();
 	handle_legend();
 	search_points();
-
-	
 }
 
 void Board::insert_single_line(int curr_col){
@@ -229,6 +207,9 @@ void Board::handle_legend()
 		if (legend_pos.get_y() + i >= rows)
 			rows++;
 	}
+	if (max_score <= 1)
+		throw " no POINTS in board  ";
+
 }
 
 void Board::make_board_empty() {
@@ -252,7 +233,6 @@ void Board::search_points() {
 
 void Board::insert_teleports()
 {
-
 	for (int i = 0; i < cols; i++)
 	{
 		if (board[0][i] == POINT)
@@ -280,6 +260,8 @@ void Board::insert_teleports()
 			max_score--;
 		}
 	}
+	if (max_score <= 1)
+		throw " no POINTS in board  ";
 }
 
 bool Board::is_valid_move(const Position new_pos)
@@ -295,11 +277,9 @@ bool Board::is_valid_move(const Position new_pos)
 		return false;
 
 	return true;
-
 }
 
 void Board::our_spacial_board() {//EXTRA
-
 	unsigned char default_board[MAX_HEIGHT][MAX_WIDTH] =
 	{
 		{S,  S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, W, W, W, S, S, S, S, S, S, S, S, S, S , S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, W, W, W, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S,},
@@ -329,13 +309,9 @@ void Board::our_spacial_board() {//EXTRA
 		{ S, 'S', 'o', 'u', 'l', 's', ':', S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S , S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S,   },
 
 	};
-
 	for (int i = 0; i < MAX_HEIGHT; i++)
 	{
 		for (int j = 0; j < MAX_WIDTH; j++)
-		{
-
 			this->board[i][j] = default_board[i][j];
-		}
 	}
 }

@@ -26,7 +26,7 @@ Entity::Shape Fruit::num_to_shape(int val)
 		return Entity::Shape::SEVEN;
 	else if (val == 8)
 		return Entity::Shape::EIGHT;
-	else//9
+	else //9
 		return Entity::Shape::NINE;
 
 }
@@ -35,8 +35,8 @@ Position& Fruit::handle_move()
 	novice_lvl();
 	Position next_pos = move_dir();
 	//while (!board.is_valid_move(next_pos))//TODO-YAREN-CHECK WHAT BETTER
-	while(is_invalid_place(next_pos)
-		|| !board.is_valid_move(next_pos))
+
+	while(is_invalid_place(next_pos) || !board.is_valid_move(next_pos))
 	{
 		rotate_direction();
 		novice_lvl();

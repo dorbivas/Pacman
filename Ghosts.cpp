@@ -25,9 +25,6 @@ void Ghosts::good_lvl(Position target)
 		smart(target);
 		steps++;
 	}
-		
-
-
 }
 
 void Ghosts::smart(const Position& target)
@@ -52,6 +49,7 @@ void Ghosts::smart(const Position& target)
 		int curr_y = curr.get_y();
 
 		// Go to the adjacent cells
+		// we scan from the pacman to the first ghost adjacent cell, the ghost will go to that cell.
 		for (int i = 0; i < 4; i++) {
 			Position new_pos(curr_x + move_vector_x[i], curr_y + move_vector_y[i]);
 			if (board.is_valid_move(new_pos) && is_visted[new_pos.get_y()][new_pos.get_x()] == false)

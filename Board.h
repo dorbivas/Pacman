@@ -68,9 +68,13 @@ public:
     void set_color(int color_pick) const { SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color_pick); }
     unsigned char get_cell(const Position& cell_pos) { return board[cell_pos.get_y()][cell_pos.get_x()]; }
     void set_cell(Position& cell_pos, unsigned char c) { board[cell_pos.get_y()][cell_pos.get_x()] = c; }
+    void set_num_of_ghosts(int _num_of_ghosts) { num_of_ghosts = _num_of_ghosts; }
+    void set_how_many_legends(int val) { how_many_legends = val; }
+    void set_how_many_pacmans(int val) { how_many_pacmans = val; }
 
-    /*ADDED to change ours*/
     bool is_valid_move(const Position new_pos);
+
+
     int get_max_score() const { return max_score; }
     int get_num_of_ghosts() const { return num_of_ghosts; }
     int get_how_many_legends() const{ return how_many_legends; }
@@ -85,13 +89,8 @@ public:
     int get_valid_index() const { return points_valid_positions.size(); } 
     const Position& get_rand_point(int num) const { return points_valid_positions[num]; } //TODO
 
-    void setTotalScore() { max_score--; } 
-    void set_num_of_ghosts(int val) { num_of_ghosts = val; }
-    void set_how_many_legends(int val) { how_many_legends = val; }
-    void set_how_many_pacmans(int val) { how_many_pacmans = val; }
-    //void handleRead(const char read, int& row, int& col, int& countChars);// TEST TODO
-
-
+    void decrese_max_score() { max_score--; } 
+ 
 };
 
 

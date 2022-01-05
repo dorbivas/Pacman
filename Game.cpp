@@ -1,6 +1,5 @@
 ﻿#include "Game.h"
-
-extern bool IS_SILENT; //todo
+extern bool IS_SILENT; 
 
 Game::Game() {
 	srand(time(NULL)); //start generating rand numbers for ghost dir
@@ -89,8 +88,6 @@ void Game::game() {
 	if (save_mode)
 	{
 		save.write_to_file(pacman.get_total_steps(), 0);
-
-
 		save.write_to_file(pacman.get_total_steps(), 1);
 		save.write_to_file(":", 1);
 		save.write_to_file(1, 1);
@@ -102,7 +99,7 @@ void Game::game() {
 	if (load_mode || IS_SILENT)
 	{
 		load.load_line(1);
-		if (abs(pacman.get_total_steps() - load.get_result_steps())>3)
+		if (abs(pacman.get_total_steps() - load.get_result_steps()) > 3)
 			throw " steps does not correspond to the steps file  ";
 
 		if (load.get_pacman_status() == 0)
@@ -141,7 +138,7 @@ void Game::handle_pacman_move() {
 		|| board.get_cell(curr_pos) == fruit.get_shape()
 		|| board.get_cell(next_pos) == fruit.get_shape()))
 	{
-		if(load_mode)
+		if (load_mode)
 			pacman.add_step(1);
 		to_add += fruit.get_fruit_val();
 		print_move(fruit.get_position(), Entity::Shape::S);
@@ -179,7 +176,6 @@ void Game::handle_ghost_move() {
 			if (save_mode)
 				save.set_ghosts_directions(ghosts[i].get_direction());
 		}
-
 
 		//curr positon 
 		if (board.get_cell(curr_pos) == Entity::Shape::P)
@@ -267,10 +263,12 @@ void Game::handle_fruit_move() {
 }
 
 void Game::handle_collision() {
-	pacman.decrease_soul();//decreases soul from the pacman
+
+	pacman.decrease_soul();
 	print_move(pacman.get_position(), Entity::Shape::S);
-	pacman.set_position((int)board.get_inital_pacman_pos().get_x(), (int)board.get_inital_pacman_pos().get_y()); //returns the pacman to its original position
+	pacman.set_position((int)board.get_inital_pacman_pos().get_x(), (int)board.get_inital_pacman_pos().get_y()); 
 	pacman.set_direction((int)Entity::Direction::STAY);;
+
 	if (save_mode)
 	{
 		save.write_to_file(pacman.get_total_steps(), 1);
@@ -278,17 +276,18 @@ void Game::handle_collision() {
 		save.write_to_file(0, 1);
 		save.write_to_file('\n', 1);
 	}
+
 	if (load_mode || IS_SILENT)
 	{
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (int)Board::Color::WHITE);
 		pacman.add_step(1);
 		load.load_line(1);
-		if (abs(pacman.get_total_steps() -load.get_result_steps())>3)
+		if (abs(pacman.get_total_steps() - load.get_result_steps()) > 3)
 			throw " steps does not correspond to the steps file  ";
 
 		if (load.get_pacman_status() == 1)
 			throw " pacman is alive the result file does not match to steps file ";
 	}
-
 
 	if (pacman.get_souls() <= 0)
 	{
@@ -454,6 +453,7 @@ void Game::win() {
 	{
 		if (load_mode || IS_SILENT)
 		{
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (int)Board::Color::WHITE);
 			load.load_line(1);
 			if (abs(pacman.get_total_steps() - load.get_result_steps()) > 5)//TODO
 				throw " steps does not correspond to the steps file  ";
@@ -571,27 +571,40 @@ void Game::load_new_board_to_play(const string& file_name) {//reset
 			load.set_num_of_ghosts(board.get_num_of_ghosts());
 			load.init_load_files();
 		}
-
-		if (IS_SILENT)
-		{
-			//TODO-DOR
-		}
-
 	}
 	catch (const char* error_msg)
 	{
-
 		system("cls");
-		cout << "board number: " << board_level + 1 << " ERROR1: " << error_msg << " skipping the board" << endl;
+		cout << "board number: " << board_level + 1 << " ERROR: " << error_msg << " skipping the board" << endl;
 		system("PAUSE");
 		system("cls");
-		if (error_msg[0] == 'B' && (board_level < file_names.size()))
+		if (error_msg[0] == 'B' && (board_level < file_names.size()-1))
 		{
 			board_level++;
 			load_game_from_files();
 		}
-
+		else if (board_level == file_names.size()-1)
+			throw " out of boards! ";
+		else
+			throw " unexcpected error game ";
 	}
+	catch (const string error_msg)
+	{
+		system("cls");
+		cout << "board number: " << board_level + 1 << " ERROR: " << error_msg << " skipping the board" << endl;
+		system("PAUSE");
+		system("cls");
+		if (error_msg[0] == 'B' && (board_level < file_names.size() - 1))
+		{
+			board_level++;
+			load_game_from_files();
+		}
+		else if (board_level == file_names.size() - 1)
+			throw " out of boards! ";
+		else
+			throw " unexcpected error game ";
+	}
+
 
 
 }
@@ -707,7 +720,7 @@ void Game::Menu::menu_display() {
 void Game::Menu::print_ruls() const {
 	cout << "Welcome to \"the\" Pacman !" << endl << "Your goal is to eat 'em all inorder to accumulate scroe" << endl
 		<< "Each POINT equal to +1 for your score" << endl
-		<< "Collect 300 POINTS!" << endl
+		<< "Collect 100 POINTS!" << endl
 		<< "Once you ate 'em all you won." << endl << endl
 		<< "Keys:" << endl
 		<< "UP --> w or W" << endl
@@ -843,7 +856,7 @@ void Game::run_load()
 				else
 				{
 					is_fruit_dead = true;
-					if (pacman.get_total_steps() == 150)//alive again
+					if (pacman.get_total_steps() == 150) //alive again
 					{
 						is_fruit_dead = false;
 						fruit = Fruit();
@@ -869,7 +882,7 @@ void Game::run_load()
 			if (current_key != '9')
 				current_key = temp;
 			else
-				loop_flag = true;//stop the loop
+				loop_flag = true; //stop the loop
 		}
 		counter_steps++;
 	}
@@ -885,6 +898,14 @@ void Game::run_silent()
 		run_load();
 	}
 	catch (const char* error_msg)
+	{
+		system("cls");
+		cout << "Test Failed: Error: " << error_msg << endl;
+		system("PAUSE");
+		system("cls");
+		return;
+	}
+	catch (const string error_msg)
 	{
 		system("cls");
 		cout << "Test Failed: Error: " << error_msg << endl;

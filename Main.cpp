@@ -2,11 +2,12 @@
 int main(int argc, char** argv) {
 	cursor_visibility(false);
 	Game game;
-	string str, error_main = " unvalid load mode params ";
+	string str, error_main = " unvalid args ";
+
 	try
 	{
 		if (argc == 1)
-			game.run_menu();
+			game.run_silent();
 
 		else if (argc == 2)
 		{
@@ -20,7 +21,6 @@ int main(int argc, char** argv) {
 			}
 			else
 				throw error_main;
-			
 		}
 		else if (argc == 3)
 		{
@@ -44,7 +44,6 @@ int main(int argc, char** argv) {
 				else
 					throw error_main;
 			}
-
 			else
 				throw error_main;
 		}
@@ -55,7 +54,15 @@ int main(int argc, char** argv) {
 	catch (const char* error_msg)
 	{
 		system("cls");
-		cout << "ERROR1: " << error_msg << endl;
+		cout << "ERROR: " << error_msg << endl;
+		system("PAUSE");
+		system("cls");
+		return 0;
+	}
+	catch (const string error_msg)
+	{
+		system("cls");
+		cout << "ERROR: " << error_msg << endl;
 		system("PAUSE");
 		system("cls");
 		return 0;

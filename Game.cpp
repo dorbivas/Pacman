@@ -1,5 +1,5 @@
 ﻿#include "Game.h"
-extern bool IS_SILENT; 
+extern bool IS_SILENT;
 
 Game::Game() {
 	srand(time(NULL)); //start generating rand numbers for ghost dir
@@ -63,7 +63,10 @@ void Game::game() {
 				for (int i = 0; i < board.get_num_of_ghosts(); i++)
 				{
 					if (ghosts[i].is_collided(pacman.get_position(), next_pos, pacman.get_direction()))
+					{
 						handle_collision();
+						ghosts[i].set_position(board.get_ghost_pacman_pos()[i].get_x(), board.get_ghost_pacman_pos()[i].get_y());
+					}
 				}
 			}
 
@@ -99,7 +102,7 @@ void Game::game() {
 	if (load_mode || IS_SILENT)
 	{
 		load.load_line(1);
-		if (abs(pacman.get_total_steps() - load.get_result_steps()) > 3)
+		if (abs(pacman.get_total_steps() - load.get_result_steps()) > 1)
 			throw " steps does not correspond to the steps file  ";
 
 		if (load.get_pacman_status() == 0)
@@ -116,6 +119,7 @@ void Game::handle_pacman_move() {
 	int to_add = 0;
 	Position next_fruit_pos;
 	Position next_pos = pacman.handle_move();
+	
 
 	//next position
 	if (pacman.is_invalid_place(next_pos))
@@ -130,6 +134,7 @@ void Game::handle_pacman_move() {
 	if (board.get_cell(next_pos) == Entity::Shape::P)
 		to_add = 1;
 
+
 	next_fruit_pos = fruit.move_dir();
 
 	//colision with fruit
@@ -138,19 +143,19 @@ void Game::handle_pacman_move() {
 		|| board.get_cell(curr_pos) == fruit.get_shape()
 		|| board.get_cell(next_pos) == fruit.get_shape()))
 	{
-		if (load_mode)
-			pacman.add_step(1);
-		to_add += fruit.get_fruit_val();
+		
+		if((pacman.get_total_steps()- last_step_fruit_collision !=1) || last_step_fruit_collision ==0)
+			to_add += fruit.get_fruit_val();
+		last_step_fruit_collision = pacman.get_total_steps();
 		print_move(fruit.get_position(), Entity::Shape::S);
 
 		if (!load_mode && !IS_SILENT)
 			fruit.fruit();
 	}
+	pacman.add_score(to_add);
 
 	board.set_cell(curr_pos, Entity::Shape::S);
 	print_move(curr_pos, Entity::Shape::S);
-
-	pacman.add_score(to_add);
 
 	pacman.set_position(next_pos);
 	print_move(next_pos, Entity::Shape::PACMAN);
@@ -266,7 +271,7 @@ void Game::handle_collision() {
 
 	pacman.decrease_soul();
 	print_move(pacman.get_position(), Entity::Shape::S);
-	pacman.set_position((int)board.get_inital_pacman_pos().get_x(), (int)board.get_inital_pacman_pos().get_y()); 
+	pacman.set_position((int)board.get_inital_pacman_pos().get_x(), (int)board.get_inital_pacman_pos().get_y());
 	pacman.set_direction((int)Entity::Direction::STAY);;
 
 	if (save_mode)
@@ -280,9 +285,9 @@ void Game::handle_collision() {
 	if (load_mode || IS_SILENT)
 	{
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (int)Board::Color::WHITE);
-		pacman.add_step(1);
 		load.load_line(1);
-		if (abs(pacman.get_total_steps() - load.get_result_steps()) > 3)
+		//pacman.add_step(1);
+		if (abs(pacman.get_total_steps() - load.get_result_steps()) > 1)
 			throw " steps does not correspond to the steps file  ";
 
 		if (load.get_pacman_status() == 1)
@@ -455,7 +460,7 @@ void Game::win() {
 		{
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (int)Board::Color::WHITE);
 			load.load_line(1);
-			if (abs(pacman.get_total_steps() - load.get_result_steps()) > 5)//TODO
+			if (abs(pacman.get_total_steps() - load.get_result_steps()) > 1)//TODO
 				throw " steps does not correspond to the steps file  ";
 
 			if (load.get_pacman_status() == 0)
@@ -549,6 +554,7 @@ void Game::load_new_board_to_play(const string& file_name) {//reset
 			pacman.init_score();
 			pacman.init_total_steps();
 		}
+		last_step_fruit_collision = 0;
 
 		current_key = 's';
 		pacman.set_position(board.get_inital_pacman_pos());
@@ -578,12 +584,12 @@ void Game::load_new_board_to_play(const string& file_name) {//reset
 		cout << "board number: " << board_level + 1 << " ERROR: " << error_msg << " skipping the board" << endl;
 		system("PAUSE");
 		system("cls");
-		if (error_msg[0] == 'B' && (board_level < file_names.size()-1))
+		if (error_msg[0] == 'B' && (board_level < file_names.size() - 1))
 		{
 			board_level++;
 			load_game_from_files();
 		}
-		else if (board_level == file_names.size()-1)
+		else if (board_level == file_names.size() - 1)
 			throw " out of boards! ";
 		else
 			throw " unexcpected error game ";
@@ -632,17 +638,6 @@ void Game::Menu::handle_menu() {
 			run.game();
 			run.first_run_done = false;
 			run.set_level_board(0);
-		}
-		else if (user_choice == 11)//saved game
-		{
-			//IS_SILENT = true;
-			IS_SILENT = !IS_SILENT;
-			cout << "SILENT!" << endl << endl;
-			Sleep(200);
-			system("cls");
-			run.first_run_done = true;
-			run.run_silent();
-			//menu_display();
 		}
 		else if (user_choice == Change_Color_Mode)
 		{
@@ -814,7 +809,6 @@ void Game::update_values_from_file()
 {
 	current_key = load.get_current_key();
 	fruit.set_position(load.get_fruit_position());
-	//is_fruit_dead = load.get_fruit_is_dead();
 	fruit.set_direction(load.get_fruit_direction());
 	fruit.set_fruit_val(load.get_fruit_shape());
 	fruit.set_shape(fruit.num_to_shape(fruit.get_fruit_val()));
@@ -829,7 +823,7 @@ void Game::run_load()
 	save_mode = false;
 
 	Position next_pos;
-	unsigned char temp;
+	unsigned char temp='s';
 	int counter_steps = 0;
 
 	find_files();
@@ -841,7 +835,7 @@ void Game::run_load()
 		update_values_from_file();
 
 		if (!IS_SILENT)
-			Sleep(SPEED / 2);  // fast forrward
+			Sleep(SPEED / 3);  // fast forrward
 		if (is_valid_key(current_key))
 		{
 			handle_key_input(current_key);
@@ -872,7 +866,10 @@ void Game::run_load()
 				for (int i = 0; i < board.get_num_of_ghosts(); i++)
 				{
 					if (ghosts[i].is_collided(pacman.get_position(), next_pos, pacman.get_direction()))
+					{
 						handle_collision();
+						ghosts[i].set_position(board.get_ghost_pacman_pos()[i].get_x(), board.get_ghost_pacman_pos()[i].get_y());
+					}	
 				}
 			}
 

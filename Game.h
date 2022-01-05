@@ -29,13 +29,14 @@ private:
     bool load_mode = false;
     int hold_move = 0;
     unsigned char current_key;
+    int last_step_fruit_collision = 0;
 
    
 
     class Menu {
     private:
         int user_choice = 0;
-        char ghosts_level_choice;
+        char ghosts_level_choice=NOVICE;
         bool save_mode = false;
 
     public:
@@ -82,7 +83,7 @@ private:
 
     bool find_files();
     void load_game_from_files();
-    void load_board_from_user();
+    void load_board_from_user();//NOT USED
 
     void update_values_from_file();
 

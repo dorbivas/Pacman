@@ -4,7 +4,7 @@ Position& Entity::move_dir() {
 	Position new_dir(pos.get_x(), pos.get_y());
 	if (direction == (int)Direction::UP)
 	{
-		new_dir.set_xy(pos.get_x(), pos.get_y()-1);
+		new_dir.set_xy(pos.get_x(), pos.get_y() - 1);
 	}
 	else if (direction == (int)Direction::DOWN)
 	{
@@ -12,7 +12,7 @@ Position& Entity::move_dir() {
 	}
 	else if (direction == (int)Direction::LEFT)
 	{
-		new_dir.set_xy(pos.get_x()-1, pos.get_y());
+		new_dir.set_xy(pos.get_x() - 1, pos.get_y());
 
 	}
 	else if (direction == (int)Direction::RIGHT)
@@ -26,7 +26,7 @@ bool Entity::is_collided(const Position& curr_pos, const Position& next_pos, int
 	int d1, d2, x_dif, y_dif;
 	Position next_move_dir = this->move_dir();
 
-	if (get_position() == curr_pos|| get_position() == next_pos)
+	if (get_position() == curr_pos || get_position() == next_pos)
 		return true;
 	return false;
 }
@@ -36,7 +36,7 @@ bool Entity::invalid_place(const Position& next_pos)
 		(next_pos.get_x() >= board.get_cols() - 1) ||
 		(next_pos.get_y() >= board.get_rows() - 1) ||
 		(next_pos.get_x() <= 0) ||
-		(next_pos.get_x() <= 0));
+		(next_pos.get_y() <= 0));
 }
 void Entity::novice_lvl() {
 	if (steps == MAX_STEPS) {

@@ -1,6 +1,6 @@
 #pragma once
 #include "Entity.h"
-class Fruit:public Entity{ 
+class Fruit :public Entity {
 
 private:
 	int fruit_val;
@@ -10,7 +10,7 @@ public:
 	Fruit() {
 		color = Board::Color::WHITE;
 	}
-	~Fruit(){}
+	~Fruit() {}
 
 
 	//--Game Logic Fucns: --//
@@ -22,7 +22,7 @@ public:
 
 	//--Data Members Funcs: --//
 
-	int get_fruit_val()const{ return fruit_val; } 
+	int get_fruit_val() const { return fruit_val; }
 	Shape num_to_shape(int val);
 	void set_fruit_val(int val) { fruit_val = val; }
 

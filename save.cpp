@@ -6,13 +6,13 @@ void Save::init_save_files() {
 
 	steps_file_name += ".steps";
 	result_file_name += ".result";
-	steps_file.open(steps_file_name,ios::trunc);
+	steps_file.open(steps_file_name, ios::trunc);
 
 	if (!steps_file) {
 		throw " steps : unable to open file. ";
 	}
 
-	result_file.open(result_file_name,ios::trunc);
+	result_file.open(result_file_name, ios::trunc);
 	if (!result_file) {
 		throw " result : unable to open file. ";
 	}

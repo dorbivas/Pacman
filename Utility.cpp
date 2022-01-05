@@ -2,10 +2,10 @@
 
 bool IS_SILENT = false;
 
-void goto_xy(const int x,const int y){
-    cout.flush();      //clean the buffer before printing in this coordinate                          
-    COORD pos{ (short)x, (short)y };
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+void goto_xy(const int x, const int y) {
+	cout.flush();      //clean the buffer before printing in this coordinate                          
+	COORD pos{ (short)x, (short)y };
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 }
 
 void cursor_visibility(bool visibility)
@@ -17,18 +17,18 @@ void cursor_visibility(bool visibility)
 }
 
 bool is_valid_key(const unsigned char c) {
-	return (c == 'a' || c == 'd' || c == 'w' || c == 's' || c == 'x' 
-         || c == 'A' || c == 'D' || c == 'W' || c == 'S' || c == 'X' || c == ESC);
-}   
+	return (c == 'a' || c == 'd' || c == 'w' || c == 's' || c == 'x'
+		|| c == 'A' || c == 'D' || c == 'W' || c == 'S' || c == 'X' || c == ESC);
+}
 
 void my_print(string str)
 {
-    if (!IS_SILENT)
-        cout << str;
+	if (!IS_SILENT)
+		cout << str;
 }
 
 void my_print(unsigned char c)
 {
-    if (!IS_SILENT)
-        cout << c;
+	if (!IS_SILENT)
+		cout << c;
 }

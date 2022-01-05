@@ -22,7 +22,9 @@ public:
 	//-----member funcs----------//
 	Exceptions() {};
 	Exceptions(const string& _msg, const string& _screen) :
-			        screen(_screen) { msg.push_back(_msg); }
+		screen(_screen) {
+		msg.push_back(_msg);
+	}
 
 	//-----getters----------//
 	const vector<string>& get_all_msgs() const { return msg; }

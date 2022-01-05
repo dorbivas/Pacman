@@ -2,7 +2,7 @@
 using std::queue;
 using std::list;
 
-void Ghosts::good_lvl(Position target)
+void Ghosts::good_lvl(Position& target)
 {
 	if ((steps >= 0 && steps <= 5) && novice_smart_switch) {
 		novice_lvl();

@@ -47,7 +47,6 @@ private:
 	vector<Position> inital_ghosts_pos;
 	Position legend_pos;
 	vector<Position> points_valid_positions;
-	Exceptions board_errors;
 
 	/*ADDED to change ours*/
 	void board_from_file(ifstream& file_input);
@@ -60,13 +59,8 @@ private:
 
 public:
     Exceptions board_errors;
-    int rows, cols, max_score;
     void load_board(const string& file_name);
     void print_board(const bool color_mode);
-    void our_spacial_board();//EXTRA
-
-    Position& get_inital_pacman_pos() { return inital_pacman_pos; }
-    vector<Position> get_ghost_pacman_pos() { return inital_ghosts_pos; }//EXTRA
 
     void set_color(int color_pick) const { SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color_pick); }
     unsigned char get_cell(const Position& cell_pos) { return board[cell_pos.get_y()][cell_pos.get_x()]; }
@@ -92,6 +86,7 @@ public:
 	const Position& get_rand_point(int index) const { return points_valid_positions[index]; }
 
 	void decrese_max_score() { max_score--; }
+	bool is_valid_move(const Position new_pos);
 
 };
 

@@ -16,25 +16,25 @@ class Exceptions
 private:
 	//int how_many_pacmans, num_of_ghosts, how_many_legends;
 	string screen;
-	vector<string> msg;
+	vector<string> error_msgs;
 
 public:
 	//-----member funcs----------//
 	Exceptions() {};
 	Exceptions(const string& _msg, const string& _screen) :
-			        screen(_screen) { msg.push_back(_msg); }
+			        screen(_screen) { error_msgs.push_back(_msg); }
 
 	//-----getters----------//
-	const vector<string>& get_all_msgs() const { return msg; }
-	const string& get_msg(int i) const { return msg[i]; }
-	size_t get_msg_len() const { return msg.size(); }
+	const vector<string>& get_all_msgs() const { return error_msgs; }
+	const string& get_msg(int i) const { return error_msgs[i]; }
+	size_t get_msg_len() const { return error_msgs.size(); }
 
 	//-----setters----------//
-	void set_msg(const string& _msg) { msg.push_back(_msg); }
+	void set_msg(const string& _msg) { error_msgs.push_back(_msg); }
 	void set_screen(const string& _screen) { screen = _screen; }
 
 	//-----display----------//
-	void clear() { msg.clear(); }
+	void clear() { error_msgs.clear(); }
 	void print_exceptions() const;
 };
 

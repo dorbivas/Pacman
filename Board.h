@@ -45,7 +45,7 @@ private:
     vector<Position> inital_ghosts_pos;
     Position legend_pos;
     vector<Position> points_valid_positions;
-    Exceptions board_errors;
+
 
     /*ADDED to change ours*/
     void board_from_file(ifstream& file_input);
@@ -57,6 +57,7 @@ private:
     void search_points();
   
 public:
+    Exceptions board_errors;
     int rows, cols, max_score;
     void load_board(const string& file_name);
     void print_board(const bool color_mode);

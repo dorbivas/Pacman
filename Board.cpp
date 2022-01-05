@@ -151,7 +151,6 @@ void Board::board_from_file(ifstream& file_input)
 				}
 				char_counter++;
 				rows++;
-
 			}
 			else 
 			{

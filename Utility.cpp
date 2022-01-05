@@ -1,6 +1,6 @@
 #include "Utility.h"
 
-bool IS_SILENT = false; // TODO: comment
+bool IS_SILENT = false;
 
 void goto_xy(const int x,const int y){
     cout.flush();      //clean the buffer before printing in this coordinate                          

@@ -22,7 +22,7 @@ public:
 
 	//--Data Members Funcs: --//
 	void set_souls(int souls);
-	void add_step(int step) { total_steps += step; }//TODO-BETTER NAME
+	void add_step(int step) { total_steps += step; }
 
 	int get_souls()const;
 	int get_score() const;

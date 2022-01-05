@@ -426,7 +426,7 @@ void Game::lose() {
 
 	char selection;
 	cin >> selection;
-	while (selection != 'y' && selection != 'n')//TODO EXCEPTION
+	while (selection != 'y' && selection != 'n')
 	{
 		cout << "unvalid input! - y / n:";
 		cin >> selection;
@@ -438,7 +438,7 @@ void Game::lose() {
 		pacman.set_souls(3);
 		if (save_mode)
 			save.finish_saving();
-		load_game_from_files();//retry
+		load_game_from_files();
 	}
 }
 
@@ -462,13 +462,13 @@ void Game::win() {
 				throw " pacman is alive the result file does not match to steps file ";
 
 			load.finish_loading();
-			load_game_from_files();//load new board
+			load_game_from_files();
 		}
 		else
 		{
 			cout << "would you like to try the next lvl? y / n : ";
 			cin >> selection;
-			while (selection != 'y' && selection != 'n')//TODO EXCEPTION
+			while (selection != 'y' && selection != 'n')
 			{
 				cout << "unvalid input y / n:";
 				cin >> selection;
@@ -746,7 +746,9 @@ void Game::load_game_from_files()
 
 }
 
-void Game::load_board_from_user()//TODO -DELEATE
+/*we can load boards from user input*/
+/*
+void Game::load_board_from_user()
 {
 	system("cls");
 	_flushall();
@@ -755,7 +757,7 @@ void Game::load_board_from_user()//TODO -DELEATE
 	string desired_board_name;
 
 	vector <string> tmp;
-	cout << "Please enter board name:" << endl;// TODO EXCEPTION
+	cout << "Please enter board name:" << endl;
 	cin >> desired_board_name;
 	while (i < file_names.size())
 	{
@@ -782,6 +784,7 @@ void Game::load_board_from_user()//TODO -DELEATE
 
 	}
 }
+*/
 
 bool Game::find_files() {
 	int isFound = -1; // -1 indicate find() is false

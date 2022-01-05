@@ -23,19 +23,11 @@ public:
 
 /*
     TODO:
-    6. run_silent()-TODO (almost done)
-
-
-    13. exceptions -SILENT-DOR
-
-    14. readme
+    6. run_silent()-TODO (almost done) and load
 
     - CONST
 
     - TODO PRINT SOULS PRINT *10 WHEN UNDER 10
-
-
-        
 
 
 */

@@ -14,7 +14,7 @@ class Ghosts:public Entity
 
 private:
     int mode;
-    int random_steps;//TODO -CHANGE NAME
+    int random_steps;
     int generate_random_steps() {
         return 1 + rand() % 15;
     }

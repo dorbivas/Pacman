@@ -911,8 +911,6 @@ void Game::run_load()
 				loop_flag = true; //stop the loop
 		}
 	}
-	if (load.get_pacman_status() != 1)
-		throw " pacman is alive the result file does not match to steps file ";
 
 	load.finish_loading();
 	return;

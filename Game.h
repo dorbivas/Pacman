@@ -81,6 +81,7 @@ private:
     void load_board_from_user();//NOT USED
     void init_number_of_files();
     void update_values_from_file();
+    void checking_loading(int pacman_status);
 
 public:
     Game();

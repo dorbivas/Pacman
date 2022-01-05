@@ -281,6 +281,17 @@ void Game::init_number_of_files()
 	}
 }
 
+void Game::checking_loading(int pacman_status)
+{
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (int)Board::Color::WHITE);
+	load.load_line(1);
+	if (pacman.get_total_steps() != load.get_result_steps())
+		throw " steps does not correspond to the steps file  ";
+
+	if (load.get_pacman_status() != pacman_status)
+		throw " pacman is alive the result file does not match to steps file ";
+}
+
 
 void Game::handle_collision() {
 
@@ -297,16 +308,8 @@ void Game::handle_collision() {
 		save.write_to_file('\n', 1);
 	}
 	if (load_mode || IS_SILENT)
-	{
-		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (int)Board::Color::WHITE);
-		load.load_line(1);
-		if (pacman.get_total_steps() != load.get_result_steps())
-			throw " steps does not correspond to the steps file  ";
+		checking_loading(0);
 
-		if (load.get_pacman_status() != 0)
-			throw " pacman is alive the result file does not match to steps file ";
-
-	}
 	
 
 
@@ -478,14 +481,7 @@ void Game::win() {
 	{
 		if (load_mode || IS_SILENT)
 		{
-			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (int)Board::Color::WHITE);
-			load.load_line(1);
-
-			if (pacman.get_total_steps() != load.get_result_steps())
-				throw " steps does not correspond to the steps file  ";
-
-			if (load.get_pacman_status() != 1)
-				throw " pacman is alive the result file does not match to steps file ";
+			checking_loading(1);
 
 			load.finish_loading();
 			load_game_from_files();
@@ -915,17 +911,10 @@ void Game::run_load()
 				loop_flag = true; //stop the loop
 		}
 	}
-
-
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (int)Board::Color::WHITE);
-	load.load_line(1);
-	if (pacman.get_total_steps() != load.get_result_steps())
-		throw " steps does not correspond to the steps file  ";
-
-	if (load.get_pacman_status() != 0)
+	if (load.get_pacman_status() != 1)
 		throw " pacman is alive the result file does not match to steps file ";
 
-	system("cls");
+	load.finish_loading();
 	return;
 }
 

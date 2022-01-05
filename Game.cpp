@@ -102,10 +102,10 @@ void Game::game() {
 	if (load_mode || IS_SILENT)
 	{
 		load.load_line(1);
-		if (abs(pacman.get_total_steps() - load.get_result_steps()) > 1)
+		if (pacman.get_total_steps() != load.get_result_steps())
 			throw " steps does not correspond to the steps file  ";
 
-		if (load.get_pacman_status() == 0)
+		if (load.get_pacman_status() != 1)
 			throw " pacman is alive the result file does not match to steps file ";
 	}
 	system("cls");
@@ -289,7 +289,7 @@ void Game::handle_collision() {
 	{
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (int)Board::Color::WHITE);
 		load.load_line(1);
-		if (abs(pacman.get_total_steps() - load.get_result_steps()) > 1)
+		if (pacman.get_total_steps() != load.get_result_steps())
 			throw " steps does not correspond to the steps file  ";
 
 		if (load.get_pacman_status() != 0)
@@ -462,7 +462,7 @@ void Game::win() {
 		{
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (int)Board::Color::WHITE);
 			load.load_line(1);
-			if (abs(pacman.get_total_steps() - load.get_result_steps()) > 1)
+			if (pacman.get_total_steps() != load.get_result_steps())
 				throw " steps does not correspond to the steps file  ";
 
 			if (load.get_pacman_status() !=1)

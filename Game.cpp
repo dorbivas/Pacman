@@ -286,7 +286,6 @@ void Game::handle_collision() {
 	{
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (int)Board::Color::WHITE);
 		load.load_line(1);
-		//pacman.add_step(1);
 		if (abs(pacman.get_total_steps() - load.get_result_steps()) > 1)
 			throw " steps does not correspond to the steps file  ";
 
@@ -460,7 +459,7 @@ void Game::win() {
 		{
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (int)Board::Color::WHITE);
 			load.load_line(1);
-			if (abs(pacman.get_total_steps() - load.get_result_steps()) > 1)//TODO
+			if (abs(pacman.get_total_steps() - load.get_result_steps()) > 1)
 				throw " steps does not correspond to the steps file  ";
 
 			if (load.get_pacman_status() == 0)

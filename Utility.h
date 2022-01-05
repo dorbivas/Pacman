@@ -10,6 +10,7 @@
 #include <charconv>
 #include <sstream>
 #include<set>
+
 using std::set;
 using std::ifstream;
 using std::ios;
@@ -23,7 +24,6 @@ using std::srand;
 using std::filesystem::path;
 using std::filesystem::directory_iterator;
 using std::filesystem::current_path;
-
 
 enum Keys {
 	up_upper_case = 87		,

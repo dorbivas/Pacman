@@ -1,8 +1,7 @@
 #pragma once
 #include "Board.h"
-#define MAX_STEPS 20//for ghosts and fruit
-class Entity {
 
+class Entity {
 
 public:
 	enum class Direction {
@@ -24,6 +23,7 @@ public:
 		EIGHT = '8',
 		NINE = '9'
 	};
+
 	//--Data Members Funcs: --//
 	int get_speed() { return speed; }
 	Position& get_position() { return pos; }
@@ -39,14 +39,12 @@ public:
 	void set_board(Board& board) { this->board = board; }
 	void set_shape(Entity::Shape shape) { this->shape = shape; }
 
-
 	//--Game Logic Fucns: --//
 	virtual bool is_invalid_place(const Position& next_pos) = 0;
 	bool invalid_place(const Position& next_pos);//the smae for ghost and fruit but not for pacman
 	Position& move_dir();
 	bool is_collided(const Position& curr_pos, const Position& next_pos, int against_direction);
 	virtual Position& handle_move() = 0;
-
 
 protected:
 	Position pos;
@@ -55,6 +53,7 @@ protected:
 	Shape shape;
 	Board::Color color;
 	Board board;
+	int MAX_STEPS = 20;
 
 	//only for ghosts and fruit:
 	int generate_random_dir() { return rand() % 4; }
@@ -64,7 +63,5 @@ protected:
 		else { direction++; }
 	}
 	void novice_lvl();
-
-private:
 
 };

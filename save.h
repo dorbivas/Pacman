@@ -4,10 +4,7 @@
 class Save {
 
 public:
-
-
 	//--Data Members Funcs: --//
-
 	void set_board_name(string _board_name) {
 		board_name = _board_name;
 	}
@@ -40,9 +37,7 @@ public:
 	//--Game Logic Fucns: --//
 
 	void init_save_files();
-
 	void save_steps();
-
 	void write_to_file(const char buffer, int select) {
 		if (select == 0)
 			steps_file << buffer;

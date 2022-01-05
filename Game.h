@@ -31,8 +31,6 @@ private:
     unsigned char current_key;
     int last_step_fruit_collision = 0;
 
-   
-
     class Menu {
     private:
         int user_choice = 0;
@@ -48,10 +46,8 @@ private:
         void print_ruls() const;
         void set_save_mode(bool mode) { save_mode = mode; }
         
-        
         friend class Game; 
     };
-
     Menu menu;
 
     //--Data Members Fucns: --//
@@ -78,14 +74,12 @@ private:
 
     void win();
     void lose();
-
     void load_new_board_to_play(const string& file_name);
 
     bool find_files();
     void load_game_from_files();
     void load_board_from_user();//NOT USED
     void init_number_of_files();
-
     void update_values_from_file();
 
 public:

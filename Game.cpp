@@ -9,7 +9,7 @@ void Game::game() {
 	find_files();
 	if (save_mode && board_level == 0)
 		init_number_of_files();
-	
+
 	load_game_from_files();
 	Position next_pos;
 	unsigned char temp;
@@ -122,7 +122,7 @@ void Game::handle_pacman_move() {
 	int to_add = 0;
 	Position next_fruit_pos;
 	Position next_pos = pacman.handle_move();
-	
+
 
 	//next position
 	if (pacman.is_invalid_place(next_pos))
@@ -146,8 +146,8 @@ void Game::handle_pacman_move() {
 		|| board.get_cell(curr_pos) == fruit.get_shape()
 		|| board.get_cell(next_pos) == fruit.get_shape()))
 	{
-		
-		if((pacman.get_total_steps()- last_step_fruit_collision !=1) || last_step_fruit_collision ==0)
+
+		if ((pacman.get_total_steps() - last_step_fruit_collision != 1) || last_step_fruit_collision == 0)
 			to_add += fruit.get_fruit_val();
 
 		last_step_fruit_collision = pacman.get_total_steps();
@@ -232,8 +232,10 @@ void Game::handle_fruit_move() {
 	Position curr_pos, next_pos;
 	curr_pos = fruit.get_position();
 	next_pos = fruit.move_dir();
+
 	if (board.get_cell(curr_pos) == Entity::Shape::P)
 		print_move(curr_pos, Entity::Shape::P);
+
 	else
 	{
 		print_move(curr_pos, Entity::Shape::S);
@@ -305,16 +307,6 @@ void Game::handle_collision() {
 		save.write_to_file('\n', 1);
 	}
 
-	if (load_mode || IS_SILENT)
-	{
-		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (int)Board::Color::WHITE);
-		load.load_line(1);
-		if (pacman.get_total_steps() != load.get_result_steps())
-			throw " steps does not correspond to the steps file  ";
-
-		if (load.get_pacman_status() != 0)
-			throw " pacman is alive the result file does not match to steps file ";
-	}
 
 	if (pacman.get_souls() <= 0)
 	{
@@ -380,23 +372,26 @@ void Game::print_move(const Position pos, Entity::Shape shape) {
 }
 
 void Game::display_score_souls() const {
+
 	goto_xy(board.get_legend_x(), board.get_legend_y());
 	if (color_mode)
 		board.set_color((int)Board::Color::LIGHTGREEN);
+
 	my_print("score: ");
 	my_print(std::to_string(pacman.get_score()));
 
 	goto_xy(board.get_legend_x(), board.get_legend_y() + 1);
 	if (color_mode)
 		board.set_color((int)Board::Color::RED);
+
 	my_print("souls: ");
-	my_print(std::to_string(pacman.get_souls()));//bug - when sould below 10
+	my_print(std::to_string(pacman.get_souls()));
 }
 
 void Game::pause() {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (int)Board::Color::WHITE);
 	unsigned char c = _getch();
-	goto_xy(PAUSE_X, PAUSE_Y);  // location of "pause..." in the console
+	goto_xy(PAUSE_X, PAUSE_Y);  
 	my_print("Pause . . .");
 	while (c != ESC)
 		c = _getch();
@@ -487,7 +482,7 @@ void Game::win() {
 			if (pacman.get_total_steps() != load.get_result_steps())
 				throw " steps does not correspond to the steps file  ";
 
-			if (load.get_pacman_status() !=1)
+			if (load.get_pacman_status() != 1)
 				throw " pacman is alive the result file does not match to steps file ";
 
 			load.finish_loading();
@@ -521,7 +516,7 @@ void Game::win() {
 						save.finish_saving();
 					}
 				}
-				load_game_from_files();//load new board		
+				load_game_from_files();	
 			}
 		}
 	}
@@ -546,7 +541,7 @@ void Game::init_ghosts()
 	}
 }
 
-void Game::load_new_board_to_play(const string& file_name) {//reset
+void Game::load_new_board_to_play(const string& file_name) {
 	system("cls");
 	_flushall();
 
@@ -614,7 +609,7 @@ void Game::load_new_board_to_play(const string& file_name) {//reset
 
 		board.board_errors.clear();
 
-		if (error_msg[0] == 'B' && (board_level < file_names.size()-1))
+		if (error_msg[0] == 'B' && (board_level < file_names.size() - 1))
 		{
 			board_level++;
 			load.finish_loading();
@@ -758,7 +753,6 @@ void Game::Menu::print_ruls() const {
 		<< "STAY --> s or S" << endl
 		<< "ESC --> Pause" << endl
 		<< "9 --> in game will exit to menu and reset(you will get new souls)" << endl << endl;
-
 }
 
 
@@ -771,7 +765,6 @@ void Game::load_game_from_files()
 
 	else
 		throw " no valid board files ";
-
 }
 
 /*we can load boards from user input*/
@@ -856,7 +849,7 @@ void Game::run_load()
 	save_mode = false;
 
 	Position next_pos;
-	unsigned char temp='s';
+	unsigned char temp = 's';
 
 	find_files();
 	load_game_from_files();
@@ -864,7 +857,7 @@ void Game::run_load()
 	hold_move = 0;
 	while (!loop_flag)
 	{
-		
+
 		load.load_line(0);
 		update_values_from_file();
 
@@ -887,7 +880,7 @@ void Game::run_load()
 				else
 				{
 					is_fruit_dead = true;
-					if (pacman.get_total_steps() == 150) //alive again
+					if (pacman.get_total_steps() == 150) //revive fruit
 					{
 						is_fruit_dead = false;
 						fruit = Fruit();
@@ -903,7 +896,7 @@ void Game::run_load()
 					{
 						handle_collision();
 						ghosts[i].set_position(board.get_ghost_pacman_pos()[i].get_x(), board.get_ghost_pacman_pos()[i].get_y());
-					}	
+					}
 				}
 			}
 
@@ -920,6 +913,15 @@ void Game::run_load()
 				loop_flag = true; //stop the loop
 		}
 	}
+
+
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (int)Board::Color::WHITE);
+	load.load_line(1);
+	if (pacman.get_total_steps() != load.get_result_steps())
+		throw " steps does not correspond to the steps file  ";
+
+	if (load.get_pacman_status() != 0)
+		throw " pacman is alive the result file does not match to steps file ";
 
 	system("cls");
 	return;

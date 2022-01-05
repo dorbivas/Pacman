@@ -1,7 +1,6 @@
 #pragma once
 #include "Position.h"
 #include "Entity.h"
-
 #include <queue>
 
 enum Ghost_mode {
@@ -11,7 +10,6 @@ enum Ghost_mode {
 };
 class Ghosts :public Entity
 {
-
 private:
 	int mode;
 	int random_steps;

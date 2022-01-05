@@ -6,6 +6,7 @@ Game::Game() {
 }
 
 void Game::game() {
+	save_mode = true;
 	find_files();
 	load_game_from_files();
 	Position next_pos;
@@ -842,7 +843,7 @@ void Game::run_load()
 
 	while (!loop_flag)
 	{
-		if (pacman.get_score() == 42)
+		if (pacman.get_score() == 41)
 			yarden = 1;
 		load.load_line(0);
 		update_values_from_file();

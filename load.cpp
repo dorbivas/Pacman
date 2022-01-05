@@ -121,6 +121,13 @@ void Load::load_line(int select)
                 getline(steps_file, line);
                 read_params_from_steps(line);
             }
+            else
+            {
+                finish_loading();
+                throw "steps file finished already";
+            }
+                
+                
         }
         else
             throw " steps_file is closed ";

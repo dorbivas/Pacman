@@ -589,6 +589,7 @@ void Game::load_new_board_to_play(const string& file_name) {//reset
 		if (IS_SILENT)
 		{
 			is_passed = false;
+			throw error_msg;
 			return;
 		}
 			

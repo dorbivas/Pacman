@@ -59,18 +59,21 @@ private:
 	void search_points();
 
 public:
-	void load_board(const string& file_name);
-	void print_board(const bool color_mode);
-	void set_color(int color_pick) const { SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color_pick); }
-	unsigned char get_cell(const Position& cell_pos) { return board[cell_pos.get_y()][cell_pos.get_x()]; }
-	void set_cell(Position& cell_pos, unsigned char c) { board[cell_pos.get_y()][cell_pos.get_x()] = c; }
-	bool is_valid_move(const Position new_pos);
+    Exceptions board_errors;
+    int rows, cols, max_score;
+    void load_board(const string& file_name);
+    void print_board(const bool color_mode);
+    void our_spacial_board();//EXTRA
 
-	//--Data Members Funcs: --//
+    Position& get_inital_pacman_pos() { return inital_pacman_pos; }
+    vector<Position> get_ghost_pacman_pos() { return inital_ghosts_pos; }//EXTRA
 
-	void set_num_of_ghosts(int _num_of_ghosts) { num_of_ghosts = _num_of_ghosts; }
-	void set_how_many_legends(int val) { how_many_legends = val; }
-	void set_how_many_pacmans(int val) { how_many_pacmans = val; }
+    void set_color(int color_pick) const { SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color_pick); }
+    unsigned char get_cell(const Position& cell_pos) { return board[cell_pos.get_y()][cell_pos.get_x()]; }
+    void set_cell(Position& cell_pos, unsigned char c) { board[cell_pos.get_y()][cell_pos.get_x()] = c; }
+    void set_num_of_ghosts(int _num_of_ghosts) { num_of_ghosts = _num_of_ghosts; }
+    void set_how_many_legends(int val) { how_many_legends = val; }
+    void set_how_many_pacmans(int val) { how_many_pacmans = val; }
 
 	Position& get_inital_pacman_pos() { return inital_pacman_pos; }
 	vector<Position> get_ghost_pacman_pos() { return inital_ghosts_pos; }

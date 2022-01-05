@@ -584,7 +584,9 @@ void Game::load_new_board_to_play(const string& file_name) {//reset
 		cout << "board number: " << board_level + 1 << " ERROR: " << error_msg << " skipping the board" << endl;
 		system("PAUSE");
 		system("cls");
-		if (error_msg[0] == 'B' && (board_level < file_names.size() - 1))
+		board.board_errors.clear();
+
+		if (error_msg[0] == 'B' && (board_level < file_names.size()-1))
 		{
 			board_level++;
 			load_game_from_files();
@@ -610,9 +612,6 @@ void Game::load_new_board_to_play(const string& file_name) {//reset
 		else
 			throw " unexcpected error game ";
 	}
-
-
-
 }
 
 //----------- Menu Class: -----------//

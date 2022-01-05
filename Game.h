@@ -84,6 +84,7 @@ private:
     bool find_files();
     void load_game_from_files();
     void load_board_from_user();//NOT USED
+    void init_number_of_files();
 
     void update_values_from_file();
 

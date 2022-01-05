@@ -16,7 +16,6 @@ void Save::init_save_files() {
 	if (!result_file) {
 		throw " result : unable to open file. ";
 	}
-
 }
 
 void Save::save_steps()

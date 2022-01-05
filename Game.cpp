@@ -6,7 +6,13 @@ Game::Game() {
 }
 
 void Game::game() {
+
+	
+
 	find_files();
+	if (save_mode && board_level == 0)
+		init_number_of_files();
+	
 	load_game_from_files();
 	Position next_pos;
 	unsigned char temp;
@@ -32,8 +38,7 @@ void Game::game() {
 			}
 			save.set_current_key(current_key);
 
-			next_pos
-				= pacman.move_dir();
+			next_pos = pacman.move_dir();
 
 			if (hold_move % 2 == 0)
 			{
@@ -101,6 +106,7 @@ void Game::game() {
 
 	if (load_mode || IS_SILENT)
 	{
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (int)Board::Color::WHITE);
 		load.load_line(1);
 		if (pacman.get_total_steps() != load.get_result_steps())
 			throw " steps does not correspond to the steps file  ";
@@ -270,6 +276,22 @@ void Game::handle_fruit_move() {
 		}
 	}
 }
+
+void Game::init_number_of_files()
+{
+	for (int i = 0; i < file_names.size(); i++)
+	{
+		ofstream tmp_res_file, tmp_steps_file;
+		string tmp_res, tmp_steps;
+		tmp_res = tmp_steps = file_names[i].substr(0, file_names[i].find('.'));
+
+		tmp_steps += ".steps";
+		tmp_res += ".result";
+		tmp_res_file.open(tmp_res, ios::trunc);
+		tmp_steps_file.open(tmp_steps, ios::trunc);
+	}
+}
+
 
 void Game::handle_collision() {
 

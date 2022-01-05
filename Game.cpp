@@ -242,8 +242,11 @@ void Game::handle_fruit_move() {
 			print_move(next_pos, Entity::Shape::P);
 		else
 		{
-			print_move(next_pos, Entity::Shape::S);
-			board.set_cell(curr_pos, Entity::Shape::S);
+			if (!fruit.is_invalid_place(next_pos))
+			{
+				print_move(next_pos, Entity::Shape::S);
+				board.set_cell(curr_pos, Entity::Shape::S);
+			}
 		}
 		is_fruit_dead = true;
 		fruit.~Fruit();
@@ -289,7 +292,7 @@ void Game::handle_collision() {
 		if (abs(pacman.get_total_steps() - load.get_result_steps()) > 1)
 			throw " steps does not correspond to the steps file  ";
 
-		if (load.get_pacman_status() == 1)
+		if (load.get_pacman_status() != 0)
 			throw " pacman is alive the result file does not match to steps file ";
 	}
 
@@ -462,7 +465,7 @@ void Game::win() {
 			if (abs(pacman.get_total_steps() - load.get_result_steps()) > 1)
 				throw " steps does not correspond to the steps file  ";
 
-			if (load.get_pacman_status() == 0)
+			if (load.get_pacman_status() !=1)
 				throw " pacman is alive the result file does not match to steps file ";
 
 			load.finish_loading();

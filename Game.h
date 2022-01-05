@@ -27,7 +27,6 @@ private:
     bool is_fruit_dead = false;
     bool save_mode = false;
     bool load_mode = false;
-    bool is_passed = true;
     int hold_move = 0;
     unsigned char current_key;
     int last_step_fruit_collision = 0;

@@ -581,18 +581,13 @@ void Game::load_new_board_to_play(const string& file_name) {//reset
 	}
 	catch (const char* error_msg)
 	{
+		if (IS_SILENT)
+			throw error_msg;
+
 		system("cls");
 		cout << "board number: " << board_level + 1 << " ERROR: " << error_msg << " skipping the board" << endl;
 		system("PAUSE");
 		system("cls");
-
-		if (IS_SILENT)
-		{
-			is_passed = false;
-			throw error_msg;
-			return;
-		}
-			
 
 		board.board_errors.clear();
 
@@ -610,10 +605,14 @@ void Game::load_new_board_to_play(const string& file_name) {//reset
 	}
 	catch (const string error_msg)
 	{
+		if (IS_SILENT)
+			throw error_msg;
+
 		system("cls");
 		cout << "board number: " << board_level + 1 << " ERROR: " << error_msg << " skipping the board" << endl;
 		system("PAUSE");
 		system("cls");
+
 		if (error_msg[0] == 'B' && (board_level < file_names.size() - 1))
 		{
 			board_level++;
@@ -905,7 +904,6 @@ void Game::run_load()
 void Game::run_silent()
 {
 	IS_SILENT = true;
-	is_passed = true;
 	try
 	{
 		run_load();
@@ -918,6 +916,7 @@ void Game::run_silent()
 		system("cls");
 		return;
 	}
+
 	catch (const string error_msg)
 	{
 		system("cls");
@@ -926,7 +925,7 @@ void Game::run_silent()
 		system("cls");
 		return;
 	}
-	if(is_passed)
-		cout << "Test Passed!" << endl;
+
+	cout << "Test Passed!" << endl;
 	return;
 }

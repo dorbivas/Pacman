@@ -9,7 +9,6 @@ using namespace std::filesystem;
 using std::ifstream;
 using std::vector;
 
-
 class Board {
 
 public:

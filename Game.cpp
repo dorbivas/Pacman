@@ -6,9 +6,6 @@ Game::Game() {
 }
 
 void Game::game() {
-
-	
-
 	find_files();
 	if (save_mode && board_level == 0)
 		init_number_of_files();

@@ -566,7 +566,6 @@ void Game::load_new_board_to_play(const string& file_name) {//reset
 
 		if (save_mode)
 		{
-			//save.init_data();
 			save.set_board_name(file_names[board_level]);
 			save.init_save_files();
 		}
@@ -589,6 +588,8 @@ void Game::load_new_board_to_play(const string& file_name) {//reset
 		if (error_msg[0] == 'B' && (board_level < file_names.size()-1))
 		{
 			board_level++;
+			load.finish_loading();
+			save.finish_saving();
 			load_game_from_files();
 		}
 		else if (board_level == file_names.size() - 1)
@@ -889,6 +890,7 @@ void Game::run_load()
 	system("cls");
 	return;
 }
+
 void Game::run_silent()
 {
 	IS_SILENT = true;

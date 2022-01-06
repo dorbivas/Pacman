@@ -16,7 +16,7 @@ void Game::game() {
 	unsigned char temp;
 	current_key = _kbhit();
 
-	while (!is_valid_key(current_key) || current_key == ESC)
+	while (!is_valid_key(current_key) || (current_key == ESC && !save_mode))
 		current_key = _getch();
 	temp = current_key;
 
@@ -83,7 +83,7 @@ void Game::game() {
 		}
 		else
 		{
-			if (current_key != '9')
+			if (current_key != '9' && !save_mode)
 				current_key = temp;
 			else
 				loop_flag = true;//stop the loop
@@ -451,7 +451,6 @@ void Game::lose() {
 	my_print("you lost.");
 	my_print("\n");
 	is_fruit_dead = false;
-	save.set_is_fruit_dead(0);
 	char selection;
 	if (save_mode)
 	{
@@ -882,8 +881,6 @@ void Game::run_load()
 	hold_move = 0;
 	while (!loop_flag)
 	{
-		if (pacman.get_total_steps() == 113)
-			blshit = 1;
 		load.load_line(0);
 		update_values_from_file();
 

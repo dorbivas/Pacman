@@ -39,7 +39,7 @@ void Game::game() {
 			next_pos = pacman.move_dir();
 
 			//if (hold_move % 2 == 0)
-		//	{
+			//{
 				save.clear_direction_stuck();
 				handle_ghost_move();
 				if (!is_fruit_dead)
@@ -61,8 +61,8 @@ void Game::game() {
 					}
 				}
 			//}
-			//else
-			/*{
+			/*else
+			{
 				for (int i = 0; i < board.get_num_of_ghosts(); i++)
 				{
 					if (ghosts[i].is_collided(pacman.get_position(), next_pos, pacman.get_direction()))
@@ -71,7 +71,7 @@ void Game::game() {
 						ghosts[i].set_position(board.get_ghost_pacman_pos()[i].get_x(), board.get_ghost_pacman_pos()[i].get_y());
 					}
 				}
-		//	}*/
+			}*/
 
 			handle_pacman_move();
 
@@ -83,10 +83,14 @@ void Game::game() {
 		}
 		else
 		{
-			if (current_key != '9' && !save_mode)
+			if (current_key != '9')
 				current_key = temp;
 			else
-				loop_flag = true;//stop the loop
+			{
+				if(!save_mode)
+					loop_flag = true;//stop the loop
+			}
+				
 		}
 
 	}
@@ -911,7 +915,7 @@ void Game::run_load()
 					}
 				}
 		//	}
-			/*else
+		/*	else
 			{
 				for (int i = 0; i < board.get_num_of_ghosts(); i++)
 				{

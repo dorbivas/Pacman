@@ -142,7 +142,7 @@ void Game::handle_pacman_move() {
 		|| board.get_cell(next_pos) == fruit.get_shape()))
 	{
 
-		//if ((pacman.get_total_steps() - last_step_fruit_collision != 1) || last_step_fruit_collision == 0)
+		if ((pacman.get_total_steps() - last_step_fruit_collision != 1) || last_step_fruit_collision == 0)
 			to_add += fruit.get_fruit_val();
 
 		last_step_fruit_collision = pacman.get_total_steps();
@@ -571,6 +571,7 @@ void Game::load_new_board_to_play(const string& file_name) {
 	try
 	{
 		hold_move = 0;
+		last_step_fruit_collision = 0;
 		board.set_how_many_legends(0);
 		board.set_how_many_pacmans(0);
 		board.set_num_of_ghosts(0);

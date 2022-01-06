@@ -14,7 +14,10 @@ Any defective board will be skipped in this order to the followed one.
 After losing all souls retry will give you 3 extra brand new souls.
 
 modes:
-save mode - if you lose in save mode and you wish to retry you will be saving the new attempt (overwrite)
+save mode: we decided we want to record only full sessions so exit in save mode won't be allowed.
+(in out game 3 boards will be recorded)
+if you lose in save mode you will automatically retry with 3 souls and record current board again.
+
 load \ silent mode will load all saved .steps file by chronological order 01 to 03.
 load will run x2 faster and silent x100~ (no sleep at all).
 

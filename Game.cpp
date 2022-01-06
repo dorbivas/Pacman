@@ -37,8 +37,8 @@ void Game::game() {
 
 			next_pos = pacman.move_dir();
 
-			if (hold_move % 2 == 0)
-			{
+			//if (hold_move % 2 == 0)
+		//	{
 				save.clear_direction_stuck();
 				handle_ghost_move();
 				if (!is_fruit_dead)
@@ -59,9 +59,9 @@ void Game::game() {
 						fruit.fruit();
 					}
 				}
-			}
-			else
-			{
+			//}
+			//else
+			/*{
 				for (int i = 0; i < board.get_num_of_ghosts(); i++)
 				{
 					if (ghosts[i].is_collided(pacman.get_position(), next_pos, pacman.get_direction()))
@@ -70,7 +70,7 @@ void Game::game() {
 						ghosts[i].set_position(board.get_ghost_pacman_pos()[i].get_x(), board.get_ghost_pacman_pos()[i].get_y());
 					}
 				}
-			}
+		//	}*/
 
 			handle_pacman_move();
 
@@ -276,8 +276,8 @@ void Game::init_number_of_files()
 
 		tmp_steps += ".steps";
 		tmp_res += ".result";
-		tmp_res_file.open(tmp_res, ios::trunc);
-		tmp_steps_file.open(tmp_steps, ios::trunc);
+		tmp_res_file.open(tmp_res);
+		tmp_steps_file.open(tmp_steps);
 	}
 }
 
@@ -286,7 +286,7 @@ void Game::checking_loading(int pacman_status)
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (int)Board::Color::WHITE);
 	load.load_line(1);
 	if (pacman.get_total_steps() != load.get_result_steps())
-		throw " steps does not correspond to the steps file  ";
+ 		throw " steps does not correspond to the steps file  ";
 
 	if (load.get_pacman_status() != pacman_status)
 		throw " pacman is alive the result file does not match to steps file ";
@@ -449,83 +449,102 @@ void Game::lose() {
 	system("cls");
 	my_print("you lost.");
 	my_print("\n");
-	my_print("retry ? y / n :");
 
 	char selection;
-	cin >> selection;
-	while (selection != 'y' && selection != 'n')
+
+	if (save_mode)
 	{
-		cout << "unvalid input! - y / n:";
-		cin >> selection;
+		save.write_to_file(pacman.get_total_steps(), 0);
+
+		save.write_to_file(pacman.get_total_steps(), 1);
+		save.write_to_file(":", 1);
+		save.write_to_file(1, 1);
+		save.write_to_file('\n', 1);
+		pacman.set_souls(3);
+		save.finish_saving();
+		load_game_from_files();
 	}
-	if (selection == 'n')
-		loop_flag = true;
 	else
 	{
-		pacman.set_souls(3);
-		if (save_mode)
-			save.finish_saving();
-		load_game_from_files();
-		loop_flag = true;
-	}
+		my_print("retry ? y / n :");
+		cin >> selection;
+		while (selection != 'y' && selection != 'n')
+		{
+			cout << "unvalid input! - y / n:";
+			cin >> selection;
+		}
+		if (selection == 'n')
+			loop_flag = true;
+		else
+		{
+			pacman.set_souls(3);
+			if(load_mode)
+			{
+				checking_loading(0);
+				load.finish_loading();
+			}
+			load_game_from_files();
+			loop_flag = true;
+		}
+	}	
 }
 
 void Game::win() {
-	system("cls");
-	char selection;
-	board_level++;
-	fruit.~fruit();
-	is_fruit_dead = false;
+    system("cls");
+    char selection;
+    board_level++;
+    fruit.~fruit();
+    is_fruit_dead = false;
 
-	if (board_level < file_names.size())
-	{
-		if (load_mode || IS_SILENT)
-		{
-			checking_loading(1);
+    if (board_level < file_names.size())
+    {
+        if (load_mode || IS_SILENT)
+        {
+            checking_loading(1);
 
-			load.finish_loading();
-			load_game_from_files();
-		}
-		else
-		{
-			cout << "would you like to try the next lvl? y / n : ";
-			cin >> selection;
-			while (selection != 'y' && selection != 'n')
-			{
-				cout << "unvalid input y / n:";
-				cin >> selection;
-			}
-			if (selection == 'n')
-				loop_flag = true;
+            load.finish_loading();
+            load_game_from_files();
+        }
+        else
+        {
+            if (save_mode)
+            {
+                if (board_level != (file_names.size()))
+                {
+                    save.write_to_file(pacman.get_total_steps(), 0);
 
-			else
-			{
-				if (save_mode)
-				{
-					if (board_level != (file_names.size()))
-					{
-						save.write_to_file(pacman.get_total_steps(), 0);
+                    save.write_to_file(pacman.get_total_steps(), 1);
+                    save.write_to_file(":", 1);
+                    save.write_to_file(1, 1);
+                    save.write_to_file('\n', 1);
 
-						save.write_to_file(pacman.get_total_steps(), 1);
-						save.write_to_file(":", 1);
-						save.write_to_file(1, 1);
-						save.write_to_file('\n', 1);
+                    save.finish_saving();
+                }
+                load_game_from_files();
+            }
+            else
+            {
+                cout << "would you like to try the next lvl? y / n : ";
+                cin >> selection;
+                while (selection != 'y' && selection != 'n')
+                {
+                    cout << "unvalid input y / n:";
+                    cin >> selection;
+                }
+                if (selection == 'n')
+                    loop_flag = true;
+                load_game_from_files();
+            }
+        }
+    }
 
-						save.finish_saving();
-					}
-				}
-				load_game_from_files();	
-			}
-		}
-	}
-
-	else
-	{
-		my_print("you won.");
-		my_print("\n");
-		system("pause");
-		loop_flag = true;
-	}
+    else
+    {
+        my_print("you won.");
+        my_print("\n");
+        system("pause");
+        loop_flag = true;
+    }
 }
 
 void Game::init_ghosts()
@@ -590,6 +609,7 @@ void Game::load_new_board_to_play(const string& file_name) {
 
 		if (load_mode || IS_SILENT)
 		{
+			load.finish_loading();
 			load.set_board_name(file_names[board_level]);
 			load.set_num_of_ghosts(board.get_num_of_ghosts());
 			load.init_load_files();
@@ -741,7 +761,7 @@ void Game::Menu::menu_display() {
 void Game::Menu::print_ruls() const {
 	cout << "Welcome to \"the\" Pacman !" << endl << "Your goal is to eat 'em all inorder to accumulate scroe" << endl
 		<< "Each POINT equal to +1 for your score" << endl
-		<< "Collect 100 POINTS!" << endl
+		<< "Collect 50 POINTS!" << endl
 		<< "Once you ate 'em all you won." << endl << endl
 		<< "Keys:" << endl
 		<< "UP --> w or W" << endl
@@ -870,8 +890,8 @@ void Game::run_load()
 				pause_flag = false;
 			}
 			next_pos = pacman.move_dir();
-			if (hold_move % 2 == 0)
-			{
+			//if (hold_move % 2 == 0)
+			//{
 				handle_ghost_move();
 				if (!is_fruit_dead)
 					handle_fruit_move();
@@ -885,8 +905,8 @@ void Game::run_load()
 						fruit.set_board(board);
 					}
 				}
-			}
-			else
+		//	}
+			/*else
 			{
 				for (int i = 0; i < board.get_num_of_ghosts(); i++)
 				{
@@ -896,7 +916,7 @@ void Game::run_load()
 						ghosts[i].set_position(board.get_ghost_pacman_pos()[i].get_x(), board.get_ghost_pacman_pos()[i].get_y());
 					}
 				}
-			}
+			}*/
 
 			handle_pacman_move();
 			hold_move++;

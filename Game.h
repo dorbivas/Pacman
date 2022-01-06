@@ -7,7 +7,7 @@
 
 class Game {
 private:
-    static const int MAX_POINTS = 100, SPEED = 100, PAUSE_X = 1, PAUSE_Y = 26; 
+    static const int MAX_POINTS = 50, SPEED = 100, PAUSE_X = 1, PAUSE_Y = 26; 
     Pacman pacman;
     vector<Ghosts> ghosts;
     Fruit fruit;
@@ -78,7 +78,7 @@ private:
 
     bool find_files();
     void load_game_from_files();
-    void load_board_from_user();//NOT USED
+   // void load_board_from_user();
     void init_number_of_files();
     void update_values_from_file();
     void checking_loading(int pacman_status);

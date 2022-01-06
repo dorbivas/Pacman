@@ -38,40 +38,26 @@ void Game::game() {
 
 			next_pos = pacman.move_dir();
 
-			//if (hold_move % 2 == 0)
-			//{
-				save.clear_direction_stuck();
-				handle_ghost_move();
-				if (!is_fruit_dead)
-					handle_fruit_move();
-				else
-				{
-					if (save_mode)
-						save.set_is_fruit_dead(true);
-
-					if (pacman.get_total_steps() == 150)
-					{
-						is_fruit_dead = false;
-						if (save_mode)
-							save.set_is_fruit_dead(false);
-
-						fruit = Fruit();
-						fruit.set_board(board);
-						fruit.fruit();
-					}
-				}
-			//}
-			/*else
+			save.clear_direction_stuck();
+			handle_ghost_move();
+			if (!is_fruit_dead)
+				handle_fruit_move();
+			else
 			{
-				for (int i = 0; i < board.get_num_of_ghosts(); i++)
+				if (save_mode)
+					save.set_is_fruit_dead(true);
+
+				if (pacman.get_total_steps() == 150)
 				{
-					if (ghosts[i].is_collided(pacman.get_position(), next_pos, pacman.get_direction()))
-					{
-						handle_collision();
-						ghosts[i].set_position(board.get_ghost_pacman_pos()[i].get_x(), board.get_ghost_pacman_pos()[i].get_y());
-					}
+					is_fruit_dead = false;
+					if (save_mode)
+						save.set_is_fruit_dead(false);
+
+					fruit = Fruit();
+					fruit.set_board(board);
+					fruit.fruit();
 				}
-			}*/
+			}
 
 			handle_pacman_move();
 
@@ -881,9 +867,6 @@ void Game::run_load()
 	find_files();
 	load_game_from_files();
 
-	int blshit = 0;
-
-	hold_move = 0;
 	while (!loop_flag)
 	{
 		load.load_line(0);
@@ -900,36 +883,23 @@ void Game::run_load()
 				pause_flag = false;
 			}
 			next_pos = pacman.move_dir();
-			//if (hold_move % 2 == 0)
-			//{
-				handle_ghost_move();
-				if (!is_fruit_dead)
-					handle_fruit_move();
-				else
-				{
-					is_fruit_dead = true;
-					if (pacman.get_total_steps() == 150) //revive fruit
-					{
-						is_fruit_dead = false;
-						fruit = Fruit();
-						fruit.set_board(board);
-					}
-				}
-		//	}
-		/*	else
+
+			handle_ghost_move();
+
+			if (!is_fruit_dead)
+				handle_fruit_move();
+			else
 			{
-				for (int i = 0; i < board.get_num_of_ghosts(); i++)
+				is_fruit_dead = true;
+				if (pacman.get_total_steps() == 150) //revive fruit
 				{
-					if (ghosts[i].is_collided(pacman.get_position(), next_pos, pacman.get_direction()))
-					{
-						handle_collision();
-						ghosts[i].set_position(board.get_ghost_pacman_pos()[i].get_x(), board.get_ghost_pacman_pos()[i].get_y());
-					}
+					is_fruit_dead = false;
+					fruit = Fruit();
+					fruit.set_board(board);
 				}
-			}*/
+			}
 
 			handle_pacman_move();
-			hold_move++;
 			handle_score();
 			temp = current_key;
 		}

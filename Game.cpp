@@ -6,8 +6,9 @@ Game::Game() {
 }
 
 void Game::game() {
+	
 	find_files();
-	if (save_mode && board_level == 0)
+	if (save_mode && !first_run_done)
 		init_number_of_files();
 
 	load_game_from_files();
@@ -137,7 +138,7 @@ void Game::handle_pacman_move() {
 		|| board.get_cell(next_pos) == fruit.get_shape()))
 	{
 
-		if ((pacman.get_total_steps() - last_step_fruit_collision != 1) || last_step_fruit_collision == 0)
+		//if ((pacman.get_total_steps() - last_step_fruit_collision != 1) || last_step_fruit_collision == 0)
 			to_add += fruit.get_fruit_val();
 
 		last_step_fruit_collision = pacman.get_total_steps();
@@ -276,8 +277,8 @@ void Game::init_number_of_files()
 
 		tmp_steps += ".steps";
 		tmp_res += ".result";
-		tmp_res_file.open(tmp_res);
-		tmp_steps_file.open(tmp_steps);
+		tmp_res_file.open(tmp_res, ios::trunc);
+		tmp_steps_file.open(tmp_steps, ios::trunc);
 	}
 }
 
@@ -449,20 +450,27 @@ void Game::lose() {
 	system("cls");
 	my_print("you lost.");
 	my_print("\n");
-
+	is_fruit_dead = false;
+	save.set_is_fruit_dead(0);
 	char selection;
-
 	if (save_mode)
 	{
-		save.write_to_file(pacman.get_total_steps(), 0);
+		if (board_level != (file_names.size()))
+		{
+			save.write_to_file(pacman.get_total_steps(), 0);
 
-		save.write_to_file(pacman.get_total_steps(), 1);
-		save.write_to_file(":", 1);
-		save.write_to_file(1, 1);
-		save.write_to_file('\n', 1);
-		pacman.set_souls(3);
-		save.finish_saving();
+			save.write_to_file(pacman.get_total_steps(), 1);
+			save.write_to_file(":", 1);
+			save.write_to_file(1, 1);
+			save.write_to_file('\n', 1);
+			pacman.set_souls(3);
+			save.finish_saving();
+		}
+		else
+			loop_flag = true;
+
 		load_game_from_files();
+
 	}
 	else
 	{
@@ -478,10 +486,10 @@ void Game::lose() {
 		else
 		{
 			pacman.set_souls(3);
+
 			if(load_mode)
 			{
 				checking_loading(0);
-				load.finish_loading();
 			}
 			load_game_from_files();
 			loop_flag = true;
@@ -493,16 +501,12 @@ void Game::win() {
     system("cls");
     char selection;
     board_level++;
-    fruit.~fruit();
-    is_fruit_dead = false;
 
     if (board_level < file_names.size())
     {
         if (load_mode || IS_SILENT)
         {
             checking_loading(1);
-
-            load.finish_loading();
             load_game_from_files();
         }
         else
@@ -517,8 +521,7 @@ void Game::win() {
                     save.write_to_file(":", 1);
                     save.write_to_file(1, 1);
                     save.write_to_file('\n', 1);
-
-                    save.finish_saving();
+					save.finish_saving();
                 }
                 load_game_from_files();
             }
@@ -570,7 +573,9 @@ void Game::load_new_board_to_play(const string& file_name) {
 		board.set_num_of_ghosts(0);
 		board.load_board(file_name);
 
+		fruit.~Fruit();
 		fruit = Fruit();
+
 		fruit.set_board(board);
 		if (!load_mode && !IS_SILENT)
 			fruit.fruit();
@@ -602,7 +607,7 @@ void Game::load_new_board_to_play(const string& file_name) {
 
 		if (save_mode)
 		{
-			save.clear_direction_stuck();
+			save.set_is_fruit_dead(0);
 			save.set_board_name(file_names[board_level]);
 			save.init_save_files();
 		}
@@ -872,10 +877,13 @@ void Game::run_load()
 	find_files();
 	load_game_from_files();
 
+	int blshit = 0;
+
 	hold_move = 0;
 	while (!loop_flag)
 	{
-
+		if (pacman.get_total_steps() == 113)
+			blshit = 1;
 		load.load_line(0);
 		update_values_from_file();
 

@@ -8,7 +8,9 @@ int main(int argc, char** argv) {
 	{
 		if (argc == 1)
 		{
+			//game.set_save_mode(true);
 			//game.run_menu();
+
 			game.run_load();
 		}
 

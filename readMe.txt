@@ -1,11 +1,11 @@
-Pacman - Ex3
+Pacman
 
-Dor Bivas 315557850 
-Yarden Agami 207471186
+Dor Bivas  
+Yarden Agami 
 
 Additions:
 	- Full colors support 
-	- Very smart ghost strategy - Bfs Algorithm
+	- ghost strategy - Bfs Algorithm
 Notes:
 
 game:
